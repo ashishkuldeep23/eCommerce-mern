@@ -4,6 +4,9 @@
 import { useSelector } from "react-redux"
 import { RootState } from "../../store"
 
+import CartComponent from "../CartComp/CartComponent"
+
+
 const PaymentComp = () => {
 
     const themeMode = useSelector( (store : RootState)=>store.themeReducer.mode )
@@ -15,6 +18,20 @@ const PaymentComp = () => {
 
             <p> PayMent Component Here </p>
             <p>This contain : User Address , Payment Method , Cart items , Total Amount</p>
+        </div>
+
+
+        <div className=" grid">
+
+          <div className=" grid-cols-4">
+
+          </div>
+
+
+          <div className=" grid-cols-4">
+            <CartComponent />
+          </div>
+
         </div>
     
     </>
