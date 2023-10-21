@@ -8,6 +8,7 @@ import UserDetails from "./Screens/UserDetails"
 
 import { Routes, Route } from "react-router-dom"
 import CartScreen from "./Screens/CartScreen"
+import PaymentScreen from "./Screens/PaymentScreen"
 
 
 
@@ -30,6 +31,8 @@ function App() {
         <Route path="/signin" element={<SignInScreeen />} />
 
         <Route path="/cart" element={ <CartScreen /> } />
+
+        <Route path="/pay" element={ <PaymentScreen /> } />
 
       </Routes>
 
