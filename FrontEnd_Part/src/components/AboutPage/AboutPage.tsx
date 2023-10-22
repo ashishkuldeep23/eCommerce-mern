@@ -72,7 +72,7 @@ const AboutPage = () => {
 
                     <h2 className=" text-2xl text-center mb-5 underline text-green-300 ">Your previous orders </h2>
 
-                    <div className=" flex justify-center flex-wrap gap-3 border">
+                    <div className=" flex justify-center flex-wrap gap-3 ">
 
 
                         {

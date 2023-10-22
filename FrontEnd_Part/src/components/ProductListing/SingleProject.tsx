@@ -15,7 +15,7 @@ type TProductPrope = {
 const SingleProject = ({ product }: TProductPrope) => {
 
 
-    const themeMode = useSelector( (store : RootState)=>store.themeReducer.mode )
+    const themeMode = useSelector((store: RootState) => store.themeReducer.mode)
 
     return (
         <>
@@ -48,7 +48,15 @@ const SingleProject = ({ product }: TProductPrope) => {
                         {/* <p>{product.discountPercentage}%</p> */}
                         <p className={`text-lg font-medium ${!themeMode ? "text-gray-900" : "text-gray-300"} `}> Price :</p>
 
-                        <p className={`text-lg text-end font-medium ${!themeMode ? "text-gray-900" : "text-gray-300"} `}> <span className=' text-sm font-thin line-through'>₹{product.price}</span> ₹{Math.round(product.price - ((product.discountPercentage * product.price) / 100))}</p>
+                        {
+                            product.discountPercentage
+                                ?
+                                <p className={`text-lg text-end font-medium ${!themeMode ? "text-gray-900" : "text-gray-300"} `}> <span className=' text-sm font-thin line-through'>₹{product.price}</span> ₹{Math.round(product.price - ((product.discountPercentage * product.price) / 100))}</p>
+
+                                :
+                                <p className={`text-lg text-end font-medium ${!themeMode ? "text-gray-900" : "text-gray-300"} `}> ₹{product.price} </p>
+
+                        }
 
                     </div>
                 </div>

@@ -177,8 +177,8 @@ export default function FilterSection({ children }: any) {
                 </Transition.Root>
 
                 <main className="mx-auto max-w-full md:max-w-allAk px-1 md:px-2 lg:px-8  p-2 pt-16 ">
-                    <div className="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-24">
-                        <h1 className="text-4xl font-bold tracking-tight ">All Products</h1>
+                    <div className="flex items-baseline justify-between border-b border-gray-200 pb-6 ">
+                        <h1 className="text-4xl font-bold tracking-tight ">Products</h1>
 
                         <div className="flex items-center">
                             <Menu as="div" className="relative inline-block text-left">

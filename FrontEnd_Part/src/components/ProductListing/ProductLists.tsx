@@ -1,11 +1,10 @@
 
 import { useSelector } from "react-redux"
 import { RootState } from "../../store"
-import { Fragment, useEffect, useState } from "react"
+import { Fragment } from "react"
 
 
 import SingleProject from "./SingleProject"
-
 
 
 export interface IProduct {
@@ -663,52 +662,32 @@ export interface IProduct {
 export default function ProductLists() {
 
 
-  const [products, setProducts] = useState<IProduct[]>([])
+  // const [products, setProducts] = useState<IProduct[]>([])
 
-  const arrOfProductCat = ["smartphones", "laptops", "fragrances", "skincare", "groceries", "home-decoration"]
+  // const arrOfProductCat = ["smartphones", "laptops", "fragrances", "skincare", "groceries", "home-decoration"]
 
-  const [productCategory, setProductCategory] = useState<string[]>([])
+  // const [productCategory, setProductCategory] = useState<string[]>([])
 
 
   const themeMode = useSelector((store: RootState) => store.themeReducer.mode)
 
+  const productCategory = useSelector( (store : RootState)=>store.allProductWithCatReducer.allCaegory )
+
+  const products = useSelector((store : RootState)=> store.allProductWithCatReducer.allProducts)
 
 
   const styleOfCatgioryDiv = {
     paddingRight: 0,
+    
   }
 
 
 
-  async function loadData() {
-
-    const callingData = await fetch('https://dummyjson.com/products')
-
-    let res = await callingData.json()
-
-    // console.log(catArr)
-
-    setProducts(res.products)
-
-    setProductCategory(arrOfProductCat)   // // // When getting data then set into state var. 
-
-  }
-
-
-
-  useEffect(() => {
-
-
-    loadData()
-
-
-
-  }, [])
 
   return (
     <div className={`${!themeMode ? "bg-white text-gray-700" : "bg-black text-gray-100"}`} style={styleOfCatgioryDiv} >
 
-      <div className="mx-auto  px-4  sm:px-6  lg:max-w-7xl lg:px-8   flex flex-col " style={styleOfCatgioryDiv}>
+      <div className="mx-auto px-0  md:px-4  sm:px-6  lg:max-w-7xl lg:px-8   flex flex-col ">
 
 
         <h2 className="sr-only">Products</h2>
