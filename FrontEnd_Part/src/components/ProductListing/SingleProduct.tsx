@@ -1,10 +1,11 @@
 
 // import React from 'react'
 import { StarIcon } from '@heroicons/react/24/outline'
-import { useSelector } from "react-redux"
+import { useSelector, useDispatch } from "react-redux"
+import { setSingleProductData } from "../../Slices/AllProductSlice"
 import { IProduct } from "./ProductLists"
 import { RootState } from "../../store"
-
+import { useNavigate } from 'react-router-dom'
 
 
 type TProductPrope = {
@@ -12,16 +13,23 @@ type TProductPrope = {
 }
 
 
-const SingleProject = ({ product }: TProductPrope) => {
+const SingleProduct = ({ product }: TProductPrope) => {
 
 
     const themeMode = useSelector((store: RootState) => store.themeReducer.mode)
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     return (
         <>
 
             {/* This a href is used to see all videos --> */}
-            <a key={product.id} href={"/product"} className=" min-h-52 h-auto border border-green-300 rounded w-72  mb-5 p-1  mx-2  ">
+            <a
+                key={product.id}
+                // href={"/product"}
+                className=" min-h-52 h-auto border border-green-300 rounded w-72  mb-5 p-1  mx-2  "
+                onClick={() => { navigate("/product"); dispatch(setSingleProductData({ id: product.id })) }}
+            >
                 <div className=" rounded-lg overflow-hidden">
                     <img
                         src={product.thumbnail}
@@ -68,5 +76,5 @@ const SingleProject = ({ product }: TProductPrope) => {
     )
 }
 
-export default SingleProject
+export default SingleProduct
 

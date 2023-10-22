@@ -4,7 +4,7 @@ import { RootState } from "../../store"
 import { Fragment } from "react"
 
 
-import SingleProject from "./SingleProject"
+import SingleProduct from "./SingleProduct"
 
 
 export interface IProduct {
@@ -718,7 +718,7 @@ export default function ProductLists() {
                           }
                         })
                         .map((product, i) => (
-                          <SingleProject product={product} key={i} ></SingleProject>
+                          <SingleProduct product={product} key={i} />
                         ))
 
                         : <h1>Getting data , Place skeleton here </h1>
