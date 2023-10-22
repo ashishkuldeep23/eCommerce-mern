@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState , useRef} from 'react'
 import { StarIcon } from '@heroicons/react/20/solid'
 import { RadioGroup } from '@headlessui/react'
 import { useSelector } from 'react-redux'
@@ -79,7 +79,18 @@ export default function ProductDetails() {
     // console.log(productDetailByFilter)
 
 
+    const mainDivRef = useRef<HTMLDivElement>(null)  // // Generics should given outerwise it will give err.
+
+
     useEffect(() => {
+
+        mainDivRef?.current?.focus()
+        // // this is not scrooling window
+
+
+        window.scroll(0 , 0)   // // // This line is responsibil for scrooling the window
+
+
         console.log("Calling Backend...")
     })
 
@@ -88,12 +99,15 @@ export default function ProductDetails() {
         <>
 
 
-            <div className={`${!themeMode ? "bg-white text-gray-700" : "bg-black text-gray-100"} w-full`} >
+            <div 
+            className={`${!themeMode ? "bg-white text-gray-700" : "bg-black text-gray-100"} w-full`} 
+               
+            >
 
                 {
                     (productDetailByFilter && Object.keys(productDetailByFilter).length > 0)
                         ?
-                        <div className="mx-auto max-w-full  md:max-w-allAk px-1 md:px-2 lg:px-8">
+                        <div className="mx-auto max-w-full  md:max-w-allAk px-1 md:px-2 lg:px-8"  ref={mainDivRef}>
                             <div className="pt-6 ">
 
 

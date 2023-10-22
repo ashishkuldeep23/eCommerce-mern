@@ -1,7 +1,7 @@
 import { Fragment, useState } from 'react'
 import { Dialog, Disclosure, Menu, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
-import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon, Squares2X2Icon } from '@heroicons/react/20/solid'
+import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon } from '@heroicons/react/20/solid'
 
 
 import { useSelector } from 'react-redux'
@@ -16,13 +16,6 @@ const sortOptions = [
     { name: 'Price: High to Low', href: '#', current: false },
 ]
 
-const subCategories = [
-    { name: 'Totes', href: '#' },
-    { name: 'Backpacks', href: '#' },
-    { name: 'Travel Bags', href: '#' },
-    { name: 'Hip Bags', href: '#' },
-    { name: 'Laptop Sleeves', href: '#' },
-]
 
 const filters = [
     {
@@ -75,7 +68,7 @@ export default function FilterSection({ children }: any) {
 
     return (
         <div className={`${!themeMode ? "bg-white text-gray-600 " : 'bg-black text-gray-300 '} `}>
-            <div className='mx-auto max-w-full md:max-w-allAk px-1 md:px-2  '>
+            <div className='mx-auto max-w-full md:max-w-allAk px-1 md:px-2 '>
                 {/* Mobile filter dialog */}
                 <Transition.Root show={mobileFiltersOpen} as={Fragment}>
                     <Dialog as="div" className="relative z-40 lg:hidden" onClose={setMobileFiltersOpen}>
@@ -101,44 +94,34 @@ export default function FilterSection({ children }: any) {
                                 leaveFrom="translate-x-0"
                                 leaveTo="translate-x-full"
                             >
-                                <Dialog.Panel className="relative ml-auto flex h-full w-full max-w-xs flex-col overflow-y-auto bg-white py-4 pb-12 shadow-xl">
+                                <Dialog.Panel className={`relative ml-auto flex h-full w-full max-w-xs flex-col overflow-y-auto  py-4 pb-12 shadow-xl ${!themeMode ? "bg-white text-gray-600 " : 'bg-black text-gray-300 '} `}>
+
                                     <div className="flex items-center justify-between px-4">
                                         <h2 className="text-lg font-medium ">Filters</h2>
                                         <button
                                             type="button"
-                                            className="-mr-2 flex h-10 w-10 items-center justify-center rounded-md bg-white p-2 "
+                                            className="-mr-2 flex h-10 w-10 items-center justify-center rounded-md  p-2 "
                                             onClick={() => setMobileFiltersOpen(false)}
                                         >
                                             <span className="sr-only">Close menu</span>
-                                            <XMarkIcon className="h-6 w-6" aria-hidden="true" />
+                                            <XMarkIcon className="h-6 w-6 text-red-400" aria-hidden="true" />
                                         </button>
                                     </div>
 
                                     {/* Filters */}
-                                    <form className="mt-4 border-t border-gray-200">
-                                        <h3 className="sr-only">Categories</h3>
-                                        <ul role="list" className="px-2 py-3 font-medium ">
-                                            {subCategories.map((category) => (
-                                                <li key={category.name}>
-                                                    <a href={category.href} className="block px-2 py-3">
-                                                        {category.name}
-                                                    </a>
-                                                </li>
-                                            ))}
-                                        </ul>
-
+                                    <form className="mt-4 border-t border-green-300">
                                         {filters.map((section) => (
-                                            <Disclosure as="div" key={section.id} className="border-t border-gray-200 px-4 py-6">
+                                            <Disclosure as="div" key={section.id} className="border-t border-green-300 px-4 py-6">
                                                 {({ open }) => (
                                                     <>
                                                         <h3 className="-mx-2 -my-3 flow-root">
-                                                            <Disclosure.Button className="flex w-full items-center justify-between bg-white px-2 py-3 ">
+                                                            <Disclosure.Button className="flex w-full items-center justify-between px-2 py-3 ">
                                                                 <span className="font-medium ">{section.name}</span>
                                                                 <span className="ml-6 flex items-center">
                                                                     {open ? (
-                                                                        <MinusIcon className="h-5 w-5" aria-hidden="true" />
+                                                                        <MinusIcon className="h-5 w-5 text-green-300" aria-hidden="true" />
                                                                     ) : (
-                                                                        <PlusIcon className="h-5 w-5" aria-hidden="true" />
+                                                                        <PlusIcon className="h-5 w-5 text-green-300" aria-hidden="true" />
                                                                     )}
                                                                 </span>
                                                             </Disclosure.Button>
@@ -218,15 +201,15 @@ export default function FilterSection({ children }: any) {
                                         </div>
                                     </Menu.Items>
                                 </Transition>
+
+                                
                             </Menu>
 
-                            <button type="button" className="-m-2 ml-5 p-2  hover: sm:ml-7">
-                                <span className="sr-only">View grid</span>
-                                <Squares2X2Icon className="h-5 w-5" aria-hidden="true" />
-                            </button>
+
+
                             <button
                                 type="button"
-                                className="-m-2 ml-4 p-2  hover: sm:ml-6 lg:hidden"
+                                className="-m-2 ml-1 p-2  hover: sm:ml-6 lg:hidden"
                                 onClick={() => setMobileFiltersOpen(true)}
                             >
                                 <span className="sr-only">Filters</span>
@@ -241,29 +224,20 @@ export default function FilterSection({ children }: any) {
                         </h2>
 
                         <div className="grid grid-cols-1  gap-y-10 lg:grid-cols-6">
-                            {/* Filters */}
+                            {/* Filters    leptop */}
                             <form className="hidden  lg:block">
-                                <h3 className="sr-only">Categories</h3>
-                                <ul role="list" className="space-y-4 border-b border-gray-200 pb-6 text-sm font-medium ">
-                                    {subCategories.map((category) => (
-                                        <li key={category.name}>
-                                            <a href={category.href}>{category.name}</a>
-                                        </li>
-                                    ))}
-                                </ul>
-
                                 {filters.map((section) => (
-                                    <Disclosure as="div" key={section.id} className="border-b border-gray-200 py-6">
+                                    <Disclosure as="div" key={section.id} className="border-b border-green-300 py-6">
                                         {({ open }) => (
                                             <>
                                                 <h3 className="-my-3 flow-root">
-                                                    <Disclosure.Button className="flex w-full items-center justify-between bg-white py-3 text-sm  hover:">
+                                                    <Disclosure.Button className="flex w-full items-center justify-between py-3 text-sm ">
                                                         <span className="font-medium ">{section.name}</span>
                                                         <span className="ml-6 flex items-center">
                                                             {open ? (
-                                                                <MinusIcon className="h-5 w-5" aria-hidden="true" />
+                                                                <MinusIcon className="h-5 w-5 text-green-300" aria-hidden="true" />
                                                             ) : (
-                                                                <PlusIcon className="h-5 w-5" aria-hidden="true" />
+                                                                <PlusIcon className="h-5 w-5 text-green-300" aria-hidden="true" />
                                                             )}
                                                         </span>
                                                     </Disclosure.Button>

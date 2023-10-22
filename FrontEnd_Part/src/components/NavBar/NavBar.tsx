@@ -82,6 +82,7 @@ export default function NavBar() {
                                 </div>
 
 
+                                {/*  Shown in leptop (tab and above) */}
                                 <div className="hidden md:ml-6 md:block">
                                     <div className="flex space-x-4">
                                         {navigation.map((item, i) => (
@@ -108,21 +109,7 @@ export default function NavBar() {
                                 </div>
                             </div>
 
-                            {/* <div>
-                                <input type="text" name="" id="" />
-                                <button>Serch</button>
-                            </div> */}
-
                             <div className="absolute inset-y-0 right-0 flex items-center pr-2 md:static md:inset-auto md:ml-6 md:pr-0">
-
-                                {/* <button
-                                    type="button"
-                                    className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-                                >
-                                    <span className="absolute -inset-1.5" />
-                                    <span className="sr-only">View notifications</span>
-                                    <BellIcon className="h-6 w-6" aria-hidden="true" />
-                                </button> */}
 
 
                                 {/* Cart btn */}

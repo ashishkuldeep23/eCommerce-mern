@@ -27,7 +27,7 @@ const SingleProduct = ({ product }: TProductPrope) => {
             <a
                 key={product.id}
                 // href={"/product"}
-                className=" min-h-52 h-auto border border-green-300 rounded w-72  mb-5 p-1  mx-2  "
+                className=" min-h-52 h-auto border border-green-300 rounded w-72  mb-5 p-1  mx-2 hover:cursor-pointer "
                 onClick={() => { navigate("/product"); dispatch(setSingleProductData({ id: product.id })) }}
             >
                 <div className=" rounded-lg overflow-hidden">
