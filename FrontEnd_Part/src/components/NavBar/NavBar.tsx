@@ -1,7 +1,7 @@
 
 import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
-import { Bars3Icon, BellIcon, XMarkIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline'
+import { Bars3Icon, XMarkIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline'
 import { Link, useNavigate } from "react-router-dom"
 
 
@@ -41,7 +41,7 @@ export default function NavBar() {
         <Disclosure as="nav" className="bg-gray-800 border-b-2 border-green-200">
             {({ open }) => (
                 <>
-                    <div className=" mx-auto max-w-full md:max-w-allAk px-1 md:px-2 md:px-8 ">
+                    <div className=" mx-auto max-w-full md:max-w-allAk px-1  md:px-8 ">
                         <div className="relative flex h-16 items-center justify-between">
 
 
