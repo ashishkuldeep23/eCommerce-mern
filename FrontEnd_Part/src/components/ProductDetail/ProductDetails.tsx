@@ -1,8 +1,10 @@
-import { useEffect, useState , useRef} from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { StarIcon } from '@heroicons/react/20/solid'
 import { RadioGroup } from '@headlessui/react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../../store'
+
+import { addItemInCart } from '../../Slices/CartSlice'
 
 const product = {
     name: 'Basic Tee 6-Pack',
@@ -71,16 +73,44 @@ export default function ProductDetails() {
 
     const themeMode = useSelector((state: RootState) => state.themeReducer.mode)
 
+    const dispatch = useDispatch()
+
     // const [productDetailByApi , setProductDetailByApi] = useState([])
 
 
     const productDetailByFilter = useSelector((store: RootState) => store.allProductWithCatReducer.singleProductData)
 
+    const cardData = useSelector((state : RootState) => state.CartReducer.cartData)
+
     // console.log(productDetailByFilter)
 
 
-    const mainDivRef = useRef<HTMLDivElement>(null)  // // Generics should given outerwise it will give err.
 
+    function addToCartHandler(e : React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+
+        // console.log(productDetailByFilter)
+
+        e.stopPropagation();
+        e.preventDefault();
+
+        const { id, title, price } = productDetailByFilter
+
+        if (!id && !title && !price) {
+            console.log("Page is Empty");
+            return alert("Page is Empty , go to home and try again");
+        }
+
+        let addaleCartItem = {...productDetailByFilter , quantity : 1 , verity : { a : 1 } }
+
+        dispatch(addItemInCart( addaleCartItem ))    // // // Adding into cart state
+
+        localStorage.setItem("cardData", JSON.stringify([...cardData , addaleCartItem ]))
+
+    }
+
+
+
+    const mainDivRef = useRef<HTMLDivElement>(null)  // // Generics should given outerwise it will give err.
 
     useEffect(() => {
 
@@ -88,26 +118,26 @@ export default function ProductDetails() {
         // // this is not scrooling window
 
 
-        window.scroll(0 , 0)   // // // This line is responsibil for scrooling the window
+        window.scroll(0, 0)   // // // This line is responsibil for scrooling the window
 
 
-        console.log("Calling Backend...")
-    })
+        // console.log("Calling Backend...")
+    } , [])
 
     return (
 
         <>
 
 
-            <div 
-            className={`${!themeMode ? "bg-white text-gray-700" : "bg-black text-gray-100"} w-full`} 
-               
+            <div
+                className={`${!themeMode ? "bg-white text-gray-700" : "bg-black text-gray-100"} w-full`}
+
             >
 
                 {
                     (productDetailByFilter && Object.keys(productDetailByFilter).length > 0)
                         ?
-                        <div className="mx-auto max-w-full  md:max-w-allAk px-1 md:px-2 lg:px-8"  ref={mainDivRef}>
+                        <div className="mx-auto max-w-full  md:max-w-allAk px-1 md:px-2 lg:px-8" ref={mainDivRef}>
                             <div className="pt-6 ">
 
 
@@ -322,8 +352,9 @@ export default function ProductDetails() {
                                             <button
                                                 type="submit"
                                                 className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                                onClick={(e) => { e.preventDefault(); e.stopPropagation(); addToCartHandler(e) }}
                                             >
-                                                Add to bag
+                                                Add to Cart
                                             </button>
                                         </form>
                                     </div>

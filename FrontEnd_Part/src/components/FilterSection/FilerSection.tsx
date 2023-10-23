@@ -9,9 +9,7 @@ import { RootState } from '../../store'
 
 
 const sortOptions = [
-    { name: 'Most Popular', href: '#', current: true },
     { name: 'Best Rating', href: '#', current: false },
-    { name: 'Newest', href: '#', current: false },
     { name: 'Price: Low to High', href: '#', current: false },
     { name: 'Price: High to Low', href: '#', current: false },
 ]
@@ -19,38 +17,113 @@ const sortOptions = [
 
 const filters = [
     {
-        id: 'color',
-        name: 'Color',
+        id: 'brand',
+        name: 'Brand',
         options: [
-            { value: 'white', label: 'White', checked: false },
-            { value: 'beige', label: 'Beige', checked: false },
-            { value: 'blue', label: 'Blue', checked: true },
-            { value: 'brown', label: 'Brown', checked: false },
-            { value: 'green', label: 'Green', checked: false },
-            { value: 'purple', label: 'Purple', checked: false },
-        ],
+            { value: "Apple", label: "Apple", checked: true },
+            { value: "Samsung", label: "Samsung", checked: false },
+            { value: "OPPO", label: "OPPO", checked: false },
+            { value: "Huawei", label: "Huawei", checked: false },
+            { value: "Microsoft Surface", label: "Microsoft Surface", checked: false },
+            { value: "Infinix", label: "Infinix", checked: false },
+            { value: "HP Pavilion", label: "HP Pavilion", checked: false },
+            { value: "Impression of Acqua Di Gio", label: "Impression of Acqua Di Gio", checked: false },
+            { value: "Royal_Mirage", label: "Royal_Mirage", checked: false },
+            { value: "Fog Scent Xpressio", label: "Fog Scent Xpressio", checked: false },
+            { value: "Al Munakh", label: "Al Munakh", checked: false },
+            { value: "Lord - Al-Rehab", label: "Lord - Al-Rehab", checked: false },
+            { value: "L'Oreal Paris", label: "L'Oreal Paris", checked: false },
+            { value: "Hemani Tea", label: "Hemani Tea", checked: false },
+            { value: "Dermive", label: "Dermive", checked: false },
+            { value: "ROREC White Rice", label: "ROREC White Rice", checked: false },
+            { value: "Fair & Clear", label: "Fair & Clear", checked: false },
+            { value: "Saaf & Khaas", label: "Saaf & Khaas", checked: false },
+            { value: "Bake Parlor Big", label: "Bake Parlor Big", checked: false },
+            { value: "Baking Food Items", label: "Baking Food Items", checked: false },
+            { value: "fauji", label: "fauji", checked: false },
+            { value: "Dry Rose", label: "Dry Rose", checked: false },
+            { value: "Boho Decor", label: "Boho Decor", checked: false },
+            { value: "Flying Wooden", label: "Flying Wooden", checked: false },
+            { value: "LED Lights", label: "LED Lights", checked: false },
+            { value: "luxury palace", label: "luxury palace", checked: false },
+            { value: "Golden", label: "Golden", checked: false },
+            { value: "Furniture Bed Set", label: "Furniture Bed Set", checked: false },
+            { value: "Ratttan Outdoor", label: "Ratttan Outdoor", checked: false },
+            { value: "Kitchen Shelf", label: "Kitchen Shelf", checked: false },
+            { value: "Multi Purpose", label: "Multi Purpose", checked: false },
+            { value: "AmnaMart", label: "AmnaMart", checked: false },
+            { value: "Professional Wear", label: "Professional Wear", checked: false },
+            { value: "Soft Cotton", label: "Soft Cotton", checked: false },
+            { value: "Top Sweater", label: "Top Sweater", checked: false },
+            { value: "RED MICKY MOUSE..", label: "RED MICKY MOUSE..", checked: false },
+            { value: "Digital Printed", label: "Digital Printed", checked: false },
+            { value: "Ghazi Fabric", label: "Ghazi Fabric", checked: false },
+            { value: "IELGY", label: "IELGY", checked: false },
+            { value: "IELGY fashion", label: "IELGY fashion", checked: false },
+            { value: "Synthetic Leather", label: "Synthetic Leather", checked: false },
+            { value: "Sandals Flip Flops", label: "Sandals Flip Flops", checked: false },
+            { value: "Maasai Sandals", label: "Maasai Sandals", checked: false },
+            { value: "Arrivals Genuine", label: "Arrivals Genuine", checked: false },
+            { value: "Vintage Apparel", label: "Vintage Apparel", checked: false },
+            { value: "FREE FIRE", label: "FREE FIRE", checked: false },
+            { value: "The Warehouse", label: "The Warehouse", checked: false },
+            { value: "Sneakers", label: "Sneakers", checked: false },
+            { value: "Rubber", label: "Rubber", checked: false },
+            { value: "Naviforce", label: "Naviforce", checked: false },
+            { value: "SKMEI 9117", label: "SKMEI 9117", checked: false },
+            { value: "Strap Skeleton", label: "Strap Skeleton", checked: false },
+            { value: "Stainless", label: "Stainless", checked: false },
+            { value: "Eastern Watches", label: "Eastern Watches", checked: false },
+            { value: "Luxury Digital", label: "Luxury Digital", checked: false },
+            { value: "Watch Pearls", label: "Watch Pearls", checked: false },
+            { value: "Bracelet", label: "Bracelet", checked: false },
+            { value: "LouisWill", label: "LouisWill", checked: false },
+            { value: "Copenhagen Luxe", label: "Copenhagen Luxe", checked: false },
+            { value: "Steal Frame", label: "Steal Frame", checked: false },
+            { value: "Darojay", label: "Darojay", checked: false },
+            { value: "Fashion Jewellery", label: "Fashion Jewellery", checked: false },
+            { value: "Cuff Butterfly", label: "Cuff Butterfly", checked: false },
+            { value: "Designer Sun Glasses", label: "Designer Sun Glasses", checked: false },
+            { value: "mastar watch", label: "mastar watch", checked: false },
+            { value: "Car Aux", label: "Car Aux", checked: false },
+            { value: "W1209 DC12V", label: "W1209 DC12V", checked: false },
+            { value: "TC Reusable", label: "TC Reusable", checked: false },
+            { value: "Neon LED Light", label: "Neon LED Light", checked: false },
+            { value: "METRO 70cc Motorcycle - MR70", label: "METRO 70cc Motorcycle - MR70", checked: false },
+            { value: "BRAVE BULL", label: "BRAVE BULL", checked: false },
+            { value: "shock absorber", label: "shock absorber", checked: false },
+            { value: "JIEPOLLY", label: "JIEPOLLY", checked: false },
+            { value: "Xiangle", label: "Xiangle", checked: false },
+            { value: "lightingbrilliance", label: "lightingbrilliance", checked: false },
+            { value: "Ifei Home", label: "Ifei Home", checked: false },
+            { value: "DADAWU", label: "DADAWU", checked: false },
+            { value: "YIOSI", label: "YIOSI", checked: false }
+        ]
     },
     {
         id: 'category',
         name: 'Category',
         options: [
-            { value: 'new-arrivals', label: 'New Arrivals', checked: false },
-            { value: 'sale', label: 'Sale', checked: false },
-            { value: 'travel', label: 'Travel', checked: true },
-            { value: 'organization', label: 'Organization', checked: false },
-            { value: 'accessories', label: 'Accessories', checked: false },
-        ],
-    },
-    {
-        id: 'size',
-        name: 'Size',
-        options: [
-            { value: '2l', label: '2L', checked: false },
-            { value: '6l', label: '6L', checked: false },
-            { value: '12l', label: '12L', checked: false },
-            { value: '18l', label: '18L', checked: false },
-            { value: '20l', label: '20L', checked: false },
-            { value: '40l', label: '40L', checked: true },
+            { value: 'smartphones', label: 'smartphones', checked: true },
+            { value: 'laptops', label: 'laptops', checked: false },
+            { value: 'fragrances', label: 'fragrances', checked: false },
+            { value: 'skincare', label: 'skincare', checked: false },
+            { value: 'groceries', label: 'groceries', checked: false },
+            { value: 'home-decoration', label: 'home-decoration', checked: false },
+            { value: 'furniture', label: 'furniture', checked: false },
+            { value: 'tops', label: 'tops', checked: false },
+            { value: 'womens-dresses', label: 'womens-dresses', checked: false },
+            { value: 'womens-shoes', label: 'womens-shoes', checked: false },
+            { value: 'mens-shirts', label: 'mens-shirts', checked: false },
+            { value: 'mens-shoes', label: 'mens-shoes', checked: false },
+            { value: 'mens-watches', label: 'mens-watches', checked: false },
+            { value: 'womens-watches', label: 'womens-watches', checked: false },
+            { value: 'womens-bags', label: 'womens-bags', checked: false },
+            { value: 'womens-jewellery', label: 'womens-jewellery', checked: false },
+            { value: 'sunglasses', label: 'sunglasses', checked: false },
+            { value: 'automotive', label: 'automotive', checked: false },
+            { value: 'motorcycle', label: 'motorcycle', checked: false },
+            { value: 'lighting', label: 'lighting', checked: false }
         ],
     },
 ]
@@ -65,6 +138,18 @@ export default function FilterSection({ children }: any) {
     const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
 
     const themeMode = useSelector((store: RootState) => store.themeReducer.mode)
+
+
+    type EventTypeOfOncahnge = React.ChangeEvent<HTMLInputElement> | React.FocusEvent<HTMLInputElement, Element>
+
+    function onChngeHandlerOfFilter(e : EventTypeOfOncahnge , secton : string , value : string ){
+
+        e.stopPropagation()
+
+        console.log(secton , value)
+
+    }
+
 
     return (
         <div className={`${!themeMode ? "bg-white text-gray-600 " : 'bg-black text-gray-300 '} `}>
@@ -93,7 +178,9 @@ export default function FilterSection({ children }: any) {
                                 leave="transition ease-in-out duration-300 transform"
                                 leaveFrom="translate-x-0"
                                 leaveTo="translate-x-full"
-                            >
+                            >   
+
+                                {/* Belw div  used to show filter in mobile or less then leptop */}
                                 <Dialog.Panel className={`relative ml-auto flex h-full w-full max-w-xs flex-col overflow-y-auto  py-4 pb-12 shadow-xl ${!themeMode ? "bg-white text-gray-600 " : 'bg-black text-gray-300 '} `}>
 
                                     <div className="flex items-center justify-between px-4">
@@ -159,6 +246,8 @@ export default function FilterSection({ children }: any) {
                     </Dialog>
                 </Transition.Root>
 
+
+                {/* Below div is visiable in leptop or above screen */}
                 <main className="mx-auto max-w-full md:max-w-allAk px-1 md:px-2 lg:px-8  p-2 pt-16 ">
                     <div className="flex items-baseline justify-between border-b border-gray-200 pb-6 ">
                         <h1 className="text-4xl font-bold tracking-tight ">Products</h1>
@@ -202,7 +291,7 @@ export default function FilterSection({ children }: any) {
                                     </Menu.Items>
                                 </Transition>
 
-                                
+
                             </Menu>
 
 
@@ -247,6 +336,7 @@ export default function FilterSection({ children }: any) {
                                                         {section.options.map((option, optionIdx) => (
                                                             <div key={option.value} className="flex items-center">
                                                                 <input
+                                                                    onChange={(e)=>{onChngeHandlerOfFilter(e , section.id , option.value)}}
                                                                     id={`filter-${section.id}-${optionIdx}`}
                                                                     name={`${section.id}[]`}
                                                                     defaultValue={option.value}

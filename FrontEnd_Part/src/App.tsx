@@ -20,41 +20,55 @@ function App() {
   const dispatch = useDispatch()
 
 
+  // // // This fn will call Backend to get data ------>
   async function loadData() {
 
-    const arrOfProductCat = ["smartphones", "laptops", "fragrances", "skincare", "groceries", "home-decoration"]
+    // const roductCat = ["smartphones", "laptops", "fragrances", "skincare", "groceries", "home-decoration"]
 
-    const callingData = await fetch('https://dummyjson.com/products')
+    try {
 
-    let res = await callingData.json()
 
-    // console.log(catArr)
+      const callingData = await fetch('https://dummyjson.com/products?limit=100')
 
-    // setProducts(res.products)
+      let res = await callingData.json()
 
-    // setProductCategory(arrOfProductCat)   // // // When getting data then set into state var. 
+      // console.log(catArr)
 
-    const outPutArr = [...res.products]  // // // By using this way i can use all methods of arr.
+      // setProducts(res.products)
 
-    
+      // setProductCategory(arrOfProductCat)   // // // When getting data then set into state var. 
 
-    let loadObjInState = {
-      allProducts :outPutArr ,
-      allCaegory : arrOfProductCat,
-      allHighlightProducts : outPutArr.slice(4 , 9)
+      const outPutArr = [...res.products]  // // // By using this way i can use all methods of arr.
+
+      // console.log(outPutArr)
+
+      const allCategoryOfProducts = [...new Set(outPutArr.map(ele => ele.category))]     // // // taking all  categoriy from output arr.
+
+      // console.log(allCategoryOfProducts)
+
+
+      let loadObjInState = {
+        allProducts: outPutArr,
+        allCaegory: allCategoryOfProducts,
+        allHighlightProducts: outPutArr.slice(4, 9)
+      }
+
+      dispatch(loadDataIntoState(loadObjInState))
+
+    } catch (e : any ) {
+      console.log(e?.message)
+      alert(`${e?.message} | Try again , Open network data.`)
     }
 
-    dispatch(loadDataIntoState(loadObjInState))
 
   }
 
 
-
-  useEffect(()=>{
+  useEffect(() => {
 
     loadData()
 
-  } , [])
+  }, [])
 
 
   return (
@@ -72,9 +86,9 @@ function App() {
 
         <Route path="/signin" element={<SignInScreeen />} />
 
-        <Route path="/cart" element={ <CartScreen /> } />
+        <Route path="/cart" element={<CartScreen />} />
 
-        <Route path="/pay" element={ <PaymentScreen /> } />
+        <Route path="/pay" element={<PaymentScreen />} />
 
       </Routes>
 

@@ -70,15 +70,19 @@ const allProductsCatSlice = createSlice({
             // console.log(getSingleItem[0])
 
             state.singleProductData = getSingleItem[0]
-        }
+        },
 
+
+        setFilterItems(state , action){
+            state.allProducts = action.payload.allProducts
+        }
 
     }
 
 })
 
 
-export const { loadDataIntoState, setSingleProductData } = allProductsCatSlice.actions
+export const { loadDataIntoState, setSingleProductData , setFilterItems } = allProductsCatSlice.actions
 
 export default allProductsCatSlice.reducer
 
