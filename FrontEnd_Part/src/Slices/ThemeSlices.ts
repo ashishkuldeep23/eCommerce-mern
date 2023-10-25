@@ -36,11 +36,21 @@ const themeSlice = createSlice( {
 
             if(!state.mode){
                 state.mode = true
+                localStorage.setItem( "ECommDark", JSON.stringify(true) )
             }else{
                 state.mode = false
+                localStorage.setItem( "ECommDark", JSON.stringify(false) )
             }
 
+        },
+
+        setModeOnLoad(state , action){
+            let {mode} = action.payload
+
+            state.mode = mode
+
         }
+
 
 
     }
@@ -48,7 +58,7 @@ const themeSlice = createSlice( {
 
 
 
-export const { toggleModeValue } = themeSlice.actions
+export const { toggleModeValue , setModeOnLoad } = themeSlice.actions
 
 export default themeSlice.reducer
 

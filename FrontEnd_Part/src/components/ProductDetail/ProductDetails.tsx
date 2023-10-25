@@ -6,6 +6,9 @@ import { RootState } from '../../store'
 
 import { addItemInCart } from '../../Slices/CartSlice'
 
+import {  toast } from "react-toastify"
+import 'react-toastify/ReactToastify.css';
+
 const product = {
     name: 'Basic Tee 6-Pack',
     price: '$192',
@@ -80,31 +83,44 @@ export default function ProductDetails() {
 
     const productDetailByFilter = useSelector((store: RootState) => store.allProductWithCatReducer.singleProductData)
 
-    const cardData = useSelector((state : RootState) => state.CartReducer.cartData)
+    // const cardData = useSelector((state : RootState) => state.CartReducer.cartData)
 
     // console.log(productDetailByFilter)
 
 
 
-    function addToCartHandler(e : React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+    function addToCartHandler(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
 
         // console.log(productDetailByFilter)
 
         e.stopPropagation();
         e.preventDefault();
 
-        const { id, title, price } = productDetailByFilter
+        const { id, title, price  } = productDetailByFilter
 
         if (!id && !title && !price) {
             console.log("Page is Empty");
             return alert("Page is Empty , go to home and try again");
         }
 
-        let addaleCartItem = {...productDetailByFilter , quantity : 1 , verity : { a : 1 } }
+        let addaleCartItem = { ...productDetailByFilter, quantity: 1, verity: { a: 1 } }
 
-        dispatch(addItemInCart( addaleCartItem ))    // // // Adding into cart state
+        dispatch(addItemInCart(addaleCartItem))    // // // Adding into cart state
 
-        localStorage.setItem("cardData", JSON.stringify([...cardData , addaleCartItem ]))
+        // localStorage.setItem("cardData", JSON.stringify([...cardData , addaleCartItem ]))
+
+        // // Sending Alert
+        toast.success(`${title}, added in cart`, {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+        });
+
 
     }
 
@@ -122,7 +138,7 @@ export default function ProductDetails() {
 
 
         // console.log("Calling Backend...")
-    } , [])
+    }, [])
 
     return (
 

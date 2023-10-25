@@ -14,6 +14,10 @@ import { useEffect } from "react"
 import { useDispatch } from "react-redux"
 import { loadDataIntoState } from "./Slices/AllProductSlice"
 
+import { setModeOnLoad } from "./Slices/ThemeSlices"
+
+import { ToastContainer, toast } from "react-toastify"
+
 function App() {
 
 
@@ -55,9 +59,19 @@ function App() {
 
       dispatch(loadDataIntoState(loadObjInState))
 
-    } catch (e : any ) {
+    } catch (e: any) {
       console.log(e?.message)
-      alert(`${e?.message} | Try again , Open network data.`)
+      // alert(`${e?.message} | Try again , Open network data.`)
+      toast.error(`${e?.message} | Try again , Open network data.`, {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
     }
 
 
@@ -67,6 +81,15 @@ function App() {
   useEffect(() => {
 
     loadData()
+
+    // // // Setting theme --->
+    let mode = localStorage.getItem("ECommDark")
+    if (mode) {
+
+      dispatch(setModeOnLoad({ mode: JSON.parse(mode) }))
+    } else {
+      dispatch(setModeOnLoad({ mode: true }))   // // // I want first time dark time
+    }
 
   }, [])
 
@@ -91,6 +114,9 @@ function App() {
         <Route path="/pay" element={<PaymentScreen />} />
 
       </Routes>
+
+
+      <ToastContainer />
 
     </>
   )
