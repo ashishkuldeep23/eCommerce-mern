@@ -119,12 +119,12 @@ export default function CartComponent() {
                                   (product.quantity > 1)
                                     ?
                                     <>
-                                      <p className="ml-4">₹{product.price} X {product.quantity}</p>
-                                      <p className={`ml-4 border-1 border-t border-1`}>₹{product.quantity * product.price}</p>
+                                      <p className="ml-4">₹{product.price * 70} X {product.quantity}</p>
+                                      <p className={`ml-4 border-1 border-t border-1`}>₹{product.quantity * product.price * 70}</p>
                                     </>
                                     :
                                     <>
-                                      <p className="ml-4">₹{product.quantity * product.price}</p>
+                                      <p className="ml-4">₹{product.quantity * product.price * 70}</p>
                                     </>
                                 }
                               </div>

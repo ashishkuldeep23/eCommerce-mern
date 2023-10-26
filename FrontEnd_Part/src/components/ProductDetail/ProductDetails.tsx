@@ -211,10 +211,10 @@ export default function ProductDetails() {
                                         {
                                             productDetailByFilter.discountPercentage
                                                 ?
-                                                <p className={`text-2xl text-start font-medium ${!themeMode ? "text-gray-900" : "text-gray-300"} `}> <span className=' text-sm font-thin line-through'>₹{productDetailByFilter.price}</span> ₹{Math.round(productDetailByFilter.price - ((productDetailByFilter.discountPercentage * productDetailByFilter.price) / 100))}</p>
+                                                <p className={`text-2xl text-start font-medium ${!themeMode ? "text-gray-900" : "text-gray-300"} `}> <span className=' text-sm font-thin line-through'>₹{productDetailByFilter.price * 70}</span> ₹{ (Math.round(productDetailByFilter.price - ((productDetailByFilter.discountPercentage * productDetailByFilter.price) / 100)) ) * 70}</p>
 
                                                 :
-                                                <p className={`text-lg text-end font-medium ${!themeMode ? "text-gray-900" : "text-gray-300"} `}> ₹{productDetailByFilter.price} </p>
+                                                <p className={`text-lg text-end font-medium ${!themeMode ? "text-gray-900" : "text-gray-300"} `}> ₹{productDetailByFilter.price * 70} </p>
 
                                         }
 

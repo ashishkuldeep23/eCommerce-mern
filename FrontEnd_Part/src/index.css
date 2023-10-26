@@ -10,6 +10,7 @@
 
 * {
     scroll-behavior: smooth;
+    /* transition: .2s all; */
 }
 
 
@@ -42,8 +43,36 @@
 
 
 
+/* Remove Arrows/Spinners OR 
+how to remove up down arrow in input type number
+*/
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+
+
 #crouselHolderDiv {
     height: 70vh;
+}
+
+
+
+#singleCardHolder:hover>div>img {
+    scale: 1.2;
+    transition: 1s all;
+}
+
+
+#headingOfProduct {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
 }
 
 
