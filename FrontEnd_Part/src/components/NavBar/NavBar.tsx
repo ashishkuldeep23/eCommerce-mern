@@ -205,6 +205,14 @@ function RightCommonSection() {
 
     const cartData = useSelector((state: RootState) => state.CartReducer.cartData)
 
+
+    const itemsOfProfileOnHover = [
+        { tab: "Your Profile", to: "/about" },
+        { tab: "Setting", to: "#" },
+        { tab: "SignOut", to: "#" },
+        { tab: "LogIn", to: "/login" },
+    ]
+
     return (
         <>
 
@@ -226,7 +234,7 @@ function RightCommonSection() {
 
                 {/* Cart items show */}
                 {
-                    (cartData.length > 1)
+                    (cartData.length > 0)
                     &&
                     <span
                         className={` ${!themeSate ? "bg-indigo-50 text-red-700  hover:bg-slate-200" : " bg-slate-500 text-red-500  hover:bg-slate-400 "} inline-flex items-center rounded-full  px-2 text-x font-bold ring-1 ring-inset ring-indigo-700/10 -ml-5 -mt-7 -mr-2 z-10 hover:text-red-400 hover:cursor-pointer focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 hover:scale-125 hover:z-20 transition-all `}
@@ -263,37 +271,30 @@ function RightCommonSection() {
                         leaveFrom="transform opacity-100 scale-100"
                         leaveTo="transform opacity-0 scale-95"
                     >
-                        <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-md ring-1 ring-black ring-opacity-5 focus:outline-none">
-                            <Menu.Item>
-                                {({ active }) => (
-                                    <Link
-                                        to="/about"
-                                        className={`${active ? 'bg-gray-100' : ''} block px-4 py-2 text-md text-gray-700`}
-                                    >
-                                        Your Profile
-                                    </Link>
-                                )}
-                            </Menu.Item>
-                            <Menu.Item>
-                                {({ active }) => (
-                                    <a
-                                        href="#"
-                                        className={`${active ? 'bg-gray-100' : ''}  block px-4 py-2 text-md text-gray-700`}
-                                    >
-                                        Settings
-                                    </a>
-                                )}
-                            </Menu.Item>
-                            <Menu.Item>
-                                {({ active }) => (
-                                    <a
-                                        href="#"
-                                        className={`${active ? 'bg-gray-100' : ''}  block px-4 py-2 text-md text-gray-700`}
-                                    >
-                                        Sign out
-                                    </a>
-                                )}
-                            </Menu.Item>
+                        <Menu.Items className={`absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md  py-1 shadow-md ring-1 ring-opacity-5 focus:outline-none ${!themeSate ? "bg-white text-gray-900" : "bg-gray-900 text-white"} `}>
+
+                            {
+                                (itemsOfProfileOnHover && itemsOfProfileOnHover.length > 0)
+                                &&
+                                itemsOfProfileOnHover.map((item, i) => {
+                                    return (
+                                        <Fragment key={i}>
+
+                                            <Menu.Item >
+                                                <Link
+                                                    to={item.to}
+                                                    className={`${!themeSate ? "hover:bg-gray-300" : "hover:bg-gray-800 "} block px-4 py-2 text-md `}
+                                                >
+                                                    {item.tab}
+                                                </Link>
+                                            </Menu.Item>
+
+                                        </Fragment>
+                                    )
+                                })
+
+                            }
+
                         </Menu.Items>
                     </Transition>
                 </Menu>
