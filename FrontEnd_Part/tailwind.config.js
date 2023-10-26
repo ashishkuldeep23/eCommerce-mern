@@ -13,7 +13,8 @@ export default {
       },
       maxWidth : {
         allAk : "87rem"
-      }
+      },
+      
 
     },
   },

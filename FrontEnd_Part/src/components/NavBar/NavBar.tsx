@@ -27,7 +27,7 @@ export default function NavBar() {
     return (
 
 
-        <Disclosure as="nav" className="bg-gray-800 border-b-2 border-green-200">
+        <Disclosure as="nav" className="bg-gray-800 border-b-2 border-green-200  sticky -top-16 md:top-0 z-50  ">
             {({ open }) => (
                 <>
                     <div className=" mx-auto max-w-full md:max-w-allAk px-1  md:px-8 ">
@@ -67,10 +67,12 @@ export default function NavBar() {
 
 
 
-// // // All menu items that always visible more then tab screen (presented left side after icon)
+// // // All menu items that always visible more then tab screen (presented left side after icon) (This includes search bar that visible tab and above) (Icon also sho here)
 function MenuOfTabAndAbove() {
 
     const navigate = useNavigate()
+
+    const themeSate = useSelector((store: RootState) => store.themeReducer.mode)
 
     return (
         <>
@@ -102,8 +104,13 @@ function MenuOfTabAndAbove() {
                         ))}
 
 
+                        {/* This searchBar will visiable in tab or above */}
                         <div className='my-auto flex  items-center justify-center'>
-                            <input type="text" placeholder='Mens' className='py-1 rounded' name="" id="" />
+                            <input
+                                type="text" placeholder='Product'
+                                className={` ${!themeSate ? "bg-white text-black" : " bg-gray-900 text-white"}  py-1 rounded`}
+                                name="" id=""
+                            />
                             <button className='border text-white rounded text-md p-1 font-medium  hover:bg-gray-700 hover:text-white'>
                                 <MagnifyingGlassIcon className="h-6 w-6 text-gray-200" />
                             </button>
@@ -201,7 +208,7 @@ function RightCommonSection() {
     return (
         <>
 
-            <div className="absolute inset-y-0 right-0 flex items-center pr-2 md:static md:inset-auto md:ml-6 md:pr-0">
+            <div className="absolute inset-y-0 right-0 flex items-center  md:static md:inset-auto md:ml-6 md:pr-0">
 
 
                 {/* Cart btn */}
@@ -216,13 +223,21 @@ function RightCommonSection() {
 
                 </button>
 
+
                 {/* Cart items show */}
-                <span
-                    className="inline-flex items-center rounded-full bg-indigo-50 px-2 text-x font-bold text-red-700 ring-1 ring-inset ring-indigo-700/10 -ml-5 -mt-7 -mr-2 z-10 hover:text-red-300 hover:bg-slate-200 hover:cursor-pointer focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 hover:scale-125 hover:z-20 transition-all "
-                    onClick={() => { navigate("/cart") }}
-                >
-                    {cartData.length}
-                </span>
+                {
+                    (cartData.length > 1)
+                    &&
+                    <span
+                        className={` ${!themeSate ? "bg-indigo-50 text-red-700  hover:bg-slate-200" : " bg-slate-500 text-red-500  hover:bg-slate-400 "} inline-flex items-center rounded-full  px-2 text-x font-bold ring-1 ring-inset ring-indigo-700/10 -ml-5 -mt-7 -mr-2 z-10 hover:text-red-400 hover:cursor-pointer focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 hover:scale-125 hover:z-20 transition-all `}
+                        onClick={() => { navigate("/cart") }}
+                    >
+                        {cartData.length}
+                    </span>
+                }
+
+
+
 
 
                 {/* Profile dropdown */}
@@ -329,10 +344,16 @@ function RightCommonSection() {
 
 // // // (search bar full width less then tab) 
 function SearchBarTabAndLess() {
+
+    const themeSate = useSelector((store: RootState) => store.themeReducer.mode)
+
     return (
         <>
             <div className='my-auto flex  items-center justify-center md:hidden mb-1 m-1'>
-                <input type="text" placeholder='Mens' className='py-1 rounded w-full' name="" id="" />
+                <input type="text" placeholder='Mens'
+                    className={` ${!themeSate ? "bg-white text-black" : " bg-gray-900 text-white"}  py-1 rounded w-full`}
+                    name="" id=""
+                />
                 <button className='border text-white rounded text-md p-1 font-medium  hover:bg-gray-700 hover:text-white'>
                     <MagnifyingGlassIcon className="h-6 w-6 text-gray-200" />
                 </button>

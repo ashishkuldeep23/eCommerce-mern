@@ -1,9 +1,9 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../store'
-import { removeOneItem, loadCartFromLoacl, onePlusQuan, oneMinusQuan } from '../../Slices/CartSlice'
+import { removeOneItem,  onePlusQuan, oneMinusQuan } from '../../Slices/CartSlice'
 import { setSingleProductData } from '../../Slices/AllProductSlice'
-import { useEffect } from 'react'
+// import { useEffect } from 'react'
 
 // const products = [
 //   {
@@ -53,25 +53,12 @@ export default function CartComponent() {
   // }
 
 
-  useEffect(() => {
-
-
-    if (cartData.length <= 0) {
-
-      let getLocalCardData = localStorage.getItem("cardData")
-
-      if (getLocalCardData) {
-        getLocalCardData = JSON.parse(getLocalCardData)
-
-        dispatch(loadCartFromLoacl({ data: getLocalCardData }))    // // // Here calling data and loading into localHost.
-
-      }
-
-    }
+  // useEffect(() => {
 
 
 
-  }, [])
+
+  // }, [])
 
 
   return (

@@ -1,5 +1,4 @@
 import HomePage from "./Screens/HomePage"
-
 import DetailOfSingleProduct from "./Screens/DetailOfSingleProduct"
 import LogInScreen from "./Screens/LogInScreen"
 import SignInScreeen from "./Screens/SignInScreen"
@@ -10,13 +9,15 @@ import { Routes, Route } from "react-router-dom"
 import CartScreen from "./Screens/CartScreen"
 import PaymentScreen from "./Screens/PaymentScreen"
 import { useEffect } from "react"
+import { ToastContainer, toast } from "react-toastify"
 
 import { useDispatch } from "react-redux"
 import { loadDataIntoState } from "./Slices/AllProductSlice"
-
 import { setModeOnLoad } from "./Slices/ThemeSlices"
+import { loadCartFromLoacl } from "./Slices/CartSlice"
 
-import { ToastContainer, toast } from "react-toastify"
+
+
 
 function App() {
 
@@ -57,7 +58,26 @@ function App() {
         allHighlightProducts: outPutArr.slice(4, 9)
       }
 
+      // // // Load all Products --->
       dispatch(loadDataIntoState(loadObjInState))
+
+
+      // // //Load Cart here (That present in localStorage of Browser ) ------>
+
+
+
+      let getLocalCardData = localStorage.getItem("cardData")
+
+      if (getLocalCardData) {
+        getLocalCardData = JSON.parse(getLocalCardData)
+
+        dispatch(loadCartFromLoacl({ data: getLocalCardData }))    // // // Here calling data and loading into localHost.
+
+      }
+
+
+
+
 
     } catch (e: any) {
       console.log(e?.message)
