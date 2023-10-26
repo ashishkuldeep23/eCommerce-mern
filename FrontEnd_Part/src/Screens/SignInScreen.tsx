@@ -1,12 +1,12 @@
 
 import SignIn from '../components/LogInAndSingIn/SingIn'
-import NavBar from '../components/NavBar/NavBar'
+// import NavBar from '../components/NavBar/NavBar'
 
 const SignInScreeen = () => {
   return (
     <>  
 
-        <NavBar />
+        {/* <NavBar /> */}
 
         
         <SignIn />

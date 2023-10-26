@@ -2,13 +2,13 @@
 
 import LogIn from '../components/LogInAndSingIn/LogIn'
 
-import NavBar from '../components/NavBar/NavBar'
+// import NavBar from '../components/NavBar/NavBar'
 
 const LogInScreen = () => {
   return (
     <>  
 
-        <NavBar />
+        {/* <NavBar /> */}
 
 
         <LogIn />
