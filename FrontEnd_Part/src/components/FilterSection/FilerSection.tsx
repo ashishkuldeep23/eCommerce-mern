@@ -142,11 +142,11 @@ export default function FilterSection({ children }: any) {
 
     type EventTypeOfOncahnge = React.ChangeEvent<HTMLInputElement> | React.FocusEvent<HTMLInputElement, Element>
 
-    function onChngeHandlerOfFilter(e : EventTypeOfOncahnge , secton : string , value : string ){
+    function onChngeHandlerOfFilter(e: EventTypeOfOncahnge, secton: string, value: string) {
 
         e.stopPropagation()
 
-        console.log(secton , value)
+        console.log(secton, value)
 
     }
 
@@ -178,10 +178,10 @@ export default function FilterSection({ children }: any) {
                                 leave="transition ease-in-out duration-300 transform"
                                 leaveFrom="translate-x-0"
                                 leaveTo="translate-x-full"
-                            >   
+                            >
 
                                 {/* Belw div  used to show filter in mobile or less then leptop */}
-                                <Dialog.Panel className={` pt-16 relative ml-auto flex h-full w-full max-w-xs flex-col overflow-y-auto  py-4 pb-12 shadow-xl ${!themeMode ? "bg-white text-gray-600 " : 'bg-black text-gray-300 '} `}>
+                                <Dialog.Panel className={` z-50 relative ml-auto flex h-full  sm:w-full  sm:max-w-xs  flex-col overflow-y-auto  py-4 pb-12 shadow-xl ${!themeMode ? "bg-white text-gray-600 " : 'bg-black text-gray-300 '} `}>
 
                                     <div className="flex items-center justify-between px-4">
                                         <h2 className="text-2xl  font-bold underline ">Filters</h2>
@@ -273,18 +273,18 @@ export default function FilterSection({ children }: any) {
                                     leaveFrom="transform opacity-100 scale-100"
                                     leaveTo="transform opacity-0 scale-95"
                                 >
-                                    <Menu.Items className="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                    <Menu.Items className={`absolute -right-1/2 z-10 mt-2 w-40 origin-top-right rounded-md shadow-2xl ring-3 ring-blue-700 ring-opacity-5 focus:outline-none ${!themeMode ? "bg-white text-gray-600 " : 'bg-gray-800 text-gray-300 '} `}>
                                         <div className="py-1">
                                             {sortOptions.map((option) => (
                                                 <Menu.Item key={option.name}>
-                                                    {({ active }) => (
+                                                    {
                                                         <a
                                                             href={option.href}
-                                                            className={`${option.current ? 'font-medium ' : ''}  ${active ? 'bg-gray-100' : ''}    block px-4 py-2 text-sm`}
+                                                            className={`${option.current ? 'font-medium ' : ''}   block px-4 py-2 text-sm`}
                                                         >
                                                             {option.name}
                                                         </a>
-                                                    )}
+                                                    }
                                                 </Menu.Item>
                                             ))}
                                         </div>
@@ -336,7 +336,7 @@ export default function FilterSection({ children }: any) {
                                                         {section.options.map((option, optionIdx) => (
                                                             <div key={option.value} className="flex items-center">
                                                                 <input
-                                                                    onChange={(e)=>{onChngeHandlerOfFilter(e , section.id , option.value)}}
+                                                                    onChange={(e) => { onChngeHandlerOfFilter(e, section.id, option.value) }}
                                                                     id={`filter-${section.id}-${optionIdx}`}
                                                                     name={`${section.id}[]`}
                                                                     defaultValue={option.value}

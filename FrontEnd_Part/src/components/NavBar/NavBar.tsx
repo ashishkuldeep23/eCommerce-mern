@@ -27,7 +27,7 @@ export default function NavBar() {
     return (
 
 
-        <Disclosure as="nav" className="bg-gray-800 border-b-2 border-green-200  sticky -top-16 md:top-0 z-50  ">
+        <Disclosure as="nav" className="bg-gray-800 border-b-2 border-green-200  sticky -top-16 md:top-0 z-40  ">
             {({ open }) => (
                 <>
                     <div className=" mx-auto max-w-full md:max-w-allAk px-1  md:px-8 ">
