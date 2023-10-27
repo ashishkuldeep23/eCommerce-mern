@@ -1,6 +1,6 @@
 import { Fragment } from "react"
 import SingleCrousel from "./SingleCrousel"
-import { useSelector} from "react-redux"
+import { useSelector } from "react-redux"
 import { RootState } from "../../store"
 
 import { IProduct } from "../ProductListing/ProductLists"
@@ -60,29 +60,29 @@ import { IProduct } from "../ProductListing/ProductLists"
 
 const Crousal = () => {
 
-    const themeMode = useSelector( (store : RootState)=> store.themeReducer.mode )
+    const themeMode = useSelector((store: RootState) => store.themeReducer.mode)
 
     // const allProductList = useSelector( (store : RootState)=>store.allProductWithCatReducer.allProducts )
 
 
-    const crousalItems : IProduct[] = useSelector( (store : RootState) => store.allProductWithCatReducer.allHighlightProducts )
+    const crousalItems: IProduct[] = useSelector((store: RootState) => store.allProductWithCatReducer.allHighlightProducts)
     // // // taking first 4 items as highlights and showing in to crousel / Now this doing on app.jsx after getting data.
 
 
     return (
         <>
 
-            <div id="crouselHolderDiv" className={` ${!themeMode ? "bg-white" : 'bg-black' }  `}>
+            <div id="crouselHolderDiv" className={` ${!themeMode ? "bg-white" : 'bg-black'}  `}>
 
 
                 <div className='mx-auto h-full px-1 sm:px-6 max-w-full md:max-w-allAk md:px-2 lg:px-8  p-2 pt-16  border-green-950  flex flex-col'>
 
 
 
-                    <div className="carousel w-full rounded-lg outline outline-2 outline-offset-8 outline-green-200">
+                    {/* <div className="carousel w-full rounded-lg outline outline-2 outline-offset-8 outline-green-200"> */}
+                    <div className="carousel w-full rounded-lg">
 
                         {
-
                             crousalItems.map((item, i) => {
                                 return (
                                     <Fragment key={i}>
@@ -91,8 +91,7 @@ const Crousal = () => {
 
                                     </Fragment>
                                 )
-                            }
-                            )
+                            })
                         }
 
 

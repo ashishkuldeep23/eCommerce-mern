@@ -27,7 +27,7 @@ const SingleProduct = ({ product }: TProductPrope) => {
             <a
                 key={product.id}
                 // href={"/product"}
-                className=" min-h-52 h-auto border border-green-300 rounded w-72  mb-5  mx-2 hover:cursor-pointer "
+                className=" min-h-52 h-auto  rounded w-72  mb-5  mx-2 hover:cursor-pointer "
                 onClick={() => { navigate("/product"); dispatch(setSingleProductData({ id: product.id }))  }}
                 id='singleCardHolder'
             >
@@ -39,7 +39,7 @@ const SingleProduct = ({ product }: TProductPrope) => {
                     />
                 </div>
 
-                <div className="flex justify-between pt-5  px-2 border-t border-green-300 ">
+                <div className="flex justify-between pt-5  px-2  ">
 
                     <div>
                         <h3 

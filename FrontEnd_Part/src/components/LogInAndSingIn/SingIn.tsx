@@ -266,7 +266,7 @@ export default function SignIn() {
 
                                 <button
                                     className=" absolute top-1.5 right-3 hover:scale-125 focus:scale-125 transition-all"
-                                    onClick={() => { setPassType((passType === "password") ? "text" : "password") }}
+                                    onClick={(e) => {e.stopPropagation(); setPassType((passType === "password") ? "text" : "password") }}
                                 > <i className="ri-eye-fill"></i> </button>
 
                                 <p className="text-sm pl-2 text-red-500 font-bold"> {errors.password?.message} </p>
@@ -294,7 +294,7 @@ export default function SignIn() {
 
                                 <button
                                     className=" absolute top-1.5 right-3 hover:scale-125 focus:scale-125 transition-all"
-                                    onClick={() => { setPassType((passType === "password") ? "text" : "password") }}
+                                    onClick={(e) => {e.stopPropagation(); setPassType((passType === "password") ? "text" : "password") }}
                                 > <i className="ri-eye-fill"></i> </button>
 
                                 <p className="text-sm pl-2 text-red-500 font-bold"> {errors.confirmPassword?.message} </p>
