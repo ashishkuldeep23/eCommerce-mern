@@ -136,15 +136,6 @@ function MobileUICodeLeftSection({ open }: { open: boolean }) {
 
             <div className="absolute inset-y-0 left-0 flex items-center md:hidden " onClick={() => { navigate("/"), { replace: true } }}>
 
-                <div className="flex flex-shrink-0 items-center ">
-                    <img
-                        className="h-8 w-auto hover:scale-125 hover:z-20 transition-all"
-                        src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                        alt="Your Company"
-                    />
-                </div>
-
-
                 {/* Mobile menu button*/}
                 <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
                     <span className="absolute -inset-0.5" />
@@ -155,6 +146,17 @@ function MobileUICodeLeftSection({ open }: { open: boolean }) {
                         <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
                     )}
                 </Disclosure.Button>
+
+
+                {/* Barnd ICon */}
+                <div className="flex flex-shrink-0 items-center ">
+                    <img
+                        className="h-8 w-auto hover:scale-125 hover:z-20 transition-all"
+                        src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+                        alt="Your Company"
+                    />
+                </div>
+
             </div>
 
 
@@ -271,7 +273,7 @@ function RightCommonSection() {
                         leaveFrom="transform opacity-100 scale-100"
                         leaveTo="transform opacity-0 scale-95"
                     >
-                        <Menu.Items className={`absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md  py-1 shadow-md ring-1 ring-opacity-5 focus:outline-none ${!themeSate ? "bg-white text-gray-900" : "bg-gray-900 text-white"} `}>
+                        <Menu.Items className={`absolute -right-full z-10 mt-2 w-32 xsm:w-48 origin-top-right rounded-md  py-1 shadow-md ring-1 ring-opacity-5 focus:outline-none ${!themeSate ? "bg-white text-gray-900" : "bg-gray-900 text-white"} `}>
 
                             {
                                 (itemsOfProfileOnHover && itemsOfProfileOnHover.length > 0)

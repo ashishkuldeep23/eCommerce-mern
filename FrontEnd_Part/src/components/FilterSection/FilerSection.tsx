@@ -181,10 +181,10 @@ export default function FilterSection({ children }: any) {
                             >   
 
                                 {/* Belw div  used to show filter in mobile or less then leptop */}
-                                <Dialog.Panel className={`relative ml-auto flex h-full w-full max-w-xs flex-col overflow-y-auto  py-4 pb-12 shadow-xl ${!themeMode ? "bg-white text-gray-600 " : 'bg-black text-gray-300 '} `}>
+                                <Dialog.Panel className={` pt-16 relative ml-auto flex h-full w-full max-w-xs flex-col overflow-y-auto  py-4 pb-12 shadow-xl ${!themeMode ? "bg-white text-gray-600 " : 'bg-black text-gray-300 '} `}>
 
                                     <div className="flex items-center justify-between px-4">
-                                        <h2 className="text-lg font-medium ">Filters</h2>
+                                        <h2 className="text-2xl  font-bold underline ">Filters</h2>
                                         <button
                                             type="button"
                                             className="-mr-2 flex h-10 w-10 items-center justify-center rounded-md  p-2 "
@@ -249,7 +249,7 @@ export default function FilterSection({ children }: any) {
 
                 {/* Below div is visiable in leptop or above screen */}
                 <main className="mx-auto max-w-full md:max-w-allAk px-1 md:px-2 lg:px-8  p-2 pt-16 ">
-                    <div className="flex items-baseline justify-between border-b border-gray-200 pb-6 ">
+                    <div className="flex flex-wrap items-baseline justify-between border-b border-gray-200 pb-6 ">
                         <h1 className="text-4xl font-bold tracking-tight ">Products</h1>
 
                         <div className="flex items-center">
