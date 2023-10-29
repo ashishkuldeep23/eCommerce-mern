@@ -6,7 +6,7 @@ import { IProduct } from "../components/ProductListing/ProductLists"
 
 
 // // // This is how card data look like
-interface CardDataInter extends IProduct {
+export interface CardDataInter extends IProduct {
 
     quantity: number;
     verity: {}
