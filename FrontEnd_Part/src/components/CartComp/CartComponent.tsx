@@ -11,6 +11,17 @@ export type CartCompProp = {
 }
 
 
+// // // This fn is used to create more readable number
+export function makeMoreRaedablePrice(num: number): string {
+
+  let newPrice = new Intl
+    .NumberFormat('en-IN').format(num)
+
+  // console.log(newPrice)
+
+  return newPrice;
+}
+
 
 export default function CartComponent({ mainCartComp = true }: CartCompProp) {
   //   const [open, setCarOpen] = useState(true)
@@ -23,10 +34,26 @@ export default function CartComponent({ mainCartComp = true }: CartCompProp) {
 
 
 
+  // // // I'm responsible for total price
+  function totalPriceOfItems(): string {
+
+    // console.log("ok")
+
+    let num = cartData.reduce((sum, items) => { return sum + (items.price * items.quantity * 70) }, 0)
+
+    // console.log(num)
+
+    let formatedNum = makeMoreRaedablePrice(num)
+
+    return formatedNum
+  }
+
+
+
 
   return (
 
-    <div className={` md:h-allAk  flex flex-col overflow-y-scroll shadow-xl ${!themeMode ? "bg-white text-gray-900" : "bg-black text-gray-200"}  `}>
+    <div className={` ${(mainCartComp) ? "h-allAk" : "h-full"}  flex flex-col overflow-y-scroll border-l border-green-300 ${!themeMode ? "bg-white text-gray-900" : "bg-black text-gray-200"}  `}>
 
       <div className=' max-w-full md:max-w-allAk px-1  lg:px-8 lg:mx-14'>
 
@@ -68,13 +95,20 @@ export default function CartComponent({ mainCartComp = true }: CartCompProp) {
                   (cartData && cartData.length > 0)
 
                     ?
-                    cartData.map((product , i) => <SingleCartItem key={i} mainCartComp={mainCartComp} product={product} />)
+                    cartData.map((product, i) => <SingleCartItem key={i} mainCartComp={mainCartComp} product={product} />)
 
                     :
 
                     <>
 
-                      <li className='text-center text-2xl md:text-3xl font-bold mt-2 '>🛒Cart is Empty😔, Go to home and Shopping please😊 </li>
+                      <div className='flex flex-col' >
+
+                        <p className='text-center text-2xl md:text-3xl font-bold mt-2 '>🛒Cart is Empty😔, Go to home and Shopping please😊</p>
+                        <Link
+                          to="/"
+                          className='text-center my-2 px-2 rounded border border-blue-500 text-blue-500 inline-block font-bold mx-auto hover:cursor-pointer hover:scale-125 transition-all '
+                        >Home🏠</Link>
+                      </div>
 
                     </>
 
@@ -91,74 +125,86 @@ export default function CartComponent({ mainCartComp = true }: CartCompProp) {
         {/* This is total amount div with both btns */}
         {
 
-          (mainCartComp) &&
+          (mainCartComp)
 
-          <>
-            {
+            ?
 
-              (cartData && cartData.length > 0)
+            <>
+              {
 
-                ?
-                <div className="border-t border-green-300 px-4 py-6 sm:px-6">
-                  <div className="flex justify-between text-base font-medium">
-                    <p>Subtotal</p>
-                    <p>₹262.00</p>
-                  </div>
-                  <p className="mt-0.5 text-sm ">Shipping and taxes calculated at checkout.</p>
-                  <div className="mt-6">
-                    <Link
-                      to={"/pay"}
-                      className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
-                    >
-                      Checkout
-                    </Link>
-                  </div>
-                  <div className="mt-6 flex justify-center text-center text-sm">
-                    <p>
-                      or
-                      <button
-                        type="button"
-                        className="font-medium text-indigo-600 hover:text-indigo-500 ml-1"
-                        onClick={() => navigate("/")}
+                (cartData && cartData.length > 0)
+
+                  ?
+                  <div className="border-t border-green-300 px-4 py-6 sm:px-6">
+                    <div className="flex justify-between text-base font-medium">
+                      <p>Subtotal</p>
+                      <p>₹{totalPriceOfItems()}</p>
+                    </div>
+                    <p className="mt-0.5 text-sm ">Shipping and taxes calculated at checkout.</p>
+                    <div className="mt-6">
+                      <Link
+                        to={"/pay"}
+                        className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
                       >
-                        Continue Shopping
-                        <span aria-hidden="true"> &rarr;</span>
-                      </button>
-                    </p>
+                        Checkout
+                      </Link>
+                    </div>
+                    <div className="mt-6 flex justify-center text-center text-sm">
+                      <p>
+                        or
+                        <button
+                          type="button"
+                          className="font-medium text-indigo-600 hover:text-indigo-500 ml-1"
+                          onClick={() => navigate("/")}
+                        >
+                          Continue Shopping
+                          <span aria-hidden="true"> &rarr;</span>
+                        </button>
+                      </p>
+                    </div>
                   </div>
-                </div>
 
-                :
-                <div className="border-t border-green-300 px-4 py-6 sm:px-6">
-                  <div className="flex justify-between text-base font-medium">
-                    <p>Subtotal</p>
-                    <p>NA</p>
-                  </div>
-                  <div className="mt-6">
-                    <Link
-                      to={"/pay"}
-                      className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
-                    >
-                      Shop Now
-                    </Link>
-                  </div>
-                  <div className="mt-6 flex justify-center text-center text-sm">
-                    <p>
-                      or
-                      <button
-                        type="button"
-                        className="font-medium text-indigo-600 hover:text-indigo-500 ml-1"
-                        onClick={() => navigate("/")}
+                  :
+                  <div className="border-t border-green-300 px-4 py-6 sm:px-6">
+                    <div className="flex justify-between text-base font-medium">
+                      <p>Subtotal</p>
+                      <p>NA</p>
+                    </div>
+                    <div className="mt-6">
+                      <Link
+                        to={"/"}
+                        className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
                       >
-                        Continue Shopping
-                        <span aria-hidden="true"> &rarr;</span>
-                      </button>
-                    </p>
-                  </div>
+                        Shop Now
+                      </Link>
+                    </div>
+                    <div className="mt-6 flex justify-center text-center text-sm">
+                      <p>
+                        or
+                        <button
+                          type="button"
+                          className="font-medium text-indigo-600 hover:text-indigo-500 ml-1"
+                          onClick={() => navigate("/")}
+                        >
+                          Continue Shopping
+                          <span aria-hidden="true"> &rarr;</span>
+                        </button>
+                      </p>
+                    </div>
 
-                </div>
-            }
-          </>
+                  </div>
+              }
+            </>
+
+
+            :
+
+            <>
+              <div className="flex  justify-end text-base font-medium mb-5 border-t border-green-300">
+                <p>Total amount : </p>
+                <p> ₹{totalPriceOfItems()}</p>
+              </div>
+            </>
 
         }
 

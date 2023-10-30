@@ -15,13 +15,15 @@ export interface CardDataInter extends IProduct {
 
 
 interface CartInter {
-    cartData: CardDataInter[]
+    cartData: CardDataInter[] ,
+   
 }
 
 
 
 const initialState: CartInter = {
-    cartData: []
+    cartData: [] ,
+    // totalCartvalue : 0
 }
 
 

@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { CardDataInter } from "../../Slices/CartSlice";
 import { setSingleProductData } from "../../Slices/AllProductSlice";
 import { removeOneItem, onePlusQuan, oneMinusQuan } from "../../Slices/CartSlice";
+import { makeMoreRaedablePrice } from "./CartComponent";
 
 
 const SingleCartItem = ({ product, mainCartComp }: { product: CardDataInter, mainCartComp: boolean }) => {
@@ -55,11 +56,11 @@ const SingleCartItem = ({ product, mainCartComp }: { product: CardDataInter, mai
                                             ?
                                             <>
                                                 <p className="ml-4">₹{product.price * 70} X {product.quantity}</p>
-                                                <p className={`ml-4 border-1 border-t border-1`}>₹{product.quantity * product.price * 70}</p>
+                                                <p className={`ml-4 border-1 border-t border-1`}>₹{makeMoreRaedablePrice(product.quantity * product.price * 70)}</p>
                                             </>
                                             :
                                             <>
-                                                <p className="ml-4">₹{product.quantity * product.price * 70}</p>
+                                                <p className="ml-4">₹{ makeMoreRaedablePrice(product.quantity * product.price * 70)}</p>
                                             </>
                                     }
                                 </div>
@@ -81,17 +82,19 @@ const SingleCartItem = ({ product, mainCartComp }: { product: CardDataInter, mai
                             {
                                 (!mainCartComp) &&
 
+                                // // // This div will shown in payment page
+
                                 <div className='text-start'>
                                     {
                                         (product.quantity > 1)
                                             ?
                                             <>
                                                 <p >₹{product.price * 70} X {product.quantity}</p>
-                                                <p className={` font-bold border-1 border-t border-1`}>₹{product.quantity * product.price * 70}</p>
+                                                <p className={` font-bold border-1 border-t border-1`}>₹{makeMoreRaedablePrice(product.quantity * product.price * 70)}</p>
                                             </>
                                             :
                                             <>
-                                                <p className="font-bold">₹{product.quantity * product.price * 70}</p>
+                                                <p className="font-bold">₹{makeMoreRaedablePrice(product.quantity * product.price * 70)}</p>
                                             </>
                                     }
                                 </div>
