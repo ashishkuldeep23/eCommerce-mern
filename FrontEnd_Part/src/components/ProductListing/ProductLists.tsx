@@ -15,12 +15,18 @@ export interface IProduct {
   "description": string;
   "price": number;
   "discountPercentage": number;
-  "rating": number;
-  "stock": number;
+  "rating": {
+    totalPerson : number;
+    avgRating : number;
+  };
   "brand": string;
   "category": string;
   "thumbnail": string;
   "images": string[];
+  "isHighlight" : boolean;
+
+  "isDeleted" : boolean ;
+  "review" : []
 
 }
 

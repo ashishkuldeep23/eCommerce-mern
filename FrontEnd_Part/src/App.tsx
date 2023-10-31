@@ -33,17 +33,17 @@ function App() {
     try {
 
 
-      const callingData = await fetch('https://dummyjson.com/products?limit=100')
+      const callingData = await fetch('https://e-commerce-backend-427h.onrender.com/findAllProducts')
 
       let res = await callingData.json()
 
-      // console.log(catArr)
+      // console.log(res)
 
       // setProducts(res.products)
 
       // setProductCategory(arrOfProductCat)   // // // When getting data then set into state var. 
 
-      const outPutArr = [...res.products]  // // // By using this way i can use all methods of arr.
+      const outPutArr = [...res.data]  // // // By using this way i can use all methods of arr.
 
       // console.log(outPutArr)
 

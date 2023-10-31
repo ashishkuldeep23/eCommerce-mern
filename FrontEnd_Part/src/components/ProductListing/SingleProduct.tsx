@@ -51,7 +51,7 @@ const SingleProduct = ({ product }: TProductPrope) => {
                         <div className="flex items-center">
 
                             <p className="h-5 w-5">{<StarIcon />}</p>
-                            <p>{product.rating}</p>
+                            <p>{product.rating.avgRating}</p>
                         </div>
                     </div>
 

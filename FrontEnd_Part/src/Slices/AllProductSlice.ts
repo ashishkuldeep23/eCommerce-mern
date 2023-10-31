@@ -28,12 +28,17 @@ const initialState: IAllProductsWithCat = {
         "description": "",
         "price": 0,
         "discountPercentage": 0,
-        "rating": 0,
-        "stock": 0,
+        "rating": {
+            totalPerson : 0,
+            avgRating : 0
+        },
         "brand": '',
         "category": '',
         "thumbnail": '',
-        "images": []
+        "images": [],
+        "isHighlight" : false,
+        "isDeleted" : false, 
+        "review" : []
     }
 }
 

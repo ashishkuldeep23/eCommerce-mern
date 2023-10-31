@@ -246,14 +246,14 @@ export default function ProductDetails() {
                                                                     key={i}
                                                                     id={item}  // // // Id not used anyWhere 
                                                                     className={` h-5 w-5 flex-shrink-0
-                                                    ${i < (Math.round(productDetailByFilter.rating)) ? `${!themeMode ? "text-gray-900" : "text-gray-200"}` : `${!themeMode ? "text-gray-300" : "text-gray-600"}`}
+                                                    ${i < (Math.round(productDetailByFilter.rating.avgRating)) ? `${!themeMode ? "text-gray-900" : "text-gray-200"}` : `${!themeMode ? "text-gray-300" : "text-gray-600"}`}
                                                     `}
 
                                                                 />
                                                             )
                                                         })
                                                     }
-                                                    <p className=' font-bold pl-1'>{productDetailByFilter.rating}</p>
+                                                    <p className=' font-bold pl-1'>{productDetailByFilter.rating.avgRating}</p>
                                                 </div>
 
 

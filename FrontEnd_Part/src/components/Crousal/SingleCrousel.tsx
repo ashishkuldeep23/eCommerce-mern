@@ -62,8 +62,9 @@ const SingleCrousel = ({ item, i, crousalItems }: TSingleCrouselPropes) => {
                 className="absolute flex justify-between transform -translate-y-1/2 left-0 right-0 top-1/2"
                 onClick={ (e)=>{e.stopPropagation()} }
                 >
-                    <a href={`#slide${(i !== 0) ? i - 1 : crousalItems.length - 1}`} className="btn btn-circle bg-transparent border-0 text-4xl ml-0">❮</a>
-                    <a href={`#slide${(i !== crousalItems.length - 1) ? i + 1 : 0}`} className="btn btn-circle bg-transparent border-0 text-4xl ml-0">❯</a>
+                    {/* <a href={`/#/#slide${(i !== 0) ? i - 1 : crousalItems.length - 1}`} className="btn btn-circle bg-transparent border-0 text-4xl ml-0">❮</a>
+                    <a href={`/#/#slide${(i !== crousalItems.length - 1) ? i + 1 : 0}`} className="btn btn-circle bg-transparent border-0 text-4xl ml-0">❯</a> */}
+
                 </div>
             </div>
 
