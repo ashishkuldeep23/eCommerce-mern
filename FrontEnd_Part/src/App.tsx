@@ -14,7 +14,7 @@ import { ToastContainer, toast } from "react-toastify"
 import { useDispatch } from "react-redux"
 import { loadDataIntoState } from "./Slices/AllProductSlice"
 import { setModeOnLoad } from "./Slices/ThemeSlices"
-import { loadCartFromLoacl } from "./Slices/CartSlice"
+import { loadCartFromLoacal } from "./Slices/CartSlice"
 
 
 
@@ -71,7 +71,7 @@ function App() {
       if (getLocalCardData) {
         getLocalCardData = JSON.parse(getLocalCardData)
 
-        dispatch(loadCartFromLoacl({ data: getLocalCardData }))    // // // Here calling data and loading into localHost.
+        dispatch(loadCartFromLoacal({ data: getLocalCardData }))    // // // Here calling data and loading into localHost.
 
       }
 

@@ -32,7 +32,7 @@ const cartSlice = createSlice({
     initialState,
     reducers: {
 
-        loadCartFromLoacl(state, action) {
+        loadCartFromLoacal(state, action) {
             state.cartData = action.payload.data
         },
 
@@ -163,7 +163,7 @@ const cartSlice = createSlice({
 
 
 
-export const { addItemInCart, removeOneItem, loadCartFromLoacl , onePlusQuan , oneMinusQuan } = cartSlice.actions
+export const { addItemInCart, removeOneItem, loadCartFromLoacal , onePlusQuan , oneMinusQuan } = cartSlice.actions
 
 export default cartSlice.reducer
 
