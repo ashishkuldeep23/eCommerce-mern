@@ -4,6 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var mongoose = require("mongoose")
+var cors = require('cors')
 
 var indexRouter = require('./src/routes/routes');
 
@@ -26,12 +27,13 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(cors())
 
 
 // // // Mongo DB connection code 
 mongoose.connect("mongodb+srv://ashishkuldeep23:RAPXp7lktCcf8jBm@cluster0.xtascce.mongodb.net/e_commerce", { useNewUrlParser: true })
-  .then(() => console.log("Mongoose connected successfully"))
-  .catch((err) => { console.log("An error occured :- " + err) })
+.then(() => console.log("Mongoose connected successfully"))
+.catch((err) => { console.log("An error occured :- " + err) })
 
 
 
