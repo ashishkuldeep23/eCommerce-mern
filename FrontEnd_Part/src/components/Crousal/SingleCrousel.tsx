@@ -25,7 +25,7 @@ const holderDivStyle = {
 }
 
 
-const SingleCrousel = ({ item, i, crousalItems }: TSingleCrouselPropes) => {
+const SingleCrousel = ({ item, i }: TSingleCrouselPropes) => {
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
