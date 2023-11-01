@@ -9,99 +9,34 @@ import { Routes, Route } from "react-router-dom"
 import CartScreen from "./Screens/CartScreen"
 import PaymentScreen from "./Screens/PaymentScreen"
 import { useEffect } from "react"
-import { ToastContainer, toast } from "react-toastify"
+import { ToastContainer } from "react-toastify"
 
 import { useDispatch } from "react-redux"
-import { loadDataIntoState } from "./Slices/AllProductSlice"
+import { AppDispatch } from "./store"
+import { fetchAllProducts } from "./Slices/AllProductSlice"
 import { setModeOnLoad } from "./Slices/ThemeSlices"
-import { loadCartFromLoacal } from "./Slices/CartSlice"
-
-
 
 
 function App() {
 
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch<AppDispatch>()
 
 
   // // // This fn will call Backend to get data ------>
-  async function loadData() {
-
-    // const roductCat = ["smartphones", "laptops", "fragrances", "skincare", "groceries", "home-decoration"]
-
-    try {
-
-      console.log(import.meta.env.VITE_BACKEND_URL)
-
-      const callingData = await fetch(`${import.meta.env.VITE_BACKEND_URL}/findAllProducts`)
-
-      let res = await callingData.json()
-
-      // console.log(res)
-
-      // setProducts(res.products)
-
-      // setProductCategory(arrOfProductCat)   // // // When getting data then set into state var. 
-
-      const outPutArr = [...res.data]  // // // By using this way i can use all methods of arr.
-
-      // console.log(outPutArr)
-
-      const allCategoryOfProducts = [...new Set(outPutArr.map(ele => ele.category))]     // // // taking all  categoriy from output arr.
-
-      // console.log(allCategoryOfProducts)
-
-
-      let loadObjInState = {
-        allProducts: outPutArr,
-        allCaegory: allCategoryOfProducts,
-        allHighlightProducts: outPutArr.slice(4, 9)
-      }
-
-      // // // Load all Products --->
-      dispatch(loadDataIntoState(loadObjInState))
-
-
-      // // //Load Cart here (That present in localStorage of Browser ) ------>
-
-
-
-      let getLocalCardData = localStorage.getItem("cardData")
-
-      if (getLocalCardData) {
-        getLocalCardData = JSON.parse(getLocalCardData)
-
-        dispatch(loadCartFromLoacal({ data: getLocalCardData }))    // // // Here calling data and loading into localHost.
-
-      }
-
-
-
-
-
-    } catch (e: any) {
-      console.log(e?.message)
-      // alert(`${e?.message} | Try again , Open network data.`)
-      toast.error(`${e?.message} | Try again , Open network data.`, {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
-    }
-
-
-  }
 
 
   useEffect(() => {
+    
+    dispatch(fetchAllProducts())
 
-    loadData()
+    //  let get =  fetchAllProducts()
+
+    // console.log(get)
+
+
+
+    // loadData()
 
     // // // Setting theme --->
     let mode = localStorage.getItem("ECommDark")
