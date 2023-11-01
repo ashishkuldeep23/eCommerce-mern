@@ -5,7 +5,7 @@ import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit"
 
 import { IProduct } from "../components/ProductListing/ProductLists"
 
-
+import {  toast } from "react-toastify"
 
 
 
@@ -95,7 +95,8 @@ const allProductsCatSlice = createSlice({
 
         setFilterItems(state, action) {
             state.allProducts = action.payload.allProducts
-        }
+        },
+
 
     },
 
@@ -116,7 +117,19 @@ const allProductsCatSlice = createSlice({
 
         builder.addCase(fetchAllProducts.rejected, (state , action) => {
             state.isError = true;
-            console.log(action.payload)
+
+            // console.log(action.error.message)
+
+            toast.error(`${action.error.message} | Check your Network | Refresh the page`, {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
         })
 
     }

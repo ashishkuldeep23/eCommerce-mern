@@ -158,7 +158,26 @@ const cartSlice = createSlice({
         },
 
 
-    }
+    },
+
+
+    extraReducers : (builder)=>[
+
+        builder
+            .addCase( "fetchProducts/fulfilled" , ( state ) => {
+                console.log("From Cart")
+
+                let getCartLocal = localStorage.getItem("cardData")
+
+                if(getCartLocal){
+                    state.cartData = JSON.parse(getCartLocal)
+                }
+
+            } )
+
+    ]
+
+
 })
 
 
