@@ -27,7 +27,7 @@ export default {
 
     extend: {
       height : {
-        allAk : "100vh"
+        allAk : "100vh" ,
       },
       maxWidth : {
         allAk : "87rem"

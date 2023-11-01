@@ -6,11 +6,10 @@
 import NavBar from "../components/NavBar/NavBar"
 import ProductLists from "../components/ProductListing/ProductLists"
 
-import Crousal from "../components/Crousal/Crousal"
-
 
 import FilterSection from "../components/FilterSection/FilerSection"
 
+import NewCrousel from "../components/Crousal/NewCrousel"
 
 
 
@@ -25,7 +24,7 @@ const HomePage = () => {
 
       {/* <CartComponent /> */}
 
-      <Crousal />
+      <NewCrousel />
 
       <FilterSection >
         <ProductLists />

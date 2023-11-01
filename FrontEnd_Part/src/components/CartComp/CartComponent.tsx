@@ -6,10 +6,6 @@ import SingleCartItem from "./SingleCartItem"
 
 
 
-export type CartCompProp = {
-  mainCartComp?: boolean
-}
-
 
 // // // This fn is used to create more readable number
 export function makeMoreRaedablePrice(num: number): string {
@@ -18,8 +14,13 @@ export function makeMoreRaedablePrice(num: number): string {
     .NumberFormat('en-IN').format(num)
 
   // console.log(newPrice)
-
   return newPrice;
+}
+
+
+
+export type CartCompProp = {
+  mainCartComp?: boolean
 }
 
 
@@ -39,7 +40,7 @@ export default function CartComponent({ mainCartComp = true }: CartCompProp) {
 
     // console.log("ok")
 
-    let num = cartData.reduce((sum, items) => { return sum + (items.price * items.quantity * 70) }, 0)
+    let num = cartData.reduce((sum, items) => { return sum + (items.price * items.quantity) }, 0)
 
     // console.log(num)
 

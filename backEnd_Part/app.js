@@ -31,7 +31,7 @@ app.use(cors())
 
 
 // // // Mongo DB connection code 
-mongoose.connect("mongodb+srv://ashishkuldeep23:RAPXp7lktCcf8jBm@cluster0.xtascce.mongodb.net/e_commerce", { useNewUrlParser: true })
+mongoose.connect(process.env.DB_STRING, { useNewUrlParser: true })
 .then(() => console.log("Mongoose connected successfully"))
 .catch((err) => { console.log("An error occured :- " + err) })
 

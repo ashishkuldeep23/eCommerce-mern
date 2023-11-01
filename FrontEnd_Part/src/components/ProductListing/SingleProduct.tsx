@@ -63,7 +63,7 @@ const SingleProduct = ({ product }: TProductPrope) => {
                         {
                             product.discountPercentage
                                 ?
-                                <p className={`text-lg text-end font-medium ${!themeMode ? "text-gray-900" : "text-gray-300"} `}> <span className=' text-sm font-thin line-through'>₹{product.price * 70}</span> ₹{ ( Math.round(product.price - ((product.discountPercentage * product.price) / 100)) ) * 70 }</p>
+                                <p className={`text-lg text-end font-medium ${!themeMode ? "text-gray-900" : "text-gray-300"} `}> <span className=' text-sm font-thin line-through'>₹{product.price }</span> ₹{ ( Math.round(product.price - ((product.discountPercentage * product.price) / 100)) ) }</p>
 
                                 :
                                 <p className={`text-lg text-end font-medium ${!themeMode ? "text-gray-900" : "text-gray-300"} `}> ₹{product.price} </p>

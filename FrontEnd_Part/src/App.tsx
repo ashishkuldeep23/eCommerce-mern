@@ -32,8 +32,9 @@ function App() {
 
     try {
 
+      console.log(import.meta.env.VITE_BACKEND_URL)
 
-      const callingData = await fetch('https://e-commerce-backend-427h.onrender.com/findAllProducts')
+      const callingData = await fetch(`${import.meta.env.VITE_BACKEND_URL}/findAllProducts`)
 
       let res = await callingData.json()
 
