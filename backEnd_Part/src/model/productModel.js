@@ -2,17 +2,15 @@
 const mongoose = require("mongoose")
 
 
-
-var uuid = require('node-uuid');
-
+const uuid = require("uuid")
 
 const productSchema = new mongoose.Schema({
 
     id: {
         type: String,
         unique: true,
-        required : true,
-        default: () => uuid.v1()
+        required: true,
+        default: () => uuid.v4()
     },
 
     title: {
@@ -68,34 +66,32 @@ const productSchema = new mongoose.Schema({
 
     brand: String,
 
-    review : {
-        type : [mongoose.Schema.Types.ObjectId] ,
-        ref : "review"
+    review: {
+        type: [mongoose.Schema.Types.ObjectId],
+        ref: "review"
     },
 
     rating: {
         totalPerson: Number,
         avgRating: {
             type: Number,
-            min: 0,
-            max: 5,
             default: 0
         }
     },
-    
+
 
     category: String,
     thumbnail: String,
     images: {
         type: Array,
     },
-    isHighlight : {
-        type : Boolean ,
-        default : false
+    isHighlight: {
+        type: Boolean,
+        default: false
     },
-    isDeleted : {
-        type : Boolean ,
-        default : false
+    isDeleted: {
+        type: Boolean,
+        default: false
     }
 
 },

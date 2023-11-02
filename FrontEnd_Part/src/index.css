@@ -64,7 +64,7 @@ input::-webkit-inner-spin-button {
 
 
 .withAllImp{
-    width: 100vw !important;
+    width: 90vw !important;
 }
 
 .singleCrousel{
@@ -124,6 +124,10 @@ input::-webkit-inner-spin-button {
 
 
 @media (max-width : 640px) {
+
+    .withAllImp{
+        width: 100vw !important;
+    }
 
     #crouselHolderDiv {
        width: 100%;

@@ -5,17 +5,29 @@ import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit"
 
 import { IProduct } from "../components/ProductListing/ProductLists"
 
-import {  toast } from "react-toastify"
+import { toast } from "react-toastify"
 
 
 
 export const fetchAllProducts = createAsyncThunk("fetchProducts", async () => {
-
     const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/findAllProducts`)
     let data = await response.json();
     return data
 })
 
+
+type productId = {
+    productId: string | number
+}
+
+export const fetchOneProductByID = createAsyncThunk("fetchSingleProduct/:id", async ({ productId }: productId) => {
+
+    // console.log(productId)
+
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/findOneProduct/${productId}`)
+    let data = await response.json();
+    return data
+})
 
 
 
@@ -26,6 +38,7 @@ interface IAllProductsWithCat {
     allCaegory: string[],
     allHighlightProducts: IProduct[],
     singleProductData: IProduct,
+    simmilarProductWithOnePro : IProduct[] ,
     isLoading: boolean,
     isError: boolean
 }
@@ -39,9 +52,17 @@ const initialState: IAllProductsWithCat = {
     singleProductData: {
         "id": 0,
         "title": "",
-        "description": "",
+        "description": {
+            fullName: "",
+            aboutProduct: "",
+            highLights: [],
+            specifications: [{}],
+            product_Details: [{}],
+            dimensions: [{}]
+        },
         "price": 0,
         "discountPercentage": 0,
+        type: [],
         "rating": {
             totalPerson: 0,
             avgRating: 0
@@ -53,7 +74,12 @@ const initialState: IAllProductsWithCat = {
         "isHighlight": false,
         "isDeleted": false,
         "review": []
+
+
     },
+
+    simmilarProductWithOnePro : [],
+
     isLoading: false,
     isError: false
 }
@@ -115,7 +141,7 @@ const allProductsCatSlice = createSlice({
             // console.log(action.payload)
         })
 
-        builder.addCase(fetchAllProducts.rejected, (state , action) => {
+        builder.addCase(fetchAllProducts.rejected, (state, action) => {
             state.isError = true;
 
             // console.log(action.error.message)
@@ -131,6 +157,39 @@ const allProductsCatSlice = createSlice({
                 theme: "dark",
             });
         })
+
+
+
+            .addCase(fetchOneProductByID.pending, () => {
+                console.log("Getting Data from Backend.")
+            })
+
+            .addCase(fetchOneProductByID.fulfilled, (state, action) => {
+             
+
+                // console.log(action.payload)
+
+                state.singleProductData = action.payload.data
+                state.simmilarProductWithOnePro = action.payload.simmilarProductExceptThis
+
+
+            })
+
+            .addCase(fetchOneProductByID.rejected, (state, action) => {
+
+                state.isError = true
+                toast.error(`${action.error.message} | Check your Network | Refresh the page`, {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                });
+            })
+
 
     }
 

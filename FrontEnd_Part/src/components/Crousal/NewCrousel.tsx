@@ -2,10 +2,11 @@
 import { useState } from 'react';
 import ReactSimplyCarousel from 'react-simply-carousel';
 import { useDispatch, useSelector } from "react-redux"
-import { RootState } from "../../store"
+import { AppDispatch, RootState } from "../../store"
 import { IProduct } from "../ProductListing/ProductLists"
 import { useNavigate } from 'react-router-dom';
 import { setSingleProductData } from '../../Slices/AllProductSlice';
+import { fetchOneProductByID } from '../../Slices/AllProductSlice';
 
 
 const NewCrousel = () => {
@@ -19,7 +20,7 @@ const NewCrousel = () => {
 
 
     const navigate = useNavigate();
-    const dispatch = useDispatch()
+    const dispatch = useDispatch<AppDispatch>()
 
 
     const holderDivStyle = {
@@ -80,19 +81,19 @@ const NewCrousel = () => {
 
                             crousalItems.map((item, i) => {
                                 return (
-                                    <div key={i} className='withAllImp singleCrousel relative  h-crH hover:cursor-pointer'>
+                                    <div key={i} className='withAllImp singleCrousel  flex justify-center  h-crH hover:cursor-pointer'>
 
                                         <div
                                             style={{ backgroundImage: `url(${item.images[1]})`, ...holderDivStyle }}
-                                            className="carousel-item relative w-full h-full hover:cursor-pointer box-content flex "
-                                        onClick={() => { navigate("/product"); dispatch(setSingleProductData({ id: item.id })) }}
+                                            className="carousel-item   h-full hover:cursor-pointer box-content flex justify-around  w-full  "
+                                            onClick={() => { navigate("/product"); dispatch(setSingleProductData({ id: item.id })); dispatch(fetchOneProductByID({productId : item.id})); }}
                                         >
 
-                                            <img src={item.thumbnail}
-                                                className=" w-full  object-contain rounded"
-                                            />
+                                            {/* <img src={item.thumbnail}
+                                                className="  w-auto object-contain rounded"
+                                            /> */}
 
-                                            <p className=" text-sm md:text-3xl text-teal-300 text-center  absolute bottom-5 left-1/2 -translate-x-3/4 ">
+                                            <p className=" text-sm md:text-3xl text-teal-300 text-center  absolute bottom-5 ">
                                                 {item.title} :
 
                                                 {

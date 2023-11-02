@@ -39,7 +39,7 @@ async function findAllProducts(req, res) {
 
     // console.log(1555)
 
-    const findAllProducts = await productModel.find({ isDeleted: false }).select('-_id -updatedAt -createdAt -__v -description -type').populate("review")
+    const findAllProducts = await productModel.find({ isDeleted: false }).select('-_id -updatedAt -createdAt -__v -description -type -review').populate("review")
 
 
     const allCategoryOfProducts = [...new Set(findAllProducts.map(ele => ele.category))]
@@ -75,22 +75,22 @@ async function findOneProduct(req, res) {
 
 
     // // // Here finding all reviews about this product
-    let findAllReview = await reviewModel.find({ product: product._id }).select('-id -updatedAt -createdAt -__v')
+    let findAllReview = await reviewModel.find({ productID: product._id }).sort({createdAt : "-1"}).select('-userId -productID -isDeleted -_id  -updatedAt -createdAt -__v')
 
-    // console.log(findAllReview , product._id)
+    // console.log(findAllReview )
 
     // // //.lean() is used means we can modify the object.
     product.review = findAllReview      // // // storing all revies inside review key of product object.
 
 
-
+    // // // Show simmilar products ------------>
     let simmilarProducts = await productModel.find({ category : product.category , isDeleted : false }).select('-_id -updatedAt -createdAt -__v -description -type -review')
 
     // console.log(simmilarProducts)
 
     let simmilarProductExceptThis = simmilarProducts.filter( item => item.id !== product.id )
 
-    console.log(simmilarProductExceptThis)
+    // console.log(simmilarProductExceptThis)
 
     delete product._id                  // // // Deleting _id of product because i don't want to show it on frontEnd.
 

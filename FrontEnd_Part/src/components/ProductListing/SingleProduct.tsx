@@ -3,8 +3,9 @@
 import { StarIcon } from '@heroicons/react/24/outline'
 import { useSelector, useDispatch } from "react-redux"
 import { setSingleProductData } from "../../Slices/AllProductSlice"
+import { fetchOneProductByID } from '../../Slices/AllProductSlice'
 import { IProduct } from "./ProductLists"
-import { RootState } from "../../store"
+import { AppDispatch, RootState } from "../../store"
 import { useNavigate } from 'react-router-dom'
 
 
@@ -17,7 +18,7 @@ const SingleProduct = ({ product }: TProductPrope) => {
 
 
     const themeMode = useSelector((store: RootState) => store.themeReducer.mode)
-    const dispatch = useDispatch()
+    const dispatch = useDispatch<AppDispatch>()
     const navigate = useNavigate()
 
     return (
@@ -28,7 +29,7 @@ const SingleProduct = ({ product }: TProductPrope) => {
                 key={product.id}
                 // href={"/product"}
                 className=" min-h-52 h-auto  rounded w-72  mb-5  mx-2 hover:cursor-pointer "
-                onClick={() => { navigate("/product"); dispatch(setSingleProductData({ id: product.id }))  }}
+                onClick={() => { navigate("/product"); dispatch(setSingleProductData({ id: product.id })); dispatch(fetchOneProductByID({productId : product.id}));  }}
                 id='singleCardHolder'
             >
                 <div className=" rounded-lg overflow-hidden">
@@ -42,9 +43,9 @@ const SingleProduct = ({ product }: TProductPrope) => {
                 <div className="flex justify-between pt-5  px-2  ">
 
                     <div>
-                        <h3 
-                        className={` ${!themeMode ? "text-gray-700" : " text-gray-100 "} text-xl capitalize `}
-                        id="headingOfProduct"
+                        <h3
+                            className={` ${!themeMode ? "text-gray-700" : " text-gray-100 "} text-xl capitalize `}
+                            id="headingOfProduct"
                         >{product.title}</h3>
                         {/* <h3 className={` ${!themeMode ? "text-gray-700" : " text-gray-100 "}  `}>{product.category}</h3> */}
 
@@ -63,7 +64,7 @@ const SingleProduct = ({ product }: TProductPrope) => {
                         {
                             product.discountPercentage
                                 ?
-                                <p className={`text-lg text-end font-medium ${!themeMode ? "text-gray-900" : "text-gray-300"} `}> <span className=' text-sm font-thin line-through'>₹{product.price }</span> ₹{ ( Math.round(product.price - ((product.discountPercentage * product.price) / 100)) ) }</p>
+                                <p className={`text-lg text-end font-medium ${!themeMode ? "text-gray-900" : "text-gray-300"} `}> <span className=' text-sm font-thin line-through'>₹{product.price}</span> ₹{(Math.round(product.price - ((product.discountPercentage * product.price) / 100)))}</p>
 
                                 :
                                 <p className={`text-lg text-end font-medium ${!themeMode ? "text-gray-900" : "text-gray-300"} `}> ₹{product.price} </p>
