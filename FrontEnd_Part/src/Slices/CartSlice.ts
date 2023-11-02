@@ -165,7 +165,7 @@ const cartSlice = createSlice({
 
         builder
             .addCase( "fetchProducts/fulfilled" , ( state ) => {
-                console.log("From Cart")
+                // console.log("From Cart")
 
                 let getCartLocal = localStorage.getItem("cardData")
 
