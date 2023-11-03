@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch, RootState } from "../../store"
 import { IProduct } from "../ProductListing/ProductLists"
 import { useNavigate } from 'react-router-dom';
-import { setSingleProductData } from '../../Slices/AllProductSlice';
+import { setSingleOProductId, setSingleProductData } from '../../Slices/AllProductSlice';
 import { fetchOneProductByID } from '../../Slices/AllProductSlice';
 
 
@@ -86,7 +86,7 @@ const NewCrousel = () => {
                                         <div
                                             style={{ backgroundImage: `url(${item.images[1]})`, ...holderDivStyle }}
                                             className="carousel-item   h-full hover:cursor-pointer box-content flex justify-around  w-full  "
-                                            onClick={() => { navigate("/product"); dispatch(setSingleProductData({ id: item.id })); dispatch(fetchOneProductByID({productId : item.id})); }}
+                                            onClick={() => { navigate("/product"); dispatch(setSingleProductData({ id: item.id })); dispatch(fetchOneProductByID({productId : item.id})); dispatch(setSingleOProductId({id : item.id}))  }}
                                         >
 
                                             {/* <img src={item.thumbnail}

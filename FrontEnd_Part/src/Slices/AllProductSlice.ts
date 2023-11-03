@@ -37,6 +37,7 @@ interface IAllProductsWithCat {
     allProducts: IProduct[],
     allCaegory: string[],
     allHighlightProducts: IProduct[],
+    singleProductId : string | number ,
     singleProductData: IProduct,
     simmilarProductWithOnePro : IProduct[] ,
     isLoading: boolean,
@@ -49,6 +50,7 @@ const initialState: IAllProductsWithCat = {
     allProducts: [],
     allCaegory: [],
     allHighlightProducts: [],
+    singleProductId : "" ,
     singleProductData: {
         "id": 0,
         "title": "",
@@ -99,6 +101,7 @@ const allProductsCatSlice = createSlice({
             // state.singleProductData = action.payload.allProducts[1]
         },
 
+        
         setSingleProductData(state, action) {
 
             let getUpdatedData = current(state)
@@ -116,6 +119,17 @@ const allProductsCatSlice = createSlice({
             // console.log(getSingleItem[0])
 
             state.singleProductData = getSingleItem[0]
+        },
+
+
+        setSingleOProductId(state , action){
+
+            // console.log(action.payload)
+
+            state.singleProductId = action.payload.id
+
+            localStorage.setItem( "singleProductId" , JSON.stringify(action.payload.id) )
+
         },
 
 
@@ -161,18 +175,15 @@ const allProductsCatSlice = createSlice({
 
 
             .addCase(fetchOneProductByID.pending, () => {
-                console.log("Getting Data from Backend.")
+                console.log("Getting Data from Backend. Now pending")
             })
 
             .addCase(fetchOneProductByID.fulfilled, (state, action) => {
              
-
                 // console.log(action.payload)
 
                 state.singleProductData = action.payload.data
                 state.simmilarProductWithOnePro = action.payload.simmilarProductExceptThis
-
-
             })
 
             .addCase(fetchOneProductByID.rejected, (state, action) => {
@@ -196,7 +207,7 @@ const allProductsCatSlice = createSlice({
 })
 
 
-export const { loadDataIntoState, setSingleProductData, setFilterItems } = allProductsCatSlice.actions
+export const { loadDataIntoState, setSingleProductData, setFilterItems , setSingleOProductId} = allProductsCatSlice.actions
 
 export default allProductsCatSlice.reducer
 

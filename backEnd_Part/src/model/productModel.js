@@ -53,12 +53,19 @@ const productSchema = new mongoose.Schema({
     },
 
     type: [
-        {
-            // typeName: [String, String],
-            // // // [key , value] ex : ["color" , "white"]
-            // typeStock: Number,
-            // typeVerity: [String, String]
-            // // // [key , value] ex : ["RAM-ROM" , "4-64"]
+        {   
+            _id: false,
+            
+            typeName: [String, String],
+            // // [key , value] ex : ["color" , "white"]
+            typeVerity: [String, String],
+            // // [key , value] ex : ["RAM-ROM" , "4-64"]
+            typeStock: Number,
+            typeId: {
+                type: String,
+                default: () => uuid.v4()
+            }
+            
         }
     ],
 
@@ -95,7 +102,7 @@ const productSchema = new mongoose.Schema({
     }
 
 },
-    { timestamps: true }
+    {  timestamps: true }
 )
 
 

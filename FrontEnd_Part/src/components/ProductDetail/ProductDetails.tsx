@@ -1,22 +1,16 @@
 import { useEffect, useState } from 'react'
 import { StarIcon } from '@heroicons/react/20/solid'
 import { useSelector, useDispatch } from 'react-redux'
-import { RootState } from '../../store'
+import { AppDispatch, RootState } from '../../store'
 import { addItemInCart } from '../../Slices/CartSlice'
 import { toast } from "react-toastify"
 import 'react-toastify/ReactToastify.css';
 import SingleProduct from '../ProductListing/SingleProduct'
 import { useNavigate } from 'react-router-dom'
+import { fetchOneProductByID } from '../../Slices/AllProductSlice'
 
 
 
-
-type TypeObject = {
-    typeName: string[],
-    typeStock: number,
-    typeVerity: string[],
-    isChanged: boolean
-}
 
 
 type ReviewData = {
@@ -38,6 +32,14 @@ type ReviewData = {
 
 
 
+type TypeObject = {
+    typeName: string[],
+    typeStock: number,
+    typeVerity: string[],
+    isChanged: boolean
+}
+
+
 
 
 export default function ProductDetails() {
@@ -47,7 +49,7 @@ export default function ProductDetails() {
         typeName: [""],
         typeVerity: [""],
         typeStock: 0,
-        isChanged: false
+        isChanged: false    // // // Just to check option chenged or not
     })
 
     // console.log(type)
@@ -55,7 +57,7 @@ export default function ProductDetails() {
 
     const themeMode = useSelector((state: RootState) => state.themeReducer.mode)
 
-    const dispatch = useDispatch()
+    const dispatch = useDispatch<AppDispatch>()
 
     const navigate = useNavigate()
 
@@ -64,6 +66,8 @@ export default function ProductDetails() {
 
 
     const productDetailByFilter = useSelector((store: RootState) => store.allProductWithCatReducer.singleProductData)
+
+    const productId = useSelector((store: RootState) => store.allProductWithCatReducer.singleProductId)
 
     const simmilarProducts = useSelector((store: RootState) => store.allProductWithCatReducer.simmilarProductWithOnePro)
 
@@ -80,7 +84,7 @@ export default function ProductDetails() {
         // console.log(productDetailByFilter)
 
         e.stopPropagation();
-        e.preventDefault();
+        // e.preventDefault();
 
         const { id, title, price } = productDetailByFilter
 
@@ -128,7 +132,7 @@ export default function ProductDetails() {
         // console.log(newObjWithType)
 
 
-        let addaleCartItem = { ...newObjWithType, quantity: 1, verity: { a: 1 } }
+        let addaleCartItem = { ...newObjWithType, quantity: 1, verity: { ...type } }
 
         dispatch(addItemInCart(addaleCartItem))    // // // Adding into cart state
 
@@ -151,7 +155,6 @@ export default function ProductDetails() {
 
 
 
-
     // const mainDivRef = useRef<HTMLDivElement>(null)  // // Generics should given outerwise it will give err.
     // // // Type is imprtant of useRef ----> (Above will remove null error)
 
@@ -159,6 +162,32 @@ export default function ProductDetails() {
 
 
         window.scroll(0, 0)   // // // This line is responsibil for scrooling the window
+
+
+        // console.log(productId)
+        /// // // This if check any data present in store with productId ----> (if not)
+        if (!productId) {
+            // alert("Goood to go chief")
+
+            let getIdOfProductLastView = localStorage.getItem("singleProductId")
+
+            // // // // If product id saved in localhost then go inside or not.
+            if (getIdOfProductLastView) {
+
+                getIdOfProductLastView = JSON.parse(getIdOfProductLastView)
+
+                // console.log(getIdOfProductLastView)
+
+                // // // Here checking data is present in store or not ---->
+                if (productDetailByFilter.images.length === 0) {
+
+                    getIdOfProductLastView && dispatch(fetchOneProductByID({ productId: getIdOfProductLastView }))
+                }
+
+            }
+
+        }
+
 
 
         // console.log("Calling Backend...")
@@ -306,10 +335,10 @@ export default function ProductDetails() {
 
                                                 <h3 className="text-sm font-medium capitalize "> Available options  </h3>
 
-
-
                                                 {/* <p>{JSON.stringify(type)}</p> */}
                                                 <form >{
+
+                                                    // // // Mapping all option --->
 
                                                     productDetailByFilter?.type?.map((item, i) => {
                                                         return <div className='my-2' key={i}>
@@ -318,10 +347,10 @@ export default function ProductDetails() {
 
                                                             <label
 
-                                                                className=' font-semibold mx-2 px-2 border border-blue-600 rounded hover:cursor-pointer hover:bg-blue-600 hover:text-white capitalize '
+                                                                className=' font-semibold mx-2 px-2 border border-blue-600 rounded hover:cursor-pointer hover:bg-blue-600 hover:text-white capitalize  inline-flex  items-start'
 
                                                                 htmlFor={`type${i}`}
-                                                            >{` ${item.typeName[0]} :  ${item.typeName[1]} ${item.typeVerity[0]} : ${item.typeVerity[1]} Stocks : ${item.typeStock}`}</label>
+                                                            >{`${item.typeName[0]} :  ${item.typeName[1]} | ${item.typeVerity[0]} : ${item.typeVerity[1]} | Stocks : ${item.typeStock}`}</label>
 
                                                         </div>
                                                     })
@@ -357,200 +386,180 @@ export default function ProductDetails() {
 
                                 {/* This is the code for project details */}
                                 {/* Product info */}
-                                <div className="mx-auto max-w-2xl px-4 pb-16 pt-10 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-2 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8 lg:pb-24 lg:pt-16  " >
+                                <div className="mx-auto max-w-2xl px-4 pt-10 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-2 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8  lg:pt-16  " >
                                     <div className="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
                                         <h1 className="text-2xl font-bold tracking-tight sm:text-3xl capitalize underline">{productDetailByFilter.title}</h1>
                                     </div>
 
 
 
-                                    <div className="py-10 lg:col-span-2 lg:col-start-1 lg:border-r lg:border-gray-200 lg:pb-16 lg:pr-8 lg:pt-6">
+                                    <div className="py-10 lg:col-span-2 lg:col-start-1 lg:border-r lg:border-gray-200 lg:pb-16 lg:pr-8 lg:pt-6 flex  justify-between flex-col md:flex-row md:items-center">
                                         {/* Description and details */}
-                                        <div>
-                                            <h3 className="sr-only">Description</h3>
 
-                                            <div className="space-y-6">
-                                                <p className="text-base ">{productDetailByFilter && productDetailByFilter.description?.aboutProduct}</p>
+                                        <div className=' md:w-1/2  '>
+
+
+
+                                            <div>
+                                                <h3 className="sr-only">Description</h3>
+
+                                                <div className="space-y-6">
+                                                    <p className="text-base ">{productDetailByFilter && productDetailByFilter.description?.aboutProduct}</p>
+                                                </div>
                                             </div>
-                                        </div>
 
-                                        <div className="mt-10">
-                                            <h3 className="text-sm font-medium ">Highlights</h3>
+                                            <div className="mt-10">
+                                                <h3 className="text-sm font-medium ">Highlights</h3>
 
-                                            <div className="mt-4">
-                                                <ul role="list" className="list-disc space-y-2 pl-4 text-sm">
-                                                    {productDetailByFilter && productDetailByFilter.description?.highLights.map((highlight, i) => (
-                                                        <li key={i}>
-                                                            <span>{highlight}</span>
-                                                        </li>
-                                                    ))}
-                                                </ul>
-                                            </div>
-                                        </div>
-
-                                        <div className="mt-10">
-                                            <h3 className="text-sm font-medium ">Specifications</h3>
-
-                                            <div className="mt-4">
-
-                                                <table>
-
-                                                    <tbody>
-
-                                                        {productDetailByFilter && productDetailByFilter.description?.specifications.map((specs, i) => (
-                                                            <tr className=' border-b' key={i}>
-                                                                {/* {JSON.stringify(specs)} */}
-
-                                                                <td className='pr-5 capitalize'>{`${Object.keys(specs)[0]}`}</td>
-                                                                <td>{`${Object.values(specs)[0]}`}</td>
-
-                                                            </tr>
+                                                <div className="mt-4">
+                                                    <ul role="list" className="list-disc space-y-2 pl-4 text-sm">
+                                                        {productDetailByFilter && productDetailByFilter.description?.highLights.map((highlight, i) => (
+                                                            <li key={i}>
+                                                                <span>{highlight}</span>
+                                                            </li>
                                                         ))}
-
-                                                    </tbody>
-                                                </table>
+                                                    </ul>
+                                                </div>
                                             </div>
+
+                                            <div className="mt-10">
+                                                <h3 className="text-sm font-medium ">Specifications</h3>
+
+                                                <div className="mt-4">
+
+                                                    <table>
+
+                                                        <tbody>
+
+                                                            {productDetailByFilter && productDetailByFilter.description?.specifications.map((specs, i) => (
+                                                                <tr className=' border-b' key={i}>
+                                                                    {/* {JSON.stringify(specs)} */}
+
+                                                                    <td className='pr-5 capitalize'>{`${Object.keys(specs)[0]}`}</td>
+                                                                    <td>{`${Object.values(specs)[0]}`}</td>
+
+                                                                </tr>
+                                                            ))}
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+
+
+
+                                            <div className="mt-10">
+                                                <h3 className="text-sm font-medium ">Details</h3>
+
+                                                <div className="mt-4">
+
+                                                    <table>
+
+                                                        <tbody>
+
+                                                            {productDetailByFilter && productDetailByFilter.description?.product_Details.map((specs, i) => (
+                                                                <tr className=' border-b' key={i}>
+                                                                    {/* {JSON.stringify(specs)} */}
+
+                                                                    <td className='pr-5 capitalize'>{`${Object.keys(specs)[0]}`}</td>
+                                                                    <td>{`${Object.values(specs)[0]}`}</td>
+
+                                                                </tr>
+                                                            ))}
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+
+
+                                            <div className="mt-10">
+                                                <h3 className="text-sm font-medium ">Dimensions</h3>
+
+                                                <div className="mt-4">
+
+                                                    <table>
+
+                                                        <tbody>
+
+                                                            {productDetailByFilter && productDetailByFilter.description?.dimensions.map((specs, i) => (
+                                                                <tr className=' border-b' key={i}>
+                                                                    {/* {JSON.stringify(specs)} */}
+
+                                                                    <td className='pr-5 capitalize'>{`${Object.keys(specs)[0]}`}</td>
+                                                                    <td>{`${Object.values(specs)[0]}`}</td>
+
+                                                                </tr>
+                                                            ))}
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+
                                         </div>
 
 
 
-                                        <div className="mt-10">
-                                            <h3 className="text-sm font-medium ">Details</h3>
-
-                                            <div className="mt-4">
-
-                                                <table>
-
-                                                    <tbody>
-
-                                                        {productDetailByFilter && productDetailByFilter.description?.product_Details.map((specs, i) => (
-                                                            <tr className=' border-b' key={i}>
-                                                                {/* {JSON.stringify(specs)} */}
-
-                                                                <td className='pr-5 capitalize'>{`${Object.keys(specs)[0]}`}</td>
-                                                                <td>{`${Object.values(specs)[0]}`}</td>
-
-                                                            </tr>
-                                                        ))}
-
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-
-
-                                        <div className="mt-10">
-                                            <h3 className="text-sm font-medium ">Dimensions</h3>
-
-                                            <div className="mt-4">
-
-                                                <table>
-
-                                                    <tbody>
-
-                                                        {productDetailByFilter && productDetailByFilter.description?.dimensions.map((specs, i) => (
-                                                            <tr className=' border-b' key={i}>
-                                                                {/* {JSON.stringify(specs)} */}
-
-                                                                <td className='pr-5 capitalize'>{`${Object.keys(specs)[0]}`}</td>
-                                                                <td>{`${Object.values(specs)[0]}`}</td>
-
-                                                            </tr>
-                                                        ))}
-
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
+                                        <div className=' md:w-1/2'>
 
 
 
 
-
-                                        <div className="mt-10">
-                                            <h3 className="text-sm font-medium ">Dimensions</h3>
-
-                                            <div className="mt-4">
-
-                                                <table>
-
-                                                    <tbody>
-
-                                                        {productDetailByFilter && productDetailByFilter.description?.dimensions.map((specs, i) => (
-                                                            <tr className=' border-b' key={i}>
-                                                                {/* {JSON.stringify(specs)} */}
-
-                                                                <td className='pr-5 capitalize'>{`${Object.keys(specs)[0]}`}</td>
-                                                                <td>{`${Object.values(specs)[0]}`}</td>
-
-                                                            </tr>
-                                                        ))}
-
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
+                                            <div className="mt-10">
+                                                <h3 className="text-3xl font-bold underline md:text-center ">Reviews</h3>
 
 
 
+                                                <div className='flex flex-wrap my-5 md:justify-center'>
 
 
-                                        <div className="mt-10">
-                                            <h3 className="text-3xl font-bold underline ">Reviews</h3>
+                                                    {
+                                                        productDetailByFilter.review && productDetailByFilter?.review?.length > 0
+                                                            ?
+                                                            productDetailByFilter?.review?.map((r: ReviewData) => (
+                                                                <div className='p-1 w-60 my-4 border border-green-300 rounded mx-2 pl-2' key={r.id}>
+                                                                    {/* {JSON.stringify(r)} */}
 
 
+                                                                    <div className='flex items-center border-b border-green-300 w-4/5 '>
+                                                                        <img className=' w-6 rounded-full mr-3' src={r.userData.userImg} alt="" />
+                                                                        <p className=' text-xl mr-1 font-bold'>{r.userData.userName}</p>
 
-                                            <div className='flex flex-wrap  my-5'>
+                                                                    </div>
 
+                                                                    <div>
+                                                                        <div className='flex items-center'>
 
-                                                {
-                                                    productDetailByFilter.review && productDetailByFilter?.review?.length > 0
-                                                        ?
-                                                        productDetailByFilter?.review?.map((r: ReviewData) => (
-                                                            <div className='p-1 w-60 my-4 border-l border-green-300 rounded-xl pl-2' key={r.id}>
-                                                                {/* {JSON.stringify(r)} */}
+                                                                            <div className='flex items-center bg-green-500 text-white my-1 px-1 rounded'>
+                                                                                <StarIcon className={` h-4 w-4 flex-shrink-0`} />
+                                                                                <p >{r.stars}</p>
 
-
-                                                                <div className='flex items-center border-b border-green-300 w-4/5 '>
-                                                                    <img className=' w-8 rounded-full mr-3' src={r.userData.userImg} alt="" />
-                                                                    <p className=' text-2xl mr-1 font-bold'>{r.userData.userName}</p>
-
-                                                                </div>
-
-                                                                <div>
-                                                                    <div className='flex items-center'>
-
-                                                                        <div className='flex items-center bg-green-500 my-1 px-1 rounded'>
-                                                                            <StarIcon className={` h-4 w-4 flex-shrink-0`} />
-                                                                            <p >{r.stars}</p>
+                                                                            </div>
+                                                                            <p className='ml-2'>{r.comment}</p>
 
                                                                         </div>
+                                                                        <div className='flex  w-4/5 my-2'>
 
-
-
-                                                                        <p className='ml-2'>{r.comment}</p>
-
+                                                                            <p className='border px-5 mr-3 rounded '><i className="ri-thumb-up-fill"></i> {r.likes}</p>
+                                                                            <p className='border px-5 rounded '><i className="ri-thumb-down-fill"></i> {r.dislikes}</p>
+                                                                        </div>
+                                                                        <p className='text-end mr-5'>{r.whenCreated}</p>
                                                                     </div>
-                                                                    <div className='flex  w-4/5 my-2'>
 
-                                                                        <p className='border px-5 mr-3 rounded '><i className="ri-thumb-up-fill"></i> {r.likes}</p>
-                                                                        <p className='border px-5 rounded '><i className="ri-thumb-down-fill"></i> {r.dislikes}</p>
-                                                                    </div>
-                                                                    <p className='text-center'>{r.whenCreated}</p>
+
                                                                 </div>
+                                                            ))
+
+                                                            : "Review not getting"
+                                                    }
 
 
-                                                            </div>
-                                                        ))
-
-                                                        : "Review not getting"
-                                                }
-
+                                                </div>
 
                                             </div>
 
                                         </div>
-
 
                                     </div>
 
@@ -567,24 +576,31 @@ export default function ProductDetails() {
 
                                 {/* div for simmilar products  */}
 
-                                <div className="mx-auto max-w-2xl px-4 pb-16 pt-10 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-2 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8 lg:pb-24 lg:pt-16  ">
+                                <div className="mx-auto max-w-2xl  pb-16 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-2 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8  lg:pb-24   ">
 
 
                                     <div className={`${!themeMode ? "bg-white text-gray-700" : "bg-black text-gray-100"} pr-0`} >
 
-                                        <div className="mx-auto px-0  md:px-4  sm:px-6  lg:max-w-7xl lg:px-8   flex flex-col ">
+                                        <div className="mx-auto px-0  md:px-4  lg:max-w-7xl flex flex-col ">
 
-                                            <h1 className=' text-xl  my-10 font-bold underline'>Simmilar products</h1>
+                                            <h1 className=' text-xl  my-5 font-bold underline'>Simmilar products</h1>
 
-                                            {
+                                            <div className="h-96 flex flex-wrap flex-col overflow-y-hidden overflow-x-auto  pb-3 ">
 
-                                                simmilarProducts && (simmilarProducts.length > 0)
-                                                ?
-                                                simmilarProducts.map((product) => <SingleProduct product={product} key={product.id} />)
-                                                :
-                                                "Not getting"
-                                            }
 
+
+
+                                                {
+
+                                                    simmilarProducts && (simmilarProducts.length > 0)
+                                                        ?
+
+                                                        simmilarProducts.map((product) => <SingleProduct product={product} key={product.id} />)
+                                                        :
+                                                        "Not getting"
+                                                }
+
+                                            </div>
 
                                         </div>
                                     </div>

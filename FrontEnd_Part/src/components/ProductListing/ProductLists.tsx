@@ -8,10 +8,11 @@ import SingleProduct from "./SingleProduct"
 
 
 
-type SingleTypeObject = {
+export type SingleTypeObject = {
   "typeName": string[],
   "typeStock": number,
-  "typeVerity": string[]
+  "typeVerity": string[] ,
+  "typeId" : string
 }
 
 

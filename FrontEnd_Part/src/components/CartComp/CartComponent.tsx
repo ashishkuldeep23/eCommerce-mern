@@ -42,8 +42,6 @@ export default function CartComponent({ mainCartComp = true }: CartCompProp) {
 
     let num = cartData.reduce((sum, items) => { return sum + (items.price * items.quantity) }, 0)
 
-    // console.log(num)
-
     let formatedNum = makeMoreRaedablePrice(num)
 
     return formatedNum

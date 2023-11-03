@@ -4,15 +4,16 @@
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { CardDataInter } from "../../Slices/CartSlice";
-import { setSingleProductData } from "../../Slices/AllProductSlice";
+import { fetchOneProductByID, setSingleOProductId, setSingleProductData } from "../../Slices/AllProductSlice";
 import { removeOneItem, onePlusQuan, oneMinusQuan } from "../../Slices/CartSlice";
 import { makeMoreRaedablePrice } from "./CartComponent";
+import { AppDispatch } from "../../store";
 
 
 const SingleCartItem = ({ product, mainCartComp }: { product: CardDataInter, mainCartComp: boolean }) => {
 
     const navigate = useNavigate()
-    const dispatch = useDispatch()
+    const dispatch = useDispatch<AppDispatch>()
 
     return (
 
@@ -20,11 +21,11 @@ const SingleCartItem = ({ product, mainCartComp }: { product: CardDataInter, mai
         <>
 
             <li key={product.id}
-                className="flex py-6"
+                className="flex py-6 hover:cursor-pointer"
                 onClick={() => {
 
                     if (mainCartComp) {
-                        navigate("/product"); dispatch(setSingleProductData({ id: product.id }))
+                        navigate("/product"); dispatch(setSingleProductData({ id: product.id })); dispatch(fetchOneProductByID({productId : product.id})); dispatch(setSingleOProductId({id : product.id})); 
                     }
 
                 }}
@@ -40,9 +41,18 @@ const SingleCartItem = ({ product, mainCartComp }: { product: CardDataInter, mai
 
                 <div className="ml-4 flex flex-1 flex-col">
                     <div>
-                        <div className="flex justify-between text-base font-medium ">
-                            <h3>
-                                <a href={product.title}>{product.title}</a>
+                        <div className="flex  justify-between  text-base font-medium ">
+                            <h3 className="flex flex-col">
+                                <a className="hover:cursor-pointer">{product.title}</a>
+                                {/* <a className="hover:cursor-pointer">{JSON.stringify(product?.type)}</a>
+                                <a className="hover:cursor-pointer">{JSON.stringify(product?.type)}</a> */}
+                                {/* <a className="hover:cursor-pointer">{`${product?.type?.typeName[0]} :  ${product?.type?.typeName[1]} | ${product?.type?.typeVerity[0]} : ${product?.type?.typeVerity[1]} | Stocks : ${product?.type?.typeStock}`}</a> */}
+
+                                <div className="mb-2">
+                                    <p className=" capitalize">{`${product?.verity?.typeName[0]} :  ${product?.verity?.typeName[1]} | ${product?.verity?.typeVerity[0]} : ${product?.verity?.typeVerity[1]}`}</p>
+
+                                    {/* <p>{product?.verity.typeId}</p> */}
+                                </div>
                             </h3>
 
 
@@ -60,7 +70,7 @@ const SingleCartItem = ({ product, mainCartComp }: { product: CardDataInter, mai
                                             </>
                                             :
                                             <>
-                                                <p className="ml-4">₹{ makeMoreRaedablePrice(product.quantity * product.price)}</p>
+                                                <p className="ml-4">₹{makeMoreRaedablePrice(product.quantity * product.price)}</p>
                                             </>
                                     }
                                 </div>
@@ -113,8 +123,8 @@ const SingleCartItem = ({ product, mainCartComp }: { product: CardDataInter, mai
                                         onClick={(e) => {
                                             e.stopPropagation();
                                             (product.quantity === 1)
-                                                ? dispatch(removeOneItem({ id: product.id }))
-                                                : dispatch(oneMinusQuan({ data: product }))
+                                                ? dispatch(removeOneItem({ ...product }))
+                                                : dispatch(oneMinusQuan({ ...product }))
                                         }}
                                     >
 
@@ -127,7 +137,7 @@ const SingleCartItem = ({ product, mainCartComp }: { product: CardDataInter, mai
                                     <p className=' px-1 font-bold '>{product.quantity}</p>
                                     <button
                                         className=' bg-cyan-400 px-1 rounded ml-1  font-bold hover:bg-cyan-600'
-                                        onClick={(e) => { e.stopPropagation(); dispatch(onePlusQuan({ data: product })) }}
+                                        onClick={(e) => { e.stopPropagation(); dispatch(onePlusQuan({ ...product })) }}
                                     ><i className="ri-add-line"></i></button>
                                 </div>
 
@@ -142,7 +152,7 @@ const SingleCartItem = ({ product, mainCartComp }: { product: CardDataInter, mai
                                 <button
                                     type="button"
                                     className="font-medium text-red-600 hover:text-red-500 rounded p-1 scale-125 hover:border hover:border-red-500"
-                                    onClick={(e) => { e.stopPropagation(); dispatch(removeOneItem({ id: product.id })) }}
+                                    onClick={(e) => { e.stopPropagation(); dispatch(removeOneItem({ ...product })) }}
                                 >
                                     <i className="ri-delete-bin-2-line"></i>
                                 </button>

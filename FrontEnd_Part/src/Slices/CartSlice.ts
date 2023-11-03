@@ -3,26 +3,27 @@ import { createSlice, current } from "@reduxjs/toolkit"
 
 import { IProduct } from "../components/ProductListing/ProductLists"
 
+import { SingleTypeObject } from "../components/ProductListing/ProductLists";
 
 
 // // // This is how card data look like
 export interface CardDataInter extends IProduct {
 
     quantity: number;
-    verity: {}
+    verity: SingleTypeObject
 
 }
 
 
 interface CartInter {
-    cartData: CardDataInter[] ,
-   
+    cartData: CardDataInter[],
+
 }
 
 
 
 const initialState: CartInter = {
-    cartData: [] ,
+    cartData: [],
     // totalCartvalue : 0
 }
 
@@ -32,46 +33,75 @@ const cartSlice = createSlice({
     initialState,
     reducers: {
 
-        loadCartFromLoacal(state, action) {
-            state.cartData = action.payload.data
-        },
+
+        // // // // Not using this fn for now (I have written an extra reducer for that -----> )
+
+        // loadCartFromLoacal(state, action) {
+        //     state.cartData = action.payload.data
+        // },
+
+
 
         addItemInCart(state, action) {
             // alert("Adding into cart")
 
-            let { id } = action.payload
+            let { id, verity } = action.payload
 
             // alert(id)
+            // console.log(action.payload)
 
+            // console.log(verity)
             let cCartState = current(state)
 
-            let item = cCartState.cartData.find((ele) => ele.id === id)
+
+
+
+            let item = null
+
+
+            // console.log(cCartState.cartData)
+            // console.log(cCartState.cartData.length)
+
+
+            for (let i = 0; i < cCartState.cartData.length; i++) {
+
+                // console.log(cCartState.cartData[i].verity)
+
+                let ele = cCartState.cartData[i]
+
+                if (ele.verity.typeId === verity.typeId) {
+
+                    // console.log(cCartState.cartData[i])
+
+                    item = cCartState.cartData[i]
+                    break
+
+                }
+
+            }
 
 
             let newArr = [...cCartState.cartData]
 
             if (item) {
-                // alert("yess")
-                // console.log(item)
 
-                // // // Now find index of item 
-
-                let index = cCartState.cartData.findIndex((ele) => ele.id === id)
+                let index = cCartState.cartData.findIndex((ele) => ele.id === id && ele.verity.typeId === verity.typeId)
 
 
+                console.log("same dedected")
 
-                item = { ...item , quantity : item.quantity+1 }
+                let newItemObject = { ...item, quantity: item.quantity + 1 }
 
                 // console.log(index , item)
 
-                newArr.splice( index , 1 , item )
+                newArr.splice(index, 1, newItemObject)
 
                 // console.log(newArr)
 
                 state.cartData = newArr
 
 
-                // state.cartData = []
+
 
             } else {
 
@@ -81,28 +111,31 @@ const cartSlice = createSlice({
 
                 state.cartData = newArr
 
-                // console.log(newArr)
-
             }
 
 
 
             localStorage.setItem("cardData", JSON.stringify(newArr))
 
-
         },
+
+
 
         removeOneItem(state, action) {
 
             // console.log(action)
             // alert(action.payload.id)
 
+            let { verity } = action.payload
+
+            // console.log(action.payload)
+
             let currentCartArr = current(state.cartData)
 
             // console.log(currentCartArr)
 
 
-            let newArr = currentCartArr.filter(ele => ele.id !== action.payload.id)
+            let newArr = currentCartArr.filter(ele => ele.verity.typeId !== verity.typeId)
 
             state.cartData = newArr
 
@@ -110,46 +143,46 @@ const cartSlice = createSlice({
         },
 
 
-        onePlusQuan(state , action){
+        onePlusQuan(state, action) {
 
-            const {data} = action.payload
+            const { verity } = action.payload
 
 
             let currentCartArr = current(state.cartData)
 
-            let index = currentCartArr.findIndex((ele) => ele.id === data.id)
+            let index = currentCartArr.findIndex((ele) => ele.verity.typeId === verity.typeId)
 
-            
+
             // console.log(index , data)
 
             let newArr = [...currentCartArr]
 
-            let item = { ...data , quantity : data.quantity+1 }
+            let item = { ...action.payload, quantity: action.payload.quantity + 1 }
 
-            newArr.splice( index , 1 , item )
+            newArr.splice(index, 1, item)
 
             state.cartData = newArr
 
             localStorage.setItem("cardData", JSON.stringify(newArr))
 
-            
-        },
-        
-        oneMinusQuan(state , action){
 
-            const {data} = action.payload
-            
+        },
+
+        oneMinusQuan(state, action) {
+
+            const { verity } = action.payload
+
             let currentCartArr = current(state.cartData)
 
-            let index = currentCartArr.findIndex((ele) => ele.id === data.id)
+            let index = currentCartArr.findIndex((ele) => ele.verity.typeId === verity.typeId)
 
             // console.log(index , data)
 
             let newArr = [...currentCartArr]
 
-            let item = { ...data , quantity : data.quantity-1 }
+            let item = { ...action.payload, quantity: action.payload.quantity - 1 }
 
-            newArr.splice( index , 1 , item )
+            newArr.splice(index, 1, item)
 
             state.cartData = newArr
 
@@ -161,19 +194,23 @@ const cartSlice = createSlice({
     },
 
 
-    extraReducers : (builder)=>[
+    extraReducers: (builder) => [
+
+
 
         builder
-            .addCase( "fetchProducts/fulfilled" , ( state ) => {
+            .addCase("fetchProducts/fulfilled", (state) => {
                 // console.log("From Cart")
+
+                // // // Set cart in store from localstorage --->
 
                 let getCartLocal = localStorage.getItem("cardData")
 
-                if(getCartLocal){
+                if (getCartLocal) {
                     state.cartData = JSON.parse(getCartLocal)
                 }
 
-            } )
+            })
 
     ]
 
@@ -182,7 +219,7 @@ const cartSlice = createSlice({
 
 
 
-export const { addItemInCart, removeOneItem, loadCartFromLoacal , onePlusQuan , oneMinusQuan } = cartSlice.actions
+export const { addItemInCart, removeOneItem,  onePlusQuan, oneMinusQuan } = cartSlice.actions
 
 export default cartSlice.reducer
 
