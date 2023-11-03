@@ -1,5 +1,5 @@
 
-import { Fragment } from 'react'
+import { Fragment, useState, useRef, useEffect } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline'
 import { Link, useNavigate } from "react-router-dom"
@@ -70,9 +70,8 @@ export default function NavBar() {
 // // // All menu items that always visible more then tab screen (presented left side after icon) (This includes search bar that visible tab and above) (Icon also sho here)
 function MenuOfTabAndAbove() {
 
-    const navigate = useNavigate()
 
-    const themeSate = useSelector((store: RootState) => store.themeReducer.mode)
+    const navigate = useNavigate()
 
     return (
         <>
@@ -80,11 +79,12 @@ function MenuOfTabAndAbove() {
             <div className="flex flex-1 items-center justify-center md:items-stretch md:justify-start">
 
 
-                <div className=" hidden md:flex flex-shrink-0 items-center hover:cursor-pointer  " onClick={() => { navigate("/"), { replace: true } }} >
+                <div className=" hidden md:flex flex-shrink-0 items-center hover:cursor-pointer  "  >
                     <img
                         className="h-8 w-auto hover:scale-125 hover:z-20 transition-all"
                         src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
                         alt="Your Company"
+                        onClick={() => { navigate("/"), { replace: true } }}
                     />
                 </div>
 
@@ -92,6 +92,7 @@ function MenuOfTabAndAbove() {
                 {/*  Shown in leptop (tab and above) */}
                 <div className="hidden md:ml-6 md:block">
                     <div className="flex space-x-4">
+
                         {navigation.map((item, i) => (
                             <a
                                 key={i}
@@ -105,21 +106,103 @@ function MenuOfTabAndAbove() {
 
 
                         {/* This searchBar will visiable in tab or above */}
-                        <div className='my-auto flex  items-center justify-center'>
-                            <input
-                                type="text" placeholder='Product'
-                                className={` ${!themeSate ? "bg-white text-black" : " bg-gray-900 text-white"}  py-1 rounded`}
-                                name="" id=""
-                            />
-                            <button className='border text-white rounded text-md p-1 font-medium  hover:bg-gray-700 hover:text-white'>
-                                <MagnifyingGlassIcon className="h-6 w-6 text-gray-200" />
-                            </button>
+                        <div className='my-auto flex  items-center justify-center relative'>
+
+
+                            <CommonSearchAndBtnAndSuggestion />
+
                         </div>
 
 
                     </div>
                 </div>
             </div>
+        </>
+    )
+}
+
+
+
+
+// // // This div contains Input box and search btn and suggestion div all ---> and it's neccessory thing 
+// // // Used is two placed in leptop and mobile also ---->
+function CommonSearchAndBtnAndSuggestion(){
+
+
+    const themeSate = useSelector((store: RootState) => store.themeReducer.mode)
+
+
+    const [showSuggestion, setShowSuggestion] = useState(false)
+    const inputRef = useRef<HTMLInputElement | null>(null);
+
+
+    const handleInboxClick = () => {
+        setShowSuggestion(true);
+    }
+
+
+    const handleOutsideClick = (e: MouseEvent) => {
+        if (inputRef.current && e.target !== inputRef.current) {
+            setShowSuggestion(false);
+        }
+    }
+
+
+
+    useEffect(() => {
+        document.addEventListener('click', handleOutsideClick);
+        return () => {
+            document.removeEventListener('click', handleOutsideClick);
+        };
+    }, []);
+
+
+
+    return (
+        <>
+
+            <input
+                type="text" placeholder='Product'
+                className={` ${!themeSate ? "bg-white text-black" : " bg-gray-900 text-white"}  py-1 rounded w-full`}
+                name="" id=""
+
+                // onFocus={()=>{alert("ok")}}
+
+                // onFocusCapture={()=>alert("ok")}
+                ref={inputRef}
+
+                onClick={handleInboxClick}
+
+            // onClick={() => { alert("ok") }}
+
+            />
+            <button className='border text-white rounded text-md p-1 font-medium  hover:bg-gray-700 hover:text-white'>
+                <MagnifyingGlassIcon className="h-6 w-6 text-gray-200" />
+            </button>
+
+
+            {
+                showSuggestion &&
+
+                <div className='bg-red-500  w-full absolute top-full mt-0.5  rounded-b-md py-2 px-1 '>
+
+
+                    <ul>
+
+                        <li>1 productOne ---</li>
+                        <li>1 productOne ---</li>
+                        <li>1 productOne ---</li>
+                        <li>1 productOne ---</li>
+                    </ul>
+
+                </div>
+
+
+            }
+
+
+
+
         </>
     )
 }
@@ -134,7 +217,7 @@ function MobileUICodeLeftSection({ open }: { open: boolean }) {
     return (
         <>
 
-            <div className="absolute inset-y-0 left-0 flex items-center md:hidden " onClick={() => { navigate("/"), { replace: true } }}>
+            <div className="absolute inset-y-0 left-0 flex items-center md:hidden ">
 
                 {/* Mobile menu button*/}
                 <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
@@ -154,6 +237,7 @@ function MobileUICodeLeftSection({ open }: { open: boolean }) {
                         className="h-8 w-auto hover:scale-125 hover:z-20 transition-all"
                         src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
                         alt="Your Company"
+                        onClick={() => { navigate("/"), { replace: true } }}
                     />
                 </div>
 
@@ -348,18 +432,17 @@ function RightCommonSection() {
 // // // (search bar full width less then tab) 
 function SearchBarTabAndLess() {
 
-    const themeSate = useSelector((store: RootState) => store.themeReducer.mode)
+    // const themeSate = useSelector((store: RootState) => store.themeReducer.mode)
 
     return (
         <>
-            <div className='my-auto flex  items-center justify-center md:hidden mb-1 m-1'>
-                <input type="text" placeholder='Mens'
-                    className={` ${!themeSate ? "bg-white text-black" : " bg-gray-900 text-white"}  py-1 rounded w-full`}
-                    name="" id=""
-                />
-                <button className='border text-white rounded text-md p-1 font-medium  hover:bg-gray-700 hover:text-white'>
-                    <MagnifyingGlassIcon className="h-6 w-6 text-gray-200" />
-                </button>
+            <div className='my-auto flex  items-center justify-center md:hidden mb-1 m-1 relative'>
+
+                <CommonSearchAndBtnAndSuggestion />
+
+
+
+
             </div>
         </>
     )
