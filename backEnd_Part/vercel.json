@@ -9,43 +9,43 @@
     "routes": [
         {
             "src": "/",
-            "dest": "/"
+            "dest": "/app.js"
         },
         {
             "src": "/(.*)",
-            "dest": "/"
+            "dest": "/app.js"
         },
         {
             "src": "/createProduct",
-            "dest": "/"
+            "dest": "/app.js"
         },
         {
             "src": "/createProduct/(.*)",
-            "dest": "/"
+            "dest": "/app.js"
         },
         {
             "src": "/findAllProducts",
-            "dest": "/"
+            "dest": "/app.js"
         },
         {
             "src": "/findAllProducts/(.*)",
-            "dest": "/"
+            "dest": "/app.js"
         },
         {
             "src": "/findOneProduct/:productId",
-            "dest": "/"
+            "dest": "/app.js"
         },
         {
             "src": "/findOneProduct/:productId/(.*)",
-            "dest": "/"
+            "dest": "/app.js"
         },
         {
             "src": "/createReview",
-            "dest": "/"
+            "dest": "/app.js"
         },
         {
             "src": "/createReview/(.*)",
-            "dest": "/"
+            "dest": "/app.js"
         }
     ]
 }
