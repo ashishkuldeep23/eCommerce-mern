@@ -5,7 +5,10 @@ import { Bars3Icon, XMarkIcon, MagnifyingGlassIcon } from '@heroicons/react/24/o
 import { Link, useNavigate } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux";
 import { toggleModeValue } from '../../Slices/ThemeSlices'
-import { RootState } from '../../store'
+import { AppDispatch, RootState } from '../../store'
+
+import { setSingleOProductId, fetchOneProductByID, setSingleProductData } from '../../Slices/AllProductSlice';
+
 
 
 
@@ -109,7 +112,7 @@ function MenuOfTabAndAbove() {
                         <div className='my-auto flex  items-center justify-center relative'>
 
 
-                            <CommonSearchAndBtnAndSuggestion />
+                            <MainSearchBarWithLogics />
 
                         </div>
 
@@ -126,14 +129,21 @@ function MenuOfTabAndAbove() {
 
 // // // This div contains Input box and search btn and suggestion div all ---> and it's neccessory thing 
 // // // Used is two placed in leptop and mobile also ---->
-function CommonSearchAndBtnAndSuggestion(){
+function MainSearchBarWithLogics() {
+
+    const navigate = useNavigate();
+    const dispatch = useDispatch<AppDispatch>();
+
 
 
     const themeSate = useSelector((store: RootState) => store.themeReducer.mode)
+    const allProduct = useSelector((store: RootState) => store.allProductWithCatReducer.allProducts)
 
 
     const [showSuggestion, setShowSuggestion] = useState(false)
     const inputRef = useRef<HTMLInputElement | null>(null);
+
+    const [text, setText] = useState("")
 
 
     const handleInboxClick = () => {
@@ -142,10 +152,70 @@ function CommonSearchAndBtnAndSuggestion(){
 
 
     const handleOutsideClick = (e: MouseEvent) => {
+
+        setText("");  // // // Empty text now --->
+
         if (inputRef.current && e.target !== inputRef.current) {
             setShowSuggestion(false);
         }
     }
+
+
+
+
+    function SuggestionHandler() {
+
+        // // // This will run first (when ever text is empty)
+        if (text === "") {
+            return <h1 className='my-5 mx-1 text-center text-danger fw-bold'>Search product by it's <strong>Name</strong> or <strong>Category</strong> or <strong>Brand name</strong>.</h1>
+        }
+
+
+        let returnArrFromFilter = allProduct.filter((product) => {
+
+
+            if (text === "") {
+                return product
+            }
+            else if (product.title.toLocaleLowerCase().includes(text.toLocaleLowerCase())) {
+                return product
+            }
+            else if (product.category.toLocaleLowerCase().includes(text.toLocaleLowerCase())) {
+                return product
+            }
+            else if (product.brand.toLocaleLowerCase().includes(text.toLocaleLowerCase())) {
+                return product
+            }
+
+        }).map((product) => {
+            return (
+                <li
+                    key={product.id}
+                    className='my-2 border rounded px-1 flex items-center hover:cursor-pointer hover:scale-95 transition-all'
+                    onClick={(e) => {
+                        // e.stopPropagation();
+                        e.preventDefault();
+                        navigate("/product");
+                        dispatch(setSingleProductData({ id: product.id }));
+                        dispatch(fetchOneProductByID({ productId: product.id }));
+                        dispatch(setSingleOProductId({ id: product.id }));
+                        setText("")
+                    }}
+                >
+                    <img className=' w-12 mr-1 ' src={product.thumbnail} alt="" />
+                    <p className=' capitalize'>{` ${product.title} - ${product.brand} - ${product.category} - ₹${product.price} `}</p>
+                </li>
+            )
+        })
+
+
+        return (returnArrFromFilter.length > 0) ? returnArrFromFilter : <h1 className='my-5 mx-1 text-center text-danger fw-bold'>Product not found with this keyword | 404 :- {text}</h1>
+
+
+    }
+
+
+
 
 
 
@@ -162,9 +232,10 @@ function CommonSearchAndBtnAndSuggestion(){
         <>
 
             <input
-                type="text" placeholder='Product'
+                type="text" placeholder='Search Product...'
                 className={` ${!themeSate ? "bg-white text-black" : " bg-gray-900 text-white"}  py-1 rounded w-full`}
                 name="" id=""
+                value={text}
 
                 // onFocus={()=>{alert("ok")}}
 
@@ -173,9 +244,12 @@ function CommonSearchAndBtnAndSuggestion(){
 
                 onClick={handleInboxClick}
 
+                onChange={(e) => { setText(e.target.value); }}
+
             // onClick={() => { alert("ok") }}
 
             />
+
             <button className='border text-white rounded text-md p-1 font-medium  hover:bg-gray-700 hover:text-white'>
                 <MagnifyingGlassIcon className="h-6 w-6 text-gray-200" />
             </button>
@@ -184,15 +258,33 @@ function CommonSearchAndBtnAndSuggestion(){
             {
                 showSuggestion &&
 
-                <div className='bg-red-500  w-full absolute top-full mt-0.5  rounded-b-md py-2 px-1 '>
+                <div className={` ${!themeSate ? "bg-white text-black" : " bg-gray-900 text-white"} w-full absolute top-full mt-0.5  rounded-b-md py-2 px-1  `}>
 
 
-                    <ul>
+                    <ul className=' max-h-96 overflow-y-scroll border rounded border-green-300'>
 
+                        {/* <li>1 productOne ---</li>
                         <li>1 productOne ---</li>
                         <li>1 productOne ---</li>
-                        <li>1 productOne ---</li>
-                        <li>1 productOne ---</li>
+                        <li>1 productOne ---</li> */}
+
+                        {
+                            text &&
+                            <div className='p-1 bg-red-500 m-1 font-bold rounded flex justify-between'
+                            onClick={ ()=>{setText(""); } }
+                            >
+                                <p>Close</p>
+                                <p className='border px-1 rounded'>x</p>
+                            </div>
+                        }
+
+
+                        {
+                            SuggestionHandler()
+                        }
+
+
+
                     </ul>
 
                 </div>
@@ -438,10 +530,7 @@ function SearchBarTabAndLess() {
         <>
             <div className='my-auto flex  items-center justify-center md:hidden mb-1 m-1 relative'>
 
-                <CommonSearchAndBtnAndSuggestion />
-
-
-
+                <MainSearchBarWithLogics />
 
             </div>
         </>
