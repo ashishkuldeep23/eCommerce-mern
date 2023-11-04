@@ -45,7 +45,6 @@ async function createNewReview(req, res) {
 
 
     // // // now update db with new review ----->
-
     let updateProductWithReview = await productModel.findOneAndUpdate(
         { _id: findProduct._id },
         {

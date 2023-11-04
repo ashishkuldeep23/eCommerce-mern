@@ -1,17 +1,18 @@
-import { Fragment, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { Dialog, Disclosure, Menu, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon } from '@heroicons/react/20/solid'
 
 
-import { useSelector } from 'react-redux'
-import { RootState } from '../../store'
+import { useDispatch, useSelector } from 'react-redux'
+import { AppDispatch, RootState } from '../../store'
+import { fetchAllProducts } from '../../Slices/AllProductSlice'
 
 
 const sortOptions = [
-    { name: 'Best Rating', href: '#', current: false },
-    { name: 'Price: Low to High', href: '#', current: false },
-    { name: 'Price: High to Low', href: '#', current: false },
+    // { name: 'Best Rating', href: '#', current: false },
+    { name: 'Price: Low to High', value : "acc" ,  current: false },
+    { name: 'Price: High to Low',  value : "dec" , current: false },
 ]
 
 
@@ -137,18 +138,129 @@ export default function FilterSection({ children }: any) {
 
     const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
 
+    const [newFilter, setNewFilter] = useState([...filters])
+
+    const [queryObj , setQueryObj] = useState({ brand : '' , category : "" , price : "1"} )
+
+    const dispatch = useDispatch<AppDispatch>()
+
+
+    // const [brands , setBrands] = useState([])
+
+    // const [categories , setcategories] = useState([])
+
+
+
+
+
     const themeMode = useSelector((store: RootState) => store.themeReducer.mode)
+
+    const allCategory = useSelector((store: RootState) => store.allProductWithCatReducer.filterAllCateory)
+    const allBrands = useSelector((store: RootState) => store.allProductWithCatReducer.filterAllBrands)
 
 
     type EventTypeOfOncahnge = React.ChangeEvent<HTMLInputElement> | React.FocusEvent<HTMLInputElement, Element>
 
-    function onChngeHandlerOfFilter(e: EventTypeOfOncahnge, secton: string, value: string) {
+    function onChngeHandlerOfFilter(e: EventTypeOfOncahnge, section: string, value: string) {
 
         e.stopPropagation()
+        e.preventDefault()
 
-        console.log(secton, value)
+        // console.log(section, value)
+
+
+        if(section === "brand"){
+
+            setQueryObj({...queryObj , brand : value})
+
+
+
+            dispatch(fetchAllProducts({brand : value , category : queryObj.category , price : queryObj.price}))
+        }
+
+
+        if(section === "category" ){
+
+            setQueryObj({...queryObj , category : value})
+
+            dispatch(fetchAllProducts({brand : queryObj.brand , category : value , price : queryObj.price}))
+        }
+
 
     }
+
+
+
+    type ClickEventForPrice = React.MouseEvent<HTMLAnchorElement, MouseEvent>
+
+    function onClickHandlerForPrice(e: ClickEventForPrice, price: String){
+
+
+        e.stopPropagation()
+        e.preventDefault()
+
+        console.log( price)
+
+
+        if(price === "acc"){
+
+
+            setQueryObj({...queryObj , price : "1"})
+            dispatch(fetchAllProducts({brand : queryObj.brand , category : queryObj.category , price : "1"}))
+        }
+
+        if(price === "dec"){
+            setQueryObj({...queryObj , price : "-1"})
+            dispatch(fetchAllProducts({brand : queryObj.brand , category : queryObj.category , price : "-1"}))
+        }
+
+
+        //  
+
+    }
+
+
+
+    useEffect(() => {
+
+        // console.log(allBrands)
+        // console.log(allCategory)
+
+        if ((allBrands && allBrands.length > 0) && (allCategory && allCategory.length > 0) ) {
+
+            let makeAllBrands = allBrands.map((brand) => { return { value: brand, label: brand, checked: false } })
+
+            // console.log(makeAllBrands)
+            // console.log(newFilter)
+
+            let optionObjForBrand = { ...newFilter[0] }
+
+            optionObjForBrand.options = makeAllBrands
+
+
+
+
+            let makeAllCategory = allCategory.map((cate) => { return { value: cate, label: cate, checked: false } })
+            // console.log(makeAllCategory)
+
+            let optionObjForCat = { ...newFilter[1] }
+
+            optionObjForCat.options = makeAllCategory
+
+
+
+            setNewFilter([optionObjForBrand, optionObjForCat])
+
+
+
+        }
+
+
+   
+
+
+    }, [allCategory])
+
 
 
     return (
@@ -195,9 +307,9 @@ export default function FilterSection({ children }: any) {
                                         </button>
                                     </div>
 
-                                    {/* Filters */}
+                                    {/* Filters in mobile section */}
                                     <form className="mt-4 border-t border-green-300">
-                                        {filters.map((section) => (
+                                        {newFilter.map((section) => (
                                             <Disclosure as="div" key={section.id} className="border-t border-green-300 px-4 py-6">
                                                 {({ open }) => (
                                                     <>
@@ -223,11 +335,12 @@ export default function FilterSection({ children }: any) {
                                                                             defaultValue={option.value}
                                                                             type="checkbox"
                                                                             defaultChecked={option.checked}
+                                                                            onChange={(e) => { onChngeHandlerOfFilter(e, section.id, option.value) }}
                                                                             className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                                                                         />
                                                                         <label
                                                                             htmlFor={`filter-mobile-${section.id}-${optionIdx}`}
-                                                                            className="ml-3 min-w-0 flex-1 "
+                                                                            className="ml-3 min-w-0 flex-1 capitalize"
                                                                         >
                                                                             {option.label}
                                                                         </label>
@@ -279,8 +392,9 @@ export default function FilterSection({ children }: any) {
                                                 <Menu.Item key={option.name}>
                                                     {
                                                         <a
-                                                            href={option.href}
-                                                            className={`${option.current ? 'font-medium ' : ''}   block px-4 py-2 text-sm`}
+                                                           
+                                                            className={`${option.current ? 'font-medium ' : ''}   block px-4 py-2 text-sm `}
+                                                            onClick={(e)=>onClickHandlerForPrice(e , option.value)}
                                                         >
                                                             {option.name}
                                                         </a>
@@ -315,7 +429,7 @@ export default function FilterSection({ children }: any) {
                         <div className="grid grid-cols-1  gap-y-10 lg:grid-cols-6">
                             {/* Filters    leptop */}
                             <form className="hidden  lg:block">
-                                {filters.map((section) => (
+                                {newFilter.map((section) => (
                                     <Disclosure as="div" key={section.id} className="border-b border-green-300 py-6">
                                         {({ open }) => (
                                             <>
@@ -346,7 +460,7 @@ export default function FilterSection({ children }: any) {
                                                                 />
                                                                 <label
                                                                     htmlFor={`filter-${section.id}-${optionIdx}`}
-                                                                    className="ml-3 text-sm "
+                                                                    className="ml-3 text-sm capitalize "
                                                                 >
                                                                     {option.label}
                                                                 </label>

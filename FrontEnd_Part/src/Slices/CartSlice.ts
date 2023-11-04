@@ -199,7 +199,7 @@ const cartSlice = createSlice({
 
 
         builder
-            .addCase("fetchProducts/fulfilled", (state) => {
+            .addCase("fetchAllProducts/fulfilled", (state) => {
                 // console.log("From Cart")
 
                 // // // Set cart in store from localstorage --->

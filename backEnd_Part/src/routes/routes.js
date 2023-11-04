@@ -4,7 +4,7 @@ var router = express.Router();
 
 // // // Import controles -->
 
-const { createNewProduct , findAllProducts , findOneProduct} = require("../controller/productControllor")
+const { createNewProduct , findAllProducts , getCategoryAndHighlight , findOneProduct} = require("../controller/productControllor")
 const { createNewReview } = require("../controller/reviewController")
 
 
@@ -19,6 +19,11 @@ router.get('/', function(req, res, next) {
 router.post( "/createProduct" , createNewProduct)
 
 router.get("/findAllProducts" , findAllProducts)
+
+
+router.get("/getCategoryAndHighlight" , getCategoryAndHighlight)
+
+
 
 router.get( "/findOneProduct/:productId" , findOneProduct )
 

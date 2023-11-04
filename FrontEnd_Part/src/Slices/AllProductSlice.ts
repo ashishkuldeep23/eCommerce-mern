@@ -9,8 +9,48 @@ import { toast } from "react-toastify"
 
 
 
-export const fetchAllProducts = createAsyncThunk("fetchProducts", async () => {
-    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/findAllProducts`)
+type SearchObj = {
+    brand ?: string ,
+    category ?: string,
+    price ?:string
+}
+
+
+export const fetchAllProducts = createAsyncThunk("fetchAllProducts", async ({ brand = '' , category = '' , price = '1'} : SearchObj ) => {
+
+    console.log(brand , category)
+
+
+    let url = `${import.meta.env.VITE_BACKEND_URL}/findAllProducts`
+
+
+    if(brand  && brand !== ''){
+        if(category){
+            url = url + `&brand=${brand}`
+        }else{
+            url = url + `?brand=${brand}`
+        }
+    }
+
+    if(category && category !== ""){
+        if(brand){
+            url = url + `&category=${category}`
+        }else{
+            url = url + `?category=${category}`
+        }
+    }
+
+
+
+    if(!brand && !category){
+        url = url + `?sort_by_price=${price}`
+    }else{
+        url = url + `&sort_by_price=${price}`
+    }
+
+
+
+    const response = await fetch(url)
     let data = await response.json();
     return data
 })
@@ -31,15 +71,23 @@ export const fetchOneProductByID = createAsyncThunk("fetchSingleProduct/:id", as
 
 
 
+export const fetchAllCategoryAndHighlight = createAsyncThunk("getCategoryAndHighlight", async () => {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/getCategoryAndHighlight`)
+    let data = await response.json();
+    return data
+})
+
 
 
 interface IAllProductsWithCat {
     allProducts: IProduct[],
     allCaegory: string[],
+    filterAllBrands: string[],
+    filterAllCateory: string[],
     allHighlightProducts: IProduct[],
-    singleProductId : string | number ,
+    singleProductId: string | number,
     singleProductData: IProduct,
-    simmilarProductWithOnePro : IProduct[] ,
+    simmilarProductWithOnePro: IProduct[],
     isLoading: boolean,
     isError: boolean
 }
@@ -49,8 +97,10 @@ interface IAllProductsWithCat {
 const initialState: IAllProductsWithCat = {
     allProducts: [],
     allCaegory: [],
+    filterAllBrands : [],
+    filterAllCateory : [],
     allHighlightProducts: [],
-    singleProductId : "" ,
+    singleProductId: "",
     singleProductData: {
         "id": 0,
         "title": "",
@@ -80,7 +130,7 @@ const initialState: IAllProductsWithCat = {
 
     },
 
-    simmilarProductWithOnePro : [],
+    simmilarProductWithOnePro: [],
 
     isLoading: false,
     isError: false
@@ -101,7 +151,7 @@ const allProductsCatSlice = createSlice({
             // state.singleProductData = action.payload.allProducts[1]
         },
 
-        
+
         setSingleProductData(state, action) {
 
             let getUpdatedData = current(state)
@@ -122,13 +172,13 @@ const allProductsCatSlice = createSlice({
         },
 
 
-        setSingleOProductId(state , action){
+        setSingleOProductId(state, action) {
 
             // console.log(action.payload)
 
             state.singleProductId = action.payload.id
 
-            localStorage.setItem( "singleProductId" , JSON.stringify(action.payload.id) )
+            localStorage.setItem("singleProductId", JSON.stringify(action.payload.id))
 
         },
 
@@ -140,6 +190,7 @@ const allProductsCatSlice = createSlice({
 
     },
 
+
     extraReducers: (builder) => {
 
         builder.addCase(fetchAllProducts.pending, (state) => {
@@ -150,7 +201,7 @@ const allProductsCatSlice = createSlice({
             state.isLoading = false;
             state.allProducts = action.payload.allProductData
             state.allCaegory = action.payload.allCategory
-            state.allHighlightProducts = action.payload.allHighlights
+            // state.allHighlightProducts = action.payload.allHighlights
 
             // console.log(action.payload)
         })
@@ -174,12 +225,47 @@ const allProductsCatSlice = createSlice({
 
 
 
+            .addCase(fetchAllCategoryAndHighlight.pending, () => {
+
+                console.log("Getting Data from Backend. Now pending")
+            })
+
+
+            .addCase(fetchAllCategoryAndHighlight.fulfilled, (state, action) => {
+
+                // console.log(action.payload)
+
+                state.allHighlightProducts = action.payload.allHighlights
+                state.filterAllBrands = action.payload.allBrands
+                state.filterAllCateory = action.payload.allCategory
+
+            })
+
+
+            .addCase(fetchAllCategoryAndHighlight.rejected, (state, action) => {
+                state.isError = true
+                toast.error(`${action.error.message} | Check your Network | Refresh the page`, {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                });
+            })
+
+
+
+
+
             .addCase(fetchOneProductByID.pending, () => {
                 console.log("Getting Data from Backend. Now pending")
             })
 
             .addCase(fetchOneProductByID.fulfilled, (state, action) => {
-             
+
                 // console.log(action.payload)
 
                 state.singleProductData = action.payload.data
@@ -207,7 +293,7 @@ const allProductsCatSlice = createSlice({
 })
 
 
-export const { loadDataIntoState, setSingleProductData, setFilterItems , setSingleOProductId} = allProductsCatSlice.actions
+export const { loadDataIntoState, setSingleProductData, setFilterItems, setSingleOProductId } = allProductsCatSlice.actions
 
 export default allProductsCatSlice.reducer
 

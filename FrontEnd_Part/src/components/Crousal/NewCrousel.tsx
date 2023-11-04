@@ -75,7 +75,7 @@ const NewCrousel = () => {
 
                     {
 
-                        (crousalItems.length > 0)
+                        (crousalItems && crousalItems.length > 0)
 
                             ?
 

@@ -35,29 +35,107 @@ async function createNewProduct(req, res) {
 
 
 
+
+
 async function findAllProducts(req, res) {
 
     // console.log(1555)
 
-    const findAllProducts = await productModel.find({ isDeleted: false }).select('-_id -updatedAt -createdAt -__v -description -type -review').populate("review")
+
+    // console.log(req.query)
 
 
+    let { brand , category , sort_by_price , most_started } = req.query
+
+    
+    
+    console.log(brand , category , sort_by_price)
+
+    // console.log(typeof sort_by_price) 
+
+    let searchObject = {
+        isDeleted : false ,
+    }
+
+    if(brand){
+        // searchObject.brand = brand.toLowerCase()
+        searchObject.brand = brand
+    }
+
+    if(category){
+        // searchObject.category = category.toLowerCase()
+        searchObject.category = category
+
+        // // // To lower case not used now
+    }
+
+
+
+
+    let sortByPrice = 1
+
+    if(sort_by_price  && (sort_by_price === '1' || sort_by_price === '-1') ){
+        sortByPrice = sort_by_price
+    }
+
+
+    // let mostStarted = 1 
+
+    // if(most_started  && (most_started === '1' || most_started === '-1') ){
+    //     mostStarted = most_started
+    // }
+
+
+
+    const findAllProducts = await productModel.find(searchObject).sort({price : sortByPrice}).select('-_id -updatedAt -createdAt -__v -description -type -review').populate("review")
+
+
+    // // // Create all category list here and send to frontEnd
     const allCategoryOfProducts = [...new Set(findAllProducts.map(ele => ele.category))]
 
     // const allHighlights = [...findAllProducts.slice(3,8)]   // // // Upadte this by highlighted true product.
 
+
+    // const allHighlights = [...findAllProducts.filter((item) => {
+    //     if (item.isHighlight === true) { return item }
+    // })]   // // // now Upadte this by highlighted true product.   
+    // // // // return those items that have isHighlight true otherwise do nothing
+
+    // // console.log( allHighlights)
+
+
+    return res.status(200).send({ status: true, totaldata: findAllProducts.length,  allProductData: findAllProducts , allCategory : allCategoryOfProducts })
+
+}
+
+
+
+
+async function getCategoryAndHighlight(req , res){
+
+    const findAllProducts = await productModel.find({isDeleted : false}).select('-_id -updatedAt -createdAt -__v -description -type -review')
+
+
+    // // // Create all category list here and send to frontEnd
+    const allCategoryOfProducts = [...new Set(findAllProducts.map(ele => ele.category))]
+
+
+    // // // Create all category list here and send to frontEnd
+    const allBrandsOfProducts = [...new Set(findAllProducts.map(ele => ele.brand))]
+
+    // const allHighlights = [...findAllProducts.slice(3,8)]   // // // Upadte this by highlighted true product.
 
     const allHighlights = [...findAllProducts.filter((item) => {
         if (item.isHighlight === true) { return item }
     })]   // // // now Upadte this by highlighted true product.   
     // // // return those items that have isHighlight true otherwise do nothing
 
-    // console.log( allHighlights)
 
 
-    return res.status(200).send({ status: true, totaldata: findAllProducts.length, allHighlights: allHighlights, allProductData: findAllProducts, allCategory: allCategoryOfProducts })
+    return res.status(200).send({ status: true,  allCategory: allCategoryOfProducts , allBrands : allBrandsOfProducts  , allHighlights: allHighlights, })
 
 }
+
 
 
 
@@ -103,5 +181,5 @@ async function findOneProduct(req, res) {
 
 
 
-module.exports = { createNewProduct, findAllProducts, findOneProduct }
+module.exports = { createNewProduct, findAllProducts , getCategoryAndHighlight , findOneProduct }
 

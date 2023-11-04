@@ -13,7 +13,7 @@ import { ToastContainer } from "react-toastify"
 
 import { useDispatch } from "react-redux"
 import { AppDispatch } from "./store"
-import { fetchAllProducts } from "./Slices/AllProductSlice"
+import { fetchAllProducts , fetchAllCategoryAndHighlight } from "./Slices/AllProductSlice"
 import { setModeOnLoad } from "./Slices/ThemeSlices"
 
 
@@ -28,7 +28,8 @@ function App() {
 
   useEffect(() => {
     
-    dispatch(fetchAllProducts())
+    dispatch(fetchAllCategoryAndHighlight())
+    dispatch(fetchAllProducts({brand : "" , category : '' , price : ""}))
 
     //  let get =  fetchAllProducts()
 
