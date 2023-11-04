@@ -2,50 +2,50 @@
     "version": 2,
     "builds": [
         {
-            "src": "app.js",
+            "src": ".js",
             "use": "@vercel/node"
         }
     ],
     "routes": [
         {
-            "src": "/(.*)",
-            "dest": "app.js"
+            "src": "/",
+            "dest": "/"
         },
         {
             "src": "/(.*)",
-            "dest": "app.js"
+            "dest": "/"
         },
         {
             "src": "/createProduct",
-            "dest": "app.js"
+            "dest": "/"
         },
         {
             "src": "/createProduct/(.*)",
-            "dest": "app.js"
+            "dest": "/"
         },
         {
             "src": "/findAllProducts",
-            "dest": "app.js"
+            "dest": "/"
         },
         {
             "src": "/findAllProducts/(.*)",
-            "dest": "app.js"
+            "dest": "/"
         },
         {
             "src": "/findOneProduct/:productId",
-            "dest": "app.js"
+            "dest": "/"
         },
         {
             "src": "/findOneProduct/:productId/(.*)",
-            "dest": "app.js"
+            "dest": "/"
         },
         {
             "src": "/createReview",
-            "dest": "app.js"
+            "dest": "/"
         },
         {
             "src": "/createReview/(.*)",
-            "dest": "app.js"
+            "dest": "/"
         }
     ]
 }
