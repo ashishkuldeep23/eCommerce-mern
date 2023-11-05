@@ -12,24 +12,25 @@ import { toast } from "react-toastify"
 type SearchObj = {
     brand ?: string ,
     category ?: string,
-    price ?:string
+    price ?:string,
+    page ?: string,
+    limit ?: string,
 }
 
 
-export const fetchAllProducts = createAsyncThunk("fetchAllProducts", async ({ brand = '' , category = '' , price = '1'} : SearchObj ) => {
+export const fetchAllProducts = createAsyncThunk("fetchAllProducts", async ({ brand = '' , category = '' , price = '1' , page="1" ,limit="10"} : SearchObj ) => {
 
-    console.log(brand , category)
+    // console.log(brand , category)
 
 
     let url = `${import.meta.env.VITE_BACKEND_URL}/findAllProducts`
 
 
     if(brand  && brand !== ''){
-        if(category){
-            url = url + `&brand=${brand}`
-        }else{
-            url = url + `?brand=${brand}`
-        }
+
+
+        url = url + `?brand=${brand}`
+
     }
 
     if(category && category !== ""){
@@ -43,11 +44,12 @@ export const fetchAllProducts = createAsyncThunk("fetchAllProducts", async ({ br
 
 
     if(!brand && !category){
-        url = url + `?sort_by_price=${price}`
+        url = url + `?sort_by_price=${price}&page=${page}&limit=${limit}`
     }else{
-        url = url + `&sort_by_price=${price}`
+        url = url + `&sort_by_price=${price}&page=${page}&limit=${limit}`
     }
 
+    // console.log(url)
 
 
     const response = await fetch(url)
@@ -85,6 +87,8 @@ interface IAllProductsWithCat {
     filterAllBrands: string[],
     filterAllCateory: string[],
     allHighlightProducts: IProduct[],
+    totalProducts : number ,
+    onePageLimit : number ,
     singleProductId: string | number,
     singleProductData: IProduct,
     simmilarProductWithOnePro: IProduct[],
@@ -100,6 +104,8 @@ const initialState: IAllProductsWithCat = {
     filterAllBrands : [],
     filterAllCateory : [],
     allHighlightProducts: [],
+    totalProducts : 0 ,
+    onePageLimit : 4 ,
     singleProductId: "",
     singleProductData: {
         "id": 0,
@@ -198,6 +204,21 @@ const allProductsCatSlice = createSlice({
         })
 
         builder.addCase(fetchAllProducts.fulfilled, (state, action) => {
+
+
+            if(action.payload.totaldata === 0){
+                toast.error(`Data Not Found for your query | 404`, {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                });
+            }
+
             state.isLoading = false;
             state.allProducts = action.payload.allProductData
             state.allCaegory = action.payload.allCategory
@@ -209,7 +230,7 @@ const allProductsCatSlice = createSlice({
         builder.addCase(fetchAllProducts.rejected, (state, action) => {
             state.isError = true;
 
-            // console.log(action.error.message)
+            console.log(action.error)
 
             toast.error(`${action.error.message} | Check your Network | Refresh the page`, {
                 position: "top-right",
@@ -238,6 +259,7 @@ const allProductsCatSlice = createSlice({
                 state.allHighlightProducts = action.payload.allHighlights
                 state.filterAllBrands = action.payload.allBrands
                 state.filterAllCateory = action.payload.allCategory
+                state.totalProducts = action.payload.totalProducts
 
             })
 

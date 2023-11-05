@@ -7,6 +7,7 @@ import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon } from '@heroicons/rea
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../../store'
 import { fetchAllProducts } from '../../Slices/AllProductSlice'
+import Pagination from '../Pagination/Pagination'
 
 
 const sortOptions = [
@@ -173,8 +174,6 @@ export default function FilterSection({ children }: any) {
 
             setQueryObj({...queryObj , brand : value})
 
-
-
             dispatch(fetchAllProducts({brand : value , category : queryObj.category , price : queryObj.price}))
         }
 
@@ -187,6 +186,7 @@ export default function FilterSection({ children }: any) {
         }
 
 
+        window.scroll(0, 500)   // // // This line is responsibil for scrooling the window
     }
 
 
@@ -214,6 +214,8 @@ export default function FilterSection({ children }: any) {
             dispatch(fetchAllProducts({brand : queryObj.brand , category : queryObj.category , price : "-1"}))
         }
 
+
+        window.scroll(0, 500)   // // // This line is responsibil for scrooling the window
 
         //  
 
@@ -478,6 +480,10 @@ export default function FilterSection({ children }: any) {
                             <div className="lg:col-span-5">{/* Your content */ children}</div>
                         </div>
                     </section>
+
+
+                                                            <Pagination />
+
                 </main>
             </div>
         </div>

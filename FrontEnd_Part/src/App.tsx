@@ -11,16 +11,20 @@ import PaymentScreen from "./Screens/PaymentScreen"
 import { useEffect } from "react"
 import { ToastContainer } from "react-toastify"
 
-import { useDispatch } from "react-redux"
-import { AppDispatch } from "./store"
+import { useDispatch, useSelector } from "react-redux"
+import { AppDispatch, RootState } from "./store"
 import { fetchAllProducts , fetchAllCategoryAndHighlight } from "./Slices/AllProductSlice"
 import { setModeOnLoad } from "./Slices/ThemeSlices"
+
+
 
 
 function App() {
 
 
   const dispatch = useDispatch<AppDispatch>()
+
+  const limitValue = useSelector( (state : RootState) => state.allProductWithCatReducer.onePageLimit)
 
 
   // // // This fn will call Backend to get data ------>
@@ -29,7 +33,10 @@ function App() {
   useEffect(() => {
     
     dispatch(fetchAllCategoryAndHighlight())
-    dispatch(fetchAllProducts({brand : "" , category : '' , price : ""}))
+    dispatch(fetchAllProducts({brand : "" , category : '' , price : "-1" , limit : `${limitValue}`}))  
+     // // // Limit value is 4 set (Change in useEffect of pagination.jsx and here)
+
+
 
     //  let get =  fetchAllProducts()
 

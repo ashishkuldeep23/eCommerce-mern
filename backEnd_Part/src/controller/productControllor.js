@@ -45,7 +45,7 @@ async function findAllProducts(req, res) {
     // console.log(req.query)
 
 
-    let { brand , category , sort_by_price , most_started } = req.query
+    let { brand , category , sort_by_price , most_started , page , limit} = req.query
 
     
     
@@ -79,6 +79,13 @@ async function findAllProducts(req, res) {
     }
 
 
+    let pageNo = 1
+
+    if(page){
+        pageNo = page
+    }
+
+
     // let mostStarted = 1 
 
     // if(most_started  && (most_started === '1' || most_started === '-1') ){
@@ -86,8 +93,13 @@ async function findAllProducts(req, res) {
     // }
 
 
+    let limitOfProducts = 3
 
-    const findAllProducts = await productModel.find(searchObject).sort({price : sortByPrice}).select('-_id -updatedAt -createdAt -__v -description -type -review').populate("review")
+    if(limit){
+        limitOfProducts = limit
+    }
+
+    const findAllProducts = await productModel.find(searchObject).sort({price : sortByPrice}).skip(limitOfProducts*(pageNo-1)).limit(limitOfProducts).select('-_id -updatedAt -createdAt -__v -description -type -review').populate("review")
 
 
     // // // Create all category list here and send to frontEnd
@@ -131,8 +143,9 @@ async function getCategoryAndHighlight(req , res){
     // // // return those items that have isHighlight true otherwise do nothing
 
 
+    // console.log(findAllProducts.length)
 
-    return res.status(200).send({ status: true,  allCategory: allCategoryOfProducts , allBrands : allBrandsOfProducts  , allHighlights: allHighlights, })
+    return res.status(200).send({ status: true,  allCategory: allCategoryOfProducts , allBrands : allBrandsOfProducts  , allHighlights: allHighlights, totalProducts : findAllProducts.length })
 
 }
 
