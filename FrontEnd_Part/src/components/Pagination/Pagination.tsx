@@ -17,7 +17,11 @@ export default function Pagination() {
 
     const totalProducts = useSelector((state: RootState) => state.allProductWithCatReducer.totalProducts)
 
-    const onePageLimitValue = useSelector( (state : RootState) => state.allProductWithCatReducer.onePageLimit)
+    const onePageLimitValue = useSelector((state: RootState) => state.allProductWithCatReducer.onePageLimit)
+
+    const isLoding = useSelector((state: RootState) => state.allProductWithCatReducer.isLoading)
+
+    const sortByPrice = useSelector( (state :RootState) => state.allProductWithCatReducer.sortByPrice )
 
 
     // // // Limit value is 4 set (Change in useEffect of app.jsx and here)
@@ -31,15 +35,14 @@ export default function Pagination() {
 
 
 
-
     function handlePagination(page: number) {
 
         // console.log(page)
 
-        
+
         // let productHeading = document.getElementById("products-heading")!
         window.scroll(0, 500)   // // // This line is responsibil for scrooling the window
-        
+
 
 
         if (page < 1) {
@@ -73,17 +76,22 @@ export default function Pagination() {
 
         setCurrentPage(page)
 
-        dispatch(fetchAllProducts({ brand: "", category: '', price: "-1", page: `${page}`, limit: `${limitValue}` }))
+        dispatch(fetchAllProducts({ brand: "", category: '', price: sortByPrice , page: `${page}`, limit: `${limitValue}` }))
 
 
 
     }
 
 
+    // // // If Getting data then show nothing
+    if (isLoding) {
+        return ""
+    }
+
+
 
     // // // if total page calculation is less then or qual to 1 then show nothing
-    if(totalPageShow <= 1){
-
+    if (totalPageShow <= 1) {
         return ""
     }
 

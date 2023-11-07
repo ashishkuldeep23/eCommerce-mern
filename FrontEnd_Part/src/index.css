@@ -110,8 +110,8 @@ input::-webkit-inner-spin-button {
 
 
 #singleCardHolder:hover>div>img {
-    scale: 1.1;
-    transition: 1s all;
+    scale: 1.07;
+    transition: 0.5s all;
 }
 
 

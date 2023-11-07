@@ -10,15 +10,15 @@ import { toast } from "react-toastify"
 
 
 type SearchObj = {
-    brand ?: string ,
-    category ?: string,
-    price ?:string,
-    page ?: string,
-    limit ?: string,
+    brand?: string,
+    category?: string,
+    price?: string,
+    page?: string,
+    limit?: string,
 }
 
 
-export const fetchAllProducts = createAsyncThunk("fetchAllProducts", async ({ brand = '' , category = '' , price = '1' , page="1" ,limit="10"} : SearchObj ) => {
+export const fetchAllProducts = createAsyncThunk("fetchAllProducts", async ({ brand = '', category = '', price = '1', page = "1", limit = "10" }: SearchObj) => {
 
     // console.log(brand , category)
 
@@ -26,26 +26,25 @@ export const fetchAllProducts = createAsyncThunk("fetchAllProducts", async ({ br
     let url = `${import.meta.env.VITE_BACKEND_URL}/findAllProducts`
 
 
-    if(brand  && brand !== ''){
-
+    if (brand && brand !== '') {
 
         url = url + `?brand=${brand}`
-
     }
 
-    if(category && category !== ""){
-        if(brand){
+
+    if (category && category !== "") {
+        if (brand) {
             url = url + `&category=${category}`
-        }else{
+        } else {
             url = url + `?category=${category}`
         }
     }
 
 
 
-    if(!brand && !category){
+    if (!brand && !category) {
         url = url + `?sort_by_price=${price}&page=${page}&limit=${limit}`
-    }else{
+    } else {
         url = url + `&sort_by_price=${price}&page=${page}&limit=${limit}`
     }
 
@@ -87,8 +86,10 @@ interface IAllProductsWithCat {
     filterAllBrands: string[],
     filterAllCateory: string[],
     allHighlightProducts: IProduct[],
-    totalProducts : number ,
-    onePageLimit : number ,
+    totalProducts: number,
+    searchByQuery : boolean ,
+    sortByPrice : string ,
+    onePageLimit: number,
     singleProductId: string | number,
     singleProductData: IProduct,
     simmilarProductWithOnePro: IProduct[],
@@ -101,11 +102,13 @@ interface IAllProductsWithCat {
 const initialState: IAllProductsWithCat = {
     allProducts: [],
     allCaegory: [],
-    filterAllBrands : [],
-    filterAllCateory : [],
+    filterAllBrands: [],
+    filterAllCateory: [],
     allHighlightProducts: [],
-    totalProducts : 0 ,
-    onePageLimit : 4 ,
+    totalProducts: 0,
+    searchByQuery : false ,
+    sortByPrice : "-1" ,
+    onePageLimit: 4,
     singleProductId: "",
     singleProductData: {
         "id": 0,
@@ -194,6 +197,10 @@ const allProductsCatSlice = createSlice({
         },
 
 
+        setSortByPriceChange( state , action){
+            state.sortByPrice = action.payload.newPrice 
+        }
+
     },
 
 
@@ -201,12 +208,12 @@ const allProductsCatSlice = createSlice({
 
         builder.addCase(fetchAllProducts.pending, (state) => {
             state.isLoading = true;
+            state.allCaegory = [];
         })
 
         builder.addCase(fetchAllProducts.fulfilled, (state, action) => {
 
-
-            if(action.payload.totaldata === 0){
+            if (action.payload.totaldata === 0) {
                 toast.error(`Data Not Found for your query | 404`, {
                     position: "top-right",
                     autoClose: 2000,
@@ -222,9 +229,17 @@ const allProductsCatSlice = createSlice({
             state.isLoading = false;
             state.allProducts = action.payload.allProductData
             state.allCaegory = action.payload.allCategory
+            state.searchByQuery = false
+
+
+            if(action.payload.searchByQuery){
+                state.totalProducts = action.payload.allProductData.length
+                state.searchByQuery = true
+            }
+
             // state.allHighlightProducts = action.payload.allHighlights
 
-            // console.log(action.payload)
+            console.log(action.payload)
         })
 
         builder.addCase(fetchAllProducts.rejected, (state, action) => {
@@ -260,7 +275,6 @@ const allProductsCatSlice = createSlice({
                 state.filterAllBrands = action.payload.allBrands
                 state.filterAllCateory = action.payload.allCategory
                 state.totalProducts = action.payload.totalProducts
-
             })
 
 
@@ -315,7 +329,7 @@ const allProductsCatSlice = createSlice({
 })
 
 
-export const { loadDataIntoState, setSingleProductData, setFilterItems, setSingleOProductId } = allProductsCatSlice.actions
+export const { loadDataIntoState, setSingleProductData, setFilterItems, setSingleOProductId , setSortByPriceChange } = allProductsCatSlice.actions
 
 export default allProductsCatSlice.reducer
 

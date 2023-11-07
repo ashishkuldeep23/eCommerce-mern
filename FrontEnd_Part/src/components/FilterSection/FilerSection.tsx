@@ -6,7 +6,7 @@ import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon } from '@heroicons/rea
 
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../../store'
-import { fetchAllProducts } from '../../Slices/AllProductSlice'
+import { fetchAllProducts , setSortByPriceChange} from '../../Slices/AllProductSlice'
 import Pagination from '../Pagination/Pagination'
 
 
@@ -141,7 +141,7 @@ export default function FilterSection({ children }: any) {
 
     const [newFilter, setNewFilter] = useState([...filters])
 
-    const [queryObj , setQueryObj] = useState({ brand : '' , category : "" , price : "1"} )
+    const [queryObj , setQueryObj] = useState({ brand : '' , category : "" } )
 
     const dispatch = useDispatch<AppDispatch>()
 
@@ -159,6 +159,8 @@ export default function FilterSection({ children }: any) {
     const allCategory = useSelector((store: RootState) => store.allProductWithCatReducer.filterAllCateory)
     const allBrands = useSelector((store: RootState) => store.allProductWithCatReducer.filterAllBrands)
 
+    const sortByPrice = useSelector( (state :RootState) => state.allProductWithCatReducer.sortByPrice )
+
 
     type EventTypeOfOncahnge = React.ChangeEvent<HTMLInputElement> | React.FocusEvent<HTMLInputElement, Element>
 
@@ -174,7 +176,7 @@ export default function FilterSection({ children }: any) {
 
             setQueryObj({...queryObj , brand : value})
 
-            dispatch(fetchAllProducts({brand : value , category : queryObj.category , price : queryObj.price}))
+            dispatch(fetchAllProducts({brand : value , category : queryObj.category , price : sortByPrice}))
         }
 
 
@@ -182,7 +184,7 @@ export default function FilterSection({ children }: any) {
 
             setQueryObj({...queryObj , category : value})
 
-            dispatch(fetchAllProducts({brand : queryObj.brand , category : value , price : queryObj.price}))
+            dispatch(fetchAllProducts({brand : queryObj.brand , category : value , price : sortByPrice}))
         }
 
 
@@ -205,12 +207,14 @@ export default function FilterSection({ children }: any) {
         if(price === "acc"){
 
 
-            setQueryObj({...queryObj , price : "1"})
+            // setQueryObj({...queryObj , price : "1"})
+            dispatch(setSortByPriceChange({newPrice : "1"}))
             dispatch(fetchAllProducts({brand : queryObj.brand , category : queryObj.category , price : "1"}))
         }
 
         if(price === "dec"){
-            setQueryObj({...queryObj , price : "-1"})
+            // setQueryObj({...queryObj , price : "-1"})
+            dispatch(setSortByPriceChange({newPrice : "-1"}))
             dispatch(fetchAllProducts({brand : queryObj.brand , category : queryObj.category , price : "-1"}))
         }
 
@@ -393,8 +397,7 @@ export default function FilterSection({ children }: any) {
                                             {sortOptions.map((option) => (
                                                 <Menu.Item key={option.name}>
                                                     {
-                                                        <a
-                                                           
+                                                        <a   
                                                             className={`${option.current ? 'font-medium ' : ''}   block px-4 py-2 text-sm `}
                                                             onClick={(e)=>onClickHandlerForPrice(e , option.value)}
                                                         >

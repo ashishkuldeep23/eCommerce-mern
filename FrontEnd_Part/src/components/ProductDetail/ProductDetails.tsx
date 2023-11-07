@@ -623,7 +623,7 @@ export default function ProductDetails() {
                         </div>
 
                         :
-                        <p className='text-2xl'>There is something problem </p>
+                        <p className='text-2xl'>There is something problem (Loading Sekeleton) </p>
 
                 }
             </div>

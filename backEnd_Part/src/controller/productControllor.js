@@ -45,6 +45,9 @@ async function findAllProducts(req, res) {
     // console.log(req.query)
 
 
+    let searchByQuery = false
+
+
     let { brand , category , sort_by_price , most_started , page , limit} = req.query
 
     
@@ -60,11 +63,15 @@ async function findAllProducts(req, res) {
     if(brand){
         // searchObject.brand = brand.toLowerCase()
         searchObject.brand = brand
+
+        searchByQuery = true
     }
 
     if(category){
         // searchObject.category = category.toLowerCase()
         searchObject.category = category
+        
+        searchByQuery = true
 
         // // // To lower case not used now
     }
@@ -116,7 +123,7 @@ async function findAllProducts(req, res) {
     // // console.log( allHighlights)
 
 
-    return res.status(200).send({ status: true, totaldata: findAllProducts.length,  allProductData: findAllProducts , allCategory : allCategoryOfProducts })
+    return res.status(200).send({ status: true, totaldata: findAllProducts.length,  allProductData: findAllProducts , allCategory : allCategoryOfProducts , searchByQuery : searchByQuery })
 
 }
 

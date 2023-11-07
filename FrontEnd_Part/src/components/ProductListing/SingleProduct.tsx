@@ -2,7 +2,7 @@
 // import React from 'react'
 import { StarIcon } from '@heroicons/react/24/outline'
 import { useSelector, useDispatch } from "react-redux"
-import { setSingleProductData , setSingleOProductId } from "../../Slices/AllProductSlice"
+import { setSingleProductData, setSingleOProductId } from "../../Slices/AllProductSlice"
 import { fetchOneProductByID } from '../../Slices/AllProductSlice'
 import { IProduct } from "./ProductLists"
 import { AppDispatch, RootState } from "../../store"
@@ -28,8 +28,8 @@ const SingleProduct = ({ product }: TProductPrope) => {
             <a
                 key={product.id}
                 // href={"/product"}
-                className=" min-h-52 h-auto  rounded w-72  mb-5  mx-2 hover:cursor-pointer  cursor-pointer"
-                onClick={() => { navigate("/product"); dispatch(setSingleProductData({ id: product.id })); dispatch(fetchOneProductByID({productId : product.id}));  dispatch(setSingleOProductId({id : product.id}));  }}
+                className={` border ${!themeMode ? "border-slate-300" : " border-slate-600 "}  rounded-lg min-h-52 h-auto   w-72  mb-5  mx-2 hover:cursor-pointer  cursor-pointer`}
+                onClick={() => { navigate("/product"); dispatch(setSingleProductData({ id: product.id })); dispatch(fetchOneProductByID({ productId: product.id })); dispatch(setSingleOProductId({ id: product.id })); }}
                 id='singleCardHolder'
             >
                 <div className=" rounded-lg overflow-hidden">
@@ -53,7 +53,7 @@ const SingleProduct = ({ product }: TProductPrope) => {
 
                             <p className="h-5 w-5">{<StarIcon />}</p>
                             {/* <p>{product.rating.avgRating }</p> */}
-                            <p>{product.rating.totalPerson > 0 ? (Math.floor(product.rating.avgRating / product.rating.totalPerson)) : 0 }</p>
+                            <p>{product.rating.totalPerson > 0 ? (Math.floor(product.rating.avgRating / product.rating.totalPerson)) : 0}</p>
                         </div>
                     </div>
 

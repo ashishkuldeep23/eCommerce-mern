@@ -1,18 +1,19 @@
 
-import { useSelector } from "react-redux"
-import { RootState } from "../../store"
+import { useDispatch, useSelector } from "react-redux"
+import { AppDispatch, RootState } from "../../store"
 import { Fragment } from "react"
 
 
 import SingleProduct from "./SingleProduct"
+import { fetchAllCategoryAndHighlight, fetchAllProducts } from "../../Slices/AllProductSlice"
 
 
 
 export type SingleTypeObject = {
   "typeName": string[],
   "typeStock": number,
-  "typeVerity": string[] ,
-  "typeId" : string
+  "typeVerity": string[],
+  "typeId": string
 }
 
 
@@ -56,6 +57,8 @@ export interface IProduct {
 
 export default function ProductLists() {
 
+  const dispatch = useDispatch<AppDispatch>()
+
 
   // const [products, setProducts] = useState<IProduct[]>([])
 
@@ -68,7 +71,13 @@ export default function ProductLists() {
 
   const productCategory = useSelector((store: RootState) => store.allProductWithCatReducer.allCaegory)
 
+  const isLoding = useSelector((state: RootState) => state.allProductWithCatReducer.isLoading)
+
   const products = useSelector((store: RootState) => store.allProductWithCatReducer.allProducts)
+
+  const searchByQuery = useSelector((state: RootState) => state.allProductWithCatReducer.searchByQuery)
+
+  const limitValue = useSelector((state : RootState)=>state.allProductWithCatReducer.onePageLimit)
 
 
   const styleOfCatgioryDiv = {
@@ -83,6 +92,11 @@ export default function ProductLists() {
 
 
         <h2 className="sr-only">Products</h2>
+
+        {
+          isLoding && <div>Loading</div>
+        }
+
 
         {
 
@@ -135,12 +149,22 @@ export default function ProductLists() {
         }
 
 
+        {
 
+          searchByQuery
+          &&
+          <div className="flex justify-center">
+            <h1
+              className="border  px-1 rounded-lg font-bold hover:bg-green-500 hover:scale-110 transition-all"
+              onClick={() => {
+                dispatch(fetchAllCategoryAndHighlight());
+                dispatch(fetchAllProducts({ brand: "", category: '', price: "-1", limit: `${limitValue}` }));
+                window.scroll(0 , 0)
+              }}
+            >Back To normal Data</h1>
+          </div>
 
-
-
-
-
+        }
 
 
 
