@@ -8,8 +8,8 @@ export default {
   ],
   theme: {
 
-    screens : {
-      'xsm' : "260px" ,
+    screens: {
+      'xsm': "260px",
       'sm': '640px',
       // => @media (min-width: 640px) { ... }
 
@@ -26,14 +26,14 @@ export default {
     },
 
     extend: {
-      height : {
-        allAk : "100vh" ,
+      height: {
+        allAk: "100vh",
       },
-      maxWidth : {
-        allAk : "87rem"
+      maxWidth: {
+        allAk: "87rem"
       },
-      
 
+      
     },
   },
   plugins: [

@@ -1,21 +1,20 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-var mongoose = require("mongoose")
-var cors = require('cors')
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const mongoose = require("mongoose")
+const cors = require('cors')
 
-var indexRouter = require('./src/routes/routes');
+
+const indexRouter = require('./src/routes/routes');
 
 
 
 require('dotenv').config()
 
-// getting name means every thing is good
-// console.log(process.env.name)
 
-var app = express();
+const app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -27,7 +26,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
+// // // Use full middle wares --->
 app.use(cors())
+
 
 
 // // // Mongo DB connection code 
@@ -35,6 +37,13 @@ mongoose.connect(process.env.DB_STRING, { useNewUrlParser: true })
 .then(() => console.log("Mongoose connected successfully"))
 .catch((err) => { console.log("An error occured :- " + err) })
 
+
+
+// app.use( (req, res , next)=>{
+//   // console.log(req);
+//   console.log(req.cookies);
+//   next()
+// } )
 
 
 app.use('/', indexRouter);

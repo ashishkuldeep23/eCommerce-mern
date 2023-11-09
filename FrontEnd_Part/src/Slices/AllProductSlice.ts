@@ -239,7 +239,7 @@ const allProductsCatSlice = createSlice({
 
             // state.allHighlightProducts = action.payload.allHighlights
 
-            console.log(action.payload)
+            // console.log(action.payload)
         })
 
         builder.addCase(fetchAllProducts.rejected, (state, action) => {
