@@ -97,7 +97,7 @@ async function creteUserControllor(req, res) {
             
             let result = await cloudinary.uploader.upload(filePathIs)
 
-            console.log(result)
+            // console.log(result)
             pathUrl = result.url
 
         }
