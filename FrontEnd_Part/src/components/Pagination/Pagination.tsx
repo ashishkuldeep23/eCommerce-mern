@@ -21,7 +21,7 @@ export default function Pagination() {
 
     const isLoding = useSelector((state: RootState) => state.allProductWithCatReducer.isLoading)
 
-    const sortByPrice = useSelector( (state :RootState) => state.allProductWithCatReducer.sortByPrice )
+    const sortByPrice = useSelector((state: RootState) => state.allProductWithCatReducer.sortByPrice)
 
 
     // // // Limit value is 4 set (Change in useEffect of app.jsx and here)
@@ -38,11 +38,6 @@ export default function Pagination() {
     function handlePagination(page: number) {
 
         // console.log(page)
-
-
-        // let productHeading = document.getElementById("products-heading")!
-        window.scroll(0, 500)   // // // This line is responsibil for scrooling the window
-
 
 
         if (page < 1) {
@@ -76,9 +71,20 @@ export default function Pagination() {
 
         setCurrentPage(page)
 
-        dispatch(fetchAllProducts({ brand: "", category: '', price: sortByPrice , page: `${page}`, limit: `${limitValue}` }))
+        dispatch(fetchAllProducts({ brand: "", category: '', price: sortByPrice, page: `${page}`, limit: `${limitValue}` }))
 
 
+
+                
+        // let productHeading = document.getElementById("products-heading")!
+        // window.scroll({ top : 100 , left: 0 , behavior: "smooth",})   // // // This line is responsibil for scrooling the window
+
+
+        if(window.innerWidth <= 640){
+            window.scroll({ top : 100 , left: 0 , behavior: "smooth",}) 
+        }else{
+            window.scroll({ top : 250 , left: 0 , behavior: "smooth",}) 
+        }
 
     }
 
@@ -89,13 +95,10 @@ export default function Pagination() {
     }
 
 
-
     // // // if total page calculation is less then or qual to 1 then show nothing
     if (totalPageShow <= 1) {
         return ""
     }
-
-
 
 
 
@@ -106,17 +109,21 @@ export default function Pagination() {
 
 
         <div className="flex items-center justify-between border-t border-gray-200  px-4 py-3 sm:px-6" >
-            <div className="flex flex-1 justify-between sm:hidden">
+            <div className="flex flex-1 justify-between items-center sm:hidden">
                 <p
                     className="relative inline-flex items-center rounded-md border border-gray-300 px-4 py-2 text-sm font-medium  hover:bg-gray-50"
-                    onClick={() => handlePagination(currentPage - 1)}
+                    onClick={(e) =>{e.preventDefault(); e.stopPropagation(); handlePagination(currentPage - 1) }}
                 >
                     Previous
                 </p>
-                <p>{`${currentPage}/${totalPageShow}`}</p>
+
+                {/* <p>{`${currentPage}/${totalPageShow}`}</p> */}
+
+                <p> <span className=' font-bold text-blue-700'>{currentPage}</span>/<span>{totalPageShow}</span> </p>
+
                 <p
                     className="relative ml-3 inline-flex items-center rounded-md border border-gray-300 px-4 py-2 text-sm font-medium  hover:bg-gray-50"
-                    onClick={() => handlePagination(currentPage + 1)}
+                    onClick={(e) =>{e.preventDefault(); e.stopPropagation(); handlePagination(currentPage + 1) }}
                 >
                     Next
                 </p>
@@ -133,7 +140,7 @@ export default function Pagination() {
                         <p
 
                             className="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
-                            onClick={() => handlePagination(currentPage - 1)}
+                            onClick={(e) =>{e.preventDefault(); e.stopPropagation(); handlePagination(currentPage - 1) }}
                         >
                             <span className="sr-only">Previous</span>
                             <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
@@ -144,13 +151,13 @@ export default function Pagination() {
 
                         {
 
-                            Array.from(Array(totalPageShow), (ele, i) => {
+                            (totalPageShow > 0) && Array.from(Array(totalPageShow), (ele, i) => {
                                 return (
                                     <p
                                         key={i}
 
                                         className={` ${(currentPage === i + 1) && "bg-blue-700 text-white"} relative inline-flex items-center px-4 py-2 text-sm font-semibold  ring-1 ring-inset ring-gray-300 hover:bg-blue-200 focus:z-20 focus:outline-offset-0`}
-                                        onClick={() => { console.log(ele); handlePagination(++i); }}
+                                        onClick={(e) => { e.preventDefault(); e.stopPropagation(); console.log(ele); handlePagination(++i); }}
                                     >
                                         {`${i + 1} `}
                                     </p>
@@ -163,7 +170,7 @@ export default function Pagination() {
                         <p
 
                             className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
-                            onClick={() => handlePagination(currentPage + 1)}
+                            onClick={(e) =>{e.preventDefault(); e.stopPropagation(); handlePagination(currentPage + 1) }}
                         >
                             <span className="sr-only">Next</span>
                             <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />

@@ -480,7 +480,7 @@ export default function FilterSection({ children }: any) {
                             </form>
 
                             {/* Product grid */}
-                            <div className="lg:col-span-5">{/* Your content */ children}</div>
+                            <div className="lg:col-span-5">{/* Your content */   children }</div>
                         </div>
                     </section>
 

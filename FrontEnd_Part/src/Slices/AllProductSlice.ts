@@ -51,7 +51,12 @@ export const fetchAllProducts = createAsyncThunk("fetchAllProducts", async ({ br
     // console.log(url)
 
 
-    const response = await fetch(url)
+    
+    let option : RequestInit = {
+        credentials: 'include',
+    }
+
+    const response = await fetch(url , option)
     let data = await response.json();
     return data
 })
@@ -65,7 +70,12 @@ export const fetchOneProductByID = createAsyncThunk("fetchSingleProduct/:id", as
 
     // console.log(productId)
 
-    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/findOneProduct/${productId}`)
+
+    let option : RequestInit = {
+        credentials: 'include',
+    }
+
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/findOneProduct/${productId}` , option)
     let data = await response.json();
     return data
 })
@@ -73,7 +83,12 @@ export const fetchOneProductByID = createAsyncThunk("fetchSingleProduct/:id", as
 
 
 export const fetchAllCategoryAndHighlight = createAsyncThunk("getCategoryAndHighlight", async () => {
-    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/getCategoryAndHighlight`)
+
+    let option : RequestInit = {
+        credentials: 'include',
+    }
+
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/getCategoryAndHighlight` , option)
     let data = await response.json();
     return data
 })
@@ -87,8 +102,8 @@ interface IAllProductsWithCat {
     filterAllCateory: string[],
     allHighlightProducts: IProduct[],
     totalProducts: number,
-    searchByQuery : boolean ,
-    sortByPrice : string ,
+    searchByQuery: boolean,
+    sortByPrice: string,
     onePageLimit: number,
     singleProductId: string | number,
     singleProductData: IProduct,
@@ -106,8 +121,8 @@ const initialState: IAllProductsWithCat = {
     filterAllCateory: [],
     allHighlightProducts: [],
     totalProducts: 0,
-    searchByQuery : false ,
-    sortByPrice : "-1" ,
+    searchByQuery: false,
+    sortByPrice: "-1",
     onePageLimit: 4,
     singleProductId: "",
     singleProductData: {
@@ -197,8 +212,8 @@ const allProductsCatSlice = createSlice({
         },
 
 
-        setSortByPriceChange( state , action){
-            state.sortByPrice = action.payload.newPrice 
+        setSortByPriceChange(state, action) {
+            state.sortByPrice = action.payload.newPrice
         }
 
     },
@@ -232,7 +247,7 @@ const allProductsCatSlice = createSlice({
             state.searchByQuery = false
 
 
-            if(action.payload.searchByQuery){
+            if (action.payload.searchByQuery) {
                 state.totalProducts = action.payload.allProductData.length
                 state.searchByQuery = true
             }
@@ -263,6 +278,8 @@ const allProductsCatSlice = createSlice({
 
             .addCase(fetchAllCategoryAndHighlight.pending, () => {
 
+                // console.log(action.payload)
+
                 console.log("Getting Data from Backend. Now pending")
             })
 
@@ -271,14 +288,38 @@ const allProductsCatSlice = createSlice({
 
                 // console.log(action.payload)
 
-                state.allHighlightProducts = action.payload.allHighlights
-                state.filterAllBrands = action.payload.allBrands
-                state.filterAllCateory = action.payload.allCategory
-                state.totalProducts = action.payload.totalProducts
+                if (action.payload.status) {
+
+
+                    state.allHighlightProducts = action.payload.allHighlights
+                    state.filterAllBrands = action.payload.allBrands
+                    state.filterAllCateory = action.payload.allCategory
+                    state.totalProducts = action.payload.totalProducts
+
+                } else {
+
+                    // // // Some error part
+
+                    toast.error(`${action.payload.message}`, {
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: false,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                    });
+                }
+
             })
 
 
             .addCase(fetchAllCategoryAndHighlight.rejected, (state, action) => {
+
+
+                // console.log(action.payload)
+
                 state.isError = true
                 toast.error(`${action.error.message} | Check your Network | Refresh the page`, {
                     position: "top-right",
@@ -329,7 +370,7 @@ const allProductsCatSlice = createSlice({
 })
 
 
-export const { loadDataIntoState, setSingleProductData, setFilterItems, setSingleOProductId , setSortByPriceChange } = allProductsCatSlice.actions
+export const { loadDataIntoState, setSingleProductData, setFilterItems, setSingleOProductId, setSortByPriceChange } = allProductsCatSlice.actions
 
 export default allProductsCatSlice.reducer
 

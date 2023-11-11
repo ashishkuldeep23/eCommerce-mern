@@ -8,6 +8,8 @@ import { toggleModeValue } from '../../Slices/ThemeSlices'
 import { AppDispatch, RootState } from '../../store'
 
 import { setSingleOProductId, fetchOneProductByID, setSingleProductData } from '../../Slices/AllProductSlice';
+import { toast } from 'react-toastify';
+import { userState } from '../../Slices/UserSlice';
 
 
 
@@ -25,6 +27,19 @@ const navigation = [
 
 // // // I'm main UI code for Navbar (All Functional comps present in-side me)
 export default function NavBar() {
+
+    // const userData = userState().userData
+
+
+
+
+    // // // calling user data ------->
+    // useEffect( ()=>{
+
+
+
+    // } , [userData])
+
 
 
     return (
@@ -144,6 +159,7 @@ function MainSearchBarWithLogics() {
     const inputRef = useRef<HTMLInputElement | null>(null);
 
     const [text, setText] = useState("")
+    // // // Text var is used as search Text --->
 
 
     const handleInboxClick = () => {
@@ -271,7 +287,7 @@ function MainSearchBarWithLogics() {
                         {
                             text &&
                             <div className='p-1 bg-red-500 m-1 font-bold rounded flex justify-between'
-                            onClick={ ()=>{setText(""); } }
+                                onClick={() => { setText(""); }}
                             >
                                 <p>Close</p>
                                 <p className='border px-1 rounded'>x</p>
@@ -383,13 +399,90 @@ function RightCommonSection() {
 
     const cartData = useSelector((state: RootState) => state.CartReducer.cartData)
 
+    const getUserState = userState();
 
-    const itemsOfProfileOnHover = [
-        { tab: "Your Profile", to: "/about" },
-        { tab: "Setting", to: "#" },
-        { tab: "SignOut", to: "#" },
-        { tab: "LogIn", to: "/login" },
-    ]
+    // const [tokenInCookie , setTokenInCookie] = useState<string>('')
+
+
+    let itemsOfProfileOnHover = null;
+
+    // itemsOfProfileOnHover = [
+    //     { tab: "Your Profile", to: "/about" },
+    //     { tab: "Setting", to: "#" },
+    //     { tab: "SignIn", to: "/login" },
+    //     { tab: "SignOut", to: "#" },
+    // ]
+
+
+
+
+    if (getUserState.isLogIn) {
+
+        itemsOfProfileOnHover = [
+            { tab: "Your Profile", to: "/about" },
+            { tab: "Setting", to: "#" },
+            { tab: "SignOut", to: "#" },
+        ]
+
+    } else {
+
+        itemsOfProfileOnHover = [
+            { tab: "Your Profile", to: "/about" },
+            { tab: "SignIn", to: "/login" },
+        ]
+
+    }
+
+
+
+
+    function logOutFnCall() {
+
+        toast.success("SingOut Done ✅", {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+        })
+
+
+        // // // Now setting token to null in singOut Fn() ---->
+        document.cookie = `token=`
+
+        // // // Go To home-page ---->>
+        navigate("/")
+
+        // // Reload page ----->>
+        location.reload()
+
+
+        // // // Delete user INFo in local ---->
+
+        localStorage.removeItem("userData")
+        localStorage.removeItem("isUserLogIn")
+
+
+    }
+
+
+
+    // useEffect( ()=>{
+
+    //     // let getCookie = document.cookie.get("token")
+
+    //     console.log(document.cookie.split(";").includes("token="))
+
+    //     let getCookie = document.cookie.split(";").includes("token=")
+
+    //     // // // If above code will give true means user logout . 
+
+    // } , [tokenInCookie] )
+
+
 
     return (
         <>
@@ -434,8 +527,8 @@ function RightCommonSection() {
                             <span className="absolute -inset-1.5" />
                             <span className="sr-only">Open user menu</span>
                             <img
-                                className="h-8 w-8 rounded-full"
-                                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEymdd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                                className="h-8 w-8 rounded-full object-cover"
+                                src={getUserState.userData.profilePic}
                                 alt=""
                             />
                         </Menu.Button>
@@ -459,12 +552,21 @@ function RightCommonSection() {
                                         <Fragment key={i}>
 
                                             <Menu.Item >
-                                                <Link
-                                                    to={item.to}
-                                                    className={`${!themeSate ? "hover:bg-gray-300" : "hover:bg-gray-800 "} block px-4 py-2 text-md `}
-                                                >
-                                                    {item.tab}
-                                                </Link>
+                                                {
+
+                                                    <Link
+                                                        to={item.to}
+                                                        className={`${!themeSate ? "hover:bg-gray-300" : "hover:bg-gray-800 "} block px-4 py-2 text-md  ${item.tab === "SignOut" ? "text-red-500" : ""} `}
+
+                                                        onClick={() => { item.tab === "SignOut" && logOutFnCall() }}
+
+                                                    >
+                                                        {item.tab}
+                                                    </Link>
+
+                                                }
+
+
                                             </Menu.Item>
 
                                         </Fragment>
@@ -512,7 +614,7 @@ function RightCommonSection() {
                     </label>
                 </button>
 
-            </div>
+            </div >
 
         </>
     )

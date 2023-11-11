@@ -45,7 +45,7 @@ async function creteUserControllor(req, res) {
 
         // let body = JSON.parse(req.body)
 
-        let { firstName, lastName, email, password, address  } = req.body
+        let { firstName, lastName, email, password, address } = req.body
 
 
         if (Object.keys(req.body).length <= 0) return res.status(400).send({ status: false, message: "Body can't be empty." })
@@ -53,23 +53,23 @@ async function creteUserControllor(req, res) {
         if (!firstName || !lastName || !email || !password) return res.status(400).send({ status: false, message: "Imp field missing." })
 
 
-        if(!validateName.test(firstName))   return res.status(400).send({ status: false, message: `${firstName} : This First Name is invalid` })
+        if (!validateName.test(firstName)) return res.status(400).send({ status: false, message: `${firstName} : This First Name is invalid` })
 
-        if(!validateName.test(lastName))   return res.status(400).send({ status: false, message: `${lastName} : This Last Name is invalid` })
+        if (!validateName.test(lastName)) return res.status(400).send({ status: false, message: `${lastName} : This Last Name is invalid` })
 
 
-        if(!validateEmail.test(email)){
+        if (!validateEmail.test(email)) {
             return res.status(400).send({ status: false, message: `${email} : This email is invalid` })
         }
 
-        if(!validatePassword.test(password)){
+        if (!validatePassword.test(password)) {
             return res.status(400).send({ status: false, message: `${password} : This password is invalid` })
         }
 
 
 
         if (address) {
-            let { pincode,street,city, country } = address
+            let { pincode, street, city, country } = address
 
             if (street && !validateName.test(street)) return res.status(400).send({ status: false, message: "Street name should be string only." });
             if (city && !validateName.test(city)) return res.status(400).send({ status: false, message: "City name should be string only." });
@@ -81,7 +81,7 @@ async function creteUserControllor(req, res) {
 
 
 
-                
+
         // // // // Upload File -------->
 
         const file = req.files;
@@ -91,10 +91,10 @@ async function creteUserControllor(req, res) {
 
         let pathUrl = "https://res.cloudinary.com/dlvq8n2ca/image/upload/v1699431919/up6onv0gbmdjyt1rsiyz.jpg"
 
-        if(req.files.length > 0){
+        if (req.files.length > 0) {
 
             let filePathIs = req.files[0].path
-            
+
             let result = await cloudinary.uploader.upload(filePathIs)
 
             // console.log(result)
@@ -119,15 +119,16 @@ async function creteUserControllor(req, res) {
 
 
 
-        const createNewUser = await userModel.create({ ...req.body, password: hashPassword , profilePic : pathUrl })
+        const createNewUser = await userModel.create({ ...req.body, password: hashPassword, profilePic: pathUrl })
 
 
 
         let data = {
-            userName : `${createNewUser.firstName} ${createNewUser.lastName}` ,
-            id : createNewUser.id ,
-            role : createNewUser.email ,
-            profilePic : createNewUser.profilePic
+            name: `${createNewUser.firstName} ${createNewUser.lastName}`,
+            email: createNewUser.email,
+            // id : createNewUser.id ,
+            profilePic: createNewUser.profilePic,
+            role: createNewUser.email,
         }
 
 
@@ -148,4 +149,49 @@ async function creteUserControllor(req, res) {
 
 
 
-module.exports = { creteUserControllor }
+
+
+async function logInControllor(req, res) {
+    try {
+        console.log("New user login")
+
+        // console.log(req.cookies)
+
+        res.cookie("token", req.user.token,
+            {
+                expires : new Date(Date.now() + 36000000),
+                // httpOnly : true,
+                // signed: true,
+            }
+        )
+
+        res.status(200).send({ status: true, data: req.user, message: `Login Successfull` })
+    } catch (err) {
+        console.log(err.message)
+        return res.status(500).send({ status: false, message: `Error by server (${err.message})` })
+    }
+
+}
+
+
+
+
+function logOutControl(req, res) {
+
+
+    res
+        .status(200)
+        .cookie('token', null , {
+            expires: new Date(Date.now()),
+            // httpOnly: true,
+        })
+        .send({status : true , message : "SingOut Done."})
+
+
+
+}
+
+
+
+
+module.exports = { creteUserControllor, logInControllor , logOutControl }

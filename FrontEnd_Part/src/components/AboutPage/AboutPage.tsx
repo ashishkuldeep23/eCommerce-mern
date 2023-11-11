@@ -5,6 +5,7 @@
 
 import { useSelector } from "react-redux"
 import { RootState } from "../../store"
+import { userState } from "../../Slices/UserSlice"
 
 
 
@@ -40,28 +41,35 @@ let previousOrders = [
 const AboutPage = () => {
 
 
-    const themeMode = useSelector( (store : RootState) => store.themeReducer.mode )
+    const themeMode = useSelector((store: RootState) => store.themeReducer.mode)
+
+    const getUserData = userState().userData
 
 
     return (
         <>
 
-            <div className={`${ !themeMode ? "bg-white text-gray-900" : "bg-black text-gray-200" } p-5 `}>
+            <div
+                className={`${!themeMode ? "bg-white text-gray-900" : "bg-black text-gray-200"} p-5 `}
+            >
 
                 {/* user Details  */}
-                <div className="flex mx-auto max-w-full md:max-w-allAk px-1 md:px-2 lg:px-8  p-2 pt-16 justify-center items-center flex-col md:flex-row my-10">
+                <div
+                    className="flex mx-auto max-w-full md:max-w-allAk px-1 md:px-2 lg:px-8  p-2 pt-16 justify-center items-center flex-col md:flex-row my-10"
+                >
 
                     <div>
 
-                        <img 
-                        className=" w-72 md:max-w-sm rounded-full  outline outline-offset-2 outline-emerald-300  hover:outline-offset-4  transition-all " 
-                        src="https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-04.jpg" alt="" 
+                        <img
+                            className=" w-80 md:max-w-sm  rounded-xl  outline outline-offset-2 outline-emerald-300  hover:outline-offset-4  transition-all "
+                            src={getUserData.profilePic}
+                            alt=""
                         />
                     </div>
 
                     <div className="ml-10">
-                        <h2>Name : </h2>
-                        <p>Email : </p>
+                        <h2>Name : {getUserData.name} </h2>
+                        <p>Email : {getUserData.email} </p>
                         <p>Address : Array or all address</p>
                     </div>
 
