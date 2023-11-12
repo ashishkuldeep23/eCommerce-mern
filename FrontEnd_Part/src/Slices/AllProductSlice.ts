@@ -51,15 +51,61 @@ export const fetchAllProducts = createAsyncThunk("fetchAllProducts", async ({ br
     // console.log(url)
 
 
+
+    let getUserToken = localStorage.getItem("userToken");
+
+    if(getUserToken){
+        getUserToken = JSON.parse(getUserToken)
+    }else{
+        getUserToken = null
+    }
+
     
     let option : RequestInit = {
-        credentials: 'include',
+        // credentials: 'include',
+
+        headers : {
+            "token" : `${getUserToken}`
+        }
+
     }
 
     const response = await fetch(url , option)
     let data = await response.json();
     return data
 })
+
+
+
+
+
+export const fetchAllCategoryAndHighlight = createAsyncThunk("getCategoryAndHighlight", async () => {
+
+
+    let getUserToken = localStorage.getItem("userToken");
+
+    if(getUserToken){
+        getUserToken = JSON.parse(getUserToken)
+    }else{
+        getUserToken = null
+    }
+
+    
+    let option : RequestInit = {
+        // credentials: 'include',
+
+        headers : {
+            "token" : `${getUserToken}`
+        }
+
+    }
+
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/getCategoryAndHighlight` , option)
+    let data = await response.json();
+    return data
+})
+
+
 
 
 type productId = {
@@ -71,8 +117,22 @@ export const fetchOneProductByID = createAsyncThunk("fetchSingleProduct/:id", as
     // console.log(productId)
 
 
+    let getUserToken = localStorage.getItem("userToken");
+
+    if(getUserToken){
+        getUserToken = JSON.parse(getUserToken)
+    }else{
+        getUserToken = null
+    }
+
+    
     let option : RequestInit = {
-        credentials: 'include',
+        // credentials: 'include',
+
+        headers : {
+            "token" : `${getUserToken}`
+        }
+
     }
 
     const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/findOneProduct/${productId}` , option)
@@ -81,17 +141,6 @@ export const fetchOneProductByID = createAsyncThunk("fetchSingleProduct/:id", as
 })
 
 
-
-export const fetchAllCategoryAndHighlight = createAsyncThunk("getCategoryAndHighlight", async () => {
-
-    let option : RequestInit = {
-        credentials: 'include',
-    }
-
-    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/getCategoryAndHighlight` , option)
-    let data = await response.json();
-    return data
-})
 
 
 

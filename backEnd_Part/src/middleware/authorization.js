@@ -12,8 +12,12 @@ exports.isAuthorized = async function (req, res, next) {
 
         // console.log(req.cookies)
 
-        if (req && req.cookies) {
-            token = req.cookies["token"]
+        // console.log(req.headers)
+
+
+
+        if (req && req.headers) {
+            token = req.headers["token"]
             console.log(token)
         } else {
             return res.status(401).send({ status: false, message: "Something went wroung with your request." })

@@ -35,7 +35,7 @@ router.get("/findOneProduct/:productId", isAuthorized ,  findOneProduct)
 
 
 // // // Review API 
-router.post("/createReview",isAuthorized , createNewReview)
+router.post("/createReview", isAuthorized , createNewReview)
 
 
 

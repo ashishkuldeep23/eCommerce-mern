@@ -265,6 +265,10 @@ const userSlice = createSlice({
                     // // // Set token data in cookie ------->
                     document.cookie = `token=${action.payload.data.token}`
 
+                    // // // And also set cookie in localStorage -------->
+
+                    localStorage.setItem("userToken" , JSON.stringify(action.payload.data.token))
+
 
 
 
