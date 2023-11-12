@@ -52,7 +52,7 @@ async function findAllProducts(req, res) {
 
     
     
-    console.log(brand , category , sort_by_price)
+    // console.log(brand , category , sort_by_price)
 
     // console.log(typeof sort_by_price) 
 
