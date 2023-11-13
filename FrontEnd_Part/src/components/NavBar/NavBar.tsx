@@ -436,7 +436,7 @@ function RightCommonSection() {
 
 
 
-    function logOutFnCall() {
+    function singOutHandler() {
 
         toast.success("SingOut Done ✅", {
             position: "top-right",
@@ -453,6 +453,9 @@ function RightCommonSection() {
         // // // Now setting token to null in singOut Fn() ---->
         document.cookie = `token=`
 
+        // // // Now using localStorage and request header (Means remove token from local storage) ------->
+        localStorage.removeItem("userToken")
+
         // // // Go To home-page ---->>
         navigate("/")
 
@@ -461,12 +464,11 @@ function RightCommonSection() {
 
 
         // // // Delete user INFo in local ---->
-
         localStorage.removeItem("userData")
         localStorage.removeItem("isUserLogIn")
 
-
     }
+
 
 
 
@@ -558,7 +560,7 @@ function RightCommonSection() {
                                                         to={item.to}
                                                         className={`${!themeSate ? "hover:bg-gray-300" : "hover:bg-gray-800 "} block px-4 py-2 text-md  ${item.tab === "SignOut" ? "text-red-500" : ""} `}
 
-                                                        onClick={() => { item.tab === "SignOut" && logOutFnCall() }}
+                                                        onClick={() => { item.tab === "SignOut" && singOutHandler() }}
 
                                                     >
                                                         {item.tab}

@@ -116,7 +116,6 @@ export const fetchOneProductByID = createAsyncThunk("fetchSingleProduct/:id", as
 
     // console.log(productId)
 
-
     let getUserToken = localStorage.getItem("userToken");
 
     if(getUserToken){

@@ -37,128 +37,107 @@ const NewCrousel = () => {
 
 
             <div className={` overflow-hidden rounded-xl sm:rounded-3xl`} id='crouselHolderDiv'>
-                <ReactSimplyCarousel
 
-                    activeSlideIndex={activeSlideIndex}
-                    onRequestChange={setActiveSlideIndex}
-                    itemsToShow={1}
-                    itemsToScroll={1}
-                    forwardBtnProps={{
-                        //here you can also pass className, or any other button element attributes
-                        style: {
-                            right: "10%",
-                        },
-                        className: ' crouselBtn ',
-                        children: <span>{`❯`}</span>,
-                    }}
-                    backwardBtnProps={{
-                        //here you can also pass className, or any other button element attributes
-                        style: {
-                            left: "10%",
-                        },
-                        className: ' crouselBtn ',
-                        children: <span>{`❮`}</span>,
-                    }}
-                    responsiveProps={[
-                        {
-                            itemsToShow: 1,
-                            itemsToScroll: 1,
-                            minWidth: 768,
-                        },
-                    ]}
-                    speed={500}
-                    autoplayDelay={2000}
-                    easing="linear"
-                    autoplay={true}
-                    autoplayDirection="forward"
-                >
 
-                    {
+                {
 
-                        (crousalItems && crousalItems.length > 0)
 
-                            ?
+                    (crousalItems && crousalItems.length > 0)
 
-                            crousalItems.map((item, i) => {
-                                return (
-                                    <div key={i} className='withAllImp singleCrousel  flex justify-center  h-crH hover:cursor-pointer'>
+                        ?
 
-                                        <div
-                                            style={{ backgroundImage: `url(${item.images[1]})`, ...holderDivStyle }}
-                                            className="carousel-item   h-full hover:cursor-pointer box-content flex justify-around  w-full  "
-                                            onClick={() => { navigate("/product"); dispatch(setSingleProductData({ id: item.id })); dispatch(fetchOneProductByID({productId : item.id})); dispatch(setSingleOProductId({id : item.id}))  }}
-                                        >
+                        // // // This is main crousel (When real data come then it will displayed  )
 
-                                            {/* <img src={item.thumbnail}
+                        <ReactSimplyCarousel
+
+                            activeSlideIndex={activeSlideIndex}
+                            onRequestChange={setActiveSlideIndex}
+                            itemsToShow={1}
+                            itemsToScroll={1}
+                            forwardBtnProps={{
+                                //here you can also pass className, or any other button element attributes
+                                style: {
+                                    right: "10%",
+                                },
+                                className: ' crouselBtn ',
+                                children: <span>{`❯`}</span>,
+                            }}
+                            backwardBtnProps={{
+                                //here you can also pass className, or any other button element attributes
+                                style: {
+                                    left: "10%",
+                                },
+                                className: ' crouselBtn ',
+                                children: <span>{`❮`}</span>,
+                            }}
+                            responsiveProps={[
+                                {
+                                    itemsToShow: 1,
+                                    itemsToScroll: 1,
+                                    minWidth: 768,
+                                },
+                            ]}
+                            speed={500}
+                            autoplayDelay={2000}
+                            easing="linear"
+                            autoplay={true}
+                            autoplayDirection="forward"
+                        >
+
+                            {
+
+                                crousalItems.map((item, i) => {
+                                    return (
+                                        <div key={i} className='withAllImp singleCrousel  flex justify-center  h-crH hover:cursor-pointer'>
+
+                                            <div
+                                                style={{ backgroundImage: `url(${item.images[1]})`, ...holderDivStyle }}
+                                                className="carousel-item   h-full hover:cursor-pointer box-content flex justify-around  w-full  "
+                                                onClick={() => { navigate("/product"); dispatch(setSingleProductData({ id: item.id })); dispatch(fetchOneProductByID({ productId: item.id })); dispatch(setSingleOProductId({ id: item.id })) }}
+                                            >
+
+                                                {/* <img src={item.thumbnail}
                                                 className="  w-auto object-contain rounded"
                                             /> */}
 
-                                            <p className=" text-sm md:text-3xl text-teal-300 text-center  absolute bottom-5 ">
-                                                {item.title} :
+                                                <p className=" text-sm md:text-3xl text-teal-300 text-center  absolute bottom-5 ">
+                                                    {item.title} :
 
-                                                {
-                                                    item.discountPercentage
-                                                        ?
-                                                        <span className={`text-end font-medium `}> <span className=' text-sm font-thin line-through'>₹{item.price}</span> ₹{Math.round(item.price - ((item.discountPercentage * item.price) / 100))}</span>
+                                                    {
+                                                        item.discountPercentage
+                                                            ?
+                                                            <span className={`text-end font-medium `}> <span className=' text-sm font-thin line-through'>₹{item.price}</span> ₹{Math.round(item.price - ((item.discountPercentage * item.price) / 100))}</span>
 
-                                                        :
-                                                        <span className={`text-end font-medium `}> ₹{item.price} </span>
-                                                }
-                                            </p>
+                                                            :
+                                                            <span className={`text-end font-medium `}> ₹{item.price} </span>
+                                                    }
+                                                </p>
 
 
 
-                                            {/* <div
+                                                {/* <div
                                                 className="absolute flex justify-between transform -translate-y-1/2 left-0 right-0 top-1/2"
                                                 onClick={(e) => { e.stopPropagation() }}
                                             >
                                             </div> */}
 
+                                            </div>
+
+
                                         </div>
-
-
-                                    </div>
-                                )
-                            })
-
-
-                            :
-
-
-                            <>
-
-                                <div className='withAllImp singleCrousel relative  h-crH hover:cursor-pointer' style={{ background: '#0B666A' }}>
-                                    slide 0
-                                </div>
-                                <div className=' withAllImp singleCrousel relative h-crH hover:cursor-pointer' style={{ background: '#065535' }}>
-                                    slide 1
-                                </div>
-                                <div className='withAllImp singleCrousel relative  h-crH hover:cursor-pointer' style={{ background: '#000000' }}>
-                                    slide 2
-                                </div>
-                                <div className=' withAllImp singleCrousel relative h-crH hover:cursor-pointer' style={{ background: '#133337' }}>
-                                    slide 3
-                                </div>
-                                <div className='withAllImp singleCrousel relative  h-crH hover:cursor-pointer' style={{ background: '#ffc0cb' }}>
-                                    slide 4
-                                </div>
-                                <div className=' withAllImp singleCrousel relative  h-crH hover:cursor-pointer' style={{ background: '#ffffff' }}>
-                                    slide 5
-                                </div>
-                                <div className=' withAllImp singleCrousel relative h-crH hover:cursor-pointer' style={{ background: '#ffe4e1' }}>
-                                    slide 6
-                                </div>
-
-                            </>
-
-                    }
+                                    )
+                                })
 
 
 
-                    {/* here you can also pass any other element attributes. Also, you can use your custom components as slides */}
+
+                            }
 
 
-                    {/* <>
+
+                            {/* here you can also pass any other element attributes. Also, you can use your custom components as slides */}
+
+                            {/* <>
 
 
                         <div className='withAllImp singleCrousel relative  h-crH hover:cursor-pointer' style={{ background: '#ff80ed' }}>
@@ -186,7 +165,113 @@ const NewCrousel = () => {
                     </> */}
 
 
-                </ReactSimplyCarousel>
+                        </ReactSimplyCarousel>
+
+                        :
+
+                        // // // This is Dummy crousel ( With some slides onliy  )
+
+                        <ReactSimplyCarousel
+
+                            activeSlideIndex={activeSlideIndex}
+                            onRequestChange={setActiveSlideIndex}
+                            itemsToShow={1}
+                            itemsToScroll={1}
+                            forwardBtnProps={{
+                                //here you can also pass className, or any other button element attributes
+                                style: {
+                                    right: "10%",
+                                },
+                                className: ' crouselBtn ',
+                                children: <span>{`❯`}</span>,
+                            }}
+                            backwardBtnProps={{
+                                //here you can also pass className, or any other button element attributes
+                                style: {
+                                    left: "10%",
+                                },
+                                className: ' crouselBtn ',
+                                children: <span>{`❮`}</span>,
+                            }}
+                            responsiveProps={[
+                                {
+                                    itemsToShow: 1,
+                                    itemsToScroll: 1,
+                                    minWidth: 768,
+                                },
+                            ]}
+                            speed={500}
+                            autoplayDelay={2000}
+                            easing="linear"
+                            autoplay={true}
+                            autoplayDirection="forward"
+                        >
+
+                            <div className='withAllImp singleCrousel   h-crH hover:cursor-pointer' style={{ background: '#ffc0cb' }}>
+                                slide 1
+                            </div>
+
+                            <div className=' withAllImp singleCrousel  h-crH hover:cursor-pointer' style={{ background: '#065535' }}>
+                                slide 2
+                            </div>
+                            <div className='withAllImp singleCrousel   h-crH hover:cursor-pointer' style={{ background: '#000000' }}>
+                                slide 3
+                            </div>
+                            <div className=' withAllImp singleCrousel  h-crH hover:cursor-pointer' style={{ background: '#133337' }}>
+                                slide 4
+                            </div>
+
+                            <div className='withAllImp singleCrousel   h-crH hover:cursor-pointer' style={{ background: '#0B666A' }}>
+                                slide 5
+                            </div>
+
+                            <div className=' withAllImp singleCrousel   h-crH hover:cursor-pointer' style={{ background: '#ffffff' }}>
+                                slide 6
+                            </div>
+                            <div className=' withAllImp singleCrousel  h-crH hover:cursor-pointer' style={{ background: '#ffe4e1' }}>
+                                slide 7
+                            </div>
+
+
+
+                            {/* here you can also pass any other element attributes. Also, you can use your custom components as slides */}
+
+                            {/* <>
+
+
+                        <div className='withAllImp singleCrousel relative  h-crH hover:cursor-pointer' style={{ background: '#ff80ed' }}>
+                            slide 0
+                        </div>
+                        <div className=' withAllImp singleCrousel relative h-crH hover:cursor-pointer' style={{ background: '#065535' }}>
+                            slide 1
+                        </div>
+                        <div className='withAllImp singleCrousel relative  h-crH hover:cursor-pointer' style={{ background: '#000000' }}>
+                            slide 2
+                        </div>
+                        <div className=' withAllImp singleCrousel relative h-crH hover:cursor-pointer' style={{ background: '#133337' }}>
+                            slide 3
+                        </div>
+                        <div className='withAllImp singleCrousel relative  h-crH hover:cursor-pointer' style={{ background: '#ffc0cb' }}>
+                            slide 4
+                        </div>
+                        <div className=' withAllImp singleCrousel relative  h-crH hover:cursor-pointer' style={{ background: '#ffffff' }}>
+                            slide 5
+                        </div>
+                        <div className=' withAllImp singleCrousel relative h-crH hover:cursor-pointer' style={{ background: '#ffe4e1' }}>
+                            slide 6
+                        </div>
+
+                    </> */}
+
+
+                        </ReactSimplyCarousel>
+
+
+                }
+
+
+
+
             </div>
 
         </div>

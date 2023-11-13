@@ -227,10 +227,9 @@ const userSlice = createSlice({
             .addCase(logInUser.pending, (state) => {
                 state.isLoading = true
             })
-
             .addCase(logInUser.fulfilled, (state, action) => {
 
-                console.log(action.payload)
+                // console.log(action.payload)
 
                 if (action.payload.status === false) {
 
@@ -291,22 +290,15 @@ const userSlice = createSlice({
 
                     // // // set data in localStorage ------>
 
-                    // let userData = {
-
-                    // }
-
 
 
                     localStorage.setItem("userData", JSON.stringify({ name, email, profilePic, role }))
                     localStorage.setItem("isUserLogIn", JSON.stringify(true))
 
-
                 }
 
 
                 // console.log(action.payload.message)
-
-
 
                 state.isLoading = false
 
@@ -334,7 +326,6 @@ const userSlice = createSlice({
                         theme: "dark",
                     });
 
-
                 } else {
 
                     toast.error(`${action.error.message} | Check your Network | Refresh the page`, {
@@ -350,11 +341,8 @@ const userSlice = createSlice({
 
                 }
 
-
-
                 state.isLoading = false
                 state.isError = true
-
             })
 
 
@@ -366,7 +354,6 @@ const userSlice = createSlice({
 
 
 export const { setUserData, setLogInStatus } = userSlice.actions
-
 
 export const userState = () => useSelector((state: RootState) => state.userReducer)
 

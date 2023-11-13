@@ -39,7 +39,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // // // ---> 
 app.use(cors({
   credentials: true,
-  origin:`${process.env.FRONTEND_URL}`
+  origin: `${process.env.FRONTEND_URL}`
 }))
 
 app.use(session({
@@ -65,20 +65,20 @@ const userModel = require("./src/model/userModel")
 passport.use("local", new LocalStrategy(
   // { usernameField: "email" },
 
-  async function (username, password, done ) {
+  async function (username, password, done) {
 
 
     try {
 
-      
+
       const userProfile = await userModel.findOne({ email: username }).exec()
-      
+
       // console.log(userProfile)
-      
+
       if (!userProfile) {
         return done(null, false, { message: "No such user found with this email." });
       }
-      
+
       // console.log("1010")
 
       // // // Check user password here -------->

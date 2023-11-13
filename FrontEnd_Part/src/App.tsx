@@ -11,8 +11,8 @@ import PaymentScreen from "./Screens/PaymentScreen"
 import { useEffect } from "react"
 import { ToastContainer } from "react-toastify"
 
-import { useDispatch } from "react-redux"
-import { AppDispatch } from "./store"
+import { useDispatch, useSelector } from "react-redux"
+import { AppDispatch, RootState } from "./store"
 import { setModeOnLoad } from "./Slices/ThemeSlices"
 import { setLogInStatus, setUserData } from "./Slices/UserSlice"
 
@@ -25,6 +25,9 @@ function App() {
 
 
   const dispatch = useDispatch<AppDispatch>()
+
+  const allHighlightsData = useSelector((state: RootState) => state.allProductWithCatReducer.allHighlightProducts)
+
 
   // const limitValue = useSelector( (state : RootState) => state.allProductWithCatReducer.onePageLimit)
 
@@ -73,8 +76,9 @@ function App() {
 
       if (getUserData && Object.keys(getUserData).length > 0) {
 
-        dispatch(setUserData({ data: getUserData }))     // // // Set user data
-
+        if (allHighlightsData.length > 0) {
+          dispatch(setUserData({ data: getUserData }))     // // // Set user data
+        }
 
       }
 
