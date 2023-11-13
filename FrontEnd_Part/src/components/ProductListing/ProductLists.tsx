@@ -77,7 +77,7 @@ export default function ProductLists() {
 
   const searchByQuery = useSelector((state: RootState) => state.allProductWithCatReducer.searchByQuery)
 
-  const limitValue = useSelector((state : RootState)=>state.allProductWithCatReducer.onePageLimit)
+  const limitValue = useSelector((state: RootState) => state.allProductWithCatReducer.onePageLimit)
 
 
   const styleOfCatgioryDiv = {
@@ -134,6 +134,7 @@ export default function ProductLists() {
                   </div>
 
                 </Fragment>
+
               )
 
             })
@@ -144,7 +145,699 @@ export default function ProductLists() {
 
             :
 
-            "Category getting "
+            <>
+
+            
+
+              <Fragment >
+
+                <p className="pt-10 capitalize text-2xl font-bold pl-2 underline">Getting Data ....</p>
+
+                <div className="h-96 flex flex-wrap flex-col overflow-y-hidden overflow-x-auto my-2  pb-3 ">
+
+                  <a
+
+                    // href={"/product"}
+                    className={` border ${!themeMode ? "border-slate-300" : " border-slate-100 "}  rounded-lg min-h-52 h-auto  w-72  mb  mx-2 hover:cursor-pointer  cursor-pointer animate-pulse `}
+                    id='singleCardHolder'
+                  >
+                    <div className=" rounded-lg overflow-hidden">
+                      {/* <img
+                      src={"..."}
+                      alt={"......."}
+                      className=" h-52  w-full  object-cover object-center scale-95 rounded group-hover:opacity-75 mb-2"
+                    /> */}
+
+
+                      {/* This div present in the place of Image */}
+                      <div className=" h-60 flex justify-center items-center p-1">
+
+                        <div className=" h-full w-full rounded-lg bg-slate-300">
+
+                          
+
+                        </div>
+
+                      </div>
+
+                    </div>
+
+                    <div className="flex justify-between pt-5  px-2 ">
+
+                      <div>
+                        {/* <h3
+                          className={` ${!themeMode ? "text-gray-700" : " text-gray-100 "} text-xl capitalize `}
+                          id="headingOfProduct"
+                        >Loading...</h3> */}
+
+                        <h3 
+                        className=" bg-slate-300 w-full  rounded my-1 px-5 py-1 text-white"
+                        >Loading...</h3>
+
+                        <div className="flex items-center">
+
+                          {/* <p className="h-5 w-5">{<StarIcon />}</p> */}
+                          {/* <p>{product.rating.avgRating }</p> */}
+                          {/* <p>{product.rating.totalPerson > 0 ? (Math.floor(product.rating.avgRating / product.rating.totalPerson)) : 0}</p> */}
+                        </div>
+                      </div>
+
+
+                      <div className="flex flex-col items-end justify-center">
+                        {/* <p>{product.discountPercentage}%</p> */}
+                        {/* <p className={`text-lg font-medium ${!themeMode ? "text-gray-900" : "text-gray-300"} `}> Price :</p> */}
+
+
+                        <p className={`bg-slate-300 w-full  rounded my-1 px-5 py-1.5 text-lg text-white text-end font-medium  `}> <span className=' text-sm font-thin line-through'>₹000 </span> ₹000  </p>
+
+
+                      </div>
+
+
+                    </div>
+
+                  </a>
+
+
+
+
+                  <a
+
+                    // href={"/product"}
+                    className={` border ${!themeMode ? "border-slate-300" : " border-slate-100 "}  rounded-lg min-h-52 h-auto  w-72  mb  mx-2 hover:cursor-pointer  cursor-pointer animate-pulse `}
+                    id='singleCardHolder'
+                  >
+                    <div className=" rounded-lg overflow-hidden">
+                      {/* <img
+                      src={"..."}
+                      alt={"......."}
+                      className=" h-52  w-full  object-cover object-center scale-95 rounded group-hover:opacity-75 mb-2"
+                    /> */}
+
+
+                      {/* This div present in the place of Image */}
+                      <div className=" h-60 flex justify-center items-center p-1">
+
+                        <div className=" h-full w-full rounded-lg bg-slate-300">
+
+                          
+
+                        </div>
+
+                      </div>
+
+                    </div>
+
+                    <div className="flex justify-between pt-5  px-2 ">
+
+                      <div>
+                        {/* <h3
+                          className={` ${!themeMode ? "text-gray-700" : " text-gray-100 "} text-xl capitalize `}
+                          id="headingOfProduct"
+                        >Loading...</h3> */}
+
+                        <h3 
+                        className=" bg-slate-300 w-full  rounded my-1 px-5 py-1 text-white"
+                        >Loading...</h3>
+
+                        <div className="flex items-center">
+
+                          {/* <p className="h-5 w-5">{<StarIcon />}</p> */}
+                          {/* <p>{product.rating.avgRating }</p> */}
+                          {/* <p>{product.rating.totalPerson > 0 ? (Math.floor(product.rating.avgRating / product.rating.totalPerson)) : 0}</p> */}
+                        </div>
+                      </div>
+
+
+                      <div className="flex flex-col items-end justify-center">
+                        {/* <p>{product.discountPercentage}%</p> */}
+                        {/* <p className={`text-lg font-medium ${!themeMode ? "text-gray-900" : "text-gray-300"} `}> Price :</p> */}
+
+
+                        <p className={`bg-slate-300 w-full  rounded my-1 px-5 py-1.5 text-lg text-white text-end font-medium  `}> <span className=' text-sm font-thin line-through'>₹000 </span> ₹000  </p>
+
+
+                      </div>
+
+
+                    </div>
+
+                  </a>
+
+
+
+
+                  <a
+
+                    // href={"/product"}
+                    className={` border ${!themeMode ? "border-slate-300" : " border-slate-100 "}  rounded-lg min-h-52 h-auto  w-72  mb  mx-2 hover:cursor-pointer  cursor-pointer animate-pulse `}
+                    id='singleCardHolder'
+                  >
+                    <div className=" rounded-lg overflow-hidden">
+                      {/* <img
+                      src={"..."}
+                      alt={"......."}
+                      className=" h-52  w-full  object-cover object-center scale-95 rounded group-hover:opacity-75 mb-2"
+                    /> */}
+
+
+                      {/* This div present in the place of Image */}
+                      <div className=" h-60 flex justify-center items-center p-1">
+
+                        <div className=" h-full w-full rounded-lg bg-slate-300">
+
+                          
+
+                        </div>
+
+                      </div>
+
+                    </div>
+
+                    <div className="flex justify-between pt-5  px-2 ">
+
+                      <div>
+                        {/* <h3
+                          className={` ${!themeMode ? "text-gray-700" : " text-gray-100 "} text-xl capitalize `}
+                          id="headingOfProduct"
+                        >Loading...</h3> */}
+
+                        <h3 
+                        className=" bg-slate-300 w-full  rounded my-1 px-5 py-1 text-white"
+                        >Loading...</h3>
+
+                        <div className="flex items-center">
+
+                          {/* <p className="h-5 w-5">{<StarIcon />}</p> */}
+                          {/* <p>{product.rating.avgRating }</p> */}
+                          {/* <p>{product.rating.totalPerson > 0 ? (Math.floor(product.rating.avgRating / product.rating.totalPerson)) : 0}</p> */}
+                        </div>
+                      </div>
+
+
+                      <div className="flex flex-col items-end justify-center">
+                        {/* <p>{product.discountPercentage}%</p> */}
+                        {/* <p className={`text-lg font-medium ${!themeMode ? "text-gray-900" : "text-gray-300"} `}> Price :</p> */}
+
+
+                        <p className={`bg-slate-300 w-full  rounded my-1 px-5 py-1.5 text-lg text-white text-end font-medium  `}> <span className=' text-sm font-thin line-through'>₹000 </span> ₹000  </p>
+
+
+                      </div>
+
+
+                    </div>
+
+                  </a>
+
+
+
+
+                </div>
+
+              </Fragment>
+
+
+              
+              <Fragment >
+
+                <p className="pt-10 capitalize text-2xl font-bold pl-2 underline">Getting Data ....</p>
+
+                <div className="h-96 flex flex-wrap flex-col overflow-y-hidden overflow-x-auto my-2  pb-3  ">
+
+                  <a
+
+                    // href={"/product"}
+                    className={` border ${!themeMode ? "border-slate-300" : " border-slate-100 "}  rounded-lg min-h-52 h-auto  w-72  mb  mx-2 hover:cursor-pointer  cursor-pointer animate-pulse `}
+                    id='singleCardHolder'
+                  >
+                    <div className=" rounded-lg overflow-hidden">
+                      {/* <img
+                      src={"..."}
+                      alt={"......."}
+                      className=" h-52  w-full  object-cover object-center scale-95 rounded group-hover:opacity-75 mb-2"
+                    /> */}
+
+
+                      {/* This div present in the place of Image */}
+                      <div className=" h-60 flex justify-center items-center p-1">
+
+                        <div className=" h-full w-full rounded-lg bg-slate-300">
+
+                          
+
+                        </div>
+
+                      </div>
+
+                    </div>
+
+                    <div className="flex justify-between pt-5  px-2 ">
+
+                      <div>
+                        {/* <h3
+                          className={` ${!themeMode ? "text-gray-700" : " text-gray-100 "} text-xl capitalize `}
+                          id="headingOfProduct"
+                        >Loading...</h3> */}
+
+                        <h3 
+                        className=" bg-slate-300 w-full  rounded my-1 px-5 py-1 text-white"
+                        >Loading...</h3>
+
+                        <div className="flex items-center">
+
+                          {/* <p className="h-5 w-5">{<StarIcon />}</p> */}
+                          {/* <p>{product.rating.avgRating }</p> */}
+                          {/* <p>{product.rating.totalPerson > 0 ? (Math.floor(product.rating.avgRating / product.rating.totalPerson)) : 0}</p> */}
+                        </div>
+                      </div>
+
+
+                      <div className="flex flex-col items-end justify-center">
+                        {/* <p>{product.discountPercentage}%</p> */}
+                        {/* <p className={`text-lg font-medium ${!themeMode ? "text-gray-900" : "text-gray-300"} `}> Price :</p> */}
+
+
+                        <p className={`bg-slate-300 w-full  rounded my-1 px-5 py-1.5 text-lg text-white text-end font-medium  `}> <span className=' text-sm font-thin line-through'>₹000 </span> ₹000  </p>
+
+
+                      </div>
+
+
+                    </div>
+
+                  </a>
+
+
+                  <a
+
+                    // href={"/product"}
+                    className={` border ${!themeMode ? "border-slate-300" : " border-slate-100 "}  rounded-lg min-h-52 h-auto  w-72  mb  mx-2 hover:cursor-pointer  cursor-pointer animate-pulse `}
+                    id='singleCardHolder'
+                  >
+                    <div className=" rounded-lg overflow-hidden">
+                      {/* <img
+                      src={"..."}
+                      alt={"......."}
+                      className=" h-52  w-full  object-cover object-center scale-95 rounded group-hover:opacity-75 mb-2"
+                    /> */}
+
+
+                      {/* This div present in the place of Image */}
+                      <div className=" h-60 flex justify-center items-center p-1">
+
+                        <div className=" h-full w-full rounded-lg bg-slate-300">
+
+                          
+
+                        </div>
+
+                      </div>
+
+                    </div>
+
+                    <div className="flex justify-between pt-5  px-2 ">
+
+                      <div>
+                        {/* <h3
+                          className={` ${!themeMode ? "text-gray-700" : " text-gray-100 "} text-xl capitalize `}
+                          id="headingOfProduct"
+                        >Loading...</h3> */}
+
+                        <h3 
+                        className=" bg-slate-300 w-full  rounded my-1 px-5 py-1 text-white"
+                        >Loading...</h3>
+
+                        <div className="flex items-center">
+
+                          {/* <p className="h-5 w-5">{<StarIcon />}</p> */}
+                          {/* <p>{product.rating.avgRating }</p> */}
+                          {/* <p>{product.rating.totalPerson > 0 ? (Math.floor(product.rating.avgRating / product.rating.totalPerson)) : 0}</p> */}
+                        </div>
+                      </div>
+
+
+                      <div className="flex flex-col items-end justify-center">
+                        {/* <p>{product.discountPercentage}%</p> */}
+                        {/* <p className={`text-lg font-medium ${!themeMode ? "text-gray-900" : "text-gray-300"} `}> Price :</p> */}
+
+
+                        <p className={`bg-slate-300 w-full  rounded my-1 px-5 py-1.5 text-lg text-white text-end font-medium  `}> <span className=' text-sm font-thin line-through'>₹000 </span> ₹000  </p>
+
+
+                      </div>
+
+
+                    </div>
+
+                  </a>
+
+
+                  <a
+
+                    // href={"/product"}
+                    className={` border ${!themeMode ? "border-slate-300" : " border-slate-100 "}  rounded-lg min-h-52 h-auto  w-72  mb  mx-2 hover:cursor-pointer  cursor-pointer animate-pulse `}
+                    id='singleCardHolder'
+                  >
+                    <div className=" rounded-lg overflow-hidden">
+                      {/* <img
+                      src={"..."}
+                      alt={"......."}
+                      className=" h-52  w-full  object-cover object-center scale-95 rounded group-hover:opacity-75 mb-2"
+                    /> */}
+
+
+                      {/* This div present in the place of Image */}
+                      <div className=" h-60 flex justify-center items-center p-1">
+
+                        <div className=" h-full w-full rounded-lg bg-slate-300">
+
+                          
+
+                        </div>
+
+                      </div>
+
+                    </div>
+
+                    <div className="flex justify-between pt-5  px-2 ">
+
+                      <div>
+                        {/* <h3
+                          className={` ${!themeMode ? "text-gray-700" : " text-gray-100 "} text-xl capitalize `}
+                          id="headingOfProduct"
+                        >Loading...</h3> */}
+
+                        <h3 
+                        className=" bg-slate-300 w-full  rounded my-1 px-5 py-1 text-white"
+                        >Loading...</h3>
+
+                        <div className="flex items-center">
+
+                          {/* <p className="h-5 w-5">{<StarIcon />}</p> */}
+                          {/* <p>{product.rating.avgRating }</p> */}
+                          {/* <p>{product.rating.totalPerson > 0 ? (Math.floor(product.rating.avgRating / product.rating.totalPerson)) : 0}</p> */}
+                        </div>
+                      </div>
+
+
+                      <div className="flex flex-col items-end justify-center">
+                        {/* <p>{product.discountPercentage}%</p> */}
+                        {/* <p className={`text-lg font-medium ${!themeMode ? "text-gray-900" : "text-gray-300"} `}> Price :</p> */}
+
+
+                        <p className={`bg-slate-300 w-full  rounded my-1 px-5 py-1.5 text-lg text-white text-end font-medium  `}> <span className=' text-sm font-thin line-through'>₹000 </span> ₹000  </p>
+
+
+                      </div>
+
+
+                    </div>
+
+                  </a>
+
+
+
+
+                </div>
+
+              </Fragment>
+
+
+                   
+              <Fragment >
+
+                <p className="pt-10 capitalize text-2xl font-bold pl-2 underline">Getting Data ....</p>
+
+                <div className="h-96 flex flex-wrap flex-col overflow-y-hidden overflow-x-auto my-2  pb-3  ">
+
+                  <a
+
+                    // href={"/product"}
+                    className={` border ${!themeMode ? "border-slate-300" : " border-slate-100 "}  rounded-lg min-h-52 h-auto  w-72  mb  mx-2 hover:cursor-pointer  cursor-pointer animate-pulse `}
+                    id='singleCardHolder'
+                  >
+                    <div className=" rounded-lg overflow-hidden">
+
+
+                      {/* This div present in the place of Image */}
+                      <div className=" h-60 flex justify-center items-center p-1">
+
+                        <div className=" h-full w-full rounded-lg bg-slate-300">
+
+                          
+
+                        </div>
+
+                      </div>
+
+                    </div>
+
+                    <div className="flex justify-between pt-5  px-2 ">
+
+                      <div>
+                        {/* <h3
+                          className={` ${!themeMode ? "text-gray-700" : " text-gray-100 "} text-xl capitalize `}
+                          id="headingOfProduct"
+                        >Loading...</h3> */}
+
+                        <h3 
+                        className=" bg-slate-300 w-full  rounded my-1 px-5 py-1 text-white"
+                        >Loading...</h3>
+
+                        <div className="flex items-center">
+
+                          {/* <p className="h-5 w-5">{<StarIcon />}</p> */}
+                          {/* <p>{product.rating.avgRating }</p> */}
+                          {/* <p>{product.rating.totalPerson > 0 ? (Math.floor(product.rating.avgRating / product.rating.totalPerson)) : 0}</p> */}
+                        </div>
+                      </div>
+
+
+                      <div className="flex flex-col items-end justify-center">
+                        {/* <p>{product.discountPercentage}%</p> */}
+                        {/* <p className={`text-lg font-medium ${!themeMode ? "text-gray-900" : "text-gray-300"} `}> Price :</p> */}
+
+
+                        <p className={`bg-slate-300 w-full  rounded my-1 px-5 py-1.5 text-lg text-white text-end font-medium  `}> <span className=' text-sm font-thin line-through'>₹000 </span> ₹000  </p>
+
+
+                      </div>
+
+
+                    </div>
+
+                  </a>
+
+
+
+
+                  <a
+
+                    // href={"/product"}
+                    className={` border ${!themeMode ? "border-slate-300" : " border-slate-100 "}  rounded-lg min-h-52 h-auto  w-72  mb  mx-2 hover:cursor-pointer  cursor-pointer animate-pulse `}
+                    id='singleCardHolder'
+                  >
+                    <div className=" rounded-lg overflow-hidden">
+                      {/* <img
+                      src={"..."}
+                      alt={"......."}
+                      className=" h-52  w-full  object-cover object-center scale-95 rounded group-hover:opacity-75 mb-2"
+                    /> */}
+
+
+                      {/* This div present in the place of Image */}
+                      <div className=" h-60 flex justify-center items-center p-1">
+
+                        <div className=" h-full w-full rounded-lg bg-slate-300">
+
+                          
+
+                        </div>
+
+                      </div>
+
+                    </div>
+
+                    <div className="flex justify-between pt-5  px-2 ">
+
+                      <div>
+                        {/* <h3
+                          className={` ${!themeMode ? "text-gray-700" : " text-gray-100 "} text-xl capitalize `}
+                          id="headingOfProduct"
+                        >Loading...</h3> */}
+
+                        <h3 
+                        className=" bg-slate-300 w-full  rounded my-1 px-5 py-1 text-white"
+                        >Loading...</h3>
+
+                        <div className="flex items-center">
+
+                          {/* <p className="h-5 w-5">{<StarIcon />}</p> */}
+                          {/* <p>{product.rating.avgRating }</p> */}
+                          {/* <p>{product.rating.totalPerson > 0 ? (Math.floor(product.rating.avgRating / product.rating.totalPerson)) : 0}</p> */}
+                        </div>
+                      </div>
+
+
+                      <div className="flex flex-col items-end justify-center">
+                        {/* <p>{product.discountPercentage}%</p> */}
+                        {/* <p className={`text-lg font-medium ${!themeMode ? "text-gray-900" : "text-gray-300"} `}> Price :</p> */}
+
+
+                        <p className={`bg-slate-300 w-full  rounded my-1 px-5 py-1.5 text-lg text-white text-end font-medium  `}> <span className=' text-sm font-thin line-through'>₹000 </span> ₹000  </p>
+
+
+                      </div>
+
+
+                    </div>
+
+                  </a>
+
+
+
+
+                  <a
+
+                    // href={"/product"}
+                    className={` border ${!themeMode ? "border-slate-300" : " border-slate-100 "}  rounded-lg min-h-52 h-auto  w-72  mb  mx-2 hover:cursor-pointer  cursor-pointer animate-pulse `}
+                    id='singleCardHolder'
+                  >
+                    <div className=" rounded-lg overflow-hidden">
+                      {/* <img
+                      src={"..."}
+                      alt={"......."}
+                      className=" h-52  w-full  object-cover object-center scale-95 rounded group-hover:opacity-75 mb-2"
+                    /> */}
+
+
+                      {/* This div present in the place of Image */}
+                      <div className=" h-60 flex justify-center items-center p-1">
+
+                        <div className=" h-full w-full rounded-lg bg-slate-300">
+
+                          
+
+                        </div>
+
+                      </div>
+
+                    </div>
+
+                    <div className="flex justify-between pt-5  px-2 ">
+
+                      <div>
+                        {/* <h3
+                          className={` ${!themeMode ? "text-gray-700" : " text-gray-100 "} text-xl capitalize `}
+                          id="headingOfProduct"
+                        >Loading...</h3> */}
+
+                        <h3 
+                        className=" bg-slate-300 w-full  rounded my-1 px-5 py-1 text-white"
+                        >Loading...</h3>
+
+                        <div className="flex items-center">
+
+                          {/* <p className="h-5 w-5">{<StarIcon />}</p> */}
+                          {/* <p>{product.rating.avgRating }</p> */}
+                          {/* <p>{product.rating.totalPerson > 0 ? (Math.floor(product.rating.avgRating / product.rating.totalPerson)) : 0}</p> */}
+                        </div>
+                      </div>
+
+
+                      <div className="flex flex-col items-end justify-center">
+                        {/* <p>{product.discountPercentage}%</p> */}
+                        {/* <p className={`text-lg font-medium ${!themeMode ? "text-gray-900" : "text-gray-300"} `}> Price :</p> */}
+
+
+                        <p className={`bg-slate-300 w-full  rounded my-1 px-5 py-1.5 text-lg text-white text-end font-medium  `}> <span className=' text-sm font-thin line-through'>₹000 </span> ₹000  </p>
+
+
+                      </div>
+
+
+                    </div>
+
+                  </a>
+
+
+
+
+                  <a
+
+                    // href={"/product"}
+                    className={` border ${!themeMode ? "border-slate-300" : " border-slate-100 "}  rounded-lg min-h-52 h-auto  w-72  mb  mx-2 hover:cursor-pointer  cursor-pointer animate-pulse `}
+                    id='singleCardHolder'
+                  >
+                    <div className=" rounded-lg overflow-hidden">
+                      {/* <img
+                      src={"..."}
+                      alt={"......."}
+                      className=" h-52  w-full  object-cover object-center scale-95 rounded group-hover:opacity-75 mb-2"
+                    /> */}
+
+
+                      {/* This div present in the place of Image */}
+                      <div className=" h-60 flex justify-center items-center p-1">
+
+                        <div className=" h-full w-full rounded-lg bg-slate-300">
+
+                          
+
+                        </div>
+
+                      </div>
+
+                    </div>
+
+                    <div className="flex justify-between pt-5  px-2 ">
+
+                      <div>
+                        {/* <h3
+                          className={` ${!themeMode ? "text-gray-700" : " text-gray-100 "} text-xl capitalize `}
+                          id="headingOfProduct"
+                        >Loading...</h3> */}
+
+                        <h3 
+                        className=" bg-slate-300 w-full  rounded my-1 px-5 py-1 text-white"
+                        >Loading...</h3>
+
+                        <div className="flex items-center">
+
+                          {/* <p className="h-5 w-5">{<StarIcon />}</p> */}
+                          {/* <p>{product.rating.avgRating }</p> */}
+                          {/* <p>{product.rating.totalPerson > 0 ? (Math.floor(product.rating.avgRating / product.rating.totalPerson)) : 0}</p> */}
+                        </div>
+                      </div>
+
+
+                      <div className="flex flex-col items-end justify-center">
+                        {/* <p>{product.discountPercentage}%</p> */}
+                        {/* <p className={`text-lg font-medium ${!themeMode ? "text-gray-900" : "text-gray-300"} `}> Price :</p> */}
+
+
+                        <p className={`bg-slate-300 w-full  rounded my-1 px-5 py-1.5 text-lg text-white text-end font-medium  `}> <span className=' text-sm font-thin line-through'>₹000 </span> ₹000  </p>
+
+
+                      </div>
+
+
+                    </div>
+
+                  </a>
+
+
+
+
+                </div>
+
+              </Fragment>
+
+              
+
+            </>
+
 
         }
 
@@ -159,7 +852,7 @@ export default function ProductLists() {
               onClick={() => {
                 dispatch(fetchAllCategoryAndHighlight());
                 dispatch(fetchAllProducts({ brand: "", category: '', price: "-1", limit: `${limitValue}` }));
-                window.scroll(0 , 0)
+                window.scroll(0, 0)
               }}
             >Back To normal Data</h1>
           </div>

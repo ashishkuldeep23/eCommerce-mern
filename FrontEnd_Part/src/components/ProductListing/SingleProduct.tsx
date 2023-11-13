@@ -28,7 +28,7 @@ const SingleProduct = ({ product }: TProductPrope) => {
             <a
                 key={product.id}
                 // href={"/product"}
-                className={` border ${!themeMode ? "border-slate-300" : " border-slate-600 "}  rounded-lg min-h-52 h-auto   w-72  mb-5  mx-2 hover:cursor-pointer  cursor-pointer`}
+                className={` border ${!themeMode ? "border-slate-300" : " border-slate-100 "}  rounded-lg min-h-52 h-auto   w-72  mb-5  mx-2 hover:cursor-pointer  cursor-pointer`}
                 onClick={() => { navigate("/product"); dispatch(setSingleProductData({ id: product.id })); dispatch(fetchOneProductByID({ productId: product.id })); dispatch(setSingleOProductId({ id: product.id })); }}
                 id='singleCardHolder'
             >
@@ -69,7 +69,6 @@ const SingleProduct = ({ product }: TProductPrope) => {
 
                                 :
                                 <p className={`text-lg text-end font-medium ${!themeMode ? "text-gray-900" : "text-gray-300"} `}> ₹{product.price} </p>
-
                         }
 
                     </div>
