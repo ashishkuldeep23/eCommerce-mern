@@ -48,7 +48,7 @@ async function createNewReview(req, res) {
     let updateProductWithReview = await productModel.findOneAndUpdate(
         { _id: findProduct._id },
         {
-            $set: { rating: { totalPerson: findProduct.rating.totalPerson+1 , avgRating: findProduct.rating.avgRating + stars } }
+            $set: { rating: { totalPerson: findProduct.rating.totalPerson + 1, avgRating: findProduct.rating.avgRating + stars } }
         },
         { new: true, upsert: true }
     )
@@ -56,11 +56,31 @@ async function createNewReview(req, res) {
     // console.log(updateProductWithReview)
 
 
+    // // Get user data and post ------------->
+
+    // console.log(req.tokenUserData)
+    
+    // // // User data ----------->
+
+    req.body.userId = req.tokenUserData.userId
+    req.body.userData = { userName: req.tokenUserData.userName, userImg: req.tokenUserData.userImg }
+
+
     // // // Give name of product --->
     req.body.productName = findProduct.title
     req.body.productID = findProduct._id
 
+
+    // // // Create new review with user details
+
     let newReview = await reviewModel.create(req.body)
+
+    // // // Experiment to push review id in product model ------------>
+
+    updateProductWithReview.review.push(newReview._id)
+
+    let pushReviewID = await updateProductWithReview.save()
+
 
 
     return res.status(201).send({ status: true, message: "Review created successfully", data: newReview })

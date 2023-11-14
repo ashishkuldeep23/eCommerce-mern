@@ -167,18 +167,23 @@ async function findOneProduct(req, res) {
 
     if (!productId) return res.status(400).send({ status: false, message: "Product id should given in path params." })
 
-    let product = await productModel.findOne({ id: productId , isDeleted : false }).select('-updatedAt -createdAt -__v').lean()
+    let product = await productModel.findOne({ id: productId , isDeleted : false }).select('-updatedAt -createdAt -__v').populate("review").lean()
 
     if (!product) return res.status(400).send({ status: false, message: "Product not found by this id." })
 
 
-    // // // Here finding all reviews about this product
-    let findAllReview = await reviewModel.find({ productID: product._id }).sort({createdAt : "-1"}).select('-userId -productID -isDeleted -_id  -updatedAt -createdAt -__v')
+    // console.log(product)
 
-    // console.log(findAllReview )
 
-    // // //.lean() is used means we can modify the object.
-    product.review = findAllReview      // // // storing all revies inside review key of product object.
+
+    // // // Now no need of this because successfully implemented ref and populate --------------->
+
+    // // // // Here finding all reviews about this product
+    // let findAllReview = await reviewModel.find({ productID: product._id }).sort({createdAt : "-1"}).select('-userId -productID -isDeleted -_id  -updatedAt -createdAt -__v')
+    // // console.log(findAllReview )
+    // // // //.lean() is used means we can modify the object.
+    // product.review = findAllReview      // // // storing all revies inside review key of product object.
+
 
 
     // // // Show simmilar products ------------>
@@ -190,7 +195,8 @@ async function findOneProduct(req, res) {
 
     // console.log(simmilarProductExceptThis)
 
-    delete product._id                  // // // Deleting _id of product because i don't want to show it on frontEnd.
+
+    delete product._id      // // // Deleting _id of product because i don't want to show it on frontEnd.
 
 
     return res.status(200).send({ status: true, message: "Product with details fetched", data: product , simmilarProductExceptThis })

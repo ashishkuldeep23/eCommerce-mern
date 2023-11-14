@@ -7,23 +7,16 @@ exports.isAuthorized = async function (req, res, next) {
 
     try {
 
-
         let token;
 
-        // console.log(req.cookies)
 
-        // console.log(req.headers)
-
-
-
-        if (req && req.headers) {
-            token = req.headers["token"]
-            console.log(token)
-        }
-        else {
-            return res.status(401).send({ status: false, message: "Something went wroung with your request." })
+        if (!req && !req.headers && !req.headers["token"] && req.headers['token'] === "null") {
+            return res.status(401).send({ status: false, message: "Please SingIn again, Something went wroung with your request." })
         }
 
+
+        token = req.headers["token"]
+        // console.log(token)
 
         let verifyToken;
 
@@ -42,10 +35,7 @@ exports.isAuthorized = async function (req, res, next) {
         }
 
 
-
         if (Object.keys(verifyToken).length > 0) {
-
-            // console.log(verifyToken)
 
             let userId = verifyToken.id
 
@@ -55,12 +45,17 @@ exports.isAuthorized = async function (req, res, next) {
                 return res.status(401).send({ status: false, message: "Data in token is bad or inomplete)" })
             }
 
+
+            // // Set user data in req -------->
+            
+            req.tokenUserData = {userId : findUser._id , userName : findUser.firstName , userImg : findUser.profilePic   }
+
+
             // // // Now here you can call then next route ------>
             next()
         } else {
             return res.status(401).send({ status: false, message: "Payload is empty , LogIn again" })
         }
-
 
 
     } catch (err) {

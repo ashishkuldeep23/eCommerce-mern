@@ -15,8 +15,9 @@ const reviewSchema = new mongoose.Schema( {
     } ,
 
     userId : {
-        type : String ,
-        default : "ashish" 
+        type : objectId ,
+        ref : "user"
+        // default : "ashish" 
         // // // TODO :- yaha pr userID dena hoga jisne review post kiya hai uska
     },
 

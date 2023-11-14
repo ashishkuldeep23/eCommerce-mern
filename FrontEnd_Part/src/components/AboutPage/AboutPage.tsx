@@ -6,8 +6,8 @@
 import { useSelector } from "react-redux"
 import { RootState } from "../../store"
 // import { userState } from "../../Slices/UserSlice"
-import OrderOfUser from "./orderOfUser"
 import DetailsOfUser from "./DetailsOfUser"
+import OrderOfUser from "./OrderOfUser"
 
 
 
