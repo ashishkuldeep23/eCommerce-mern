@@ -58,9 +58,11 @@ type Review = {
     isLoading: boolean;
     isError: boolean;
     isReview: boolean;
-    reviewData: {
+    inputReviewData: {
         comment: string;
         stars: number;
+        likes : number;
+        dislikes : number;
     }
 }
 
@@ -71,9 +73,11 @@ const initialState: Review = {
     isError: false,
     isReview: false,
 
-    reviewData: {
+    inputReviewData: {
         comment: "",
-        stars: 0
+        stars: 0,
+        likes : 0,
+        dislikes : 0,
     }
 
 }
@@ -85,6 +89,13 @@ const reviewSlice = createSlice({
     initialState,
     reducers: {
 
+        setReviewData( state , action ){
+
+            // console.log(action.payload)
+
+            state.inputReviewData = action.payload.data
+
+        }
 
 
     },
@@ -128,6 +139,10 @@ const reviewSlice = createSlice({
 
                     state.isReview = true
 
+                    // // // State back to normal 
+
+                    state.inputReviewData = initialState.inputReviewData
+
                 }
 
                 // console.log(action.payload.message)
@@ -159,7 +174,7 @@ const reviewSlice = createSlice({
 
 
 
-export const { } = reviewSlice.actions
+export const { setReviewData } = reviewSlice.actions
 
 export const reviewState = () => useSelector((state: RootState) => state.reviewReducer)
 

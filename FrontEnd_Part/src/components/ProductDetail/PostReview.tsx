@@ -1,9 +1,11 @@
 import { StarIcon } from "@heroicons/react/24/outline"
-import { useState, useEffect } from "react"
+import {  useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { createNewReview } from "../../Slices/ReviewSlice"
 import { AppDispatch, RootState } from "../../store"
 import { fetchOneProductByID, setSingleOProductId, setSingleProductData } from "../../Slices/AllProductSlice"
+import { toast } from "react-toastify"
+import { setReviewData } from "../../Slices/ReviewSlice"
 
 
 const PostReview = () => {
@@ -16,20 +18,48 @@ const PostReview = () => {
 
     const isReviewDone = useSelector((state: RootState) => state.reviewReducer.isReview)
 
+    const themeMode = useSelector((state: RootState) => state.themeReducer.mode)
 
+    // const [newReview, setNewReviw] = useState({ stars: 0, comment: "" })
 
-    const [newReview, setNewReviw] = useState({ stars: 0, comment: "" })
-
+    const inputReviewData = useSelector((state : RootState) => state.reviewReducer.inputReviewData)
 
 
 
 
     function postReviewHandler() {
 
-        if (newReview.stars === 0 && newReview.comment === "") {
+        if (inputReviewData.stars === 0 && inputReviewData.comment === "") {
 
-            return alert("Give data for review")
+            toast.error(`Give comment and stars, both should given.`, {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
 
+            return
+        }
+
+
+        if (isLoading) {
+
+            toast.error(`New review is creating.`, {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+
+            return
         }
 
 
@@ -44,7 +74,7 @@ const PostReview = () => {
 
         // // // now call dispatch here --------->
 
-        dispatch(createNewReview({ comment: newReview.comment, stars: newReview.stars, productID: productDetailByFilter.id }))
+        dispatch(createNewReview({ comment: inputReviewData.comment, stars: inputReviewData.stars, productID: productDetailByFilter.id }))
 
     }
 
@@ -80,14 +110,17 @@ const PostReview = () => {
                 }
             </div>
 
-            <div className="mt-5">
+            <div className="mt-5 border p-2 px-3 rounded border-green-300">
+
+                <h1 className=" underline  mb-2 text-lg">Give new review</h1>
 
                 <textarea
                     name="" id=""
-                    onChange={(e) => { e.stopPropagation(); e.preventDefault(); setNewReviw({ ...newReview, comment: e.target.value }) }}
-                    value={newReview.comment}
+                    onChange={(e) => { e.stopPropagation(); e.preventDefault(); dispatch(setReviewData( { data : { ...inputReviewData, comment: e.target.value }} ))   }}
+                    value={inputReviewData.comment}
+                    placeholder="Nice product 😊(Your new review)"
                     cols={25} rows={2}
-                    className=" resize-none rounded p-1"
+                    className={`resize-none rounded p-1 ${!themeMode ? " bg-white text-gray-900 " : "bg-gray-900 text-white"} `}
                 ></textarea>
 
                 <div className='flex justify-between items-center'>
@@ -99,16 +132,16 @@ const PostReview = () => {
                                 return (
                                     <StarIcon
                                         // onChange={ ()=>setNewReviw({...newReview , stars : i+1}) }
-                                        onClick={(e) => { e.stopPropagation(); e.preventDefault(); setNewReviw({ ...newReview, stars: i + 1 }) }}
+                                        onClick={(e) => { e.stopPropagation(); e.preventDefault(); dispatch(setReviewData( { data : { ...inputReviewData,  stars: i + 1 }} )) }}
                                         key={i} id={item}
-                                        className={` h-6 w-6 flex-shrink-0 hover:cursor-pointer ${newReview.stars >= i + 1 && "text-yellow-500"} `}
+                                        className={` h-6 w-6 flex-shrink-0 hover:cursor-pointer ${inputReviewData.stars >= i + 1 && "text-yellow-500"} `}
                                     />
                                 )
                             })
 
                         }
 
-                        <h1 className="font-bold text-xl ml-1">{newReview.stars}</h1>
+                        <h1 className="font-bold text-xl ml-1">{inputReviewData.stars}</h1>
 
                     </div>
 

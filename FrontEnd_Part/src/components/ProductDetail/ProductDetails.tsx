@@ -502,7 +502,7 @@ export default function ProductDetails() {
 
 
                                         {/* Review div --------> */}
-                                        <div className=' md:w-1/2 flex flex-col items-center'>
+                                        <div className=' md:w-1/2 flex flex-col items-start md:items-center'>
 
                                             {/* Create new review ----> */}
                                             {/* <h1 className=' text-lg'>Create Review</h1> */}
