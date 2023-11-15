@@ -54,23 +54,23 @@ export const fetchAllProducts = createAsyncThunk("fetchAllProducts", async ({ br
 
     let getUserToken = localStorage.getItem("userToken");
 
-    if(getUserToken){
+    if (getUserToken) {
         getUserToken = JSON.parse(getUserToken)
-    }else{
+    } else {
         getUserToken = null
     }
 
-    
-    let option : RequestInit = {
+
+    let option: RequestInit = {
         // credentials: 'include',
 
-        headers : {
-            "token" : `${getUserToken}`
+        headers: {
+            "token": `${getUserToken}`
         }
 
     }
 
-    const response = await fetch(url , option)
+    const response = await fetch(url, option)
     let data = await response.json();
     return data
 })
@@ -84,23 +84,23 @@ export const fetchAllCategoryAndHighlight = createAsyncThunk("getCategoryAndHigh
 
     let getUserToken = localStorage.getItem("userToken");
 
-    if(getUserToken){
+    if (getUserToken) {
         getUserToken = JSON.parse(getUserToken)
-    }else{
+    } else {
         getUserToken = null
     }
 
-    
-    let option : RequestInit = {
+
+    let option: RequestInit = {
         // credentials: 'include',
 
-        headers : {
-            "token" : `${getUserToken}`
+        headers: {
+            "token": `${getUserToken}`
         }
 
     }
 
-    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/getCategoryAndHighlight` , option)
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/getCategoryAndHighlight`, option)
     let data = await response.json();
     return data
 })
@@ -118,23 +118,23 @@ export const fetchOneProductByID = createAsyncThunk("fetchSingleProduct/:id", as
 
     let getUserToken = localStorage.getItem("userToken");
 
-    if(getUserToken){
+    if (getUserToken) {
         getUserToken = JSON.parse(getUserToken)
-    }else{
+    } else {
         getUserToken = null
     }
 
-    
-    let option : RequestInit = {
+
+    let option: RequestInit = {
         // credentials: 'include',
 
-        headers : {
-            "token" : `${getUserToken}`
+        headers: {
+            "token": `${getUserToken}`
         }
 
     }
 
-    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/findOneProduct/${productId}` , option)
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/findOneProduct/${productId}`, option)
     let data = await response.json();
     return data
 })
@@ -198,8 +198,6 @@ const initialState: IAllProductsWithCat = {
         "isHighlight": false,
         "isDeleted": false,
         "review": []
-
-
     },
 
     simmilarProductWithOnePro: [],

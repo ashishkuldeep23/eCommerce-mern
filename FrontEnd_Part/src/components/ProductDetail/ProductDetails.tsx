@@ -8,6 +8,7 @@ import 'react-toastify/ReactToastify.css';
 import SingleProduct from '../ProductListing/SingleProduct'
 import { useNavigate } from 'react-router-dom'
 import { fetchOneProductByID } from '../../Slices/AllProductSlice'
+import PostReview from './PostReview'
 
 
 
@@ -500,15 +501,17 @@ export default function ProductDetails() {
                                         </div>
 
 
+                                        {/* Review div --------> */}
+                                        <div className=' md:w-1/2 flex flex-col items-center'>
 
-                                        <div className=' md:w-1/2'>
-
-
+                                            {/* Create new review ----> */}
+                                            {/* <h1 className=' text-lg'>Create Review</h1> */}
+                                            
+                                            <PostReview />
 
 
                                             <div className="mt-10">
                                                 <h3 className="text-3xl font-bold underline md:text-center ">Reviews</h3>
-
 
 
                                                 <div className='flex flex-wrap my-5 md:justify-center'>
@@ -523,7 +526,7 @@ export default function ProductDetails() {
 
 
                                                                     <div className='flex items-center border-b border-green-300 w-4/5 '>
-                                                                        <img className=' w-6 rounded-full mr-3' src={r.userData.userImg} alt="" />
+                                                                        <img className=' w-6 h-6 object-cover rounded-full mr-3' src={r.userData.userImg} alt="" />
                                                                         <p className=' text-xl mr-1 font-bold'>{r.userData.userName}</p>
 
                                                                     </div>
@@ -551,7 +554,7 @@ export default function ProductDetails() {
                                                                 </div>
                                                             ))
 
-                                                            : "Review not getting"
+                                                            : "No review found for this product"
                                                     }
 
 
@@ -560,6 +563,8 @@ export default function ProductDetails() {
                                             </div>
 
                                         </div>
+
+
 
                                     </div>
 
@@ -623,7 +628,10 @@ export default function ProductDetails() {
                         </div>
 
                         :
-                        <p className='text-2xl'>There is something problem (Loading Sekeleton) </p>
+                        <div>
+                            <p className='text-2xl'>Refresh page or check your network. </p>
+                            <p className='text-2xl'>There is something problem (Loading Sekeleton) </p>
+                        </div>
 
                 }
             </div>

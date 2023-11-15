@@ -167,9 +167,21 @@ async function findOneProduct(req, res) {
 
     if (!productId) return res.status(400).send({ status: false, message: "Product id should given in path params." })
 
-    let product = await productModel.findOne({ id: productId , isDeleted : false }).select('-updatedAt -createdAt -__v').populate("review").lean()
+    // let product = await productModel.findOne({ id: productId , isDeleted : false }).select('-updatedAt -createdAt -__v').populate("review").select('-updatedAt -createdAt -__v -_id -userId -productID').lean()
+
+    
+    let product = await productModel.findOne({ id: productId , isDeleted : false }).select('-updatedAt -createdAt -__v -_id').populate({ path : "review" , select : "-updatedAt -createdAt -__v -_id -userId -productID -isDeleted" }).lean()
+
+
 
     if (!product) return res.status(400).send({ status: false, message: "Product not found by this id." })
+
+
+    // // // Latest review first ---------->
+    if(product.review && product.review.length > 1){
+        product.review = product.review.reverse()
+    }
+
 
 
     // console.log(product)

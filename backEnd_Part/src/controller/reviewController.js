@@ -63,7 +63,7 @@ async function createNewReview(req, res) {
     // // // User data ----------->
 
     req.body.userId = req.tokenUserData.userId
-    req.body.userData = { userName: req.tokenUserData.userName, userImg: req.tokenUserData.userImg }
+    req.body.userData = { userName: req.tokenUserData.userName, userImg: req.tokenUserData.userImg , userUID : req.tokenUserData.userUID }
 
 
     // // // Give name of product --->

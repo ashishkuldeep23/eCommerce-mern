@@ -22,20 +22,20 @@ const reviewSchema = new mongoose.Schema( {
     },
 
     userData : {
-
+        userUID :{
+            type : String
+        },
         userName : {
             type : String ,
             required : true ,
             trim : true,
             default : "ABCD" 
         } ,
-
         userImg : {
             type : String ,
             required : true ,
             default : "https://cdn1.vectorstock.com/i/1000x1000/10/05/user-icon-vector-22391005.jpg"
         }
-
     },
 
     comment : {

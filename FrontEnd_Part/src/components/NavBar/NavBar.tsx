@@ -557,7 +557,7 @@ function RightCommonSection() {
 
                                                     <Link
                                                         to={item.to}
-                                                        className={`${!themeSate ? "hover:bg-gray-300" : "hover:bg-gray-800 "} block px-4 py-2 text-md  ${item.tab === "SignOut" ? "text-red-500" : ""} `}
+                                                        className={`${!themeSate ? "hover:bg-gray-300" : "hover:bg-gray-800 "} block px-4 py-2 text-md  ${item.tab === "SignOut" && "text-red-500"}  ${item.tab === "SignIn" && "text-green-500"}  `}
                                                         onClick={() => { item.tab === "SignOut" && singOutHandler() }}
                                                     >
                                                         {item.tab}

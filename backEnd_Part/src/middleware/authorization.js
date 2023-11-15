@@ -48,7 +48,7 @@ exports.isAuthorized = async function (req, res, next) {
 
             // // Set user data in req -------->
             
-            req.tokenUserData = {userId : findUser._id , userName : findUser.firstName , userImg : findUser.profilePic   }
+            req.tokenUserData = { userId : findUser._id , userName : `${findUser.firstName} ${findUser.lastName}` , userImg : findUser.profilePic , userUID : findUser.id }
 
 
             // // // Now here you can call then next route ------>

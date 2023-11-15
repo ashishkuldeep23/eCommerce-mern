@@ -9,13 +9,16 @@ import CartReducer from "./Slices/CartSlice"
 
 import userReducer from "./Slices/UserSlice"
 
+import reviewReducer from "./Slices/ReviewSlice"
+
 
 export const store = configureStore({
     reducer: {
         themeReducer: themeReducer,
         allProductWithCatReducer,
         CartReducer ,
-        userReducer
+        userReducer ,
+        reviewReducer
     }
 })
 

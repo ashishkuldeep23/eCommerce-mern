@@ -14,8 +14,6 @@ type BodyData = {
     formData: FormData
 }
 
-
-
 export const createNewUser = createAsyncThunk('user/createNewUser', async ({ formData }: BodyData) => {
 
 
@@ -69,7 +67,6 @@ export const createNewUser = createAsyncThunk('user/createNewUser', async ({ for
     let data = await response.json();
     return data
 })
-
 
 
 
