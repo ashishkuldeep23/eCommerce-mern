@@ -6,14 +6,14 @@ import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon } from '@heroicons/rea
 
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../../store'
-import { fetchAllProducts , setSortByPriceChange} from '../../Slices/AllProductSlice'
+import { fetchAllProducts, setSortByPriceChange } from '../../Slices/AllProductSlice'
 import Pagination from '../Pagination/Pagination'
 
 
 const sortOptions = [
     // { name: 'Best Rating', href: '#', current: false },
-    { name: 'Price: Low to High', value : "acc" ,  current: false },
-    { name: 'Price: High to Low',  value : "dec" , current: false },
+    { name: 'Price: Low to High', value: "acc", current: false },
+    { name: 'Price: High to Low', value: "dec", current: false },
 ]
 
 
@@ -141,25 +141,16 @@ export default function FilterSection({ children }: any) {
 
     const [newFilter, setNewFilter] = useState([...filters])
 
-    const [queryObj , setQueryObj] = useState({ brand : '' , category : "" } )
+    const [queryObj, setQueryObj] = useState({ brand: '', category: "" })
 
     const dispatch = useDispatch<AppDispatch>()
-
-
-    // const [brands , setBrands] = useState([])
-
-    // const [categories , setcategories] = useState([])
-
-
-
-
 
     const themeMode = useSelector((store: RootState) => store.themeReducer.mode)
 
     const allCategory = useSelector((store: RootState) => store.allProductWithCatReducer.filterAllCateory)
     const allBrands = useSelector((store: RootState) => store.allProductWithCatReducer.filterAllBrands)
 
-    const sortByPrice = useSelector( (state :RootState) => state.allProductWithCatReducer.sortByPrice )
+    const sortByPrice = useSelector((state: RootState) => state.allProductWithCatReducer.sortByPrice)
 
 
     type EventTypeOfOncahnge = React.ChangeEvent<HTMLInputElement> | React.FocusEvent<HTMLInputElement, Element>
@@ -172,19 +163,19 @@ export default function FilterSection({ children }: any) {
         // console.log(section, value)
 
 
-        if(section === "brand"){
+        if (section === "brand") {
 
-            setQueryObj({...queryObj , brand : value})
+            setQueryObj({ ...queryObj, brand: value })
 
-            dispatch(fetchAllProducts({brand : value , category : queryObj.category , price : sortByPrice}))
+            dispatch(fetchAllProducts({ brand: value, category: queryObj.category, price: sortByPrice }))
         }
 
 
-        if(section === "category" ){
+        if (section === "category") {
 
-            setQueryObj({...queryObj , category : value})
+            setQueryObj({ ...queryObj, category: value })
 
-            dispatch(fetchAllProducts({brand : queryObj.brand , category : value , price : sortByPrice}))
+            dispatch(fetchAllProducts({ brand: queryObj.brand, category: value, price: sortByPrice }))
         }
 
 
@@ -195,27 +186,27 @@ export default function FilterSection({ children }: any) {
 
     type ClickEventForPrice = React.MouseEvent<HTMLAnchorElement, MouseEvent>
 
-    function onClickHandlerForPrice(e: ClickEventForPrice, price: String){
+    function onClickHandlerForPrice(e: ClickEventForPrice, price: String) {
 
 
         e.stopPropagation()
         e.preventDefault()
 
-        console.log( price)
+        console.log(price)
 
 
-        if(price === "acc"){
+        if (price === "acc") {
 
 
             // setQueryObj({...queryObj , price : "1"})
-            dispatch(setSortByPriceChange({newPrice : "1"}))
-            dispatch(fetchAllProducts({brand : queryObj.brand , category : queryObj.category , price : "1"}))
+            dispatch(setSortByPriceChange({ newPrice: "1" }))
+            dispatch(fetchAllProducts({ brand: queryObj.brand, category: queryObj.category, price: "1" }))
         }
 
-        if(price === "dec"){
+        if (price === "dec") {
             // setQueryObj({...queryObj , price : "-1"})
-            dispatch(setSortByPriceChange({newPrice : "-1"}))
-            dispatch(fetchAllProducts({brand : queryObj.brand , category : queryObj.category , price : "-1"}))
+            dispatch(setSortByPriceChange({ newPrice: "-1" }))
+            dispatch(fetchAllProducts({ brand: queryObj.brand, category: queryObj.category, price: "-1" }))
         }
 
 
@@ -232,24 +223,28 @@ export default function FilterSection({ children }: any) {
         // console.log(allBrands)
         // console.log(allCategory)
 
-        if ((allBrands && allBrands.length > 0) && (allCategory && allCategory.length > 0) ) {
+        if ((allBrands && allBrands.length > 0) && (allCategory && allCategory.length > 0)) {
 
+            // // // Making Formate only --->
             let makeAllBrands = allBrands.map((brand) => { return { value: brand, label: brand, checked: false } })
-
+            
             // console.log(makeAllBrands)
             // console.log(newFilter)
-
-            let optionObjForBrand = { ...newFilter[0] }
-
+            
+            // // // See the filter var 
+            let optionObjForBrand = { ...filters[0] }
+            
             optionObjForBrand.options = makeAllBrands
-
-
-
-
+            
+            
+            
+            
+            // // // Making Formate only --->
             let makeAllCategory = allCategory.map((cate) => { return { value: cate, label: cate, checked: false } })
             // console.log(makeAllCategory)
-
-            let optionObjForCat = { ...newFilter[1] }
+            
+            // // // See the filter var 
+            let optionObjForCat = { ...filters[1] }
 
             optionObjForCat.options = makeAllCategory
 
@@ -262,7 +257,7 @@ export default function FilterSection({ children }: any) {
         }
 
 
-   
+
 
 
     }, [allCategory])
@@ -397,9 +392,9 @@ export default function FilterSection({ children }: any) {
                                             {sortOptions.map((option) => (
                                                 <Menu.Item key={option.name}>
                                                     {
-                                                        <a   
+                                                        <a
                                                             className={`${option.current ? 'font-medium ' : ''}   block px-4 py-2 text-sm `}
-                                                            onClick={(e)=>onClickHandlerForPrice(e , option.value)}
+                                                            onClick={(e) => onClickHandlerForPrice(e, option.value)}
                                                         >
                                                             {option.name}
                                                         </a>
@@ -480,12 +475,12 @@ export default function FilterSection({ children }: any) {
                             </form>
 
                             {/* Product grid */}
-                            <div className="lg:col-span-5">{/* Your content */   children }</div>
+                            <div className="lg:col-span-5">{/* Your content */   children}</div>
                         </div>
                     </section>
 
 
-                                                            <Pagination />
+                    <Pagination />
 
                 </main>
             </div>

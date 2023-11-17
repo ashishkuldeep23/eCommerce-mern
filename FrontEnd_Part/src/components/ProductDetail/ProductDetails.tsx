@@ -66,28 +66,28 @@ export default function ProductDetails() {
     // const [productDetailByApi , setProductDetailByApi] = useState([])
 
 
-    const productDetailByFilter = useSelector((store: RootState) => store.allProductWithCatReducer.singleProductData)
+    const singleProductData = useSelector((store: RootState) => store.allProductWithCatReducer.singleProductData)
 
     const productId = useSelector((store: RootState) => store.allProductWithCatReducer.singleProductId)
 
     const simmilarProducts = useSelector((store: RootState) => store.allProductWithCatReducer.simmilarProductWithOnePro)
 
-    // const productDetailByFilter = []
+    // const singleProductData = []
 
     // const cardData = useSelector((state : RootState) => state.CartReducer.cartData)
 
-    // console.log(productDetailByFilter)
+    // console.log(singleProductData)
 
 
     // // // // Add to cart fn --->
     function addToCartHandler(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
 
-        // console.log(productDetailByFilter)
+        // console.log(singleProductData)
 
         e.stopPropagation();
         // e.preventDefault();
 
-        const { id, title, price } = productDetailByFilter
+        const { id, title, price } = singleProductData
 
         if (!id && !title && !price) {
             console.log("Page is Empty , go to home and try again");
@@ -126,9 +126,9 @@ export default function ProductDetails() {
             return
         }
 
-        // console.log(productDetailByFilter)
+        // console.log(singleProductData)
 
-        let newObjWithType = { ...productDetailByFilter, type: type }
+        let newObjWithType = { ...singleProductData, type: type }
 
         // console.log(newObjWithType)
 
@@ -180,7 +180,7 @@ export default function ProductDetails() {
                 // console.log(getIdOfProductLastView)
 
                 // // // Here checking data is present in store or not ---->
-                if (productDetailByFilter.images.length === 0) {
+                if (singleProductData.images.length === 0) {
 
                     getIdOfProductLastView && dispatch(fetchOneProductByID({ productId: getIdOfProductLastView }))
                 }
@@ -192,7 +192,7 @@ export default function ProductDetails() {
 
 
         // console.log("Calling Backend...")
-    }, [productDetailByFilter])
+    }, [singleProductData])
 
     return (
 
@@ -206,22 +206,30 @@ export default function ProductDetails() {
 
                 {
 
-                    (productDetailByFilter && Object.keys(productDetailByFilter).length > 0)
+                    (singleProductData && Object.keys(singleProductData).length > 0)
                         ?
-                        <div className="mx-auto max-w-full  md:max-w-allAk px-1 md:px-2 lg:px-8">
+                        <div className="mx-auto max-w-full  lg:max-w-allAk px-1  lg:px-8">
                             <div className="pt-6 ">
 
 
-
+                                {/* This will come when data not come by some reason ----> */}
 
                                 {
-                                    (productDetailByFilter.images.length == 0)
+                                    (singleProductData.images.length == 0)
                                     &&
-                                    <div className='w-full text-center font-bold text-xl flex justify-center '>
+                                    <div className='w-full text-center font-bold text-xl flex flex-col items-center justify-center '>
+
+                                        <div
+                                            onClick={() => location.reload()}
+                                            className='my-1 inline-flex bg-green-700 border border-green-300 text-white px-1 rounded hover:cursor-pointer'
+                                        >
+                                            <i className="ri-loop-left-line mx-1"></i>
+                                            <p>Reload same page.</p>
+                                        </div>
 
                                         <div
                                             onClick={() => navigate("/")}
-                                            className=' inline-flex bg-green-700 border border-green-300 text-white px-1 rounded hover:cursor-pointer'
+                                            className=' my-1 inline-flex bg-green-700 border border-green-300 text-white px-1 rounded hover:cursor-pointer'
                                         >
                                             <i className="ri-home-4-line mx-1"></i>
                                             <p>Unable to fetch data, please go home.</p>
@@ -233,21 +241,21 @@ export default function ProductDetails() {
 
 
                                 {/* Image gallery with about product */}
-                                <div className="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-2 lg:gap-x-8 lg:px-8 ">
+                                <div className="mx-auto max-w-2xl px-2 pt-10 sm:px-6 lg:max-w-7xl lg:grid-cols-2 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8  lg:pt-16  block lg:flex">
 
                                     {/* Image div here */}
-                                    <div className="grid  gap-1 grid-cols-2">
+                                    <div className="grid  gap-1 grid-cols-2 lg:w-3/5">
 
                                         {
-                                            (productDetailByFilter && productDetailByFilter.images.length > 0)
+                                            (singleProductData && singleProductData.images.length > 0)
                                                 ?
 
-                                                productDetailByFilter.images.map((image, i) => {
+                                                singleProductData.images.map((image, i) => {
                                                     return (
                                                         <div key={i}>
                                                             <img
                                                                 src={image}
-                                                                alt={productDetailByFilter.title}
+                                                                alt={singleProductData.title}
                                                                 className="h-full w-full rounded object-cover object-center hover:scale-95 transition-all"
                                                             />
                                                         </div>
@@ -279,19 +287,19 @@ export default function ProductDetails() {
 
                                     </div>
 
-                                    {/* Options and about product */}
-                                    <div className="mt-4 lg:row-span-3 lg:mt-0  flex flex-col justify-center">
+                                    {/*  Main About and Option div of product */}
+                                    <div className="mt-4 lg:row-span-3 lg:mt-0  flex flex-col justify-center lg:w-2/5 lg:ml-5">
                                         <h2 className="sr-only">Product information</h2>
-                                        <p className="text-3xl tracking-tight  text-center font-bold capitalize underline">{productDetailByFilter.title}</p>
-                                        {/* <p className="text-3xl tracking-tight ">₹{productDetailByFilter.price}</p> */}
+                                        <p className="text-3xl tracking-tight  font-bold capitalize underline">{singleProductData.title}</p>
+                                        {/* <p className="text-3xl tracking-tight ">₹{singleProductData.price}</p> */}
 
                                         {
-                                            productDetailByFilter.discountPercentage
+                                            singleProductData.discountPercentage
                                                 ?
-                                                <p className={`text-2xl text-start font-medium ${!themeMode ? "text-gray-900" : "text-gray-300"} `}> <span className=' text-sm font-thin line-through'>₹{productDetailByFilter.price}</span> ₹{(Math.round(productDetailByFilter.price - ((productDetailByFilter.discountPercentage * productDetailByFilter.price) / 100)))}</p>
+                                                <p className={`text-2xl text-start font-medium ${!themeMode ? "text-gray-900" : "text-gray-300"} `}> <span className=' text-sm font-thin line-through'>₹{singleProductData.price}</span> ₹{(Math.round(singleProductData.price - ((singleProductData.discountPercentage * singleProductData.price) / 100)))}</p>
 
                                                 :
-                                                <p className={`text-lg text-end font-medium ${!themeMode ? "text-gray-900" : "text-gray-300"} `}> ₹{productDetailByFilter.price} </p>
+                                                <p className={`text-lg text-end font-medium ${!themeMode ? "text-gray-900" : "text-gray-300"} `}> ₹{singleProductData.price} </p>
 
                                         }
 
@@ -309,19 +317,19 @@ export default function ProductDetails() {
                                                                 <StarIcon
                                                                     key={i}
                                                                     id={item}  // // // Id not used anyWhere 
-                                                                    className={` h-5 w-5 flex-shrink-0 ${i < (Math.floor(productDetailByFilter.rating.avgRating / productDetailByFilter.rating.totalPerson)) ? `${!themeMode ? "text-gray-900" : "text-gray-200"}` : `${!themeMode ? "text-gray-300" : "text-gray-600"}`} `}
+                                                                    className={` h-5 w-5 flex-shrink-0 ${i < (Math.floor(singleProductData.rating.avgRating / singleProductData.rating.totalPerson)) ? `${!themeMode ? "text-gray-900" : "text-gray-200"}` : `${!themeMode ? "text-gray-300" : "text-gray-600"}`} `}
                                                                 />
                                                             )
                                                         })
                                                     }
-                                                    <p className=' font-bold pl-1'>{productDetailByFilter.rating.totalPerson > 0 && (Math.floor(productDetailByFilter.rating.avgRating / productDetailByFilter.rating.totalPerson))}</p>
+                                                    <p className=' font-bold pl-1'>{singleProductData.rating.totalPerson > 0 && (singleProductData.rating.avgRating / singleProductData.rating.totalPerson).toFixed(1)}</p>
                                                 </div>
 
 
 
                                                 {/* </div> */}
                                                 <p className="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500">
-                                                    {productDetailByFilter?.review?.length} reviews
+                                                    {singleProductData?.review?.length} reviews
                                                 </p>
 
 
@@ -341,7 +349,7 @@ export default function ProductDetails() {
 
                                                     // // // Mapping all option --->
 
-                                                    productDetailByFilter?.type?.map((item, i) => {
+                                                    singleProductData?.type?.map((item, i) => {
                                                         return <div className='my-2' key={i}>
 
                                                             <input type="radio" name="type" id={`type${i}`} onChange={() => { setType({ ...item, isChanged: true }) }} />
@@ -370,7 +378,7 @@ export default function ProductDetails() {
 
                                             <button
                                                 type="submit"
-                                                className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                                className="mt-10 flex w-full items-center justify-center rounded-lg border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2  lg:w-3/4"
                                                 onClick={(e) => { e.preventDefault(); e.stopPropagation(); addToCartHandler(e) }}
                                             >
                                                 Add to Cart
@@ -385,27 +393,28 @@ export default function ProductDetails() {
 
 
 
-                                {/* This is the code for project details */}
+                                {/* This is the code for project details (Detail wala) */}
                                 {/* Product info */}
                                 <div className="mx-auto max-w-2xl px-4 pt-10 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-2 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8  lg:pt-16  " >
-                                    <div className="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
-                                        <h1 className="text-2xl font-bold tracking-tight sm:text-3xl capitalize underline">{productDetailByFilter.title}</h1>
+
+                                    <div className="lg:col-span-2 lg:pr-8 ">
+                                        <h1 className="text-2xl font-bold tracking-tight sm:text-3xl capitalize underline">{singleProductData.title}</h1>
                                     </div>
 
 
+                                    <div className="py-10 lg:col-span-2 lg:col-start-1 lg:border-r lg:border-gray-200 lg:pb-16 lg:pr-8 lg:pt-6 flex  justify-between flex-col lg:flex-row lg:items-start  ">
 
-                                    <div className="py-10 lg:col-span-2 lg:col-start-1 lg:border-r lg:border-gray-200 lg:pb-16 lg:pr-8 lg:pt-6 flex  justify-between flex-col md:flex-row md:items-center">
+
+
                                         {/* Description and details */}
 
-                                        <div className=' md:w-1/2  '>
-
-
+                                        <div className=' lg:w-1/2  '>
 
                                             <div>
                                                 <h3 className="sr-only">Description</h3>
 
                                                 <div className="space-y-6">
-                                                    <p className="text-base ">{productDetailByFilter && productDetailByFilter.description?.aboutProduct}</p>
+                                                    <p className="text-base ">{singleProductData && singleProductData.description?.aboutProduct}</p>
                                                 </div>
                                             </div>
 
@@ -414,7 +423,7 @@ export default function ProductDetails() {
 
                                                 <div className="mt-4">
                                                     <ul role="list" className="list-disc space-y-2 pl-4 text-sm">
-                                                        {productDetailByFilter && productDetailByFilter.description?.highLights.map((highlight, i) => (
+                                                        {singleProductData && singleProductData.description?.highLights.map((highlight, i) => (
                                                             <li key={i}>
                                                                 <span>{highlight}</span>
                                                             </li>
@@ -432,7 +441,7 @@ export default function ProductDetails() {
 
                                                         <tbody>
 
-                                                            {productDetailByFilter && productDetailByFilter.description?.specifications.map((specs, i) => (
+                                                            {singleProductData && singleProductData.description?.specifications.map((specs, i) => (
                                                                 <tr className=' border-b' key={i}>
                                                                     {/* {JSON.stringify(specs)} */}
 
@@ -458,7 +467,7 @@ export default function ProductDetails() {
 
                                                         <tbody>
 
-                                                            {productDetailByFilter && productDetailByFilter.description?.product_Details.map((specs, i) => (
+                                                            {singleProductData && singleProductData.description?.product_Details.map((specs, i) => (
                                                                 <tr className=' border-b' key={i}>
                                                                     {/* {JSON.stringify(specs)} */}
 
@@ -483,7 +492,7 @@ export default function ProductDetails() {
 
                                                         <tbody>
 
-                                                            {productDetailByFilter && productDetailByFilter.description?.dimensions.map((specs, i) => (
+                                                            {singleProductData && singleProductData.description?.dimensions.map((specs, i) => (
                                                                 <tr className=' border-b' key={i}>
                                                                     {/* {JSON.stringify(specs)} */}
 
@@ -501,34 +510,33 @@ export default function ProductDetails() {
                                         </div>
 
 
-                                        {/* Review div --------> */}
-                                        <div className=' md:w-1/2 flex flex-col items-start md:items-center'>
+                                        {/* Review div (Both read all and create new) --------> */}
+                                        <div className=' lg:w-1/2 flex flex-col items-start lg:items-center my-10 lg:h-5/6 lg:overflow-x-scroll'>
 
-                                            {/* Create new review ----> */}
+                                            <h3 className="text-3xl font-bold underline lg:text-center ">Create new Reviews</h3>
+                                            {/* Create new review form ----> */}
                                             {/* <h1 className=' text-lg'>Create Review</h1> */}
-                                            
                                             <PostReview />
 
 
                                             <div className="mt-10">
-                                                <h3 className="text-3xl font-bold underline md:text-center ">Reviews</h3>
+                                                <h3 className="text-3xl font-bold underline lg:text-center ">Reviews</h3>
 
-
-                                                <div className='flex flex-wrap my-5 md:justify-center'>
+                                                {/* All Review div ----> */}
+                                                <div className='flex flex-wrap my-5 lg:justify-center'>
 
 
                                                     {
-                                                        productDetailByFilter.review && productDetailByFilter?.review?.length > 0
+                                                        singleProductData.review && singleProductData?.review?.length > 0
                                                             ?
-                                                            productDetailByFilter?.review?.map((r: ReviewData) => (
+                                                            singleProductData?.review?.map((r: ReviewData) => (
                                                                 <div className='p-1 w-60 my-4 border border-green-300 rounded mx-2 pl-2' key={r.id}>
                                                                     {/* {JSON.stringify(r)} */}
 
 
-                                                                    <div className='flex items-center border-b border-green-300 w-4/5 '>
-                                                                        <img className=' w-6 h-6 object-cover rounded-full mr-3' src={r.userData.userImg} alt="" />
-                                                                        <p className=' text-xl mr-1 font-bold'>{r.userData.userName}</p>
-
+                                                                    <div className='flex items-center  '>
+                                                                        <img className=' w-6 h-6 object-cover rounded-full hover:rounded-sm hover:scale-125 transition-all' src={r.userData.userImg} alt="" />
+                                                                        <p className=' text-xl pl-2 font-bold border-b '>{r.userData.userName}</p>
                                                                     </div>
 
                                                                     <div>
@@ -537,9 +545,8 @@ export default function ProductDetails() {
                                                                             <div className='flex items-center bg-green-500 text-white my-1 px-1 rounded'>
                                                                                 <StarIcon className={` h-4 w-4 flex-shrink-0`} />
                                                                                 <p >{r.stars}</p>
-
                                                                             </div>
-                                                                            <p className='ml-2'>{r.comment}</p>
+                                                                            <p className='ml-2 text-xl'>{r.comment}</p>
 
                                                                         </div>
                                                                         <div className='flex  w-4/5 my-2'>
@@ -558,7 +565,21 @@ export default function ProductDetails() {
                                                     }
 
 
+                                                    {   
+                                                        // // // Total Avg --->
+                                                        singleProductData.review && singleProductData?.review?.length > 0
+                                                        &&
+                                                        <div>
+                                                            <p
+                                                                className=' underline'
+                                                            > Total Stars <strong>{singleProductData.rating.avgRating}</strong> | Total Reviews <strong>{singleProductData.rating.totalPerson}</strong> | Avg Rating <strong>{(singleProductData.rating.avgRating / singleProductData.rating.totalPerson).toFixed(1)}</strong></p>
+                                                        </div>
+
+                                                    }
+
+
                                                 </div>
+
 
                                             </div>
 
@@ -574,11 +595,6 @@ export default function ProductDetails() {
 
 
 
-
-
-
-
-
                                 {/* div for simmilar products  */}
 
                                 <div className="mx-auto max-w-2xl  pb-16 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-2 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8  lg:pb-24   ">
@@ -586,7 +602,7 @@ export default function ProductDetails() {
 
                                     <div className={`${!themeMode ? "bg-white text-gray-700" : "bg-black text-gray-100"} pr-0`} >
 
-                                        <div className="mx-auto px-0  md:px-4  lg:max-w-7xl flex flex-col ">
+                                        <div className="mx-auto px-0  lg:px-4  lg:max-w-7xl flex flex-col ">
 
                                             <h1 className=' text-xl  my-5 font-bold underline'>Simmilar products</h1>
 

@@ -109,7 +109,7 @@ const reviewSlice = createSlice({
 
             .addCase(createNewReview.fulfilled , (state , action)=>{
 
-                console.log(action.payload)
+                // console.log(action.payload)
 
                 if (action.payload.status === false) {
 
@@ -140,7 +140,6 @@ const reviewSlice = createSlice({
                     state.isReview = true
 
                     // // // State back to normal 
-
                     state.inputReviewData = initialState.inputReviewData
 
                 }
@@ -148,7 +147,6 @@ const reviewSlice = createSlice({
                 // console.log(action.payload.message)
 
                 state.isLoading = false
-
             })
 
             .addCase(createNewReview.rejected , (state , action)=>{
