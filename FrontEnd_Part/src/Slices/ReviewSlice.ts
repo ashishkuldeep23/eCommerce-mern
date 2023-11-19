@@ -25,11 +25,10 @@ export const createNewReview = createAsyncThunk("review/newReview", async ({ com
     let body = { comment: comment, stars: stars, productID: productID }
 
     let option: RequestInit = {
-        // credentials: 'include',
+        credentials: 'include',
 
         method : "POST",
         headers: {
-            "token": `${getUserToken}`,
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(body)

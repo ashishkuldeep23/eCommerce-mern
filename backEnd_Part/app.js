@@ -8,7 +8,12 @@ const cors = require('cors')
 const session = require('express-session');
 const passport = require('passport');
 const jwt = require("jsonwebtoken")
+const bcrypt = require("bcrypt")
+const LocalStrategy = require("passport-local").Strategy
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const userModel = require("./src/model/userModel")
 require('dotenv').config()
+
 
 
 const indexRouter = require('./src/routes/routes');
@@ -47,21 +52,13 @@ app.use(session({
   resave: false, // don't save session if unmodified
   saveUninitialized: false, // don't create session until something stored
 }));
+
 app.use(passport.authenticate('session'));
 
 
 
-// // Experiment ---->
 
-
-
-const LocalStrategy = require("passport-local").Strategy
-
-const bcrypt = require("bcrypt")
-const userModel = require("./src/model/userModel")
-
-
-
+// // // Code for local strategy --->
 passport.use("local", new LocalStrategy(
   // { usernameField: "email" },
 
@@ -94,10 +91,12 @@ passport.use("local", new LocalStrategy(
       const token = jwt.sign({ id: userProfile.id }, process.env.JWT_SECRET_KEY, { expiresIn: '100d' });
 
       let sendUserdetails = {
+        id: userProfile.id,
         name: `${userProfile.firstName} ${userProfile.lastName}`,
         email: userProfile.email,
         profilePic: userProfile.profilePic,
-        role: userProfile.role, token
+        role: userProfile.role,
+        token: token,
       }
 
       return done(null, sendUserdetails); // this lines sends to serializer
@@ -108,6 +107,57 @@ passport.use("local", new LocalStrategy(
       return done(err, false, { message: `Error by server (${err.message})` })
     }
 
+
+  }
+));
+
+
+
+// // // Code for Google Stratgy ---->
+passport.use("google", new GoogleStrategy({
+  clientID: `${process.env.GOOGLE_CLIENT_ID}`,
+  clientSecret: `${process.env.GOOGLE_CLIENT_SECRET}`,
+  callbackURL: "/google/callback"
+},
+  async function (accessToken, refreshToken, profile, done) {
+    // userModel.findOrCreate({ googleId: profile.id }, function (err, user) {
+    //   return cb(err, user);
+    // });
+
+
+
+    const { id, photos, name } = profile
+
+    const { familyName: lastName, givenName: firstName } = name
+
+    // console.log(id)
+    // console.log(displayName)
+    // console.log(photos[0].value)
+    // console.log(firstName)
+    // console.log(lastName)
+
+    // let createOrFindUser = await userModel.
+
+    let searchObj = { email: id, firstName: firstName, lastName: lastName, profilePic: photos[0].value , whenCreted : `${new Date()}`}
+
+    let userProfile = await userModel.findOneAndUpdate({ email: id }, searchObj, { upsert: true }).lean()
+
+    // console.log(userProfile)
+
+
+    // // // Create JWT Token, store UUID id of user inside it.
+    const token = jwt.sign({ id: userProfile.id }, process.env.JWT_SECRET_KEY, { expiresIn: '100d' });
+
+    let sendUserdetails = {
+      id: userProfile.id,
+      name: `${userProfile.firstName} ${userProfile.lastName}`,
+      email: userProfile.email,
+      profilePic: userProfile.profilePic,
+      role: userProfile.role,
+      token: token,
+    }
+
+    done(null, sendUserdetails)
 
   }
 ));
@@ -137,14 +187,6 @@ passport.deserializeUser(function (user, cb) {
     return cb(null, user);
   });
 });
-
-
-
-
-
-
-
-
 
 
 

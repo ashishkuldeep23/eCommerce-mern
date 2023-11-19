@@ -6,10 +6,6 @@ import { RootState } from "../store";
 
 
 
-
-
-
-
 type BodyData = {
     formData: FormData
 }
@@ -70,8 +66,6 @@ export const createNewUser = createAsyncThunk('user/createNewUser', async ({ for
 
 
 
-
-
 type LogInBody = {
 
     bodyData: {
@@ -106,6 +100,30 @@ export const logInUser = createAsyncThunk('user/logInUser', async ({ bodyData = 
 
 
 
+export const fetchUser = createAsyncThunk("user/fetchUser", async () => {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/getUserData`, { credentials: 'include' })
+    let data = await response.json();
+    return data
+})
+
+
+export const userSingout = createAsyncThunk("user/singOut", async () => {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/userSingout`, { credentials: 'include' })
+    let data = await response.json();
+    return data
+})
+
+
+
+type UserAddressObj = {
+
+    city: string ,
+    street: string,
+    country: string,
+    pincode: string
+}
+
+
 
 type User = {
     isLoading: boolean;
@@ -118,6 +136,8 @@ type User = {
         role: string;
         email: string;
         id: string | number;
+        address?: UserAddressObj[];
+        orders ?: []
     }
 }
 
@@ -131,10 +151,12 @@ const initialState: User = {
 
     userData: {
         name: "",
-        profilePic: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEymdd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+        profilePic: "https://res.cloudinary.com/dlvq8n2ca/image/upload/v1700368567/ej31ylpxtamndu3trqtk.png",
         role: "user",
         email: "",
-        id: ""
+        id: "",
+        address: [] ,
+        orders : []
     }
 }
 
@@ -256,6 +278,7 @@ const userSlice = createSlice({
                     })
 
 
+
                     state.isLogIn = true
 
                     // // // Set token data in cookie ------->
@@ -263,8 +286,7 @@ const userSlice = createSlice({
 
                     // // // And also set cookie in localStorage -------->
 
-                    localStorage.setItem("userToken" , JSON.stringify(action.payload.data.token))
-
+                    localStorage.setItem("userToken", JSON.stringify(action.payload.data.token))
 
 
 
@@ -273,7 +295,7 @@ const userSlice = createSlice({
                     // let role = action.payload.data.role
                     // let email = action.payload.data.email
 
-                    let { name, email, profilePic, role } = action.payload.data
+                    let { id, name, email, profilePic, role } = action.payload.data
 
 
 
@@ -283,13 +305,12 @@ const userSlice = createSlice({
                     state.userData.email = email
                     state.userData.profilePic = profilePic
                     state.userData.role = role
+                    state.userData.id = id
 
 
                     // // // set data in localStorage ------>
 
-
-
-                    localStorage.setItem("userData", JSON.stringify({ name, email, profilePic, role }))
+                    localStorage.setItem("userData", JSON.stringify({ name, email, profilePic, role, id }))
                     localStorage.setItem("isUserLogIn", JSON.stringify(true))
 
                 }
@@ -339,6 +360,188 @@ const userSlice = createSlice({
                 }
 
                 state.isLoading = false
+                state.isError = true
+            })
+
+
+            // // // fetchUser reducers ----->
+
+            .addCase(fetchUser.pending, (state) => {
+                state.isLoading = true
+            })
+
+            .addCase(fetchUser.fulfilled, (state, action) => {
+
+                // console.log(action.payload)
+
+                if (action.payload.status === false) {
+
+                    state.isError = true
+
+                    toast.error(`${action.payload.message} | 400`, {
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: false,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                    })
+                } else {
+
+                    // toast.success(`${action.payload.message}`, {
+                    //     position: "top-right",
+                    //     autoClose: 2000,
+                    //     hideProgressBar: false,
+                    //     closeOnClick: true,
+                    //     pauseOnHover: false,
+                    //     draggable: true,
+                    //     progress: undefined,
+                    //     theme: "dark",
+                    // })
+
+
+                    // // // Set is logIn True ------->
+
+                    state.isLogIn = true
+
+
+
+                    // let name = action.payload.data.name
+                    // let profilePic = action.payload.data.profilePic
+                    // let role = action.payload.data.role
+                    // let email = action.payload.data.email
+
+                    let { id, name, email, profilePic, role , address} = action.payload.data
+
+
+
+                    // // // set Some user data (Very minior data) ------>
+
+                    // state.userData.name = name
+                    // state.userData.email = email
+                    // state.userData.profilePic = profilePic
+                    // state.userData.role = role
+                    // state.userData.id = id
+
+
+                    state.userData = action.payload.data
+
+
+                    // // // set data in localStorage ------>
+
+                    localStorage.setItem("userData", JSON.stringify({ name, email, profilePic, role, id , address}))
+                    localStorage.setItem("isUserLogIn", JSON.stringify(true))
+                }
+
+
+                // console.log(action.payload.message)
+
+                state.isLoading = false
+
+            })
+
+            .addCase(fetchUser.rejected, (state, action) => {
+
+                // console.log(action)
+
+
+                let errorArray = action.error.message?.split(",")
+
+                // console.log(errorArray)
+
+                if (action.error.message && errorArray?.length === 2 && errorArray[1].includes('"Unauthorized"')) {
+
+                    toast.error(`Given Email or Password is not valid.Please check your Email and Password.`, {
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: false,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                    });
+
+                } else {
+
+                    toast.error(`${action.error.message} | Check your Network | Refresh the page`, {
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: false,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                    });
+
+                }
+
+                state.isLoading = false
+                state.isError = true
+            })
+
+
+
+            // // // SingOut User From Backend ----->
+
+            .addCase(userSingout.fulfilled, (state, action) => {
+
+                // console.log(action.payload)
+
+                if (action.payload.status === false) {
+
+                    state.isError = true
+
+                    toast.error(`${action.payload.message} | 400`, {
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: false,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                    })
+                } else {
+
+                    toast.success(`${action.payload.message} | SingOut Done ✅ from Backend`, {
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: false,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                    })
+
+                }
+
+
+            })
+
+            .addCase(userSingout.rejected, (state, action) => {
+
+                // console.log(action)
+
+
+                toast.error(`${action.error.message} | Refresh the page`, {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                });
+
+
+
+
                 state.isError = true
             })
 

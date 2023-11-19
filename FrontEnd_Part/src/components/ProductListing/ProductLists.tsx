@@ -85,8 +85,15 @@ export default function ProductLists() {
 
         <h2 className="sr-only">Products</h2>
 
-        {
-          isLoding && <div>Loading</div>
+        { 
+          // // // Comment for till actual data is incoming --> 
+          isLoding
+          &&
+          <div>
+            <p>Loading...</p>
+            <p>Actual data is coming...</p>
+            <p>Please refresh page twice or thrice after 10 seconds (If actual data is not coming).</p>
+          </div>
         }
 
 

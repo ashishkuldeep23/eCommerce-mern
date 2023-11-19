@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom"
 import { useForm, SubmitHandler } from "react-hook-form"
 import { useState, useEffect } from "react"
 import { logInUser, userState } from "../../Slices/UserSlice"
+import GoogleBtnLogic from "./GoogleBtnLogic"
 
 
 type FormInputs = {
@@ -198,6 +199,9 @@ export default function LogIn() {
                             Sign up
                         </Link>
                     </p>
+
+
+                    <GoogleBtnLogic />
 
                 </div>
 

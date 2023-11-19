@@ -7,16 +7,32 @@ exports.isAuthorized = async function (req, res, next) {
 
     try {
 
+
+        // console.log({ Cookie : req.cookies})
+        // console.log(req)
+     
+
         let token;
 
 
-        if (!req && !req.headers && !req.headers["token"] && req.headers['token'] === "null") {
+        // if (!req && !req.headers && !req.headers["token"] && req.headers['token'] === "null") {
+        //     return res.status(401).send({ status: false, message: "Please SingIn again, Something went wroung with your request." })
+        // }
+
+        
+        // token = req.headers["token"]
+        // console.log(token)
+
+
+        if(req && req.headers && req.headers["token"] ){
+            token = req.headers["token"]
+        }else if(req && req.cookies && req.cookies["token"]  ){
+            token = req.cookies["token"]
+        }else{
             return res.status(401).send({ status: false, message: "Please SingIn again, Something went wroung with your request." })
         }
 
 
-        token = req.headers["token"]
-        // console.log(token)
 
         let verifyToken;
 

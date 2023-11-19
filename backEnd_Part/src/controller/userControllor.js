@@ -81,6 +81,15 @@ async function creteUserControllor(req, res) {
 
 
 
+        let findByEmailForUnique = await userModel.findOne({ email: email })
+
+        if (findByEmailForUnique) return res.status(400).send({ status: false, message: "Email is already present in Data-base" });
+
+
+        // // // Set opt here ------->
+
+
+
 
         // // // // Upload File -------->
 
@@ -104,51 +113,30 @@ async function creteUserControllor(req, res) {
 
 
 
-
-
-        let findByEmailForUnique = await userModel.findOne({ email: email })
-
-        if (findByEmailForUnique) return res.status(400).send({ status: false, message: "Email is already present in Data-base" });
-
-
-        // // // Set opt here ------->
-
-
         let salt = await bcrypt.genSalt(10)
         let hashPassword = await bcrypt.hash(password, salt)
-
 
 
         const createNewUser = await userModel.create({ ...req.body, password: hashPassword, profilePic: pathUrl })
 
 
-
         let data = {
+            id: createNewUser.id,
             name: `${createNewUser.firstName} ${createNewUser.lastName}`,
             email: createNewUser.email,
-            // id : createNewUser.id ,
             profilePic: createNewUser.profilePic,
             role: createNewUser.email,
         }
 
 
-
         res.status(201).send({ status: true, data: data, message: "New user created successful" })
-
-
-
 
     } catch (err) {
 
         console.log(err)
         res.status(500).send({ status: false, message: "Server Error" })
-
     }
-
 }
-
-
-
 
 
 async function logInControllor(req, res) {
@@ -159,7 +147,7 @@ async function logInControllor(req, res) {
 
         res.cookie("token", req.user.token,
             {
-                expires : new Date(Date.now() + 36000000),
+                expires: new Date(Date.now() + 36000000),
                 // httpOnly : true,
                 // signed: true,
             }
@@ -175,23 +163,45 @@ async function logInControllor(req, res) {
 
 
 
-
 function logOutControl(req, res) {
 
 
     res
         .status(200)
-        .cookie('token', null , {
+        .cookie('token', null, {
             expires: new Date(Date.now()),
             // httpOnly: true,
         })
-        .send({status : true , message : "SingOut Done."})
+        .send({ status: true, message: "SingOut Done ✅" })
 
 
 
 }
 
 
+// // // This is an auth protected route And Get request --->
+async function getUserData(req, res) {
+
+    // console.log(req.tokenUserData)
+
+    const id = req.tokenUserData.userId
+    let findUser = await userModel.findById(id)
+
+    let sendUserData = {
+        name: `${findUser.firstName} ${findUser.lastName}`,
+        address: findUser.address,
+        email: findUser.email,
+        profilePic: findUser.profilePic,
+        role: findUser.role,
+        id: findUser.id,
+    }
 
 
-module.exports = { creteUserControllor, logInControllor , logOutControl }
+    res.status(200).send({ status: true, data: sendUserData, message: "User Fetch successful" })
+}
+
+
+
+
+
+module.exports = { creteUserControllor, logInControllor, logOutControl, getUserData }

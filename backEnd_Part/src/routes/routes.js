@@ -9,42 +9,106 @@ const passport = require('passport');
 
 const { createNewProduct, findAllProducts, getCategoryAndHighlight, findOneProduct } = require("../controller/productControllor")
 const { createNewReview } = require("../controller/reviewController")
-const { creteUserControllor , logInControllor , logOutControl} = require("../controller/userControllor")
+const { creteUserControllor, logInControllor, logOutControl, getUserData } = require("../controller/userControllor")
 
 
-const {isAuthorized} = require("../middleware/authorization")
+const { isAuthorized } = require("../middleware/authorization")
 
 /* GET home page. */
-router.get('/', isAuthorized , function (req, res, next) {
+router.get('/', isAuthorized, function (req, res, next) {
   res.render('index', { title: "Backend part of E-commerce  app by Ashish" });
 });
 
 
 
 // // // Product API
-router.post("/createProduct", isAuthorized ,  createNewProduct)
+router.post("/createProduct", isAuthorized, createNewProduct)
 
-router.get("/findAllProducts", isAuthorized , findAllProducts)
-
-
-router.get("/getCategoryAndHighlight", isAuthorized ,  getCategoryAndHighlight)
+router.get("/findAllProducts", isAuthorized, findAllProducts)
 
 
-router.get("/findOneProduct/:productId", isAuthorized ,  findOneProduct)
+router.get("/getCategoryAndHighlight", isAuthorized, getCategoryAndHighlight)
+
+
+router.get("/findOneProduct/:productId", isAuthorized, findOneProduct)
 
 
 
 // // // Review API 
-router.post("/createReview", isAuthorized , createNewReview)
+router.post("/createReview", isAuthorized, createNewReview)
 
 
 
 // // // user API (SingUp , SinIn , SingOut)
 router.post("/createUser", upload.array("file"), creteUserControllor)
 
-router.post("/userLogin", passport.authenticate("local") , logInControllor)
+router.post("/userLogin", passport.authenticate("local"), logInControllor)
 
-router.get("/userSingout" , logOutControl)
+router.get("/getUserData", isAuthorized, getUserData)
+
+router.get("/userSingout", isAuthorized, logOutControl)
+
+router.get("/userLoginGoogle", passport.authenticate("google", { scope: ['profile'] }))
+
+
+router.get("/google/callback", passport.authenticate("google", {
+  // successRedirect: `${process.env.FRONTEND_URL}`,
+  // successRedirect: `/login/success`,
+  failureRedirect: "/login/failed"
+}), (req, res) => {
+
+  // console.log(req.user)
+  // console.log(req.user.token)
+
+  res.cookie("token", req.user.token,
+    {
+      expires: new Date(Date.now() + 36000000),
+      // httpOnly : true,
+      // signed: true,
+    }
+  )
+
+
+  res.redirect(`${process.env.FRONTEND_URL}`)
+
+  // res.status(200).send({ status: true, message: "LogIn Successfull", data: req.user })
+
+})
+
+
+router.get("/login/failed", (req, res) => {
+  // console.log(req.user)
+  console.log("Failed")
+
+  res.status(401).send({ status: false, message: "LogIn Failed" })
+})
+
+
+router.get("/login/success", (req, res) => {
+  // console.log(req.user)
+
+  console.log("Success just for checking")
+
+  if (req.user) {
+
+    res.cookie("token", req.user.token,
+      {
+        expires: new Date(Date.now() + 36000000),
+        // httpOnly : true,
+        // signed: true,
+      }
+    )
+
+    res.status(200).send({ status: true, message: "LogIn Successfull", data: req.user })
+  }
+  else {
+    res.status(200).send({ status: false, message: "No user found." })
+  }
+
+
+})
+
+
 
 
 

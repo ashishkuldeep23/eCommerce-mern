@@ -459,13 +459,14 @@ function RightCommonSection() {
         // // // Go To home-page ---->>
         navigate("/")
 
+        // // // Delete user INFO in local ---->
+        localStorage.removeItem("userData")
+        localStorage.removeItem("isUserLogIn")
+
+
         // // Reload page ----->>
         location.reload()
 
-
-        // // // Delete user INFo in local ---->
-        localStorage.removeItem("userData")
-        localStorage.removeItem("isUserLogIn")
 
     }
 
@@ -531,7 +532,7 @@ function RightCommonSection() {
                                 className="h-8 w-8 rounded-full object-cover"
                                 src={getUserState.userData.profilePic}
                                 alt=""
-                            /> 
+                            />
                         </Menu.Button>
                     </div>
                     <Transition

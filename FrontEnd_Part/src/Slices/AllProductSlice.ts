@@ -62,11 +62,13 @@ export const fetchAllProducts = createAsyncThunk("fetchAllProducts", async ({ br
 
 
     let option: RequestInit = {
-        // credentials: 'include',
+        credentials: 'include',
 
-        headers: {
-            "token": `${getUserToken}`
-        }
+        // headers : {
+        //     "token": `${gettingTokenInCookieAndLocalHost()}` ,
+        //     Accept : "application/json" ,
+        //     "Access-Control-Allow-Credentials" : true
+        // }
 
     }
 
@@ -92,11 +94,11 @@ export const fetchAllCategoryAndHighlight = createAsyncThunk("getCategoryAndHigh
 
 
     let option: RequestInit = {
-        // credentials: 'include',
+        credentials: 'include',
 
-        headers: {
-            "token": `${getUserToken}`
-        }
+        // headers: {
+        //     "token": `${gettingTokenInCookieAndLocalHost()}`
+        // }
 
     }
 
@@ -126,11 +128,11 @@ export const fetchOneProductByID = createAsyncThunk("fetchSingleProduct/:id", as
 
 
     let option: RequestInit = {
-        // credentials: 'include',
+        credentials: 'include',
 
-        headers: {
-            "token": `${getUserToken}`
-        }
+        // headers: {
+        //     "token": `${gettingTokenInCookieAndLocalHost()}`
+        // }
 
     }
 

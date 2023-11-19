@@ -53,7 +53,7 @@ const SingleProduct = ({ product }: TProductPrope) => {
 
                             <p className="h-5 w-5">{<StarIcon />}</p>
                             {/* <p>{product.rating.avgRating }</p> */}
-                            <p>{product.rating.totalPerson > 0 ? (Math.floor(product.rating.avgRating / product.rating.totalPerson)) : 0}</p>
+                            <p>{product.rating.totalPerson > 0 ? ((product.rating.avgRating / product.rating.totalPerson).toFixed(1)) : 0}</p>
                         </div>
                     </div>
 

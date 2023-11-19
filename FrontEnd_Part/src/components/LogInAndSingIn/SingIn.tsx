@@ -28,6 +28,8 @@ type SingFormInputs = {
 
 const formData = new FormData()
 
+formData.append("whenCreted" , `${new Date()}`)
+
 
 export default function SignIn() {
 

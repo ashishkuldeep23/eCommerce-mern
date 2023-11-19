@@ -39,7 +39,7 @@ async function createNewReview(req, res) {
 
     // console.log(findProduct)
 
-    console.log("now update product")
+    console.log("now post new review")
 
     // findProduct.rating.totalPerson = findProduct.rating.totalPerson + 1
 
@@ -78,8 +78,8 @@ async function createNewReview(req, res) {
     // // // Experiment to push review id in product model ------------>
 
     updateProductWithReview.review.push(newReview._id)
-
-    let pushReviewID = await updateProductWithReview.save()
+    
+    await updateProductWithReview.save()
 
 
 

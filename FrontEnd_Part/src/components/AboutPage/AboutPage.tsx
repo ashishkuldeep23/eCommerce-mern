@@ -8,6 +8,7 @@ import { RootState } from "../../store"
 // import { userState } from "../../Slices/UserSlice"
 import DetailsOfUser from "./DetailsOfUser"
 import OrderOfUser from "./OrderOfUser"
+import { userState } from "../../Slices/UserSlice"
 
 
 
@@ -22,7 +23,10 @@ const AboutPage = () => {
     const hightLightProducts = useSelector((store: RootState) => store.allProductWithCatReducer.allHighlightProducts)
 
 
-    // const getUserData = userState().userData
+    const getUserData = userState().userData
+
+
+
 
 
     return (
@@ -31,6 +35,12 @@ const AboutPage = () => {
             <div
                 className={`${!themeMode ? "bg-white text-gray-900" : "bg-black text-gray-200"} ${hightLightProducts.length <= 0 && "animate-pulse"} p-5`}
             >
+
+                
+                <div className="text-center mt-10 text-3xl">
+                    <p className=" underline">Welcome <span className=" font-bold ">{getUserData.name} 😊</span></p>
+                </div>
+
 
 
                 {/* Details of user div ----------> */}

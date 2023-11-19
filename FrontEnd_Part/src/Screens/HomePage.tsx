@@ -13,7 +13,7 @@ import NewCrousel from "../components/Crousal/NewCrousel"
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../store'
 import { fetchAllCategoryAndHighlight, fetchAllProducts } from '../Slices/AllProductSlice'
-// import { setUserData , setLogInStatus} from '../Slices/UserSlice'
+
 
 
 const HomePage = () => {
@@ -25,7 +25,6 @@ const HomePage = () => {
   const limitValue = useSelector((state: RootState) => state.allProductWithCatReducer.onePageLimit)
 
   useEffect(() => {
-
 
     dispatch(fetchAllCategoryAndHighlight())
     dispatch(fetchAllProducts({ brand: "", category: '', price: "-1", limit: `${limitValue}` }))

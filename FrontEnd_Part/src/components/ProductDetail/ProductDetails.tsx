@@ -241,7 +241,7 @@ export default function ProductDetails() {
 
 
                                 {/* Image gallery with about product */}
-                                <div className="mx-auto max-w-2xl px-2 pt-10 sm:px-6 lg:max-w-7xl lg:grid-cols-2 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8  lg:pt-16  block lg:flex">
+                                <div className="mx-auto max-w-2xl px-2 pt-10 sm:px-6 lg:max-w-7xl lg:grid-cols-2 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8  lg:pt-16  block lg:flex lg:items-start">
 
                                     {/* Image div here */}
                                     <div className="grid  gap-1 grid-cols-2 lg:w-3/5">
@@ -288,7 +288,7 @@ export default function ProductDetails() {
                                     </div>
 
                                     {/*  Main About and Option div of product */}
-                                    <div className="mt-4 lg:row-span-3 lg:mt-0  flex flex-col justify-center lg:w-2/5 lg:ml-5">
+                                    <div className="mt-4 lg:row-span-3   flex flex-col justify-center lg:w-2/5 lg:ml-5 lg:mt-10">
                                         <h2 className="sr-only">Product information</h2>
                                         <p className="text-3xl tracking-tight  font-bold capitalize underline">{singleProductData.title}</p>
                                         {/* <p className="text-3xl tracking-tight ">₹{singleProductData.price}</p> */}
@@ -564,21 +564,21 @@ export default function ProductDetails() {
                                                             : "No review found for this product"
                                                     }
 
-
-                                                    {   
-                                                        // // // Total Avg --->
-                                                        singleProductData.review && singleProductData?.review?.length > 0
-                                                        &&
-                                                        <div>
-                                                            <p
-                                                                className=' underline'
-                                                            > Total Stars <strong>{singleProductData.rating.avgRating}</strong> | Total Reviews <strong>{singleProductData.rating.totalPerson}</strong> | Avg Rating <strong>{(singleProductData.rating.avgRating / singleProductData.rating.totalPerson).toFixed(1)}</strong></p>
-                                                        </div>
-
-                                                    }
-
-
                                                 </div>
+
+
+
+                                                {
+                                                    // // // Total Avg Show in last of reviews --->
+                                                    singleProductData.review && singleProductData?.review?.length > 0
+                                                    &&
+                                                    <div>
+                                                        <p
+                                                            className=' underline block'
+                                                        > Total Stars <strong>{singleProductData.rating.avgRating}</strong> | Total Reviews <strong>{singleProductData.rating.totalPerson}</strong> | Avg Rating <strong>{(singleProductData.rating.avgRating / singleProductData.rating.totalPerson).toFixed(1)}</strong></p>
+                                                    </div>
+
+                                                }
 
 
                                             </div>
