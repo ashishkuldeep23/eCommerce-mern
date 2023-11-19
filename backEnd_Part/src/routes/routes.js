@@ -72,7 +72,6 @@ router.get("/google/callback", passport.authenticate("google", {
   res.redirect(`${process.env.FRONTEND_URL}`)
 
   // res.status(200).send({ status: true, message: "LogIn Successfull", data: req.user })
-
 })
 
 

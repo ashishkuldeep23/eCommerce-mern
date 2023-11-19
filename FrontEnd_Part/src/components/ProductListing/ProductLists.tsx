@@ -151,7 +151,7 @@ export default function ProductLists() {
                   // // // Btn to data back to normal --->
                 searchByQuery
                 &&
-                <div className="flex justify-end">
+                <div className="flex justify-start">
                   <h1
                     className="border  px-1 rounded-lg font-bold hover:bg-green-500 hover:scale-110 transition-all"
                     onClick={() => {
