@@ -3,6 +3,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify"
 import { RootState } from "../store";
+import { gettingTokenInCookieAndLocalHost } from "./AllProductSlice";
 
 
 
@@ -101,7 +102,17 @@ export const logInUser = createAsyncThunk('user/logInUser', async ({ bodyData = 
 
 
 export const fetchUser = createAsyncThunk("user/fetchUser", async () => {
-    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/getUserData`, { credentials: 'include' })
+
+    let option: RequestInit = {
+        credentials: 'include',
+
+        headers: {
+            "token": `${gettingTokenInCookieAndLocalHost()}`
+        }
+
+    }
+
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/getUserData`, option)
     let data = await response.json();
     return data
 })

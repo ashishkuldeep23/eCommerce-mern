@@ -20,11 +20,16 @@ export function gettingTokenInCookieAndLocalHost(){
 
     let indexOfToken = arrOfAllCookie.indexOf("token")
 
+
+    console.log("Before ------>" , getCookie)
+    
     if(indexOfToken !== -1){
-
+        
         getCookie = arrOfAllCookie[indexOfToken+1]
-
+        
     }
+    
+    console.log("After ------>" , getCookie)
 
     return getCookie
 }
