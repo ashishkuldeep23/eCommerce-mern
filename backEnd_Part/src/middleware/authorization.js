@@ -8,9 +8,10 @@ exports.isAuthorized = async function (req, res, next) {
     try {
 
 
-        console.log({ Cookie : req.cookies})
+        // console.log({ Cookie: req.cookies })
+        // console.log({ Headers: req.headers })
         // console.log(req)
-     
+
 
         let token;
 
@@ -19,19 +20,21 @@ exports.isAuthorized = async function (req, res, next) {
         //     return res.status(401).send({ status: false, message: "Please SingIn again, Something went wroung with your request." })
         // }
 
-        
+
         // token = req.headers["token"]
-        // console.log(token)
 
 
-        if(req && req.headers && req.headers["token"] ){
+
+        if (req && req.headers && req.headers["token"]) {
             token = req.headers["token"]
-        }else if(req && req.cookies && req.cookies["token"]  ){
+        } else if (req && req.cookies && req.cookies["token"]) {
             token = req.cookies["token"]
-        }else{
+        } else {
             return res.status(401).send({ status: false, message: "Please SingIn again, Something went wroung with your request." })
         }
 
+
+        console.log(token)
 
 
         let verifyToken;
@@ -63,8 +66,8 @@ exports.isAuthorized = async function (req, res, next) {
 
 
             // // Set user data in req -------->
-            
-            req.tokenUserData = { userId : findUser._id , userName : `${findUser.firstName} ${findUser.lastName}` , userImg : findUser.profilePic , userUID : findUser.id }
+
+            req.tokenUserData = { userId: findUser._id, userName: `${findUser.firstName} ${findUser.lastName}`, userImg: findUser.profilePic, userUID: findUser.id }
 
 
             // // // Now here you can call then next route ------>

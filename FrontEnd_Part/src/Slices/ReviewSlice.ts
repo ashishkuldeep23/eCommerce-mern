@@ -3,6 +3,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify"
 import { RootState } from "../store";
+import { gettingTokenInCookieAndLocalHost } from "./AllProductSlice";
 
 
 
@@ -29,7 +30,8 @@ export const createNewReview = createAsyncThunk("review/newReview", async ({ com
 
         method : "POST",
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            "token": `${gettingTokenInCookieAndLocalHost()}` ,
         },
         body: JSON.stringify(body)
 
@@ -46,8 +48,6 @@ export const createNewReview = createAsyncThunk("review/newReview", async ({ com
     return data
 
 })
-
-
 
 
 

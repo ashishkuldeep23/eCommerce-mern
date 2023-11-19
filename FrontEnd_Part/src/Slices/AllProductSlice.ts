@@ -9,6 +9,27 @@ import { toast } from "react-toastify"
 
 
 
+
+// // // Get token from cookie ---->
+export function gettingTokenInCookieAndLocalHost(){
+    let getCookie = null;
+
+    let allCookie = document.cookie
+
+    let arrOfAllCookie = allCookie.split("=")
+
+    let indexOfToken = arrOfAllCookie.indexOf("token")
+
+    if(indexOfToken !== -1){
+
+        getCookie = arrOfAllCookie[indexOfToken+1]
+
+    }
+
+    return getCookie
+}
+
+
 type SearchObj = {
     brand?: string,
     category?: string,
@@ -64,11 +85,11 @@ export const fetchAllProducts = createAsyncThunk("fetchAllProducts", async ({ br
     let option: RequestInit = {
         credentials: 'include',
 
-        // headers : {
-        //     "token": `${gettingTokenInCookieAndLocalHost()}` ,
+        headers : {
+            "token": `${gettingTokenInCookieAndLocalHost()}` ,
         //     Accept : "application/json" ,
         //     "Access-Control-Allow-Credentials" : true
-        // }
+        }
 
     }
 
@@ -80,8 +101,9 @@ export const fetchAllProducts = createAsyncThunk("fetchAllProducts", async ({ br
 
 
 
-
 export const fetchAllCategoryAndHighlight = createAsyncThunk("getCategoryAndHighlight", async () => {
+
+    // console.log(gettingTokenInCookieAndLocalHost())
 
 
     let getUserToken = localStorage.getItem("userToken");
@@ -96,9 +118,9 @@ export const fetchAllCategoryAndHighlight = createAsyncThunk("getCategoryAndHigh
     let option: RequestInit = {
         credentials: 'include',
 
-        // headers: {
-        //     "token": `${gettingTokenInCookieAndLocalHost()}`
-        // }
+        headers: {
+            "token": `${gettingTokenInCookieAndLocalHost()}`
+        }
 
     }
 
@@ -130,9 +152,9 @@ export const fetchOneProductByID = createAsyncThunk("fetchSingleProduct/:id", as
     let option: RequestInit = {
         credentials: 'include',
 
-        // headers: {
-        //     "token": `${gettingTokenInCookieAndLocalHost()}`
-        // }
+        headers: {
+            "token": `${gettingTokenInCookieAndLocalHost()}`
+        }
 
     }
 
