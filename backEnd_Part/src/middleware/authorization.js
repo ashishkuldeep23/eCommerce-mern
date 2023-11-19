@@ -8,7 +8,7 @@ exports.isAuthorized = async function (req, res, next) {
     try {
 
 
-        // console.log({ Cookie : req.cookies})
+        console.log({ Cookie : req.cookies})
         // console.log(req)
      
 
