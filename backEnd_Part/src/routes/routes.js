@@ -64,10 +64,7 @@ router.get("/auth/google/callback", passport.authenticate("google", {
     res.cookie("token", req.user.token,
       {
         expires: new Date(Date.now() + 36000000),
-        secure: false, 
-        httpOnly: false, 
         domain: `${process.env.FRONTEND_URL}` ,
-        sameSite : false
       }
     )
 
