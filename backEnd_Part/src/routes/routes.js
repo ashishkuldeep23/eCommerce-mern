@@ -81,7 +81,11 @@ router.get("/login/success", (req, res) => {
       }
     )
 
-    res.status(200).send({ status: true, message: "LogIn Successfull", data: req.user })
+    // res.status(200).send({ status: true, message: "LogIn Successfull", data: req.user })
+
+
+    res.redirect(`${process.env.FRONTEND_URL}/#/goUser`)
+
   }
   else {
     res.status(200).send({ status: false, message: "No user found." })

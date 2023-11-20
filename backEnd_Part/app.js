@@ -157,7 +157,7 @@ passport.use("google", new GoogleStrategy({
       token: token,
     }
 
-    console.log(sendUserdetails)
+    // console.log(sendUserdetails)
 
     done(null, sendUserdetails)
 

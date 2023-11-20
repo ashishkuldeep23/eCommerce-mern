@@ -15,12 +15,13 @@ import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch, RootState } from "./store"
 import { setModeOnLoad } from "./Slices/ThemeSlices"
 import { setLogInStatus, setUserData, fetchUser } from "./Slices/UserSlice"
+import UserSinInSuccessfull from "./Screens/UserSinInSuccessfull"
 
 // import { fetchAllProducts , fetchAllCategoryAndHighlight } from "./Slices/AllProductSlice"
 
 
 
-
+// // fn write to check only based on this ---> calling fetch user --->
 export const gettingTokenInCookie = () => {
 
 
@@ -33,7 +34,7 @@ export const gettingTokenInCookie = () => {
   let checkTokenPresent = cookieInArr.indexOf("token")
 
 
-  if (checkTokenPresent !== -1) {
+  if (checkTokenPresent !== -1   ) {
 
     token = true;
 
@@ -169,6 +170,8 @@ function App() {
         <Route path="/cart" element={<CartScreen />} />
 
         <Route path="/pay" element={<PaymentScreen />} />
+
+        <Route path="/goUser" element={<UserSinInSuccessfull />} />
 
       </Routes>
 

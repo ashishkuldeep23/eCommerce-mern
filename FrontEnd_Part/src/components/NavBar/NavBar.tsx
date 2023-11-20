@@ -176,9 +176,9 @@ function MainSearchBarWithLogics() {
         }
     }
 
+    
 
-
-
+    // // // Product search ------>
     function SuggestionHandler() {
 
         // // // This will run first (when ever text is empty)
@@ -296,6 +296,8 @@ function MainSearchBarWithLogics() {
 
 
                         {
+                            allProduct && (allProduct.length > 0)
+                            &&
                             SuggestionHandler()
                         }
 
@@ -420,7 +422,6 @@ function RightCommonSection() {
 
         itemsOfProfileOnHover = [
             { tab: "Your Profile", to: "/about" },
-            { tab: "Setting", to: "#" },
             { tab: "SignOut", to: "#" },
         ]
 

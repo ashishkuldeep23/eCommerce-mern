@@ -8,8 +8,8 @@ exports.isAuthorized = async function (req, res, next) {
     try {
 
 
-        console.log({ Cookie: req.cookies })
-        console.log({ Headers: req.headers })
+        // console.log({ Cookie: req.cookies })
+        // console.log({ Headers: req.headers })
         // console.log(req)
 
 
@@ -34,7 +34,7 @@ exports.isAuthorized = async function (req, res, next) {
         }
 
 
-        console.log(token)
+        // console.log(token)
 
 
         let verifyToken;
