@@ -98,7 +98,7 @@ async function creteUserControllor(req, res) {
         // console.log(file)
 
 
-        let pathUrl = "https://res.cloudinary.com/dlvq8n2ca/image/upload/v1699431919/up6onv0gbmdjyt1rsiyz.jpg"
+        let pathUrl = "https://res.cloudinary.com/dlvq8n2ca/image/upload/v1700368567/ej31ylpxtamndu3trqtk.png"
 
         if (req.files.length > 0) {
 
@@ -133,7 +133,7 @@ async function creteUserControllor(req, res) {
 
     } catch (err) {
 
-        console.log(err)
+        console.log(err.message)
         res.status(500).send({ status: false, message: "Server Error" })
     }
 }
@@ -199,8 +199,6 @@ async function getUserData(req, res) {
 
     res.status(200).send({ status: true, data: sendUserData, message: "User Fetch successful" })
 }
-
-
 
 
 

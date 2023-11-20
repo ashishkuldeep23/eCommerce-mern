@@ -7,13 +7,13 @@ import { gettingTokenInCookieAndLocalHost } from "./AllProductSlice";
 
 
 
-type BodyOfNewReviw = {
+type PramsForCreateReview = {
     comment: string;
     stars: number;
     productID: string | number;
 }
 
-export const createNewReview = createAsyncThunk("review/newReview", async ({ comment = "Osm", stars = 4, productID = '' }: BodyOfNewReviw) => {
+export const createNewReview = createAsyncThunk("review/newReview", async ({ comment = "Osm", stars = 4, productID = '' }: PramsForCreateReview) => {
 
     let getUserToken = localStorage.getItem("userToken");
 
@@ -49,6 +49,41 @@ export const createNewReview = createAsyncThunk("review/newReview", async ({ com
 
 })
 
+
+
+
+type PramsForDeleteReview = {
+    reviewId : string;
+    userUID : string | number;
+
+}
+
+
+export const deleteReview = createAsyncThunk("review/deleteReview" , async ({ reviewId , userUID } : PramsForDeleteReview)=>{
+
+    let option: RequestInit = {
+        credentials: 'include',
+
+        method : "DELETE",
+        headers: {
+            'Content-Type': 'application/json',
+            "token": `${gettingTokenInCookieAndLocalHost()}` ,
+        },
+        body: JSON.stringify({userUID : userUID})
+
+    }
+
+
+    // console.log(body)
+    // return
+
+
+
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/deleteReview/${reviewId}`, option)
+    let data = await response.json();
+    return data
+
+} )
 
 
 
@@ -149,6 +184,69 @@ const reviewSlice = createSlice({
             })
 
             .addCase(createNewReview.rejected , (state , action)=>{
+                state.isLoading = false
+                state.isError = true
+                toast.error(`${action.error.message}`, {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                });
+            })
+
+
+
+
+
+            .addCase(deleteReview.pending, (state) => {
+                state.isLoading = true
+            })
+
+            .addCase(deleteReview.fulfilled , (state , action)=>{
+
+                // console.log(action.payload)
+
+                if (action.payload.status === false) {
+
+                    state.isError = true
+                    toast.error(`${action.payload.message} | 400`, {
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: false,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                    })
+                } else {
+
+                    toast.success(`${action.payload.message}`, {
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: false,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                    })
+
+                    // // reload loaction ----->
+                    location.reload()
+
+                }
+
+                // console.log(action.payload.message)
+
+                state.isLoading = false
+            })
+
+            .addCase(deleteReview.rejected , (state , action)=>{
                 state.isLoading = false
                 state.isError = true
                 toast.error(`${action.error.message}`, {

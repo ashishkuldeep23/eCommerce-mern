@@ -43,20 +43,7 @@ export const createNewUser = createAsyncThunk('user/createNewUser', async ({ for
 
     const option = {
         method: 'POST',
-        headers: {
-            // 'Content-Type': 'multipart/form-data' ,
-            // // 'Accept': 'application/json',
-
-
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-        },
-        body: formData,
-
-
-        // credentials: true
-        // withCredentials: true
-
+        body: formData
     }
 
 
@@ -128,7 +115,7 @@ export const userSingout = createAsyncThunk("user/singOut", async () => {
 
 type UserAddressObj = {
 
-    city: string ,
+    city: string,
     street: string,
     country: string,
     pincode: string
@@ -148,7 +135,7 @@ type User = {
         email: string;
         id: string | number;
         address?: UserAddressObj[];
-        orders ?: []
+        orders?: []
     }
 }
 
@@ -166,8 +153,8 @@ const initialState: User = {
         role: "user",
         email: "",
         id: "",
-        address: [] ,
-        orders : []
+        address: [],
+        orders: []
     }
 }
 
@@ -424,7 +411,7 @@ const userSlice = createSlice({
                     // let role = action.payload.data.role
                     // let email = action.payload.data.email
 
-                    let { id, name, email, profilePic, role , address} = action.payload.data
+                    let { id, name, email, profilePic, role, address } = action.payload.data
 
 
 
@@ -442,7 +429,7 @@ const userSlice = createSlice({
 
                     // // // set data in localStorage ------>
 
-                    localStorage.setItem("userData", JSON.stringify({ name, email, profilePic, role, id , address}))
+                    localStorage.setItem("userData", JSON.stringify({ name, email, profilePic, role, id, address }))
                     localStorage.setItem("isUserLogIn", JSON.stringify(true))
                 }
 

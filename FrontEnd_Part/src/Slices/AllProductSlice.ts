@@ -21,7 +21,7 @@ export function gettingTokenInCookieAndLocalHost(){
     let indexOfToken = arrOfAllCookie.indexOf("token")
 
 
-    console.log("Before ------>" , getCookie)
+    // console.log("Before ------>" , getCookie)
     
     if(indexOfToken !== -1){
         
@@ -29,7 +29,9 @@ export function gettingTokenInCookieAndLocalHost(){
         
     }
     
-    console.log("After ------>" , getCookie)
+    // console.log("After ------>" , getCookie)
+
+
 
     return getCookie
 }

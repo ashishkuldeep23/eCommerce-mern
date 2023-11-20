@@ -82,7 +82,7 @@ const PostReview = () => {
             {
 
                 // // // Here checking actual data is come or not ----->
-                singleProductData.images.length > 0
+                singleProductData && (singleProductData.images.length > 0)
                 ?
 
                 <div className={`mt-5 my-4 border p-2 px-3 rounded border-green-300 relative  ${isLoading && " opacity-50"} `}>

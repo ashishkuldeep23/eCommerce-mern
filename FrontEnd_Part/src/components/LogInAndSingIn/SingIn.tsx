@@ -264,7 +264,7 @@ export default function SignIn() {
 
                     {/* Error show div here */}
 
-                    <div className={` ${isError ? "flex" : "hidden"}`}>
+                    <div className={` ${!isError ? "flex" : "hidden"}`}>
                         <h1 className=" mt-2 px-2 rounded text-white text-center bg-red-500 inline-flex mx-auto">Error | Refresh page and Try again. </h1>
                     </div>
 

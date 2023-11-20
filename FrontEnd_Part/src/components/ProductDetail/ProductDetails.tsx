@@ -9,16 +9,18 @@ import SingleProduct from '../ProductListing/SingleProduct'
 import { useNavigate } from 'react-router-dom'
 import { fetchOneProductByID } from '../../Slices/AllProductSlice'
 import PostReview from './PostReview'
+import SingleReview from './SingleReview'
 
 
 
 
 
-type ReviewData = {
+export type ReviewData = {
 
     "userData": {
         "userName": string,
-        "userImg": string
+        "userImg": string,
+        "userUID": string,
     },
 
     "productName": string,
@@ -204,452 +206,406 @@ export default function ProductDetails() {
 
             >
 
-                {
-
-                    (singleProductData && Object.keys(singleProductData).length > 0)
-                        ?
-                        <div className="mx-auto max-w-full  lg:max-w-allAk px-1  lg:px-8">
-                            <div className="pt-6 ">
+                <div className="mx-auto max-w-full  lg:max-w-allAk px-1  lg:px-8">
+                    <div className="pt-6 ">
 
 
-                                {/* This will come when data not come by some reason ----> */}
+                        {/* This will come when data not come by some reason ----> */}
+
+                        {
+                            (singleProductData && singleProductData.images.length == 0)
+                            &&
+                            <div className='w-full text-center font-bold text-xl flex flex-col items-center justify-center '>
+
+                                <div
+                                    onClick={() => location.reload()}
+                                    className='my-1 inline-flex bg-green-700 border border-green-300 text-white px-1 rounded hover:cursor-pointer'
+                                >
+                                    <i className="ri-loop-left-line mx-1"></i>
+                                    <p>Reload same page.</p>
+                                </div>
+
+                                <div
+                                    onClick={() => navigate("/")}
+                                    className=' my-1 inline-flex bg-green-700 border border-green-300 text-white px-1 rounded hover:cursor-pointer'
+                                >
+                                    <i className="ri-home-4-line mx-1"></i>
+                                    <p>Unable to fetch data, please go home.</p>
+                                </div>
+
+                            </div>
+
+                        }
+
+
+                        {/* Image gallery with about product */}
+                        <div className="mx-auto max-w-2xl px-2 pt-10 sm:px-6 lg:max-w-7xl lg:grid-cols-2 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8  lg:pt-16  block lg:flex lg:items-start">
+
+                            {/* Image div here */}
+                            <div className="grid  gap-1 grid-cols-2 lg:w-3/5">
 
                                 {
-                                    (singleProductData.images.length == 0)
-                                    &&
-                                    <div className='w-full text-center font-bold text-xl flex flex-col items-center justify-center '>
+                                    (singleProductData && singleProductData.images.length > 0)
+                                        ?
 
-                                        <div
-                                            onClick={() => location.reload()}
-                                            className='my-1 inline-flex bg-green-700 border border-green-300 text-white px-1 rounded hover:cursor-pointer'
-                                        >
-                                            <i className="ri-loop-left-line mx-1"></i>
-                                            <p>Reload same page.</p>
-                                        </div>
+                                        singleProductData.images.map((image, i) => {
+                                            return (
+                                                <div key={i}>
+                                                    <img
+                                                        src={image}
+                                                        alt={singleProductData.title}
+                                                        className="h-full w-full rounded object-cover object-center hover:scale-95 transition-all"
+                                                    />
+                                                </div>
+                                            )
 
-                                        <div
-                                            onClick={() => navigate("/")}
-                                            className=' my-1 inline-flex bg-green-700 border border-green-300 text-white px-1 rounded hover:cursor-pointer'
-                                        >
-                                            <i className="ri-home-4-line mx-1"></i>
-                                            <p>Unable to fetch data, please go home.</p>
-                                        </div>
+                                        })
 
-                                    </div>
+
+
+                                        :
+                                        <>
+                                            <div className='flex flex-wrap gap-2 justify-center  col-span-4' >
+                                                <img
+                                                    className='border rounded hover:scale-95 transition-all'
+                                                    src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQe3XKEJqpEWVLFp2gWAKNHFoarWaOReT23c4b8nWb7&s' />
+                                                <img
+                                                    className='border rounded hover:scale-95 transition-all'
+                                                    src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQe3XKEJqpEWVLFp2gWAKNHFoarWaOReT23c4b8nWb7&s' />
+                                                <img className='border rounded hover:scale-95 transition-all'
+                                                    src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQe3XKEJqpEWVLFp2gWAKNHFoarWaOReT23c4b8nWb7&s' />
+                                                <img className='border rounded hover:scale-95 transition-all'
+                                                    src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQe3XKEJqpEWVLFp2gWAKNHFoarWaOReT23c4b8nWb7&s' />
+                                            </div>
+                                        </>
 
                                 }
 
 
-                                {/* Image gallery with about product */}
-                                <div className="mx-auto max-w-2xl px-2 pt-10 sm:px-6 lg:max-w-7xl lg:grid-cols-2 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8  lg:pt-16  block lg:flex lg:items-start">
 
-                                    {/* Image div here */}
-                                    <div className="grid  gap-1 grid-cols-2 lg:w-3/5">
+                            </div>
 
-                                        {
-                                            (singleProductData && singleProductData.images.length > 0)
-                                                ?
+                            {/*  Main About and Option div of product */}
+                            <div className="mt-4 lg:row-span-3   flex flex-col justify-center lg:w-2/5 lg:ml-5 lg:mt-10">
+                                <h2 className="sr-only">Product information</h2>
+                                <p className="text-3xl tracking-tight  font-bold capitalize underline">{singleProductData && singleProductData.title}</p>
+                                {/* <p className="text-3xl tracking-tight ">₹{singleProductData.price}</p> */}
 
-                                                singleProductData.images.map((image, i) => {
+                                {
+                                    singleProductData && singleProductData.discountPercentage
+                                        ?
+                                        <p className={`text-2xl text-start font-medium ${!themeMode ? "text-gray-900" : "text-gray-300"} `}> <span className=' text-sm font-thin line-through'>₹{singleProductData.price}</span> ₹{(Math.round(singleProductData.price - ((singleProductData.discountPercentage * singleProductData.price) / 100)))}</p>
+
+                                        :
+                                        <p className={`text-lg text-end font-medium ${!themeMode ? "text-gray-900" : "text-gray-300"} `}> ₹{singleProductData && singleProductData.price} </p>
+
+                                }
+
+
+                                {/* Review div start here ----> */}
+                                <div className="mt-6">
+                                    <h3 className="sr-only">Reviews</h3>
+                                    <div className="flex items-center">
+
+                                        <div className="flex items-center">
+
+
+
+                                            {
+
+                                                Array.from(Array(5)).map((item, i) => {
                                                     return (
-                                                        <div key={i}>
-                                                            <img
-                                                                src={image}
-                                                                alt={singleProductData.title}
-                                                                className="h-full w-full rounded object-cover object-center hover:scale-95 transition-all"
-                                                            />
-                                                        </div>
+                                                        <StarIcon
+                                                            key={i}
+                                                            id={item}  // // // Id not used anyWhere 
+                                                            className={` h-5 w-5 flex-shrink-0 ${i < (Math.floor(singleProductData?.rating?.avgRating / singleProductData?.rating?.totalPerson)) ? `${!themeMode ? "text-gray-900" : "text-gray-200"}` : `${!themeMode ? "text-gray-300" : "text-gray-600"}`} `}
+                                                        />
                                                     )
-
                                                 })
-
-
-
-                                                :
-                                                <>
-                                                    <div className='flex flex-wrap gap-2 justify-center  col-span-4' >
-                                                        <img
-                                                            className='border rounded hover:scale-95 transition-all'
-                                                            src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQe3XKEJqpEWVLFp2gWAKNHFoarWaOReT23c4b8nWb7&s' />
-                                                        <img
-                                                            className='border rounded hover:scale-95 transition-all'
-                                                            src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQe3XKEJqpEWVLFp2gWAKNHFoarWaOReT23c4b8nWb7&s' />
-                                                        <img className='border rounded hover:scale-95 transition-all'
-                                                            src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQe3XKEJqpEWVLFp2gWAKNHFoarWaOReT23c4b8nWb7&s' />
-                                                        <img className='border rounded hover:scale-95 transition-all'
-                                                            src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQe3XKEJqpEWVLFp2gWAKNHFoarWaOReT23c4b8nWb7&s' />
-                                                    </div>
-                                                </>
-
-                                        }
-
-
-
-                                    </div>
-
-                                    {/*  Main About and Option div of product */}
-                                    <div className="mt-4 lg:row-span-3   flex flex-col justify-center lg:w-2/5 lg:ml-5 lg:mt-10">
-                                        <h2 className="sr-only">Product information</h2>
-                                        <p className="text-3xl tracking-tight  font-bold capitalize underline">{singleProductData.title}</p>
-                                        {/* <p className="text-3xl tracking-tight ">₹{singleProductData.price}</p> */}
-
-                                        {
-                                            singleProductData.discountPercentage
-                                                ?
-                                                <p className={`text-2xl text-start font-medium ${!themeMode ? "text-gray-900" : "text-gray-300"} `}> <span className=' text-sm font-thin line-through'>₹{singleProductData.price}</span> ₹{(Math.round(singleProductData.price - ((singleProductData.discountPercentage * singleProductData.price) / 100)))}</p>
-
-                                                :
-                                                <p className={`text-lg text-end font-medium ${!themeMode ? "text-gray-900" : "text-gray-300"} `}> ₹{singleProductData.price} </p>
-
-                                        }
-
-
-                                        {/* Review div start here ----> */}
-                                        <div className="mt-6">
-                                            <h3 className="sr-only">Reviews</h3>
-                                            <div className="flex items-center">
-
-                                                <div className="flex items-center">
-                                                    {
-
-                                                        Array.from(Array(5)).map((item, i) => {
-                                                            return (
-                                                                <StarIcon
-                                                                    key={i}
-                                                                    id={item}  // // // Id not used anyWhere 
-                                                                    className={` h-5 w-5 flex-shrink-0 ${i < (Math.floor(singleProductData.rating.avgRating / singleProductData.rating.totalPerson)) ? `${!themeMode ? "text-gray-900" : "text-gray-200"}` : `${!themeMode ? "text-gray-300" : "text-gray-600"}`} `}
-                                                                />
-                                                            )
-                                                        })
-                                                    }
-                                                    <p className=' font-bold pl-1'>{singleProductData.rating.totalPerson > 0 && (singleProductData.rating.avgRating / singleProductData.rating.totalPerson).toFixed(1)}</p>
-                                                </div>
-
-
-
-                                                {/* </div> */}
-                                                <p className="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500">
-                                                    {singleProductData?.review?.length} reviews
-                                                </p>
-
-
-                                            </div>
+                                            }
+                                            <p className=' font-bold pl-1'>{singleProductData?.rating?.totalPerson > 0 && (singleProductData?.rating?.avgRating / singleProductData?.rating?.totalPerson).toFixed(1)}</p>
                                         </div>
 
 
-                                        {/* Available types div */}
-                                        <div className="mt-10">
 
-                                            <div>
-
-                                                <h3 className="text-sm font-medium capitalize "> Available options  </h3>
-
-                                                {/* <p>{JSON.stringify(type)}</p> */}
-                                                <form >{
-
-                                                    // // // Mapping all option --->
-
-                                                    singleProductData?.type?.map((item, i) => {
-                                                        return <div className='my-2' key={i}>
-
-                                                            <input type="radio" name="type" id={`type${i}`} onChange={() => { setType({ ...item, isChanged: true }) }} />
-
-                                                            <label
-
-                                                                className=' font-semibold mx-2 px-2 border border-blue-600 rounded hover:cursor-pointer hover:bg-blue-600 hover:text-white capitalize  inline-flex  items-start'
-
-                                                                htmlFor={`type${i}`}
-                                                            >{`${item.typeName[0]} :  ${item.typeName[1]} | ${item.typeVerity[0]} : ${item.typeVerity[1]} | Stocks : ${item.typeStock}`}</label>
-
-                                                        </div>
-                                                    })
-
-                                                }
-                                                </form>
-
-
-                                            </div>
-
-
-                                            <div>
-
-                                            </div>
-
-
-                                            <button
-                                                type="submit"
-                                                className="mt-10 flex w-full items-center justify-center rounded-lg border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2  lg:w-3/4"
-                                                onClick={(e) => { e.preventDefault(); e.stopPropagation(); addToCartHandler(e) }}
-                                            >
-                                                Add to Cart
-                                            </button>
-
-                                        </div>
+                                        {/* </div> */}
+                                        <p className="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500">
+                                            {singleProductData?.review?.length} reviews
+                                        </p>
 
 
                                     </div>
-
                                 </div>
 
 
+                                {/* Available types div */}
+                                <div className="mt-10">
 
-                                {/* This is the code for project details (Detail wala) */}
-                                {/* Product info */}
-                                <div className="mx-auto max-w-2xl px-4 pt-10 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-2 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8  lg:pt-16  " >
+                                    <div>
 
-                                    <div className="lg:col-span-2 lg:pr-8 ">
-                                        <h1 className="text-2xl font-bold tracking-tight sm:text-3xl capitalize underline">{singleProductData.title}</h1>
-                                    </div>
+                                        <h3 className="text-sm font-medium capitalize "> Available options  </h3>
 
+                                        {/* <p>{JSON.stringify(type)}</p> */}
+                                        <form >{
 
-                                    <div className="py-10 lg:col-span-2 lg:col-start-1 lg:border-r lg:border-gray-200 lg:pb-16 lg:pr-8 lg:pt-6 flex  justify-between flex-col lg:flex-row lg:items-start  ">
+                                            // // // Mapping all option --->
 
+                                            singleProductData?.type?.map((item, i) => {
+                                                return <div className='my-2' key={i}>
 
+                                                    <input type="radio" name="type" id={`type${i}`} onChange={() => { setType({ ...item, isChanged: true }) }} />
 
-                                        {/* Description and details */}
+                                                    <label
 
-                                        <div className=' lg:w-1/2  '>
+                                                        className=' font-semibold mx-2 px-2 border border-blue-600 rounded hover:cursor-pointer hover:bg-blue-600 hover:text-white capitalize  inline-flex  items-start'
 
-                                            <div>
-                                                <h3 className="sr-only">Description</h3>
-
-                                                <div className="space-y-6">
-                                                    <p className="text-base ">{singleProductData && singleProductData.description?.aboutProduct}</p>
-                                                </div>
-                                            </div>
-
-                                            <div className="mt-10">
-                                                <h3 className="text-sm font-medium ">Highlights</h3>
-
-                                                <div className="mt-4">
-                                                    <ul role="list" className="list-disc space-y-2 pl-4 text-sm">
-                                                        {singleProductData && singleProductData.description?.highLights.map((highlight, i) => (
-                                                            <li key={i}>
-                                                                <span>{highlight}</span>
-                                                            </li>
-                                                        ))}
-                                                    </ul>
-                                                </div>
-                                            </div>
-
-                                            <div className="mt-10">
-                                                <h3 className="text-sm font-medium ">Specifications</h3>
-
-                                                <div className="mt-4">
-
-                                                    <table>
-
-                                                        <tbody>
-
-                                                            {singleProductData && singleProductData.description?.specifications.map((specs, i) => (
-                                                                <tr className=' border-b' key={i}>
-                                                                    {/* {JSON.stringify(specs)} */}
-
-                                                                    <td className='pr-5 capitalize'>{`${Object.keys(specs)[0]}`}</td>
-                                                                    <td>{`${Object.values(specs)[0]}`}</td>
-
-                                                                </tr>
-                                                            ))}
-
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-
-
-
-                                            <div className="mt-10">
-                                                <h3 className="text-sm font-medium ">Details</h3>
-
-                                                <div className="mt-4">
-
-                                                    <table>
-
-                                                        <tbody>
-
-                                                            {singleProductData && singleProductData.description?.product_Details.map((specs, i) => (
-                                                                <tr className=' border-b' key={i}>
-                                                                    {/* {JSON.stringify(specs)} */}
-
-                                                                    <td className='pr-5 capitalize'>{`${Object.keys(specs)[0]}`}</td>
-                                                                    <td>{`${Object.values(specs)[0]}`}</td>
-
-                                                                </tr>
-                                                            ))}
-
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-
-
-                                            <div className="mt-10">
-                                                <h3 className="text-sm font-medium ">Dimensions</h3>
-
-                                                <div className="mt-4">
-
-                                                    <table>
-
-                                                        <tbody>
-
-                                                            {singleProductData && singleProductData.description?.dimensions.map((specs, i) => (
-                                                                <tr className=' border-b' key={i}>
-                                                                    {/* {JSON.stringify(specs)} */}
-
-                                                                    <td className='pr-5 capitalize'>{`${Object.keys(specs)[0]}`}</td>
-                                                                    <td>{`${Object.values(specs)[0]}`}</td>
-
-                                                                </tr>
-                                                            ))}
-
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-
-                                        </div>
-
-
-                                        {/* Review div (Both read all and create new) --------> */}
-                                        <div className=' lg:w-1/2 flex flex-col items-start lg:items-center my-10 lg:h-5/6 lg:overflow-x-scroll'>
-
-                                            <h3 className="text-3xl font-bold underline lg:text-center ">Create new Reviews</h3>
-                                            {/* Create new review form ----> */}
-                                            {/* <h1 className=' text-lg'>Create Review</h1> */}
-                                            <PostReview />
-
-
-                                            <div className="mt-10">
-                                                <h3 className="text-3xl font-bold underline lg:text-center ">Reviews</h3>
-
-                                                {/* All Review div ----> */}
-                                                <div className='flex flex-wrap my-5 lg:justify-center'>
-
-
-                                                    {
-                                                        singleProductData.review && singleProductData?.review?.length > 0
-                                                            ?
-                                                            singleProductData?.review?.map((r: ReviewData) => (
-                                                                <div className='p-1 w-60 my-4 border border-green-300 rounded mx-2 pl-2' key={r.id}>
-                                                                    {/* {JSON.stringify(r)} */}
-
-
-                                                                    <div className='flex items-center  '>
-                                                                        <img className=' w-6 h-6 object-cover rounded-full hover:rounded-sm hover:scale-125 transition-all' src={r.userData.userImg} alt="" />
-                                                                        <p className=' text-xl pl-2 font-bold border-b '>{r.userData.userName}</p>
-                                                                    </div>
-
-                                                                    <div>
-                                                                        <div className='flex items-center'>
-
-                                                                            <div className='flex items-center bg-green-500 text-white my-1 px-1 rounded'>
-                                                                                <StarIcon className={` h-4 w-4 flex-shrink-0`} />
-                                                                                <p >{r.stars}</p>
-                                                                            </div>
-                                                                            <p className='ml-2 text-xl'>{r.comment}</p>
-
-                                                                        </div>
-                                                                        <div className='flex  w-4/5 my-2'>
-
-                                                                            <p className='border px-5 mr-3 rounded '><i className="ri-thumb-up-fill"></i> {r.likes}</p>
-                                                                            <p className='border px-5 rounded '><i className="ri-thumb-down-fill"></i> {r.dislikes}</p>
-                                                                        </div>
-                                                                        <p className='text-end mr-5'>{r.whenCreated}</p>
-                                                                    </div>
-
-
-                                                                </div>
-                                                            ))
-
-                                                            : "No review found for this product"
-                                                    }
+                                                        htmlFor={`type${i}`}
+                                                    >{`${item.typeName[0]} :  ${item.typeName[1]} | ${item.typeVerity[0]} : ${item.typeVerity[1]} | Stocks : ${item.typeStock}`}</label>
 
                                                 </div>
+                                            })
 
-
-
-                                                {
-                                                    // // // Total Avg Show in last of reviews --->
-                                                    singleProductData.review && singleProductData?.review?.length > 0
-                                                    &&
-                                                    <div>
-                                                        <p
-                                                            className=' underline block'
-                                                        > Total Stars <strong>{singleProductData.rating.avgRating}</strong> | Total Reviews <strong>{singleProductData.rating.totalPerson}</strong> | Avg Rating <strong>{(singleProductData.rating.avgRating / singleProductData.rating.totalPerson).toFixed(1)}</strong></p>
-                                                    </div>
-
-                                                }
-
-
-                                            </div>
-
-                                        </div>
-
+                                        }
+                                        </form>
 
 
                                     </div>
 
 
-                                </div>
+                                    <div>
 
-
-
-
-                                {/* div for simmilar products  */}
-
-                                <div className="mx-auto max-w-2xl  pb-16 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-2 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8  lg:pb-24   ">
-
-
-                                    <div className={`${!themeMode ? "bg-white text-gray-700" : "bg-black text-gray-100"} pr-0`} >
-
-                                        <div className="mx-auto px-0  lg:px-4  lg:max-w-7xl flex flex-col ">
-
-                                            <h1 className=' text-xl  my-5 font-bold underline'>Simmilar products</h1>
-
-                                            <div className="h-96 flex flex-wrap flex-col overflow-y-hidden overflow-x-auto  pb-3 ">
-
-
-
-
-                                                {
-
-                                                    simmilarProducts && (simmilarProducts.length > 0)
-                                                        ?
-
-                                                        simmilarProducts.map((product) => <SingleProduct product={product} key={product.id} />)
-                                                        :
-                                                        "Not getting"
-                                                }
-
-                                            </div>
-
-                                        </div>
                                     </div>
 
 
+                                    <button
+                                        type="submit"
+                                        className="mt-10 flex w-full items-center justify-center rounded-lg border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2  lg:w-3/4"
+                                        onClick={(e) => { e.preventDefault(); e.stopPropagation(); addToCartHandler(e) }}
+                                    >
+                                        Add to Cart
+                                    </button>
 
                                 </div>
 
 
                             </div>
 
+                        </div>
+
+
+
+                        {/* This is the code for project details (Detail wala) */}
+                        {/* Product info */}
+                        <div className="mx-auto max-w-2xl px-4 pt-10 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-2 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8  lg:pt-16  " >
+
+                            <div className="lg:col-span-2 lg:pr-8 ">
+                                <h1 className="text-2xl font-bold tracking-tight sm:text-3xl capitalize underline">{singleProductData && singleProductData.title}</h1>
+                            </div>
+
+
+                            <div className="py-10 lg:col-span-2 lg:col-start-1 lg:border-r lg:border-gray-200 lg:pb-16 lg:pr-8 lg:pt-6 flex  justify-between flex-col lg:flex-row lg:items-start  ">
+
+
+
+                                {/* Description and details */}
+
+                                <div className=' lg:w-1/2  '>
+
+                                    <div>
+                                        <h3 className="sr-only">Description</h3>
+
+                                        <div className="space-y-6">
+                                            <p className="text-base ">{singleProductData && singleProductData.description?.aboutProduct}</p>
+                                        </div>
+                                    </div>
+
+                                    <div className="mt-10">
+                                        <h3 className="text-sm font-medium ">Highlights</h3>
+
+                                        <div className="mt-4">
+                                            <ul role="list" className="list-disc space-y-2 pl-4 text-sm">
+                                                {singleProductData && singleProductData.description?.highLights.map((highlight, i) => (
+                                                    <li key={i}>
+                                                        <span>{highlight}</span>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <div className="mt-10">
+                                        <h3 className="text-sm font-medium ">Specifications</h3>
+
+                                        <div className="mt-4">
+
+                                            <table>
+
+                                                <tbody>
+
+                                                    {singleProductData && singleProductData.description?.specifications.map((specs, i) => (
+                                                        <tr className=' border-b' key={i}>
+                                                            {/* {JSON.stringify(specs)} */}
+
+                                                            <td className='pr-5 capitalize'>{`${Object.keys(specs)[0]}`}</td>
+                                                            <td>{`${Object.values(specs)[0]}`}</td>
+
+                                                        </tr>
+                                                    ))}
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div className="mt-10">
+                                        <h3 className="text-sm font-medium ">Details</h3>
+
+                                        <div className="mt-4">
+
+                                            <table>
+
+                                                <tbody>
+
+                                                    {singleProductData && singleProductData.description?.product_Details.map((specs, i) => (
+                                                        <tr className=' border-b' key={i}>
+                                                            {/* {JSON.stringify(specs)} */}
+
+                                                            <td className='pr-5 capitalize'>{`${Object.keys(specs)[0]}`}</td>
+                                                            <td>{`${Object.values(specs)[0]}`}</td>
+
+                                                        </tr>
+                                                    ))}
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+
+                                    <div className="mt-10">
+                                        <h3 className="text-sm font-medium ">Dimensions</h3>
+
+                                        <div className="mt-4">
+
+                                            <table>
+
+                                                <tbody>
+
+                                                    {singleProductData && singleProductData.description?.dimensions.map((specs, i) => (
+                                                        <tr className=' border-b' key={i}>
+                                                            {/* {JSON.stringify(specs)} */}
+
+                                                            <td className='pr-5 capitalize'>{`${Object.keys(specs)[0]}`}</td>
+                                                            <td>{`${Object.values(specs)[0]}`}</td>
+
+                                                        </tr>
+                                                    ))}
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+                                {/* Review div (Both read all and create new) --------> */}
+                                <div className=' lg:w-1/2 flex flex-col items-start lg:items-center my-10 lg:h-5/6 lg:overflow-x-scroll'>
+
+                                    <h3 className="text-3xl font-bold underline lg:text-center ">Create new Reviews</h3>
+                                    {/* Create new review form ----> */}
+                                    {/* <h1 className=' text-lg'>Create Review</h1> */}
+                                    <PostReview />
+
+
+                                    <div className="mt-10">
+                                        <h3 className="text-3xl font-bold underline lg:text-center ">Reviews</h3>
+
+                                        {/* All Review div ----> */}
+                                        <div className='flex flex-wrap my-5 lg:justify-center'>
+
+
+                                            {
+                                                singleProductData && singleProductData.review && singleProductData?.review?.length > 0
+                                                    ?
+                                                    singleProductData?.review?.map((reviewData: ReviewData) => <SingleReview reviewData={reviewData} key={reviewData.id} />)
+
+                                                    : "No review found for this product"
+                                            }
+
+                                        </div>
+
+
+
+                                        {
+                                            // // // Total Avg Show in last of reviews --->
+                                            singleProductData?.review && singleProductData?.review?.length > 0
+                                            &&
+                                            <div>
+                                                <p
+                                                    className=' underline block text-center'
+                                                > Total Stars <strong>{singleProductData.rating.avgRating}</strong> | Total Reviews <strong>{singleProductData.rating.totalPerson}</strong> | Avg Rating <strong>{(singleProductData.rating.avgRating / singleProductData.rating.totalPerson).toFixed(1)}</strong></p>
+                                            </div>
+
+                                        }
+
+
+                                    </div>
+
+                                </div>
+
+
+
+                            </div>
+
+
+                        </div>
 
 
 
 
+                        {/* div for simmilar products  */}
 
+                        <div className="mx-auto max-w-2xl  pb-16 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-2 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8  lg:pb-24   ">
+
+
+                            <div className={`${!themeMode ? "bg-white text-gray-700" : "bg-black text-gray-100"} pr-0`} >
+
+                                <div className="mx-auto px-0  lg:px-4  lg:max-w-7xl flex flex-col ">
+
+                                    <h1 className=' text-xl  my-5 font-bold underline'>Simmilar products</h1>
+
+                                    <div className="h-96 flex flex-wrap flex-col overflow-y-hidden overflow-x-auto  pb-3 ">
+
+
+
+
+                                        {
+
+                                            simmilarProducts && (simmilarProducts.length > 0)
+                                                ?
+
+                                                simmilarProducts.map((product) => <SingleProduct product={product} key={product.id} />)
+                                                :
+                                                "Not getting"
+                                        }
+
+                                    </div>
+
+                                </div>
+                            </div>
 
 
 
                         </div>
 
-                        :
-                        <div>
-                            <p className='text-2xl'>Refresh page or check your network. </p>
-                            <p className='text-2xl'>There is something problem (Loading Sekeleton) </p>
-                        </div>
 
-                }
+                    </div>
+
+                </div>
+
             </div>
 
         </>

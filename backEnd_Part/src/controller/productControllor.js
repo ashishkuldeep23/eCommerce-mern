@@ -9,28 +9,35 @@ const reviewModel = require("../model/reviewModel")
 
 async function createNewProduct(req, res) {
 
-    console.log(req.body)
+    try {
 
-    // // // Check body (body can't be empty)
 
-    if (Object.keys(req.body).length <= 0) {
-        return res.status(400).send({ status: false, message: "Body can't be empty" })
+
+        console.log(req.body)
+
+        // // // Check body (body can't be empty)
+
+        if (Object.keys(req.body).length <= 0) {
+            return res.status(400).send({ status: false, message: "Body can't be empty" })
+        }
+
+
+        let nameOfProduct = req.body.name
+
+
+        // // // Validation ---> 
+
+
+        let newProduct = await productModel.create(req.body)
+
+        console.log(newProduct)
+
+        res.status(201).send({ status: true, message: "Product created", data: newProduct })
+
+    } catch (err) {
+        console.log(err.message)
+        res.status(500).send({ status: false, message: "Server Error" })
     }
-
-
-    let nameOfProduct = req.body.name
-
-
-    // // // Validation ---> 
-
-
-    let newProduct = await productModel.create(req.body)
-
-    console.log(newProduct)
-
-    res.status(201).send({ status: true, message: "Product created", data: newProduct })
-
-
 }
 
 
@@ -44,95 +51,104 @@ async function findAllProducts(req, res) {
 
     // console.log(req.query)
 
+    try {
 
-    let searchByQuery = false
 
 
-    let { brand , category , sort_by_price , most_started , page , limit} = req.query
+        let searchByQuery = false
 
-    
-    
-    // console.log(brand , category , sort_by_price)
 
-    // console.log(typeof sort_by_price) 
+        let { brand, category, sort_by_price, most_started, page, limit } = req.query
 
-    let searchObject = {
-        isDeleted : false ,
+
+
+        // console.log(brand , category , sort_by_price)
+
+        // console.log(typeof sort_by_price) 
+
+        let searchObject = {
+            isDeleted: false,
+        }
+
+        if (brand) {
+            // searchObject.brand = brand.toLowerCase()
+            searchObject.brand = brand
+
+            searchByQuery = true
+        }
+
+        if (category) {
+            // searchObject.category = category.toLowerCase()
+            searchObject.category = category
+
+            searchByQuery = true
+
+            // // // To lower case not used now
+        }
+
+
+
+
+        let sortByPrice = 1
+
+        if (sort_by_price && (sort_by_price === '1' || sort_by_price === '-1')) {
+            sortByPrice = sort_by_price
+        }
+
+
+        let pageNo = 1
+
+        if (page) {
+            pageNo = page
+        }
+
+
+        // let mostStarted = 1 
+
+        // if(most_started  && (most_started === '1' || most_started === '-1') ){
+        //     mostStarted = most_started
+        // }
+
+
+        let limitOfProducts = 3
+
+        if (limit) {
+            limitOfProducts = limit
+        }
+
+        const findAllProducts = await productModel.find(searchObject).sort({ price: sortByPrice }).skip(limitOfProducts * (pageNo - 1)).limit(limitOfProducts).select('-_id -updatedAt -createdAt -__v -description -type -review').populate("review")
+
+
+        // // // Create all category list here and send to frontEnd
+        const allCategoryOfProducts = [...new Set(findAllProducts.map(ele => ele.category))]
+
+        // const allHighlights = [...findAllProducts.slice(3,8)]   // // // Upadte this by highlighted true product.
+
+
+        // const allHighlights = [...findAllProducts.filter((item) => {
+        //     if (item.isHighlight === true) { return item }
+        // })]   // // // now Upadte this by highlighted true product.   
+        // // // // return those items that have isHighlight true otherwise do nothing
+
+        // // console.log( allHighlights)
+
+
+        return res.status(200).send({ status: true, totaldata: findAllProducts.length, allProductData: findAllProducts, allCategory: allCategoryOfProducts, searchByQuery: searchByQuery })
+
     }
-
-    if(brand){
-        // searchObject.brand = brand.toLowerCase()
-        searchObject.brand = brand
-
-        searchByQuery = true
+    catch (err) {
+        console.log(err.message)
+        res.status(500).send({ status: false, message: "Server Error" })
     }
-
-    if(category){
-        // searchObject.category = category.toLowerCase()
-        searchObject.category = category
-        
-        searchByQuery = true
-
-        // // // To lower case not used now
-    }
-
-
-
-
-    let sortByPrice = 1
-
-    if(sort_by_price  && (sort_by_price === '1' || sort_by_price === '-1') ){
-        sortByPrice = sort_by_price
-    }
-
-
-    let pageNo = 1
-
-    if(page){
-        pageNo = page
-    }
-
-
-    // let mostStarted = 1 
-
-    // if(most_started  && (most_started === '1' || most_started === '-1') ){
-    //     mostStarted = most_started
-    // }
-
-
-    let limitOfProducts = 3
-
-    if(limit){
-        limitOfProducts = limit
-    }
-
-    const findAllProducts = await productModel.find(searchObject).sort({price : sortByPrice}).skip(limitOfProducts*(pageNo-1)).limit(limitOfProducts).select('-_id -updatedAt -createdAt -__v -description -type -review').populate("review")
-
-
-    // // // Create all category list here and send to frontEnd
-    const allCategoryOfProducts = [...new Set(findAllProducts.map(ele => ele.category))]
-
-    // const allHighlights = [...findAllProducts.slice(3,8)]   // // // Upadte this by highlighted true product.
-
-
-    // const allHighlights = [...findAllProducts.filter((item) => {
-    //     if (item.isHighlight === true) { return item }
-    // })]   // // // now Upadte this by highlighted true product.   
-    // // // // return those items that have isHighlight true otherwise do nothing
-
-    // // console.log( allHighlights)
-
-
-    return res.status(200).send({ status: true, totaldata: findAllProducts.length,  allProductData: findAllProducts , allCategory : allCategoryOfProducts , searchByQuery : searchByQuery })
 
 }
 
 
 
 
-async function getCategoryAndHighlight(req , res){
+async function getCategoryAndHighlight(req, res) {
 
-    const findAllProducts = await productModel.find({isDeleted : false}).select('-_id -updatedAt -createdAt -__v -description -type -review')
+    const findAllProducts = await productModel.find({ isDeleted: false }).select('-_id -updatedAt -createdAt -__v -description -type -review')
 
 
     // // // Create all category list here and send to frontEnd
@@ -152,7 +168,7 @@ async function getCategoryAndHighlight(req , res){
 
     // console.log(findAllProducts.length)
 
-    return res.status(200).send({ status: true,  allCategory: allCategoryOfProducts , allBrands : allBrandsOfProducts  , allHighlights: allHighlights, totalProducts : findAllProducts.length })
+    return res.status(200).send({ status: true, allCategory: allCategoryOfProducts, allBrands: allBrandsOfProducts, allHighlights: allHighlights, totalProducts: findAllProducts.length })
 
 }
 
@@ -161,63 +177,77 @@ async function getCategoryAndHighlight(req , res){
 
 async function findOneProduct(req, res) {
 
-    const productId = req.params.productId     // // // Product id should given by frontEnd (generated by UUID)
-
-    // console.log(productId) 
-
-    if (!productId) return res.status(400).send({ status: false, message: "Product id should given in path params." })
-
-    // let product = await productModel.findOne({ id: productId , isDeleted : false }).select('-updatedAt -createdAt -__v').populate("review").select('-updatedAt -createdAt -__v -_id -userId -productID').lean()
-
-    
-    let product = await productModel.findOne({ id: productId , isDeleted : false }).select('-updatedAt -createdAt -__v -_id').populate({ path : "review" , select : "-updatedAt -createdAt -__v -_id -userId -productID -isDeleted" }).lean()
+    try {
 
 
+        const productId = req.params.productId     // // // Product id should given by frontEnd (generated by UUID)
 
-    if (!product) return res.status(400).send({ status: false, message: "Product not found by this id." })
+        // console.log(productId) 
+
+        if (!productId) return res.status(400).send({ status: false, message: "Product id should given in path params." })
+
+        // let product = await productModel.findOne({ id: productId , isDeleted : false }).select('-updatedAt -createdAt -__v').populate("review").select('-updatedAt -createdAt -__v -_id -userId -productID').lean()
 
 
-    // // // Latest review first ---------->
-    if(product.review && product.review.length > 1){
-        product.review = product.review.reverse()
+        let product = await productModel
+            .findOne({ id: productId, isDeleted: false })
+            .select('-updatedAt -createdAt -__v -_id')
+            .populate({
+                path: "review",
+                match: { isDeleted: false } ,
+                select: "-updatedAt -createdAt -__v -_id -userId -productID -isDeleted"
+            }).lean()
+
+
+
+        if (!product) return res.status(400).send({ status: false, message: "Product not found by this id." })
+
+
+        // // // Latest review first ---------->
+        if (product.review && product.review.length > 1) {
+            product.review = product.review.reverse()
+        }
+
+
+
+        // console.log(product)
+
+
+
+        // // // Now no need of this because successfully implemented ref and populate --------------->
+
+        // // // // Here finding all reviews about this product
+        // let findAllReview = await reviewModel.find({ productID: product._id }).sort({createdAt : "-1"}).select('-userId -productID -isDeleted -_id  -updatedAt -createdAt -__v')
+        // // console.log(findAllReview )
+        // // // //.lean() is used means we can modify the object.
+        // product.review = findAllReview      // // // storing all revies inside review key of product object.
+
+
+
+        // // // Show simmilar products ------------>
+        let simmilarProducts = await productModel.find({ category: product.category, isDeleted: false }).select('-_id -updatedAt -createdAt -__v -description -type -review')
+
+        // console.log(simmilarProducts)
+
+        let simmilarProductExceptThis = simmilarProducts.filter(item => item.id !== product.id)
+
+        // console.log(simmilarProductExceptThis)
+
+
+        delete product._id      // // // Deleting _id of product because i don't want to show it on frontEnd.
+
+
+        return res.status(200).send({ status: true, message: "Product with details fetched", data: product, simmilarProductExceptThis })
     }
-
-
-
-    // console.log(product)
-
-
-
-    // // // Now no need of this because successfully implemented ref and populate --------------->
-
-    // // // // Here finding all reviews about this product
-    // let findAllReview = await reviewModel.find({ productID: product._id }).sort({createdAt : "-1"}).select('-userId -productID -isDeleted -_id  -updatedAt -createdAt -__v')
-    // // console.log(findAllReview )
-    // // // //.lean() is used means we can modify the object.
-    // product.review = findAllReview      // // // storing all revies inside review key of product object.
-
-
-
-    // // // Show simmilar products ------------>
-    let simmilarProducts = await productModel.find({ category : product.category , isDeleted : false }).select('-_id -updatedAt -createdAt -__v -description -type -review')
-
-    // console.log(simmilarProducts)
-
-    let simmilarProductExceptThis = simmilarProducts.filter( item => item.id !== product.id )
-
-    // console.log(simmilarProductExceptThis)
-
-
-    delete product._id      // // // Deleting _id of product because i don't want to show it on frontEnd.
-
-
-    return res.status(200).send({ status: true, message: "Product with details fetched", data: product , simmilarProductExceptThis })
-
+    catch (err) {
+        console.log(err.message)
+        res.status(500).send({ status: false, message: "Server Error" })
+    }
 }
 
 
 
 
 
-module.exports = { createNewProduct, findAllProducts , getCategoryAndHighlight , findOneProduct }
+module.exports = { createNewProduct, findAllProducts, getCategoryAndHighlight, findOneProduct }
 
