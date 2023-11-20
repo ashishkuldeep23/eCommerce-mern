@@ -66,7 +66,6 @@ router.get("/auth/google/callback", passport.authenticate("google", {
         expires: new Date(Date.now() + 36000000),
         secure: false, 
         httpOnly: false, 
-        sameSite: 'None',
         domain: `${process.env.FRONTEND_URL}`
       }
     )
