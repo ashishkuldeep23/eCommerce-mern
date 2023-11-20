@@ -51,28 +51,11 @@ router.get("/userSingout", isAuthorized, logOutControl)
 router.get("/userLoginGoogle", passport.authenticate("google", { scope: ['profile'] }))
 
 
-router.get("/google/callback", passport.authenticate("google", {
+router.get("/auth/google/callback", passport.authenticate("google", {
   // successRedirect: `${process.env.FRONTEND_URL}`,
-  // successRedirect: `/login/success`,
+  successRedirect: `/login/success`,
   failureRedirect: "/login/failed"
-}), (req, res) => {
-
-  // console.log(req.user)
-  // console.log(req.user.token)
-
-  res.cookie("token", req.user.token,
-    {
-      expires: new Date(Date.now() + 36000000),
-      // httpOnly : true,
-      // signed: true,
-    }
-  )
-
-
-  res.redirect(`${process.env.FRONTEND_URL}`)
-
-  // res.status(200).send({ status: true, message: "LogIn Successfull", data: req.user })
-})
+}))
 
 
 router.get("/login/failed", (req, res) => {
