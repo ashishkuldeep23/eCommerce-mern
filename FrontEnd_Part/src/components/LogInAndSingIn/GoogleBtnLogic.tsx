@@ -6,7 +6,7 @@ const GoogleBtnLogic = () => {
 
 
     function googleLogIn(){
-        window.open(`${import.meta.env.VITE_BACKEND_URL}/userLoginGoogle` , "_self")
+        window.open(`${import.meta.env.VITE_BACKEND_URL}/userLoginGoogle` ,  'newwin', 'height=500,width=500,left=500,top=150,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes')
     }
 
 

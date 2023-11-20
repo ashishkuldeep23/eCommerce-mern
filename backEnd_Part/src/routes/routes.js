@@ -53,9 +53,35 @@ router.get("/userLoginGoogle", passport.authenticate("google", { scope: ['profil
 
 router.get("/auth/google/callback", passport.authenticate("google", {
   // successRedirect: `${process.env.FRONTEND_URL}`,
-  successRedirect: `/login/success`,
+  // successRedirect: `/login/success`,
   failureRedirect: "/login/failed"
-}))
+}), (req, res) => {
+
+  console.log("Success just for checking")
+
+  if (req.user) {
+
+    res.cookie("token", req.user.token,
+      {
+        expires: new Date(Date.now() + 36000000),
+        secure: false, 
+        httpOnly: false, 
+        sameSite: 'None',
+        domain: `${process.env.FRONTEND_URL}`
+      }
+    )
+
+    // res.status(200).send({ status: true, message: "LogIn Successfull", data: req.user })
+
+    res.redirect(`${process.env.FRONTEND_URL}`)
+
+  }
+  else {
+    res.status(200).send({ status: false, message: "No user found." })
+  }
+
+
+})
 
 
 router.get("/login/failed", (req, res) => {
@@ -84,7 +110,7 @@ router.get("/login/success", (req, res) => {
     // res.status(200).send({ status: true, message: "LogIn Successfull", data: req.user })
 
 
-    res.redirect(`${process.env.FRONTEND_URL}/#/goUser`)
+    res.redirect(`${process.env.FRONTEND_URL}`)
 
   }
   else {
