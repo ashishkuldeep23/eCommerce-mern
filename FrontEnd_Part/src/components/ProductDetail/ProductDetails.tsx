@@ -30,7 +30,9 @@ export type ReviewData = {
     "likes": number,
     "dislikes": number,
     "id": string,
-    "whenCreated": string
+    "whenCreated": string,
+    "likedUserIds" : string[] ,
+    "dislikedUserIds" : string[]
 }
 
 

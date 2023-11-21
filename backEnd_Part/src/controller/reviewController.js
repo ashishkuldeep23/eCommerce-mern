@@ -158,7 +158,6 @@ async function deleteReview(req, res) {
 
         let userUidInReviw = findReview.userData.userUID
 
-
         // // // Authenticate user now ----->
 
         let userUidInToken = req.tokenUserData.userUID
@@ -175,9 +174,10 @@ async function deleteReview(req, res) {
 
         // console.log(findReview)
 
-        res.status(200).send({ status: true, message: "Review deleted sucessfull."})
+        res.status(200).send({ status: true, message: "Review deleted sucessfull." })
 
-    } catch (err) {
+    }
+    catch (err) {
         console.log(err.message)
         res.status(500).send({ status: false, message: "Server Error" })
     }
@@ -188,4 +188,219 @@ async function deleteReview(req, res) {
 }
 
 
-module.exports = { createNewReview, deleteReview }
+
+
+async function updateReview(req, res) {
+
+    try {
+
+
+
+        if (Object.keys(req.body).length <= 0) {
+            return res.status(400).send({ status: false, message: "Body can't be Empty" })
+        }
+
+        // console.log(req.body)
+
+        const { reviewId, stars, comment } = req.body
+
+        if (!reviewId || !uuid.validate(reviewId)) {
+            return res.status(400).send({ status: false, message: "Bad object id or Product objectId is not given." })
+        }
+
+        let findReview = await reviewModel.findOne({ id: reviewId })
+
+        if (!findReview) {
+            return res.status(400).send({ status: false, message: "No Review found with given object id." })
+        }
+
+        if (findReview.isDeleted) {
+            return res.status(400).send({ status: false, message: "Review is already deleted." })
+        }
+
+        // console.log(findReview)
+
+        let previousStarts = findReview.stars
+
+        findReview.comment = comment
+
+        findReview.stars = stars
+
+        let productIDInReview = findReview.productID
+
+        // // // Authenticate user now ----->
+
+        let userUidInReviw = findReview.userData.userUID
+
+        let userUidInToken = req.tokenUserData.userUID
+
+        // console.log(userUidInReviw === userUidInToken)
+
+        if (userUidInReviw !== userUidInToken) {
+            return res.status(403).send({ status: false, message: "Review is not created by you, LogIn again. | 403" })
+        }
+
+        let findProductAndUpadte = await productModel.findOne({ _id: productIDInReview, isDeleted: false })
+
+        let starDiff = stars - previousStarts
+
+        // console.log(findProductAndUpadte)
+
+        // console.log(previousStarts , stars , starDiff)
+
+
+        findProductAndUpadte.rating.avgRating = findProductAndUpadte.rating.avgRating + starDiff
+
+        await findReview.save()
+
+        await findProductAndUpadte.save()
+
+        res.status(200).send({ status: true, message: "Review updated." })
+
+    }
+    catch (err) {
+        console.log(err.message)
+        res.status(500).send({ status: false, message: "Server Error" })
+    }
+
+
+
+}
+
+
+async function likeReview(req, res) {
+
+    try{
+
+        let {reviewId , isLiking , userId} =  req.body
+
+        // console.log(req.body)
+
+        // // Validatintion ---->
+
+
+
+        if (!reviewId || !uuid.validate(reviewId)) {
+            return res.status(400).send({ status: false, message: "Bad object id or Product objectId is not given." })
+        }
+
+        let findReview = await reviewModel.findOne({ id: reviewId })
+
+        if (!findReview) {
+            return res.status(400).send({ status: false, message: "No Review found with given object id." })
+        }
+
+        if (findReview.isDeleted) {
+            return res.status(400).send({ status: false, message: "Review is already deleted." })
+        }
+
+
+        // // // InCreaseing ----->
+
+        if(isLiking ){
+            findReview.likes = findReview.likes + 1
+
+            if(!findReview.likedUserIds.includes(userId)){
+
+                findReview.likedUserIds.push(userId)
+            }
+
+
+        }else{
+            findReview.likes = findReview.likes - 1
+
+            if(findReview.likedUserIds.includes(userId)){
+
+                let index = findReview.likedUserIds.findIndex((ids)=>ids===userId)
+
+                // console.log(index)
+
+                findReview.likedUserIds.splice(index,1)
+            }
+        }
+
+
+
+        await findReview.save()
+
+        res.status(200).send({status : true , message : "Like Done"})
+    }
+    catch (err) {
+        console.log(err.message)
+        res.status(500).send({ status: false, message: "Server Error" })
+    }
+
+
+
+
+}
+
+
+
+
+async function dislikeReview(req, res) {
+    try{
+
+        let {reviewId , isDisliking , userId} =  req.body
+
+        // console.log(req.body)
+
+        // // Validatintion ---->
+
+        if (!reviewId || !uuid.validate(reviewId)) {
+            return res.status(400).send({ status: false, message: "Bad object id or Product objectId is not given." })
+        }
+
+        let findReview = await reviewModel.findOne({ id: reviewId })
+
+        if (!findReview) {
+            return res.status(400).send({ status: false, message: "No Review found with given object id." })
+        }
+
+        if (findReview.isDeleted) {
+            return res.status(400).send({ status: false, message: "Review is already deleted." })
+        }
+
+
+        // // // InCreaseing ----->
+
+        if(isDisliking){
+            findReview.dislikes = findReview.dislikes + 1
+
+            if(!findReview.dislikedUserIds.includes(userId)){
+
+                findReview.dislikedUserIds.push(userId)
+            }
+
+
+        }else{
+            findReview.dislikes = findReview.dislikes - 1
+
+            if(findReview.dislikedUserIds.includes(userId)){
+
+                let index = findReview.dislikedUserIds.findIndex((ids)=>ids===userId)
+
+                // console.log(index)
+
+                findReview.dislikedUserIds.splice(index,1)
+            }
+        }
+
+
+
+        await findReview.save()
+
+        res.status(200).send({status : true , message : "Dislike Done"})
+    }
+    catch (err) {
+        console.log(err.message)
+        res.status(500).send({ status: false, message: "Server Error" })
+    }
+
+
+
+}
+
+
+
+module.exports = { createNewReview, deleteReview, updateReview, likeReview, dislikeReview }

@@ -61,6 +61,15 @@ const reviewSchema = new mongoose.Schema( {
         required : true,
         default : 0
     },
+
+    likedUserIds : {
+        type : [String]
+    },
+
+    dislikedUserIds :{
+        type : [String]
+    },
+
     productID : {
         type : objectId ,
         ref : "product"

@@ -8,8 +8,8 @@ const passport = require('passport');
 // // // Import controles -->
 
 const { createNewProduct, findAllProducts, getCategoryAndHighlight, findOneProduct } = require("../controller/productControllor")
-const { createNewReview , deleteReview } = require("../controller/reviewController")
-const { creteUserControllor, logInControllor, logOutControl, getUserData } = require("../controller/userControllor")
+const { createNewReview , deleteReview , updateReview , likeReview , dislikeReview } = require("../controller/reviewController")
+const { creteUserControllor, logInControllor, logOutControl, getUserData  } = require("../controller/userControllor")
 
 
 const { isAuthorized } = require("../middleware/authorization")
@@ -37,8 +37,13 @@ router.get("/findOneProduct/:productId", isAuthorized, findOneProduct)
 // // // Review API 
 router.post("/createReview", isAuthorized, createNewReview)
 
-
 router.delete("/deleteReview/:reviewId" , isAuthorized , deleteReview)
+
+router.put("/updateReview" , isAuthorized , updateReview)
+
+router.post('/likeReview' , isAuthorized ,  likeReview )
+
+router.post('/dislikeReview' , isAuthorized , dislikeReview )
 
 
 

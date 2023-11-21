@@ -133,7 +133,7 @@ type User = {
         profilePic: string;
         role: string;
         email: string;
-        id: string | number;
+        id: string;
         address?: UserAddressObj[];
         orders?: []
     }

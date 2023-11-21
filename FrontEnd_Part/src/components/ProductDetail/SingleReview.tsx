@@ -3,7 +3,7 @@ import { ReviewData } from "./ProductDetails"
 import { userState } from "../../Slices/UserSlice"
 import { useDispatch } from "react-redux"
 import { AppDispatch } from "../../store"
-import { deleteReview } from "../../Slices/ReviewSlice"
+import { deleteReview, dislikeReview, likeReview, setReviewData, setReviewUpadte } from "../../Slices/ReviewSlice"
 
 
 
@@ -21,10 +21,87 @@ const SingleReview = ({ reviewData }: PropOfSingleReview) => {
 
 
 
+    const updateReview = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, reviewData: ReviewData) => {
+
+        e.stopPropagation();
+        e.preventDefault();
+
+
+        // console.log(reviewData)
+
+        dispatch(setReviewData({ data: reviewData }))
+
+        dispatch(setReviewUpadte({ data: true }))
+
+
+        // let post_review_div = document.querySelector("#post_review")
+
+        // console.log( window.pageYOffset ,post_review_div?.getBoundingClientRect().top , post_review_div.off)
+
+        // let y = post_review_div?.getBoundingClientRect().y
+
+        // if(y) window.scroll(0 , y)
+
+        if (window.innerWidth <= 1024) {
+
+            window.scroll(0, 1400)
+        } else {
+
+            window.scroll(0, 700)
+        }
+
+
+    }
+
+
+
+    const likeHandler = (e: React.MouseEvent<HTMLParagraphElement, MouseEvent>) =>{
+
+        
+        e.stopPropagation();
+        e.preventDefault();
+
+
+        // alert("ok")
+
+        if(!reviewData.likedUserIds.includes(userDataId)){
+
+            dispatch(likeReview({ reviewId : reviewData.id , isLiking : true , userId : userDataId  }))
+        }else{
+
+            dispatch(likeReview({ reviewId : reviewData.id , isLiking : false , userId : userDataId }))
+        }
+
+
+    }
+
+
+
+    const dislikeHandler = (e: React.MouseEvent<HTMLParagraphElement, MouseEvent>) =>{
+
+        
+        e.stopPropagation();
+        e.preventDefault();
+
+
+        // alert("ok")
+
+        if(!reviewData.dislikedUserIds.includes(userDataId)){
+
+            dispatch(dislikeReview({ reviewId : reviewData.id , isDisliking : true , userId : userDataId  }))
+        }else{
+
+            dispatch(dislikeReview({ reviewId : reviewData.id , isDisliking : false , userId : userDataId }))
+        }
+
+
+    }
+
+
     return (
         <>
 
-            <div className='p-1   my-4 mx-2 px-2 border border-green-300 rounded  '>
+            <div className='p-1   my-4 mx-2 px-2 border border-green-300 rounded  ' id="post_review">
 
 
                 {/* {JSON.stringify(r)} */}
@@ -48,24 +125,39 @@ const SingleReview = ({ reviewData }: PropOfSingleReview) => {
                     </div>
                     <div className='flex  w-4/5 my-2'>
 
-                        <p className='border px-3 mr-3 rounded '><i className="ri-thumb-up-fill"></i> {reviewData.likes}</p>
-                        <p className='border px-3 rounded '><i className="ri-thumb-down-fill"></i> {reviewData.dislikes}</p>
+
+                        <p
+                            className={`border px-3 mr-3 rounded ${reviewData.likedUserIds.includes(userDataId) && 'text-blue-400' }  `}
+                            onClick={(e)=>likeHandler(e)}
+                            >
+                            <i className="ri-thumb-up-fill"></i> {reviewData.likes}
+                        </p>
+
+
+
+                        <p
+                            className={`border px-3 rounded ${reviewData.dislikedUserIds.includes(userDataId) && 'text-red-400' }  `}
+                            onClick={(e)=>dislikeHandler(e)}
+                        >
+                            <i className="ri-thumb-down-fill"></i> {reviewData.dislikes}
+                        </p>
                     </div>
 
 
-                    <div className={`flex  justify-end relative  ${userDataId !== reviewData.userData.userUID ? " hidden" : "display" } `}>
+                    <div className={`flex  justify-end relative  ${userDataId !== reviewData.userData.userUID ? " hidden" : "display"} `}>
 
                         <div className=" absolute left-0">
 
                             <button
                                 className="  border rounded px-0.5 mx-0.5 hover:bg-red-300 hover:text-white"
-                                onClick={(e)=>{e.stopPropagation(); dispatch(deleteReview( {reviewId : reviewData.id , userUID : userDataId} ))}}
+                                onClick={(e) => { e.stopPropagation(); dispatch(deleteReview({ reviewId: reviewData.id, userUID: userDataId })) }}
                             >
                                 <i className="ri-delete-bin-7-line"></i>
                             </button>
 
                             <button
                                 className="  border rounded px-0.5 mx-0.5 hover:bg-blue-300 hover:text-white"
+                                onClick={(e) => { updateReview(e, reviewData) }}
                             >
                                 <i className="ri-pencil-fill"></i>
                             </button>
