@@ -1,11 +1,14 @@
 // import { useSelector } from "react-redux"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { userState } from "../../Slices/UserSlice"
 import { RootState } from "../../store"
+import { setChildrenModal, setOpenMoadl } from "../../Slices/ModalSlice"
 // import { RootState } from "../../store"
 
 
 const DetailsOfUser = () => {
+
+    const dispatch = useDispatch()
 
     // const themeMode = useSelector((store: RootState) => store.themeReducer.mode)
 
@@ -31,6 +34,26 @@ const DetailsOfUser = () => {
 
 
 
+    function showModalWithValues (){
+
+        // e.stopPropagation();
+
+        // alert()
+
+
+        dispatch(setOpenMoadl(true))
+
+
+        let ChildrenOfModal = <img src={getUserData.profilePic} alt="" />
+
+        dispatch(setChildrenModal( ChildrenOfModal ))
+
+
+    }
+
+
+
+
     return (
         <>
 
@@ -39,7 +62,7 @@ const DetailsOfUser = () => {
                 className=" mx-auto max-w-full md:max-w-allAk px-1 md:px-2 lg:px-8  p-2 pt-16 flex flex-col justify-center items-center md:flex-row "
             >
 
-                <div className=" w-auto">
+                <div className=" w-auto"  onClick={()=>{showModalWithValues()}} >
 
                     {
                         getUserData && getUserData.name !== ""
@@ -48,6 +71,7 @@ const DetailsOfUser = () => {
                                 className=" w-80 md:max-w-sm  rounded-xl  outline outline-offset-2 outline-emerald-300  hover:outline-offset-4  transition-all "
                                 src={getUserData.profilePic}
                                 alt=""
+                               
                             />
                             :
                             <div

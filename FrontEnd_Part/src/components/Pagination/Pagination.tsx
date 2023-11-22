@@ -157,7 +157,7 @@ export default function Pagination() {
                                         key={i}
 
                                         className={` ${(currentPage === i + 1) && "bg-blue-700 text-white"} relative inline-flex items-center px-4 py-2 text-sm font-semibold  ring-1 ring-inset ring-gray-300 hover:bg-blue-200 focus:z-20 focus:outline-offset-0`}
-                                        onClick={(e) => { e.preventDefault(); e.stopPropagation(); console.log(ele); handlePagination(++i); }}
+                                        onClick={(e) => { e.preventDefault(); e.stopPropagation(); console.log("This console lo is imp." , ele); handlePagination(++i); }}
                                     >
                                         {`${i + 1} `}
                                     </p>

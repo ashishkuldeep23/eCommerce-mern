@@ -1,20 +1,20 @@
-import { StarIcon } from "@heroicons/react/24/outline"
+import { StarIcon } from "@heroicons/react/24/solid"
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { createNewReview, reviewState, updateReview } from "../../Slices/ReviewSlice"
 import { AppDispatch, RootState } from "../../store"
 import { toast } from "react-toastify"
-import { setReviewData  } from "../../Slices/ReviewSlice"
+import { setReviewData } from "../../Slices/ReviewSlice"
 
 
 const PostReview = () => {
 
     const dispatch = useDispatch<AppDispatch>()
-    
+
     const themeMode = useSelector((state: RootState) => state.themeReducer.mode)
-    
+
     const isLoading = useSelector((state: RootState) => state.reviewReducer.isLoading)
-    
+
     const isReviewDone = useSelector((state: RootState) => state.reviewReducer.isReview)
 
     // const [newReview, setNewReviw] = useState({ stars: 0, comment: "" })
@@ -31,7 +31,7 @@ const PostReview = () => {
 
     function postReviewHandler() {
 
-        if (inputReviewData.stars === 0 && inputReviewData.comment === "") {
+        if (inputReviewData.stars === 0 || inputReviewData.comment === "") {
 
             toast.error(`Give comment and stars, both should given.`, {
                 position: "top-right",
@@ -80,14 +80,30 @@ const PostReview = () => {
         }
 
 
-                // // // check is user logIn or not ----------->
+        // // // check is user logIn or not ----------->
 
 
 
 
         // // // now call dispatch here --------->
 
-        dispatch(updateReview({ comment: inputReviewData.comment, stars: inputReviewData.stars, reviewId : updateReviewId }))
+        dispatch(updateReview({ comment: inputReviewData.comment, stars: inputReviewData.stars, reviewId: updateReviewId }))
+
+    }
+
+
+
+
+    function submitEmoji(e: React.MouseEvent<HTMLParagraphElement, MouseEvent>, emoji: string) {
+
+        e.stopPropagation();
+        e.preventDefault();
+
+        // console.log(s)
+
+
+        dispatch(setReviewData({ data: { ...inputReviewData, comment: inputReviewData.comment + `${emoji}` } }))
+
 
     }
 
@@ -120,10 +136,10 @@ const PostReview = () => {
                 singleProductData && (singleProductData.images.length > 0)
                     ?
 
-                    <div className={`mt-5 my-4 border p-2 px-3 rounded border-green-300 relative  ${isLoading && " opacity-50"} `}>
+                    <div className={`mt-5 my-4 border p-2 sm:px-3 rounded border-green-300 relative `}>
 
                         {/* Loader code -------> */}
-                        <div className=" absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-100">
+                        {/* <div className=" absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-100">
                             {
                                 isLoading
                                 &&
@@ -134,10 +150,20 @@ const PostReview = () => {
                                     </svg>
                                 </div>
                             }
-                        </div>
+                        </div> */}
 
 
-                        <label className=" underline  mb-2 text-lg block hover:cursor-pointer" htmlFor="new_review_text_area">Give new review</label>
+                        <label
+                            htmlFor="new_review_text_area"
+                            className=" text-lg block hover:cursor-pointer"
+                        >
+                            {
+                                !reviewUpdateState
+                                ? "Give new review"
+                                : "Update old review"
+
+                            }
+                        </label>
 
                         <textarea
                             name="" id="new_review_text_area"
@@ -145,8 +171,23 @@ const PostReview = () => {
                             value={inputReviewData.comment}
                             placeholder="Nice product 😊(Your new review)"
                             cols={25} rows={2}
-                            className={`resize-none rounded p-1 ${!themeMode ? " bg-white text-gray-900 " : "bg-gray-900 text-white"} `}
+                            className={`resize-none rounded p-1 ${!themeMode ? " bg-white text-gray-900 " : "bg-gray-900 text-white"} border-black z-10 `}
                         ></textarea>
+
+
+
+                        <div className="border border-black rounded-b -mt-2 mb-1 flex justify-center">
+                            <p className=" opacity-80 hover:cursor-pointer hover:bg-blue-400" onClick={(e) => { submitEmoji(e, "👍") }} >👍</p>
+                            <p className=" opacity-80 hover:cursor-pointer hover:bg-blue-400" onClick={(e) => { submitEmoji(e, "😍") }} >😍</p>
+                            <p className="opacity-80 hover:cursor-pointer hover:bg-blue-400" onClick={(e) => { submitEmoji(e, "😱") }} >😱</p>
+                            <p className="opacity-80 hover:cursor-pointer hover:bg-blue-400" onClick={(e) => { submitEmoji(e, "❤️") }} >❤️</p>
+                            <p className=" opacity-80 hover:cursor-pointer hover:bg-blue-400" onClick={(e) => { submitEmoji(e, "👌") }} >👌</p>
+                            <p className=" opacity-80 hover:cursor-pointer hover:bg-blue-400" onClick={(e) => { submitEmoji(e, "👎") }} >👎</p>
+                            <p className=" opacity-80 hover:cursor-pointer hover:bg-blue-400" onClick={(e) => { submitEmoji(e, "👏") }} >👏</p>
+                            <p className=" opacity-80 hover:cursor-pointer hover:bg-blue-400" onClick={(e) => { submitEmoji(e, "🛒") }} >🛒</p>
+                            <p className=" opacity-80 hover:cursor-pointer hover:bg-blue-400" onClick={(e) => { submitEmoji(e, "✅") }} >✅</p>
+                        </div>
+
 
                         <div className='flex justify-between items-center'>
                             <div className='flex items-center '>
@@ -159,7 +200,7 @@ const PostReview = () => {
                                                 // onChange={ ()=>setNewReviw({...newReview , stars : i+1}) }
                                                 onClick={(e) => { e.stopPropagation(); e.preventDefault(); dispatch(setReviewData({ data: { ...inputReviewData, stars: i + 1 } })) }}
                                                 key={i} id={item}
-                                                className={` h-6 w-6 flex-shrink-0 hover:cursor-pointer ${inputReviewData.stars >= i + 1 && "text-yellow-500"} `}
+                                                className={` h-6 w-6 flex-shrink-0 hover:cursor-pointer ${(inputReviewData.stars >= i + 1) ? "text-yellow-500" : "text-gray-300"} `}
                                             />
                                         )
                                     })
@@ -184,16 +225,16 @@ const PostReview = () => {
                                                 ?
 
                                                 <button
-                                                    className='px-3 border rounded bg-green-600 text-white font-bold'
+                                                    className='px-1 border rounded bg-green-600 text-white font-bold'
                                                     onClick={(e) => { e.stopPropagation(); e.preventDefault(); postReviewHandler() }}
-                                                >New</button>
+                                                >+New</button>
 
                                                 :
 
                                                 <button
-                                                    className='px-1 border rounded bg-blue-600 text-white font-bold'
+                                                    className=' border rounded bg-blue-600 text-white font-bold'
                                                     onClick={(e) => { e.stopPropagation(); e.preventDefault(); updateReviewHandler() }}
-                                                >Update</button>
+                                                >↑Update</button>
                                         }
                                     </>
                                 }

@@ -16,6 +16,7 @@ import { AppDispatch, RootState } from "./store"
 import { setModeOnLoad } from "./Slices/ThemeSlices"
 import { setLogInStatus, setUserData, fetchUser } from "./Slices/UserSlice"
 import UserSinInSuccessfull from "./Screens/UserSinInSuccessfull"
+import Modal from "./components/Modal/Modal"
 
 // import { fetchAllProducts , fetchAllCategoryAndHighlight } from "./Slices/AllProductSlice"
 
@@ -149,11 +150,18 @@ function App() {
     }
 
 
+    // // // Just checking here ---->
+    // dispatch(setChildrenModal(<>Ashish</>))
+
   }, [])
 
 
   return (
     <>
+
+
+        <Modal />
+
 
       <Routes>
 

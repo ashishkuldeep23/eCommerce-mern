@@ -270,9 +270,9 @@ async function updateReview(req, res) {
 
 async function likeReview(req, res) {
 
-    try{
+    try {
 
-        let {reviewId , isLiking , userId} =  req.body
+        let { reviewId, isLiking, userId } = req.body
 
         // console.log(req.body)
 
@@ -297,25 +297,40 @@ async function likeReview(req, res) {
 
         // // // InCreaseing ----->
 
-        if(isLiking ){
+        if (isLiking) {
             findReview.likes = findReview.likes + 1
 
-            if(!findReview.likedUserIds.includes(userId)){
+            if (findReview.dislikedUserIds.includes(userId)) {
 
+
+                let index = findReview.dislikedUserIds.findIndex((ids) => ids === userId)
+
+                // console.log(index)
+
+                findReview.dislikedUserIds.splice(index, 1)
+
+                findReview.dislikes = findReview.dislikes - 1
+
+
+            }
+
+
+            if (!findReview.likedUserIds.includes(userId)) {
                 findReview.likedUserIds.push(userId)
             }
 
 
-        }else{
+
+        } else {
             findReview.likes = findReview.likes - 1
 
-            if(findReview.likedUserIds.includes(userId)){
+            if (findReview.likedUserIds.includes(userId)) {
 
-                let index = findReview.likedUserIds.findIndex((ids)=>ids===userId)
+                let index = findReview.likedUserIds.findIndex((ids) => ids === userId)
 
                 // console.log(index)
 
-                findReview.likedUserIds.splice(index,1)
+                findReview.likedUserIds.splice(index, 1)
             }
         }
 
@@ -323,7 +338,7 @@ async function likeReview(req, res) {
 
         await findReview.save()
 
-        res.status(200).send({status : true , message : "Like Done"})
+        res.status(200).send({ status: true, message: "Like Done" })
     }
     catch (err) {
         console.log(err.message)
@@ -339,9 +354,9 @@ async function likeReview(req, res) {
 
 
 async function dislikeReview(req, res) {
-    try{
+    try {
 
-        let {reviewId , isDisliking , userId} =  req.body
+        let { reviewId, isDisliking, userId } = req.body
 
         // console.log(req.body)
 
@@ -364,25 +379,44 @@ async function dislikeReview(req, res) {
 
         // // // InCreaseing ----->
 
-        if(isDisliking){
+        if (isDisliking) {
             findReview.dislikes = findReview.dislikes + 1
 
-            if(!findReview.dislikedUserIds.includes(userId)){
+
+
+            if (findReview.likedUserIds.includes(userId)) {
+
+                let index = findReview.likedUserIds.findIndex((ids) => ids === userId)
+
+                // console.log(index)
+
+                findReview.likedUserIds.splice(index, 1)
+
+                findReview.likes = findReview.likes - 1
+            }
+
+
+
+
+            if (!findReview.dislikedUserIds.includes(userId)) {
 
                 findReview.dislikedUserIds.push(userId)
             }
 
 
-        }else{
+
+
+
+        } else {
             findReview.dislikes = findReview.dislikes - 1
 
-            if(findReview.dislikedUserIds.includes(userId)){
+            if (findReview.dislikedUserIds.includes(userId)) {
 
-                let index = findReview.dislikedUserIds.findIndex((ids)=>ids===userId)
+                let index = findReview.dislikedUserIds.findIndex((ids) => ids === userId)
 
                 // console.log(index)
 
-                findReview.dislikedUserIds.splice(index,1)
+                findReview.dislikedUserIds.splice(index, 1)
             }
         }
 
@@ -390,7 +424,7 @@ async function dislikeReview(req, res) {
 
         await findReview.save()
 
-        res.status(200).send({status : true , message : "Dislike Done"})
+        res.status(200).send({ status: true, message: "Dislike Done" })
     }
     catch (err) {
         console.log(err.message)
