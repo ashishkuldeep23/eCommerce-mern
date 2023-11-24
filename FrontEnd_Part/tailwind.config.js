@@ -36,9 +36,7 @@ export default {
       
       scale : {
         '200' : "200%"
-      }
-
-      
+      } 
     },
   },
   plugins: [

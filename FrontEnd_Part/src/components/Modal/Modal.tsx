@@ -11,7 +11,7 @@ export default function Modal() {
 
     const open = modalStore().open
 
-    function setOpen (data : boolean){
+    function setOpen(data: boolean) {
 
         dispatch(setOpenMoadl(data))
 
@@ -25,7 +25,7 @@ export default function Modal() {
             <Dialog as="div" className="relative z-10" initialFocus={cancelButtonRef} onClose={setOpen}>
                 <Transition.Child
                     as={Fragment}
-                    enter="ease-out duration-300"
+                    enter="ease-out duration-300 "
                     enterFrom="opacity-0"
                     enterTo="opacity-100"
                     leave="ease-in duration-200"
@@ -46,23 +46,26 @@ export default function Modal() {
                             leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                         >
-                            <Dialog.Panel className="relative transform overflow-hidden rounded-lg  text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg ">
+                            <Dialog.Panel className="relative transform overflow-hidden rounded-lg  text-left transition-all sm:my-8 lg:w-3/5 delay-150 ">
 
 
-                                <div className='py-10 bg-transparent'>
+                                <div
+                                    className='py-10 bg-transparent'
+                                    onClick={() => setOpen(false)}
+                                >
 
 
 
                                     <button
                                         type="button"
-                                        className=" inline-flex w-full justify-center  px-2 py-1 text-sm font-semibold  shadow-sm ring-1 ring-inset ring-red-600  sm:mt-0 sm:w-auto absolute right-0.5 top-7 rounded-full bg-red-600 text-white z-10 "
-                                        onClick={() => setOpen(false)}
+                                        className=" justify-center  px-2 py-1 text-sm font-semibold  shadow-sm ring-1 ring-inset ring-red-600  sm:mt-0  absolute right-0.5 top-7 rounded-full bg-red-600 text-white z-10 w-full hidden sm:inline-flex sm:w-auto"
                                         ref={cancelButtonRef}
                                     >
                                         <span className=' hidden sm:block'>X</span>
                                         <span className=' block sm:hidden'>Close</span>
                                     </button>
 
+                                    {/* Below div will hold children ---> main content */}
                                     <div className="rounded bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4 border">
 
                                         {/* <div className="sm:flex sm:items-start">
@@ -86,12 +89,22 @@ export default function Modal() {
                                         {
                                             modalStore().children
                                         }
-                                        
 
-                                
+
+
 
 
                                     </div>
+
+
+                                    <button
+                                        type="button"
+                                        className=" justify-center  px-2 py-1 text-sm font-semibold  shadow-sm ring-1 ring-inset ring-red-600  sm:mt-0 absolute right-0.5 bottom-4 rounded-full bg-red-600 text-white z-10 w-full inline-flex sm:hidden sm:w-auto"
+                                        ref={cancelButtonRef}
+                                    >
+                                        <span className=' hidden sm:block'>X</span>
+                                        <span className=' block sm:hidden'>Close</span>
+                                    </button>
 
                                 </div>
 

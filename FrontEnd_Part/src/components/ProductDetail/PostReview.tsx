@@ -136,7 +136,7 @@ const PostReview = () => {
                 singleProductData && (singleProductData.images.length > 0)
                     ?
 
-                    <div className={`mt-5 my-4 border p-2 sm:px-3 rounded border-green-300 relative `}>
+                    <div className={`mt-5 my-4 border p-2 sm:px-3 rounded border-green-300 relative ${!themeMode ? "bg-blue-50" : "bg-blue-950"} `}>
 
                         {/* Loader code -------> */}
                         {/* <div className=" absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-100">
@@ -171,12 +171,12 @@ const PostReview = () => {
                             value={inputReviewData.comment}
                             placeholder="Nice product 😊(Your new review)"
                             cols={25} rows={2}
-                            className={`resize-none rounded p-1 ${!themeMode ? " bg-white text-gray-900 " : "bg-gray-900 text-white"} border-black z-10 `}
+                            className={`resize-none rounded p-1 ${!themeMode ? " bg-white text-gray-900 border-black " : "bg-gray-900 text-white border-white"} border-black z-10 `}
                         ></textarea>
 
 
-
-                        <div className="border border-black rounded-b -mt-2 mb-1 flex justify-center">
+                        {/* Emojies Div ----> */}
+                        <div className={`border  rounded-b -mt-2 mb-1 flex justify-center ${!themeMode ? "bg-white border-black" : "bg-black border-white"} `}>
                             <p className=" opacity-80 hover:cursor-pointer hover:bg-blue-400" onClick={(e) => { submitEmoji(e, "👍") }} >👍</p>
                             <p className=" opacity-80 hover:cursor-pointer hover:bg-blue-400" onClick={(e) => { submitEmoji(e, "😍") }} >😍</p>
                             <p className="opacity-80 hover:cursor-pointer hover:bg-blue-400" onClick={(e) => { submitEmoji(e, "😱") }} >😱</p>
@@ -247,7 +247,7 @@ const PostReview = () => {
 
                     :
 
-                    <div className={` w-60 h-32 mt-5 border p-2 px-3 rounded border-green-300 relative  ${isLoading && " opacity-50"} `}></div>
+                    <div className={` w-60 h-32 mt-5 border p-2 px-3 rounded border-green-300 relative ${!themeMode ? "bg-blue-50" : "bg-blue-950"}  ${isLoading && " opacity-50"} `}></div>
 
             }
 

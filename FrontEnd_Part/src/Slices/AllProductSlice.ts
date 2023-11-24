@@ -6,35 +6,9 @@ import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit"
 import { IProduct } from "../components/ProductListing/ProductLists"
 
 import { toast } from "react-toastify"
+import { gettingTokenInCookieAndLocalHost } from "../App"
 
 
-
-
-// // // Get token from cookie ---->
-export function gettingTokenInCookieAndLocalHost(){
-    let getCookie = null;
-
-    let allCookie = document.cookie
-
-    let arrOfAllCookie = allCookie.split("=")
-
-    let indexOfToken = arrOfAllCookie.indexOf("token")
-
-
-    // console.log("Before ------>" , getCookie)
-    
-    if(indexOfToken !== -1){
-        
-        getCookie = arrOfAllCookie[indexOfToken+1]
-        
-    }
-    
-    // console.log("After ------>" , getCookie)
-
-
-
-    return getCookie
-}
 
 
 type SearchObj = {

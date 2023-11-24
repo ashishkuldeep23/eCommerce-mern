@@ -18,28 +18,36 @@ import { setLogInStatus, setUserData, fetchUser } from "./Slices/UserSlice"
 import UserSinInSuccessfull from "./Screens/UserSinInSuccessfull"
 import Modal from "./components/Modal/Modal"
 
+import LogInProtected from "./components/Protected/LogInProtected"
+
 // import { fetchAllProducts , fetchAllCategoryAndHighlight } from "./Slices/AllProductSlice"
 
 
 
-// // fn write to check only based on this ---> calling fetch user --->
-export const gettingTokenInCookie = () => {
+// // fn write to check only based on this ---> calling fetch user ---> in LocalHost also -->
+export const gettingTokenInCookieAndLocalHost = () => {
 
 
   let token = false;
 
-  let checkInCookie = document.cookie
 
-  let cookieInArr = checkInCookie.split("=")
+  // let checkInCookie = document.cookie
+  // let cookieInArr = checkInCookie.split("=")
+  // let checkTokenPresent = cookieInArr.indexOf("token")
+  // if (checkTokenPresent !== -1) {
+  //   token = true;
+  // }
 
-  let checkTokenPresent = cookieInArr.indexOf("token")
 
 
-  if (checkTokenPresent !== -1   ) {
+  let checkTokenInLoaclHost = localStorage.getItem("userToken")
 
-    token = true;
+ if(checkTokenInLoaclHost){
+  
+  token = JSON.parse(checkTokenInLoaclHost)
 
-  }
+ }
+
 
   return token
 }
@@ -71,7 +79,7 @@ function App() {
     // console.log(gettingTokenInCookieAndLocalHost())
 
 
-    if (gettingTokenInCookie()) {
+    if (gettingTokenInCookieAndLocalHost()) {
 
 
       // // // Here call fetch user
@@ -160,25 +168,27 @@ function App() {
     <>
 
 
-        <Modal />
+      <Modal />
 
 
       <Routes>
 
-        <Route path="/" element={<HomePage />} />
+        {/* In future remove protection from homepage ---> */}
+        <Route path="/" element={<LogInProtected> <HomePage /> </LogInProtected>} />
 
-        <Route path="/about" element={<UserDetails />} />
+        <Route path="/about" element={ <LogInProtected> <UserDetails /> </LogInProtected> } />
 
-        <Route path="/product" element={<DetailOfSingleProduct />} />
+        <Route path="/product" element={ <LogInProtected> <DetailOfSingleProduct /> </LogInProtected> } />
 
         <Route path="/login" element={<LogInScreen />} />
 
         <Route path="/signin" element={<SignInScreeen />} />
 
-        <Route path="/cart" element={<CartScreen />} />
+        <Route path="/cart" element={ <LogInProtected> <CartScreen /> </LogInProtected> } />
 
-        <Route path="/pay" element={<PaymentScreen />} />
+        <Route path="/pay" element={<LogInProtected> <PaymentScreen /> </LogInProtected>} />
 
+        {/* So this route i'll use fater gogal logIn , plan atleast --> */}
         <Route path="/goUser" element={<UserSinInSuccessfull />} />
 
       </Routes>

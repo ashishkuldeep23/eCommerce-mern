@@ -49,7 +49,7 @@ const SingleProduct = ({ product }: TProductPrope) => {
                         >{product.title}</h3>
                         {/* <h3 className={` ${!themeMode ? "text-gray-700" : " text-gray-100 "}  `}>{product.category}</h3> */}
 
-                        <div className="flex items-center text-yellow-400">
+                        <div className={`flex items-center  ${(product.rating.totalPerson > 0) && "text-yellow-400" } `}>
 
                             <p className="h-5 w-5">{<StarIcon />}</p>
                             {/* <p>{product.rating.avgRating }</p> */}

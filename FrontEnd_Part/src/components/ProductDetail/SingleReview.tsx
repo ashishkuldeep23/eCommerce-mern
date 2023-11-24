@@ -1,8 +1,8 @@
 import { StarIcon } from "@heroicons/react/24/outline"
 import { ReviewData } from "./ProductDetails"
 import { userState } from "../../Slices/UserSlice"
-import { useDispatch } from "react-redux"
-import { AppDispatch } from "../../store"
+import { useDispatch, useSelector } from "react-redux"
+import { AppDispatch, RootState } from "../../store"
 import { deleteReview, dislikeReview, likeReview, setReviewData, setReviewUpadte } from "../../Slices/ReviewSlice"
 import { setChildrenModal, setOpenMoadl } from "../../Slices/ModalSlice"
 
@@ -15,6 +15,7 @@ type PropOfSingleReview = {
 
 const SingleReview = ({ reviewData }: PropOfSingleReview) => {
 
+    const themeMode = useSelector((state : RootState) => state.themeReducer.mode)
 
     const userDataId = userState().userData.id
 
@@ -111,7 +112,7 @@ const SingleReview = ({ reviewData }: PropOfSingleReview) => {
         dispatch(setOpenMoadl(true))
 
 
-        let ChildrenOfModal = <div><p className=" text-center font-bold text-xl underline">Name : {reviewData.userData.userName}</p><img src={reviewData.userData.userImg} alt="" /></div>
+        let ChildrenOfModal = <div><p className=" text-center font-bold text-xl underline">Name : {reviewData.userData.userName}</p><img className=" rounded" src={reviewData.userData.userImg} alt="" /></div>
 
         dispatch(setChildrenModal(ChildrenOfModal))
 
@@ -122,7 +123,7 @@ const SingleReview = ({ reviewData }: PropOfSingleReview) => {
     return (
         <>
 
-            <div className='p-1   my-4 mx-2 px-2 border border-green-300 rounded  ' id="post_review">
+            <div className={`p-1   my-4 mx-2 px-2 border border-green-300 rounded ${!themeMode ? "bg-blue-50" : "bg-blue-950"} `} id="post_review">
 
 
                 {/* {JSON.stringify(r)} */}
@@ -130,7 +131,6 @@ const SingleReview = ({ reviewData }: PropOfSingleReview) => {
 
 
                 <div
-
                     className='flex items-center hover:cursor-pointer'
                     onClick={showModalWithValues}
                 >

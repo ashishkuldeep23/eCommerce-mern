@@ -439,16 +439,7 @@ function RightCommonSection() {
 
     function singOutHandler() {
 
-        toast.success("SingOut Done ✅", {
-            position: "top-right",
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: true,
-            progress: undefined,
-            theme: "dark",
-        })
+
 
 
         // // // Now setting token to null in singOut Fn() ---->
@@ -463,6 +454,21 @@ function RightCommonSection() {
         // // // Delete user INFO in local ---->
         localStorage.removeItem("userData")
         localStorage.removeItem("isUserLogIn")
+
+
+
+
+        toast.success("SingOut Done ✅", {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+        })
+
 
 
         // // Reload page ----->>

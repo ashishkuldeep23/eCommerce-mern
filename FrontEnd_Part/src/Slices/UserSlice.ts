@@ -3,7 +3,8 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify"
 import { RootState } from "../store";
-import { gettingTokenInCookieAndLocalHost } from "./AllProductSlice";
+import { gettingTokenInCookieAndLocalHost } from "../App";
+
 
 
 
