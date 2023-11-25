@@ -19,6 +19,7 @@ import UserSinInSuccessfull from "./Screens/UserSinInSuccessfull"
 import Modal from "./components/Modal/Modal"
 
 import LogInProtected from "./components/Protected/LogInProtected"
+import { fetchAllCategoryAndHighlight, fetchAllProducts } from "./Slices/AllProductSlice"
 
 // import { fetchAllProducts , fetchAllCategoryAndHighlight } from "./Slices/AllProductSlice"
 
@@ -67,8 +68,7 @@ function App() {
 
   const getAllHighLights = useSelector((state: RootState) => state.allProductWithCatReducer.allHighlightProducts)
 
-
-
+  const limitValue = useSelector((state: RootState) => state.allProductWithCatReducer.onePageLimit)
 
 
   // // // This fn will call Backend to get data ------>
@@ -97,7 +97,7 @@ function App() {
       if (logInStatus) {
         // console.log(logInStatus)
 
-        logInStatus = JSON.parse(logInStatus)
+        // logInStatus = JSON.parse(logInStatus)
 
         dispatch(setLogInStatus({ isLogIn: true }))
       }
@@ -135,8 +135,8 @@ function App() {
 
     // // // Now call Data from home page of useEffect now (When user successfull login then also this will call backend main reason is that ) --->
 
-    // dispatch(fetchAllCategoryAndHighlight())
-    // dispatch(fetchAllProducts({brand : "" , category : '' , price : "-1" , limit : `${limitValue}`}))  
+    dispatch(fetchAllCategoryAndHighlight())
+    dispatch(fetchAllProducts({brand : "" , category : '' , price : "-1" , limit : `${limitValue}`}))  
     //  // // // Limit value is 4 set (Change in useEffect of pagination.jsx and here)
 
 

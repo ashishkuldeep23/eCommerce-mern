@@ -193,16 +193,12 @@ export const dislikeReview = createAsyncThunk("review/dislike", async ({ reviewI
 
 
 
-
-
-
-
-
 type Review = {
     isLoading: boolean;
     isError: boolean;
     isReview: boolean;
-    isUpdatng: Boolean;
+    isUpdatng: boolean;
+    isFullfilled:boolean;
     inputReviewData: {
         comment: string;
         stars: number;
@@ -219,7 +215,7 @@ const initialState: Review = {
     isError: false,
     isReview: false,
     isUpdatng: false,
-
+    isFullfilled : false,
     inputReviewData: {
         comment: "",
         stars: 0,
@@ -238,23 +234,18 @@ const reviewSlice = createSlice({
     reducers: {
 
         setReviewData(state, action) {
-
             // console.log(action.payload)
 
             // // // data inludes review data (Single review data) ---->
-
             state.inputReviewData = action.payload.data
 
         },
 
 
         setReviewUpadte(state, action) {
-
             // // // data only incluce true and false
-
             state.isUpdatng = action.payload.data
         }
-
 
 
     },
@@ -264,6 +255,7 @@ const reviewSlice = createSlice({
         builder
             .addCase(createNewReview.pending, (state) => {
                 state.isLoading = true
+                state.isFullfilled = false
             })
 
             .addCase(createNewReview.fulfilled, (state, action) => {
@@ -285,6 +277,8 @@ const reviewSlice = createSlice({
                     })
                 } else {
 
+                    // // // True case written here ------->
+
                     toast.success(`${action.payload.message}`, {
                         position: "top-right",
                         autoClose: 2000,
@@ -301,6 +295,8 @@ const reviewSlice = createSlice({
                     // // // State back to normal 
                     state.inputReviewData = initialState.inputReviewData
 
+                    state.isFullfilled = true
+
                 }
 
                 // console.log(action.payload.message)
@@ -311,6 +307,7 @@ const reviewSlice = createSlice({
             .addCase(createNewReview.rejected, (state, action) => {
                 state.isLoading = false
                 state.isError = true
+                state.isFullfilled = false
                 toast.error(`${action.error.message}`, {
                     position: "top-right",
                     autoClose: 2000,
@@ -325,10 +322,11 @@ const reviewSlice = createSlice({
 
 
 
-
             .addCase(deleteReview.pending, (state) => {
                 state.isLoading = true
+                state.isFullfilled = false
             })
+
 
             .addCase(deleteReview.fulfilled, (state, action) => {
 
@@ -337,6 +335,7 @@ const reviewSlice = createSlice({
                 if (action.payload.status === false) {
 
                     state.isError = true
+                    state.isFullfilled = false
                     toast.error(`${action.payload.message} | 400`, {
                         position: "top-right",
                         autoClose: 2000,
@@ -361,7 +360,9 @@ const reviewSlice = createSlice({
                     })
 
                     // // reload loaction ----->
-                    location.reload()
+                    // location.reload()
+
+                    state.isFullfilled = true
 
                 }
 
@@ -373,6 +374,7 @@ const reviewSlice = createSlice({
             .addCase(deleteReview.rejected, (state, action) => {
                 state.isLoading = false
                 state.isError = true
+                state.isFullfilled = false
                 toast.error(`${action.error.message}`, {
                     position: "top-right",
                     autoClose: 2000,
@@ -391,6 +393,7 @@ const reviewSlice = createSlice({
 
             .addCase(updateReview.pending, (state) => {
                 state.isLoading = true
+                state.isFullfilled = false
             })
 
             .addCase(updateReview.fulfilled, (state, action) => {
@@ -400,6 +403,7 @@ const reviewSlice = createSlice({
                 if (action.payload.status === false) {
 
                     state.isError = true
+                    state.isFullfilled = false
                     toast.error(`${action.payload.message} | 400`, {
                         position: "top-right",
                         autoClose: 2000,
@@ -424,7 +428,11 @@ const reviewSlice = createSlice({
                     })
 
                     // // reload loaction ----->
-                    location.reload()
+                    // location.reload()
+
+                    state.isFullfilled = true
+                    state.inputReviewData.comment = "";
+                    state.inputReviewData.stars = 0;
 
                 }
 
@@ -436,6 +444,7 @@ const reviewSlice = createSlice({
             .addCase(updateReview.rejected, (state, action) => {
                 state.isLoading = false
                 state.isError = true
+                state.isFullfilled = false
                 toast.error(`${action.error.message}`, {
                     position: "top-right",
                     autoClose: 2000,
@@ -454,6 +463,7 @@ const reviewSlice = createSlice({
 
             .addCase(likeReview.pending, (state) => {
                 state.isLoading = true
+                state.isFullfilled = false
             })
 
             .addCase(likeReview.fulfilled, (state, action) => {
@@ -463,6 +473,7 @@ const reviewSlice = createSlice({
                 if (action.payload.status === false) {
 
                     state.isError = true
+                    state.isFullfilled = false
                     toast.error(`${action.payload.message} | 400`, {
                         position: "top-right",
                         autoClose: 2000,
@@ -487,7 +498,9 @@ const reviewSlice = createSlice({
                     })
 
                     // // reload loaction ----->
-                    location.reload()
+                    // location.reload()
+
+                    state.isFullfilled = true
 
                 }
 
@@ -499,6 +512,7 @@ const reviewSlice = createSlice({
             .addCase(likeReview.rejected, (state, action) => {
                 state.isLoading = false
                 state.isError = true
+                state.isFullfilled = false
                 toast.error(`${action.error.message}`, {
                     position: "top-right",
                     autoClose: 2000,
@@ -516,6 +530,7 @@ const reviewSlice = createSlice({
 
             .addCase(dislikeReview.pending, (state) => {
                 state.isLoading = true
+                state.isFullfilled = false
             })
 
             .addCase(dislikeReview.fulfilled, (state, action) => {
@@ -525,6 +540,7 @@ const reviewSlice = createSlice({
                 if (action.payload.status === false) {
 
                     state.isError = true
+                    state.isFullfilled = false
                     toast.error(`${action.payload.message} | 400`, {
                         position: "top-right",
                         autoClose: 2000,
@@ -549,7 +565,9 @@ const reviewSlice = createSlice({
                     })
 
                     // // reload loaction ----->
-                    location.reload()
+                    // location.reload()
+
+                    state.isFullfilled = true
 
                 }
 
@@ -561,6 +579,7 @@ const reviewSlice = createSlice({
             .addCase(dislikeReview.rejected, (state, action) => {
                 state.isLoading = false
                 state.isError = true
+                state.isFullfilled = false
                 toast.error(`${action.error.message}`, {
                     position: "top-right",
                     autoClose: 2000,
@@ -572,14 +591,6 @@ const reviewSlice = createSlice({
                     theme: "dark",
                 });
             })
-
-
-
-
-
-
-
-
 
 
 
