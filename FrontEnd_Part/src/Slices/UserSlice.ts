@@ -89,6 +89,36 @@ export const logInUser = createAsyncThunk('user/logInUser', async ({ bodyData = 
 
 
 
+
+
+
+type UpdatUserData = {
+    formData: FormData
+}
+
+
+
+export const upadteUserData = createAsyncThunk("user/updateUser", async ({formData } : UpdatUserData) => {
+    const option: RequestInit = {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+            // 'Content-Type': 'application/json',
+            "token": `${gettingTokenInCookieAndLocalHost()}`
+            // 'Accept': 'application/json',
+        },
+        body: formData
+    }
+
+
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/updateUser`, option)
+    let data = await response.json();
+    return data
+})
+
+
+
+
 export const fetchUser = createAsyncThunk("user/fetchUser", async () => {
 
     let option: RequestInit = {
@@ -114,8 +144,8 @@ export const userSingout = createAsyncThunk("user/singOut", async () => {
 
 
 
-type UserAddressObj = {
-
+export type UserAddressObj = {
+    id: string;
     city: string,
     street: string,
     country: string,
@@ -129,6 +159,7 @@ type User = {
     isError: boolean;
     isSingIn: boolean;
     isLogIn: boolean;
+    isFullFilled: boolean;
     userData: {
         name: string;
         profilePic: string;
@@ -137,6 +168,7 @@ type User = {
         id: string;
         address?: UserAddressObj[];
         orders?: []
+        allImages ?: []
     }
 }
 
@@ -147,7 +179,7 @@ const initialState: User = {
     isError: false,
     isSingIn: false,
     isLogIn: false,
-
+    isFullFilled: false,
     userData: {
         name: "",
         profilePic: "https://res.cloudinary.com/dlvq8n2ca/image/upload/v1700368567/ej31ylpxtamndu3trqtk.png",
@@ -155,7 +187,8 @@ const initialState: User = {
         email: "",
         id: "",
         address: [],
-        orders: []
+        orders: [] ,
+        allImages : [],
     }
 }
 
@@ -172,6 +205,10 @@ const userSlice = createSlice({
 
         setLogInStatus(state, action) {
             state.isLogIn = action.payload.isLogIn
+        },
+
+        setIsLoading(state , action){
+            state.isLoading = action.payload
         }
 
     },
@@ -222,6 +259,8 @@ const userSlice = createSlice({
 
             })
             .addCase(createNewUser.rejected, (state, action) => {
+
+                console.log(action.error)
 
                 state.isLoading = false
                 state.isError = true
@@ -294,12 +333,11 @@ const userSlice = createSlice({
                     // let role = action.payload.data.role
                     // let email = action.payload.data.email
 
-                    let { id, name, email, profilePic, role } = action.payload.data
-
-
+                    let { id, name, email, profilePic, role, address } = action.payload.data
 
                     // // // set Some user data (Very minior data) ------>
 
+                    state.userData.address = address
                     state.userData.name = name
                     state.userData.email = email
                     state.userData.profilePic = profilePic
@@ -545,6 +583,81 @@ const userSlice = createSlice({
             })
 
 
+            // // // Upadte user data --->
+
+            .addCase(upadteUserData.pending, (state) => {
+                state.isLoading = true
+                state.isFullFilled = false
+            })
+
+            .addCase(upadteUserData.fulfilled, (state, action) => {
+
+                if (action.payload.status === false) {
+
+                    state.isError = true
+
+                    toast.error(`${action.payload.message} | 400`, {
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: false,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                    })
+                } else {
+
+                    toast.success(`${action.payload.message} | SingOut Done ✅ from Backend`, {
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: false,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                    })
+
+                    state.isFullFilled = true
+
+
+                    let { id, name, firstName , lastName , email, profilePic, role, address } = action.payload.data
+
+                    // // // set Some user data (Very minior data) ------>
+
+                    state.userData.address = address
+                    state.userData.name = `${firstName} ${lastName}`
+                    state.userData.email = email
+                    state.userData.profilePic = profilePic
+                    state.userData.role = role
+                    state.userData.id = id
+
+
+                    // // // set data in localStorage ------>
+
+                    localStorage.setItem("userData", JSON.stringify({firstName , lastName, name, email, profilePic, role, id }))
+
+                }
+
+                state.isLoading = false
+            })
+
+            .addCase(upadteUserData.rejected, (newState, action) => {
+                newState.isLoading = false
+                newState.isError = true
+                newState.isFullFilled = false
+                toast.error(`${action.error.message}`, {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                });
+            })
 
 
     }
@@ -552,7 +665,7 @@ const userSlice = createSlice({
 
 
 
-export const { setUserData, setLogInStatus } = userSlice.actions
+export const { setUserData, setLogInStatus , setIsLoading } = userSlice.actions
 
 export const userState = () => useSelector((state: RootState) => state.userReducer)
 

@@ -6,6 +6,7 @@ import { useForm, SubmitHandler } from "react-hook-form"
 import { useState, useEffect } from "react"
 import { logInUser, userState } from "../../Slices/UserSlice"
 import GoogleBtnLogic from "./GoogleBtnLogic"
+import { fetchAllCategoryAndHighlight, fetchAllProducts } from "../../Slices/AllProductSlice"
 
 
 type FormInputs = {
@@ -23,6 +24,8 @@ export default function LogIn() {
     const isLogin = userState().isLogIn
 
     const isLoading = userState().isLoading
+
+    const limitValue = useSelector((state: RootState) => state.allProductWithCatReducer.onePageLimit)
 
     const dispatch = useDispatch<AppDispatch>()
 
@@ -61,6 +64,18 @@ export default function LogIn() {
             // expires.setTime(expires.getTime() + (response.data.expires_in * 1000))
             // localStorage.setItem('token', logInToken)
 
+
+            // // // Call product data after successfull login -->
+
+            // // // Now call Data from home page of useEffect now (When user successfull login then also this will call backend main reason is that ) --->
+
+            dispatch(fetchAllCategoryAndHighlight())
+            dispatch(fetchAllProducts({ brand: "", category: '', price: "-1", limit: `${limitValue}` }))
+            //  // // // Limit value is 4 set (Change in useEffect of pagination.jsx and here)
+
+
+
+            // // // Here moving user to home page --->
             navigate("/");
         }
 

@@ -31,7 +31,8 @@ export default {
         "90" : "22rem"
       },
       maxWidth: {
-        allAk: "87rem"
+        allAk: "87rem" ,
+        "3/5" : "60%"
       },
       
       scale : {

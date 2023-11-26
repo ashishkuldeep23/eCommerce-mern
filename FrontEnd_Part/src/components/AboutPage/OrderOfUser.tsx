@@ -53,7 +53,7 @@ const OrderOfUser = () => {
                                 <div key={i} className="mt-10 w-full sm:w-auto">
                                     {/* <img className=" w-72 md:max-w-sm rounded" src={item.imageSrc} ></img> */}
 
-                                    <div className=" w-full h-56 sm:w-72 sm:h-72 bg-slate-300 rounded md:max-w-sm"></div>
+                                    <div className=" w-full sm:w-72  h-56 sm:h-72 bg-slate-300 rounded md:max-w-sm"></div>
 
                                     <p className=" bg-slate-300 h-6 w-full rounded my-0.5 px-1 mt-4">{item.name}</p>
                                     <p className=" bg-slate-300 h-6 w-full rounded my-0.5 px-1 font-bold">{item.price}</p>

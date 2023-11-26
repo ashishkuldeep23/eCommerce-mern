@@ -15,7 +15,7 @@ type PropOfSingleReview = {
 
 const SingleReview = ({ reviewData }: PropOfSingleReview) => {
 
-    const themeMode = useSelector((state : RootState) => state.themeReducer.mode)
+    const themeMode = useSelector((state: RootState) => state.themeReducer.mode)
 
     const userDataId = userState().userData.id
 
@@ -125,11 +125,7 @@ const SingleReview = ({ reviewData }: PropOfSingleReview) => {
 
             <div className={`p-1   my-4 mx-2 px-2 border border-green-300 rounded ${!themeMode ? "bg-blue-50" : "bg-blue-950"} `} id="post_review">
 
-
-                {/* {JSON.stringify(r)} */}
-
-
-
+                {/* User Info Div (Containing Pic and Name ) */}
                 <div
                     className='flex items-center hover:cursor-pointer'
                     onClick={showModalWithValues}
@@ -138,16 +134,21 @@ const SingleReview = ({ reviewData }: PropOfSingleReview) => {
                     <p className=' text-xl pl-2 font-bold border-b '>{reviewData.userData.userName}</p>
                 </div>
 
+                {/* Review Info Div --> */}
                 <div>
+
+                    {/* Review (Comment and Stars) */}
                     <div className='flex items-center'>
 
                         <div className='flex items-center bg-yellow-400 text-white my-1 px-1 rounded'>
                             <StarIcon className={` h-4 w-4 flex-shrink-0`} />
-                            <p >{reviewData.stars}</p>
+                            <p className=" font-bold" >{reviewData.stars}</p>
                         </div>
                         <p className='ml-2 text-xl'>{reviewData.comment}</p>
 
                     </div>
+
+                    {/* Like Dislike btns ---> */}
                     <div className='flex  w-4/5 my-2'>
 
 
@@ -172,7 +173,7 @@ const SingleReview = ({ reviewData }: PropOfSingleReview) => {
                         </p>
                     </div>
 
-
+                    {/* Edit Delete btns ---> */}
                     <div className={`flex  justify-end relative  ${userDataId !== reviewData.userData.userUID ? " hidden" : "display"} `}>
 
                         <div className=" absolute left-0">
@@ -193,9 +194,9 @@ const SingleReview = ({ reviewData }: PropOfSingleReview) => {
 
                         </div>
 
-                        <p className='text-end mr-5 '>{reviewData.whenCreated}</p>
                     </div>
 
+                    <p className='text-end mr-5 '>{reviewData.whenCreated}</p>
                 </div>
 
 

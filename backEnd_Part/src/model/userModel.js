@@ -3,43 +3,49 @@ const mongoose = require("mongoose")
 const uuid = require("uuid")
 
 
-const userSchema = new mongoose.Schema( {
+const userSchema = new mongoose.Schema({
 
-    id : { type : String , default : () => uuid.v4() },
- 
-    firstName: { type : String , required : true , trim : true },
+    id: { type: String, default: () => uuid.v4() },
 
-    lastName: {type : String ,required : true ,trim : true  },
+    firstName: { type: String, required: true, trim: true },
+
+    lastName: { type: String, required: true, trim: true },
 
     // // arr of obj
     address: [{
-        _id : false ,
-        city: { type : String , trim : true} ,
-        street: { type : String , trim : true},
-        country: { type : String , trim : true},
-        pincode: { type : String , trim : true}
+        _id: false,
+        id: {
+            type: String,
+            default: () => uuid.v4()
+        },
+        city: { type: String, trim: true },
+        street: { type: String, trim: true },
+        country: { type: String, trim: true },
+        pincode: { type: String, trim: true }
     }],
 
-    email: { type: String, required: true, trim : true ,  unique: true },
+    email: { type: String, required: true, trim: true, unique: true },
 
-    password: { type:String, required : true ,  trim : true  , default : "null"},
+    password: { type: String, required: true, trim: true, default: "null" },
 
-    profilePic : {type : String , default : "https://res.cloudinary.com/dlvq8n2ca/image/upload/v1700368567/ej31ylpxtamndu3trqtk.png" } ,
+    profilePic: { type: String, default: "https://res.cloudinary.com/dlvq8n2ca/image/upload/v1700368567/ej31ylpxtamndu3trqtk.png" },
 
-    role : { type : String , default : "user" } ,
+    allImages : { type : Array , default : ["https://res.cloudinary.com/dlvq8n2ca/image/upload/v1700368567/ej31ylpxtamndu3trqtk.png"] },
 
-    whenCreted : {type  : String , default : ()=> Date.now()} ,
+    role: { type: String, default: "user" },
 
-    isEmailVerified : {type : Boolean , default : false} ,
+    whenCreted: { type: String, default: () => Date.now() },
 
-    orders : {
-        type : mongoose.Schema.Types.ObjectId ,
-        ref : "order"
-    } ,
+    isEmailVerified: { type: Boolean, default: false },
 
-
-} , {timestamps : true} )
-
+    orders: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "order"
+    },
 
 
-module.exports = mongoose.model( "user" , userSchema )
+}, { timestamps: true })
+
+
+
+module.exports = mongoose.model("user", userSchema)

@@ -1,5 +1,4 @@
 import { StarIcon } from "@heroicons/react/24/solid"
-import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { createNewReview, reviewState, updateReview } from "../../Slices/ReviewSlice"
 import { AppDispatch, RootState } from "../../store"
@@ -14,8 +13,6 @@ const PostReview = () => {
     const themeMode = useSelector((state: RootState) => state.themeReducer.mode)
 
     const isLoading = useSelector((state: RootState) => state.reviewReducer.isLoading)
-
-    const isReviewDone = useSelector((state: RootState) => state.reviewReducer.isReview)
 
     // const [newReview, setNewReviw] = useState({ stars: 0, comment: "" })
 
@@ -52,8 +49,6 @@ const PostReview = () => {
         // // // check is user logIn or not ----------->
 
 
-
-
         // // // now call dispatch here --------->
 
         dispatch(createNewReview({ comment: inputReviewData.comment, stars: inputReviewData.stars, productID: singleProductData.id }))
@@ -82,9 +77,6 @@ const PostReview = () => {
 
         // // // check is user logIn or not ----------->
 
-
-
-
         // // // now call dispatch here --------->
 
         dispatch(updateReview({ comment: inputReviewData.comment, stars: inputReviewData.stars, reviewId: updateReviewId }))
@@ -110,16 +102,16 @@ const PostReview = () => {
 
 
 
+    // // // No Need of this different logic implemented with isFullFilled see ReviewSlice and ReviewDiv Comp.
+    // useEffect(() => {
 
-    useEffect(() => {
+    //     // // // Here controlling reload of page , on successful new review post ----->
 
-        // // // Here controlling reload of page , on successful new review post ----->
+    //     if (isReviewDone) {
+    //         location.reload();
+    //     }
 
-        if (isReviewDone) {
-            location.reload();
-        }
-
-    }, [isReviewDone])
+    // }, [isReviewDone])
 
 
 
@@ -176,7 +168,7 @@ const PostReview = () => {
 
 
                         {/* Emojies Div ----> */}
-                        <div className={`border  rounded-b -mt-2 mb-1 flex justify-center ${!themeMode ? "bg-white border-black" : "bg-black border-white"} `}>
+                        <div className={`border  rounded-b -mt-2 mb-1 flex justify-center ${!themeMode ? "bg-white border-black" : "bg-black border-white"} flex justify-between `}>
                             <p className=" opacity-80 hover:cursor-pointer hover:bg-blue-400" onClick={(e) => { submitEmoji(e, "👍") }} >👍</p>
                             <p className=" opacity-80 hover:cursor-pointer hover:bg-blue-400" onClick={(e) => { submitEmoji(e, "😍") }} >😍</p>
                             <p className="opacity-80 hover:cursor-pointer hover:bg-blue-400" onClick={(e) => { submitEmoji(e, "😱") }} >😱</p>

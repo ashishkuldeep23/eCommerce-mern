@@ -43,11 +43,11 @@ export const gettingTokenInCookieAndLocalHost = () => {
 
   let checkTokenInLoaclHost = localStorage.getItem("userToken")
 
- if(checkTokenInLoaclHost){
-  
-  token = JSON.parse(checkTokenInLoaclHost)
+  if (checkTokenInLoaclHost) {
 
- }
+    token = JSON.parse(checkTokenInLoaclHost)
+
+  }
 
 
   return token
@@ -79,7 +79,16 @@ function App() {
     // console.log(gettingTokenInCookieAndLocalHost())
 
 
+    // // // If token is present in localHost then only do ---->
     if (gettingTokenInCookieAndLocalHost()) {
+
+
+      // // // Now call Data from home page of useEffect now (When user successfull login then also this will call backend main reason is that ) --->
+
+      dispatch(fetchAllCategoryAndHighlight())
+      dispatch(fetchAllProducts({ brand: "", category: '', price: "-1", limit: `${limitValue}` }))
+      //  // // // Limit value is 4 set (Change in useEffect of pagination.jsx and here)
+
 
 
       // // // Here call fetch user
@@ -101,7 +110,6 @@ function App() {
 
         dispatch(setLogInStatus({ isLogIn: true }))
       }
-
 
       // // // If data come by fetch request then laod user data (that present in localhost) ---->
       if (getAllHighLights.length > 0) {
@@ -128,24 +136,12 @@ function App() {
 
       }
 
-
     }
-
-
-
-    // // // Now call Data from home page of useEffect now (When user successfull login then also this will call backend main reason is that ) --->
-
-    dispatch(fetchAllCategoryAndHighlight())
-    dispatch(fetchAllProducts({brand : "" , category : '' , price : "-1" , limit : `${limitValue}`}))  
-    //  // // // Limit value is 4 set (Change in useEffect of pagination.jsx and here)
-
 
 
     //  let get =  fetchAllProducts()
 
     // console.log(get)
-
-
 
     // loadData()
 
@@ -176,15 +172,15 @@ function App() {
         {/* In future remove protection from homepage ---> */}
         <Route path="/" element={<LogInProtected> <HomePage /> </LogInProtected>} />
 
-        <Route path="/about" element={ <LogInProtected> <UserDetails /> </LogInProtected> } />
+        <Route path="/about" element={<LogInProtected> <UserDetails /> </LogInProtected>} />
 
-        <Route path="/product" element={ <LogInProtected> <DetailOfSingleProduct /> </LogInProtected> } />
+        <Route path="/product" element={<LogInProtected> <DetailOfSingleProduct /> </LogInProtected>} />
 
         <Route path="/login" element={<LogInScreen />} />
 
         <Route path="/signin" element={<SignInScreeen />} />
 
-        <Route path="/cart" element={ <LogInProtected> <CartScreen /> </LogInProtected> } />
+        <Route path="/cart" element={<LogInProtected> <CartScreen /> </LogInProtected>} />
 
         <Route path="/pay" element={<LogInProtected> <PaymentScreen /> </LogInProtected>} />
 

@@ -9,7 +9,7 @@ const passport = require('passport');
 
 const { createNewProduct, findAllProducts, getCategoryAndHighlight, findOneProduct } = require("../controller/productControllor")
 const { createNewReview , deleteReview , updateReview , likeReview , dislikeReview } = require("../controller/reviewController")
-const { creteUserControllor, logInControllor, logOutControl, getUserData  } = require("../controller/userControllor")
+const { creteUserControllor, logInControllor, logOutControl, getUserData , updateUser  } = require("../controller/userControllor")
 
 
 const { isAuthorized } = require("../middleware/authorization")
@@ -25,7 +25,6 @@ router.get('/', isAuthorized, function (req, res, next) {
 router.post("/createProduct", isAuthorized, createNewProduct)
 
 router.get("/findAllProducts", isAuthorized, findAllProducts)
-
 
 router.get("/getCategoryAndHighlight", isAuthorized, getCategoryAndHighlight)
 
@@ -52,11 +51,14 @@ router.post("/createUser", upload.array("file"), creteUserControllor)
 
 router.post("/userLogin", passport.authenticate("local"), logInControllor)
 
+router.get("/userLoginGoogle", passport.authenticate("google", { scope: ['profile'] }))
+
 router.get("/getUserData", isAuthorized, getUserData)
 
 router.get("/userSingout", isAuthorized, logOutControl)
 
-router.get("/userLoginGoogle", passport.authenticate("google", { scope: ['profile'] }))
+router.post("/updateUser" , isAuthorized , upload.array("file") , updateUser)
+
 
 
 router.get("/auth/google/callback", passport.authenticate("google", {
@@ -125,7 +127,6 @@ router.get("/login/success", (req, res) => {
 
 
 })
-
 
 
 

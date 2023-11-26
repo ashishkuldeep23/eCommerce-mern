@@ -28,7 +28,7 @@ type SingFormInputs = {
 
 const formData = new FormData()
 
-formData.append("whenCreted" , `${new Date()}`)
+formData.append("whenCreted", `${new Date()}`)
 
 
 export default function SignIn() {
@@ -180,11 +180,14 @@ export default function SignIn() {
 
                     for (let [key2, value2] of Object.entries(resData?.address)) {
 
-                        formData.append(`${key}[${key2}]`, `${value2}`)
+                        formData.set(`${key}[${key2}]`, `${value2}`)
+                        // // // Above line ---> ( address.city = gonda ) and so on. 
                     }
 
                 } else {
-                    formData.append(key, `${value}`)
+                    formData.set(key, `${value}`)
+
+                    // // // Don't use append in form data use set() -----> See MDN form data docs.
                 }
 
 
@@ -264,7 +267,7 @@ export default function SignIn() {
 
                     {/* Error show div here */}
 
-                    <div className={` ${!isError ? "flex" : "hidden"}`}>
+                    <div className={` ${isError ? "flex" : "hidden"}`}>
                         <h1 className=" mt-2 px-2 rounded text-white text-center bg-red-500 inline-flex mx-auto">Error | Refresh page and Try again. </h1>
                     </div>
 
@@ -290,7 +293,7 @@ export default function SignIn() {
                                             type="text"
                                             {...register("firstName", {
                                                 required: "Full Name is Required", pattern: {
-                                                    value: /[a-zA-Z][a-zA-Z0-9-_ .]{5,25}/gi, message: "Must start with an alphabetic character. Can contain the following characters: a-z A-Z 0-9 - . _ and should be in between 5 to 25"
+                                                    value: /[a-zA-Z][a-zA-Z0-9-_ .]{3,25}/gi, message: "Must start with an alphabetic character. Can contain the following characters: a-z A-Z 0-9 - . _ and should be in between 5 to 25"
                                                 }
                                             })}
                                             className={`block w-full rounded-md border-0 py-1.5  shadow-sm ring-1 ring-inset ring-gray-300  focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ${!themeMode ? " bg-white text-gray-900 " : "bg-gray-900 text-white"}`}
@@ -313,7 +316,7 @@ export default function SignIn() {
                                             type="text"
                                             {...register("lastName", {
                                                 required: "Last Name is Required", pattern: {
-                                                    value: /[a-zA-Z][a-zA-Z0-9-_ .]{5,25}/gi, message: "Must start with an alphabetic character. Can contain the following characters: a-z A-Z 0-9 - . _ and should be in between 5 to 25"
+                                                    value: /[a-zA-Z][a-zA-Z0-9-_ .]{3,25}/gi, message: "Must start with an alphabetic character. Can contain the following characters: a-z A-Z 0-9 - . _ and should be in between 5 to 25"
                                                 }
                                             })}
                                             className={`block w-full rounded-md border-0 py-1.5  shadow-sm ring-1 ring-inset ring-gray-300  focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ${!themeMode ? " bg-white text-gray-900 " : "bg-gray-900 text-white"}`}
@@ -382,14 +385,14 @@ export default function SignIn() {
                                 <input
                                     id="address"
                                     type="text"
-                                    placeholder="street"
+                                    placeholder="Street"
                                     {...register("address.street")}
                                     className={` w-1/2 my-1 block  rounded-md border-0 py-1.5  shadow-sm ring-1 ring-inset ring-gray-300  focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ${!themeMode ? " bg-white text-gray-900 " : "bg-gray-900 text-white"}`}
                                 />
 
                                 {/* For City */}
                                 <input
-                                  
+
                                     type="text"
                                     placeholder="City"
                                     {...register("address.city")}
@@ -398,7 +401,7 @@ export default function SignIn() {
 
                                 {/* For Country  */}
                                 <input
-                                   
+
                                     type="text"
                                     placeholder="Country"
                                     {...register("address.country")}
@@ -407,7 +410,7 @@ export default function SignIn() {
 
                                 {/* For PIN Code  */}
                                 <input
-                                  
+
                                     type="number"
                                     placeholder="PIN Code"
                                     {...register("address.pincode", { pattern: { value: /^[1-9][0-9]{5}$/gim, message: "Matches exactly one digit from 1 to 9 and Matches exactly five digits in the inclusive range 0-9" } })}
@@ -466,7 +469,7 @@ export default function SignIn() {
                                             |-Can contain special characters`
                                         }
                                     })}
-                                    onChange={(e) => {e.preventDefault(); e.stopPropagation(); setPassType('password')}}
+                                    onChange={(e) => { e.preventDefault(); e.stopPropagation(); setPassType('password') }}
                                     className={`block w-full rounded-md border-0 py-1.5  shadow-sm ring-1 ring-inset ring-gray-300  focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ${!themeMode ? " bg-white text-gray-900 " : "bg-gray-900 text-white"}`}
                                 />
 
@@ -495,7 +498,7 @@ export default function SignIn() {
                                         required: "Confirm Password is required",
                                         validate: (value, SingFormInputs) => value === SingFormInputs.password || "Passwrd not matching"
                                     })}
-                                    onChange={(e) => {e.preventDefault(); e.stopPropagation(); setPassType('password')}}
+                                    onChange={(e) => { e.preventDefault(); e.stopPropagation(); setPassType('password') }}
                                     className={`block w-full rounded-md border-0 py-1.5  shadow-sm ring-1 ring-inset ring-gray-300  focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ${!themeMode ? " bg-white text-gray-900 " : "bg-gray-900 text-white"}`}
                                 />
 
