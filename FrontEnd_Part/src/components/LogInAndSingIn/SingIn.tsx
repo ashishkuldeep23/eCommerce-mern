@@ -292,8 +292,10 @@ export default function SignIn() {
                                             placeholder="First Name"
                                             type="text"
                                             {...register("firstName", {
-                                                required: "Full Name is Required", pattern: {
-                                                    value: /[a-zA-Z][a-zA-Z0-9-_ .]{3,25}/gi, message: "Must start with an alphabetic character. Can contain the following characters: a-z A-Z 0-9 - . _ and should be in between 5 to 25"
+                                                required: "Full Name is Required",
+                                                pattern: {
+                                                    value: /[a-zA-Z][a-zA-Z0-9-_ .]{3,25}/gi,
+                                                    message: "Must start with an alphabetic character. Can contain the following characters: a-z A-Z 0-9 - . _ and should be in between 5 to 25"
                                                 }
                                             })}
                                             className={`block w-full rounded-md border-0 py-1.5  shadow-sm ring-1 ring-inset ring-gray-300  focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ${!themeMode ? " bg-white text-gray-900 " : "bg-gray-900 text-white"}`}

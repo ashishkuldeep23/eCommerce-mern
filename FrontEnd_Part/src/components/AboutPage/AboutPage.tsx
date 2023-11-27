@@ -38,7 +38,7 @@ const AboutPage = () => {
 
                 
                 <div className="text-center mt-10 text-3xl">
-                    <p className=" underline">Welcome <span className=" font-bold ">{getUserData.name} 😊</span></p>
+                    <p className=" underline">Welcome <span className=" font-bold ">{getUserData.firstName +" " + getUserData.lastName} 😊</span></p>
                 </div>
 
 

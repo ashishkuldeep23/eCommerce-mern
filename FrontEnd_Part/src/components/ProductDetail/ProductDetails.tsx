@@ -23,6 +23,14 @@ export type ReviewData = {
         "userUID": string,
     },
 
+
+    "userId": {
+        firstName : string,
+        lastName : string,
+        id : string,
+        profilePic : string
+    },
+
     "productName": string,
     "comment": string,
 

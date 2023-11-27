@@ -185,7 +185,9 @@ async function getUserData(req, res) {
     let findUser = await userModel.findById(id)
 
     let sendUserData = {
-        name: `${findUser.firstName} ${findUser.lastName}`,
+        // name: `${findUser.firstName} ${findUser.lastName}`,
+        firstName: findUser.firstName,
+        lastName: findUser.lastName,
         address: findUser.address,
         email: findUser.email,
         profilePic: findUser.profilePic,
@@ -205,7 +207,6 @@ async function getUserData(req, res) {
 // // // Upadte user logic here ------>
 // // // User can upadte these feilds are :- address (add new) , upadte name , upadte profile pic --->
 // // // whatUpadte key is important ---> Based on it's value i'll update values---->
-
 // // // Only name is not done --->
 
 
@@ -262,7 +263,6 @@ async function updateUser(req, res) {
 
             let findUserData = await userModel.findById(id)
 
-
             const { addressId, ...resOfResBody } = resBody
             // console.log(resOfResBody)
 
@@ -274,7 +274,7 @@ async function updateUser(req, res) {
             // // // Now save the updated data -->
             await findUserData.save()
 
-            console.log(findUserData)
+            // console.log(findUserData)
 
             upadtedUser = findUserData
 
@@ -318,7 +318,7 @@ async function updateUser(req, res) {
         }
         else if (whatUpadte === 'makeProfilePic') {
 
-            const { pathUrl } = resBody
+            const { pathUrl  } = resBody
 
             let findUserData = await userModel.findByIdAndUpdate(
                 id,
@@ -333,6 +333,23 @@ async function updateUser(req, res) {
             // console.log(findUserData)
 
             upadtedUser = findUserData
+
+        }
+        else if (whatUpadte === "updateUserName") {
+            const { firstName , lastName } = resBody
+
+            let findUserData = await userModel.findByIdAndUpdate(
+                id,
+                {
+                    
+                    $set: { firstName: firstName , lastName : lastName },
+                },
+                { new: true, upsert: true }
+            )
+
+            
+            upadtedUser = findUserData
+
 
         }
 

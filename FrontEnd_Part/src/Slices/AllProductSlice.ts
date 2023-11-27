@@ -66,10 +66,10 @@ export const fetchAllProducts = createAsyncThunk("fetchAllProducts", async ({ br
     let option: RequestInit = {
         credentials: 'include',
 
-        headers : {
-            "token": `${gettingTokenInCookieAndLocalHost()}` ,
-        //     Accept : "application/json" ,
-        //     "Access-Control-Allow-Credentials" : true
+        headers: {
+            "token": `${gettingTokenInCookieAndLocalHost()}`,
+            //     Accept : "application/json" ,
+            //     "Access-Control-Allow-Credentials" : true
         }
 
     }

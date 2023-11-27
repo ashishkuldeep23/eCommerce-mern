@@ -10,6 +10,7 @@ export default {
 
     screens: {
       'xsm': "260px",
+      'smm': '366px',
       'sm': '640px',
       // => @media (min-width: 640px) { ... }
 

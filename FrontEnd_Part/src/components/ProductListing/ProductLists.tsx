@@ -6,6 +6,7 @@ import { Fragment } from "react"
 
 import SingleProduct from "./SingleProduct"
 import { fetchAllCategoryAndHighlight, fetchAllProducts } from "../../Slices/AllProductSlice"
+import { ReviewData } from "../ProductDetail/ProductDetails"
 
 
 
@@ -49,7 +50,7 @@ export interface IProduct {
   "isHighlight": boolean;
 
   "isDeleted": boolean;
-  "review"?: []
+  "review"?: ReviewData[]
 
 }
 
@@ -85,7 +86,7 @@ export default function ProductLists() {
 
         <h2 className="sr-only">Products</h2>
 
-        { 
+        {
           // // // Comment for till actual data is incoming --> 
           isLoding
           &&
@@ -148,7 +149,7 @@ export default function ProductLists() {
 
 
               {
-                  // // // Btn to data back to normal --->
+                // // // Btn to data back to normal --->
                 searchByQuery
                 &&
                 <div className="flex justify-start">

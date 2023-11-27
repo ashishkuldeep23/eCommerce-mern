@@ -112,7 +112,7 @@ const SingleReview = ({ reviewData }: PropOfSingleReview) => {
         dispatch(setOpenMoadl(true))
 
 
-        let ChildrenOfModal = <div><p className=" text-center font-bold text-xl underline">Name : {reviewData.userData.userName}</p><img className=" rounded" src={reviewData.userData.userImg} alt="" /></div>
+        let ChildrenOfModal = <div><p className=" text-center font-bold text-xl underline">Name : {reviewData.userId.firstName + " " + reviewData.userId.lastName}</p><img className=" rounded" src={reviewData.userId.profilePic} alt="" /></div>
 
         dispatch(setChildrenModal(ChildrenOfModal))
 
@@ -130,8 +130,8 @@ const SingleReview = ({ reviewData }: PropOfSingleReview) => {
                     className='flex items-center hover:cursor-pointer'
                     onClick={showModalWithValues}
                 >
-                    <img className=' w-6 h-6 object-cover rounded-full hover:rounded-sm hover:scale-125 transition-all' src={reviewData.userData.userImg} alt="" />
-                    <p className=' text-xl pl-2 font-bold border-b '>{reviewData.userData.userName}</p>
+                    <img className=' w-6 h-6 object-cover rounded-full hover:rounded-sm hover:scale-125 transition-all' src={reviewData.userId.profilePic} alt="" />
+                    <p className=' text-xl pl-2 font-bold border-b '>{reviewData.userId.firstName + " " + reviewData.userId.lastName} </p>
                 </div>
 
                 {/* Review Info Div --> */}

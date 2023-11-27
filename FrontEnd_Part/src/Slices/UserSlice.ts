@@ -161,7 +161,9 @@ type User = {
     isLogIn: boolean;
     isFullFilled: boolean;
     userData: {
-        name: string;
+        // name: string;
+        lastName : string;
+        firstName : string;
         profilePic: string;
         role: string;
         email: string;
@@ -181,7 +183,9 @@ const initialState: User = {
     isLogIn: false,
     isFullFilled: false,
     userData: {
-        name: "",
+        // name: "",
+        lastName : "",
+        firstName : "",
         profilePic: "https://res.cloudinary.com/dlvq8n2ca/image/upload/v1700368567/ej31ylpxtamndu3trqtk.png",
         role: "user",
         email: "",
@@ -333,12 +337,14 @@ const userSlice = createSlice({
                     // let role = action.payload.data.role
                     // let email = action.payload.data.email
 
-                    let { id, name, email, profilePic, role, address } = action.payload.data
+                    let { id, firstName , lastName , email, profilePic, role, address } = action.payload.data
 
                     // // // set Some user data (Very minior data) ------>
 
                     state.userData.address = address
-                    state.userData.name = name
+                    // state.userData.name = name
+                    state.userData.firstName = firstName
+                    state.userData.lastName = lastName
                     state.userData.email = email
                     state.userData.profilePic = profilePic
                     state.userData.role = role
@@ -347,7 +353,7 @@ const userSlice = createSlice({
 
                     // // // set data in localStorage ------>
 
-                    localStorage.setItem("userData", JSON.stringify({ name, email, profilePic, role, id }))
+                    localStorage.setItem("userData", JSON.stringify({ firstName , lastName , email, profilePic, role, id }))
                     localStorage.setItem("isUserLogIn", JSON.stringify(true))
 
                 }
@@ -622,12 +628,14 @@ const userSlice = createSlice({
                     state.isFullFilled = true
 
 
-                    let { id, name, firstName , lastName , email, profilePic, role, address , allImages } = action.payload.data
+                    let { id, firstName , lastName , email, profilePic, role, address , allImages } = action.payload.data
 
                     // // // set Some user data (Very minior data) ------>
 
                     state.userData.address = address
-                    state.userData.name = `${firstName} ${lastName}`
+                    // state.userData.name = `${firstName} ${lastName}`
+                    state.userData.firstName = firstName ,
+                    state.userData.lastName = lastName,
                     state.userData.email = email
                     state.userData.profilePic = profilePic
                     state.userData.role = role
@@ -640,7 +648,7 @@ const userSlice = createSlice({
 
                     // // // set data in localStorage ------>
 
-                    localStorage.setItem("userData", JSON.stringify({firstName , lastName, name, email, profilePic, role, id }))
+                    localStorage.setItem("userData", JSON.stringify({firstName , lastName,  email, profilePic, role, id }))
 
                 }
 

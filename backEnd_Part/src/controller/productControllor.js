@@ -194,13 +194,27 @@ async function findOneProduct(req, res) {
             .select('-updatedAt -createdAt -__v -_id')
             .populate({
                 path: "review",
-                match: { isDeleted: false } ,
-                select: "-updatedAt -createdAt -__v -_id -userId -productID -isDeleted"
-            }).lean()
+                match: { isDeleted: false },
+                select: "-updatedAt -createdAt -__v -_id -userId -productID -isDeleted",
+                populate: {
+                    path: 'userId',
+                    select: "id firstName lastName profilePic -_id"
+                }
+
+            })
+            .lean()
 
 
 
         if (!product) return res.status(400).send({ status: false, message: "Product not found by this id." })
+
+
+        // // // Now using populate of populate (product to review and review to userData).
+        // // // Now use userId that also contant some info about user (And this field will contain updated user data).
+        // // // Change frontEnd acc. to show updated data.
+
+
+        // console.log(product)
 
 
         // // // Latest review first ---------->

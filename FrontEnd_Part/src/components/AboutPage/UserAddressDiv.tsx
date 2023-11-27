@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux"
 import { UserAddressObj, setIsLoading, upadteUserData, userState } from "../../Slices/UserSlice"
 import { AppDispatch, RootState } from "../../store"
-import { useEffect, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 
 
 import { useForm, SubmitHandler } from "react-hook-form"
@@ -12,7 +12,6 @@ import { toast } from "react-toastify"
 
 
 const addressFormData = new FormData()
-
 
 
 
@@ -196,9 +195,9 @@ const UserAddressDiv = () => {
 
 
 
-    const isFullfiled = userState().isFullFilled
-
     const isLoading = userState().isLoading
+
+    const isFullfiled = userState().isFullFilled
 
 
     // // // back to normal all things ---->
@@ -243,42 +242,51 @@ const UserAddressDiv = () => {
             {/* Show All Address of user --> */}
 
             {
-                getUserData.address 
+                getUserData.address
                 &&
-                (getUserData.address.length > 0) 
+                (getUserData.address.length > 0)
                 &&
                 // (getUserData.address[0].city !== "" && getUserData.address[0].country !== "" && getUserData.address[0].street !== "" && getUserData.address[0].pincode !== "")
 
                 // &&
 
-                getUserData.address.map((ele, i) => {
+                getUserData.address.map((ele) => {
                     return (
-                        <div className={`${!themeMode ? "bg-slate-100" : "bg-slate-900"} relative  border-b border-green-300`} key={i}>
-
-                            {/* <span className=" absolute left-5 border border-green-300 px-1 rounded-full text-green-300">{i + 1}</span> */}
-                            <p>Street : {ele.street || "Not Given"}</p>
-                            <p>City : {ele.city || "Not Given"}</p>
-                            <p>Country : {ele.country || "Not Given"}</p>
-                            <p>Pincode : {ele.pincode || "Not Given"}</p>
-
-                            <button
-                                className=" absolute bottom-9 right-0  border rounded px-0.5 mx-0.5 hover:bg-red-300 hover:text-white"
-                                onClick={(e) => { e.stopPropagation(); deleteAddressHandler(ele.id); }}
-                            >
-                                <i className="ri-delete-bin-7-line"></i>
-                            </button>
-
-                            <button
-                                className=" absolute bottom-1 right-0  border rounded px-0.5 mx-0.5 hover:bg-green-300 hover:text-white"
-                                onClick={(e) => { e.stopPropagation(); uapdetAddress(ele) }}
-                            >
-
-                                <i className="ri-pencil-fill"></i>
-                            </button>
 
 
+                        <Fragment key={ele.id}>
 
-                        </div>
+
+                            <div className={`${!themeMode ? "bg-slate-100" : "bg-slate-900"} relative p-0.5 rounded  border-b border-green-300`}>
+
+                                {/* <span className=" absolute left-5 border border-green-300 px-1 rounded-full text-green-300">{i + 1}</span> */}
+                                <p>Street : {ele.street || "Not Given"}</p>
+                                <p>City : {ele.city || "Not Given"}</p>
+                                <p>Country : {ele.country || "Not Given"}</p>
+                                <p>Pincode : {ele.pincode || "Not Given"}</p>
+
+                                <button
+                                    className=" absolute bottom-9 right-0  border rounded px-0.5 mx-0.5 hover:bg-red-300 hover:text-white"
+                                    onClick={(e) => { e.stopPropagation(); deleteAddressHandler(ele.id); }}
+                                >
+                                    <i className="ri-delete-bin-7-line"></i>
+                                </button>
+
+                                <button
+                                    className=" absolute bottom-1 right-0  border rounded px-0.5 mx-0.5 hover:bg-green-300 hover:text-white"
+                                    onClick={(e) => { e.stopPropagation(); uapdetAddress(ele) }}
+                                >
+
+                                    <i className="ri-pencil-fill"></i>
+                                </button>
+
+
+
+                            </div>
+
+
+                        </Fragment>
+
                     )
                 })
 
@@ -307,6 +315,7 @@ const UserAddressDiv = () => {
                         <div className="mt-2 flex flex-wrap">
 
                             <form noValidate className="space-y-3 flex flex-col xsm:w-60" onSubmit={handleSubmit(onSubmit)} >
+
 
 
                                 {/* For street  */}

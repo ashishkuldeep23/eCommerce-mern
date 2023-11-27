@@ -3,103 +3,319 @@
 
 import { useSelector } from "react-redux"
 import { RootState } from "../../store"
-
+import { useForm, SubmitHandler } from "react-hook-form"
 import CartComponent from "../CartComp/CartComponent"
+import UserAddressDiv from "../AboutPage/UserAddressDiv"
+import { UserAddressObj, userState } from "../../Slices/UserSlice"
+import { CardDataInter } from "../../Slices/CartSlice"
+import { checkEmail } from "../AboutPage/DetailsOfUser"
+import { Fragment } from "react"
+
+
+
+type OrderData = {
+  fullName: string,
+  phone: number,
+  address: UserAddressObj,
+  paymentMethod: string,
+  cartData: CardDataInter[],
+  whenCreated: string,
+  totalItems: number,
+  totalPrice: string,
+}
+
 
 
 const PaymentComp = () => {
 
   const themeMode = useSelector((store: RootState) => store.themeReducer.mode)
 
+  const { register, handleSubmit, formState: { errors }, setError, setValue } = useForm<OrderData>()
+
+
+  const getUserData = userState().userData
+
+
+  // // // // This fn used to submit addres --->
+
+  function submitAddress(addressData: UserAddressObj) {
+    // setValue('address' , `${data}`)
+
+    if (Object.keys(addressData).length > 0) {
+
+
+      // const addressKey = "address"
+      // let addressObj : UserAddressObj = {...addressData}
+
+      setValue("address", addressData)
+
+      // for(let [key , value] of Object.entries(data)){
+      //   addressObj[key] = value
+      // }
+
+    }
+
+  }
+
+
+
+
+
+  // // // So This is actual fucton that handles onSubit event
+  const onSubmit: SubmitHandler<OrderData> = (data) => {
+    console.log(data);
+    // alert()
+
+
+    if (!data.address || (data.address && Object.values(data.address).length < 4)) {
+      setError("address", { type: "manual", message: "Please Add or Choose addres." })
+    }
+
+    // // // Here you can call you backend
+
+    if (Object.keys(errors).length <= 0) {
+
+
+
+
+      // const { confirmPassword, ...resData } = data
+
+      // const formData = new FormData()
+
+
+      // for (let [key, value] of Object.entries(resData)) {
+
+
+      //     if (key === "address") {
+
+      //         // formData.append(key, JSON.stringify(value))
+
+      //         for (let [key2, value2] of Object.entries(resData?.address)) {
+
+      //             formData.set(`${key}[${key2}]`, `${value2}`)
+      //             // // // Above line ---> ( address.city = gonda ) and so on. 
+      //         }
+
+      //     } else {
+      //         formData.set(key, `${value}`)
+
+      //         // // // Don't use append in form data use set() -----> See MDN form data docs.
+      //     }
+
+
+      // }
+
+    }
+
+
+    // // // Before dispatch add 3 keys in data (WhenCreated , TotalItems , TotalPrice)
+
+    // dispatch(createNewUser({ formData: formData }))
+
+  }
+
+
+
+
+  console.log(errors)
+
+
+
   return (
     <>
 
-      <div className={` h-allAk flex flex-col items-center overflow-y-scroll shadow-xl ${!themeMode ? "bg-white text-gray-900" : "bg-black text-gray-200"}  `}>
+      <div className={` h-allAk flex flex-col  overflow-y-scroll shadow-xl ${!themeMode ? "bg-white text-gray-900" : "bg-black text-gray-200"}  `}>
 
 
 
 
-        <div className=" w-full flex flex-col-reverse  md:justify-stretch md:flex-row">
+        <div className=" w-full flex flex-col  md:justify-stretch md:flex-row">
 
           <div className=" md:w-3/5 p-2 px-3 flex flex-col justify-start items-center ">
 
-            {/* Copy Paste code paste here */}
-
-
-            <div className=" md:w-4/5 border-b border-gray-900/10 pb-12">
+            {/* User details including address (main problem solved ) */}
+            <div className="flex flex-col items-center justify-center w-full ">
               <h2 className="font-semibold leading-7 text-xl text-center underline mt-10 md:mt-0 ">Personal Information</h2>
               {/* <p className="mt-1 text-sm leading-6 ">Use a permanent address where you can receive mail.</p> */}
 
-
-              <p>Use details will shown here like name email and old address</p>
-
-
-              <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-
-                <p className="text-center font-bold  underline col-span-full">Order Details</p>
+              {/* <p>Use details will shown here like name email and old address</p> */}
 
 
-
-                <div className="col-span-full sm:col-span-3">
-                  <label htmlFor="new_fullname" className="block text-sm font-medium leading-6 ">
-                    Full name
-                  </label>
-                  <div className="mt-2">
-                    <input
-                      placeholder="Receiver full name. Ex : Jhon cena"
-                      type="text"
-                      name="new_fullname"
-                      id="new_fullname"
-                      className={`block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ${!themeMode ? " bg-white text-gray-900 " : "bg-gray-900 text-white"} `}
-                    />
-                  </div>
-                </div>
-
-                <div className="col-span-full  sm:col-span-3">
-                  <label htmlFor="phone" className="block text-sm font-medium leading-6 ">
-                    Phone/Mob No.
-                  </label>
-                  <div className="mt-2">
-                    <input
-                      type="text"
-                      placeholder="+91 9000608040"
-                      name="phone"
-                      id="phone"
-                      className={`block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ${!themeMode ? " bg-white text-gray-900 " : "bg-gray-900 text-white"} `}
-                    />
-                  </div>
-                </div>
-
-                <p className="col-span-full">Add New Address (use btn to  form of new address) </p>
-
-                <>
-                  <AddressInputCopm />
-                </>
+              <h2
+                className={` ${!themeMode ? "bg-slate-100" : "bg-slate-900"}  font-bold rounded my-0.5 px-1`}
+              >Name : {getUserData.firstName + " " + getUserData.lastName}
+              </h2>
 
 
+              <p className={`  ${!themeMode ? "bg-slate-100" : "bg-slate-900"}   rounded my-0.5 px-1 `} >Email : {checkEmail(getUserData.email)} </p>
 
+              <div
+                className="flex flex-col relative w-full smm:w-1/2 px-1"
+              >
+
+                <UserAddressDiv />
 
               </div>
+
+
+
             </div>
 
+            {/* Order Form starts here ---> */}
+            <form noValidate className="space-y-3 w-full flex flex-col items-center" onSubmit={handleSubmit(onSubmit)}>
+
+              <div className=" w-full smm:w-4/5 border-b border-gray-900/10 pb-12">
+
+                <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+
+                  <h2 className="font-semibold leading-7 text-xl text-center underline mt-10 md:mt-0 col-span-full ">Order Details</h2>
 
 
-            <div className=" md:w-4/5  border-b border-gray-900/10 pb-12 ">
+                  {/* User Full name --> */}
+                  <div className="col-span-full sm:col-span-3">
+                    <label htmlFor="new_fullname" className="block text-sm font-medium leading-6 ">
+                      Full name
+                    </label>
+                    <div className="mt-2">
+                      <input
+                        placeholder="Receiver full name. Ex : Jhon cena"
+                        type="text"
+                        id="new_fullname"
+                        className={`block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ${!themeMode ? " bg-white text-gray-900 " : "bg-gray-900 text-white"} `}
+                        {
+                        ...register("fullName", {
+                          required: "Please give Fullname",
+                          pattern: {
+                            value: /[a-zA-Z][a-zA-Z0-9-_ .]{3,25}/gi,
+                            message: "Must start with an alphabetic character. Can contain the following characters: a-z A-Z 0-9 - . _ and should be in between 5 to 25"
+                          }
+                        })
+                        }
+                      />
+                      <p className="text-sm pl-2 text-red-500 font-bold"> {errors.fullName?.message}</p>
+                    </div>
+                  </div>
 
-              <h2 className="text-base font-semibold leading-7 ">Payment Method</h2>
-              <p className="mt-1 text-sm leading-6 ">
-                Use Online Paymet to see more features like payment feature.
-              </p>
+                  {/* User Phone number */}
+                  <div className="col-span-full  sm:col-span-3">
+                    <label htmlFor="phone" className="block text-sm font-medium leading-6 ">
+                      Phone/Mob No.
+                    </label>
+                    <div className="mt-2">
+                      <input
+                        type="number"
+                        placeholder="+91 9000608040"
+                        {
+                        ...register("phone", {
+                          required: "Phone number not given.",
+                          pattern: {
+                            value: /(\+)?(91)?( )?[789]\d{9}/gi,
+                            message: "Must be valid Indan phone number.Start with 7 or 8 or 9."
+                          }
+                        })
+                        }
+                        id="phone"
+                        className={`block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ${!themeMode ? " bg-white text-gray-900 " : "bg-gray-900 text-white"} `}
+                      />
+                      <p className="text-sm pl-2 text-red-500 font-bold"> {errors.phone?.message}</p>
+                    </div>
+                  </div>
+
+                  {/* <p className="col-span-full">Add New Address (use btn to  form of new address) </p> */}
+
+                  {/* User addres div with all Functionilaty */}
+                  <div
+                    className="flex flex-col  col-span-full  sm:col-span-3 relative"
+                  >
+                    {/* <AddressInputCopm /> */}
+                    {/* <UserAddressDiv submitAddress={submitAddress} /> */}
+
+                    <h2 className="text-base font-semibold leading-7 ">Choose Address</h2>
+
+                    {/* <p>Show all Address</p> */}
+
+                    {/* {JSON.stringify(getUserData.address)} */}
+
+                    {
+                      getUserData.address
+                        &&
+                        (getUserData.address.length > 0)
+                        ?
+
+                        getUserData.address.map((ele, i) => {
+                          return (
 
 
-              <div className="  flex justify-between ">
+                            <Fragment key={ele.id}>
+
+                              <div className=" flex items-center ">
 
 
+                                <input
+                                  type="radio"
+                                  className="  z-10 mt-2"
+                                  name="address"
+                                  id={`single_address_${i}`}
+                                  onChange={(e) => { e.stopPropagation(); submitAddress(ele) }}
 
-                <div className="space-y-10">
+                                // onClick={(e)=>{ e.stopPropagation(); submitAddress(ele)}}
+                                />
 
 
-                  <fieldset>
+                                <label className=" w-full" htmlFor={`single_address_${i}`}>
+
+                                  <div className={`${!themeMode ? "bg-slate-100" : "bg-slate-900"} relative p-0.5 rounded  border-b border-green-300`}>
+
+                                    {/* <span className=" absolute left-5 border border-green-300 px-1 rounded-full text-green-300">{i + 1}</span> */}
+                                    <p>Street : {ele.street || "Not Given"}</p>
+                                    <p>City : {ele.city || "Not Given"}</p>
+                                    <p>Country : {ele.country || "Not Given"}</p>
+                                    <p>Pincode : {ele.pincode || "Not Given"}</p>
+                                  </div>
+
+                                </label>
+
+                              </div>
+
+
+                            </Fragment>
+
+                          )
+                        })
+
+                        :
+                        <div>
+
+                          <p className={`${!themeMode ? "bg-slate-100" : "bg-slate-900"} relative px-1 border-b rounded-b-md `} >No address found</p>
+                          <p className={`${!themeMode ? "bg-slate-100" : "bg-slate-900"} relative px-1 border-b rounded-b-md `} >Go to top and add new Address</p>
+
+                          <button
+                            className=" rounded  bg-green-500 text-white px-2 mt-1"
+                            onClick={() => { window.scroll(0, 0) }}
+                          >GoTo Top</button>
+
+                        </div>
+                    }
+
+
+                    <p className="text-sm pl-2 text-red-500 font-bold text-end"> {errors.address?.message}</p>
+                  </div>
+
+                </div>
+              </div>
+
+              <div className=" flex flex-col w-full smm:w-4/5  border-b border-gray-900/10 pb-12 ">
+
+                <h2 className="text-base font-semibold leading-7 ">Payment Method</h2>
+                <p className="mt-1 text-sm leading-6 ">
+                  Use Online Paymet to see more features like payment feature.
+                </p>
+
+
+                {/* Payment method input ---> */}
+                <div className="  flex justify-between ">
+
+                  <div className="space-y-10">
 
                     <div className="mt-6 space-y-6">
 
@@ -107,7 +323,14 @@ const PaymentComp = () => {
                       <div className="flex items-center gap-x-3">
                         <input
                           id="online"
-                          name="payment-method"
+                          value="online"
+                          // name="payment-method"
+                          {
+                          ...register("paymentMethod", {
+                            required: "Payment method number not given.",
+
+                          })
+                          }
                           type="radio"
                           className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
                         />
@@ -120,60 +343,54 @@ const PaymentComp = () => {
                       <div className="flex items-center gap-x-3">
                         <input
                           id="cod"
-                          name="payment-method"
+                          value="COD"
+                          // name="payment-method"
+                          {
+                          ...register("paymentMethod", {
+                            required: "Payment method not given.",
+                          })
+                          }
                           type="radio"
                           className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
                         />
                         <label htmlFor="cod" className="block text-sm font-medium leading-6 ">
-                          Cash On Delivery
+                          Cash On Delivery (COD)
                         </label>
                       </div>
 
-
-
+                      <p className="text-sm pl-2 text-red-500 font-bold"> {errors.paymentMethod?.message}</p>
 
                     </div>
 
+                  </div>
 
-                  </fieldset>
+                  {/* order now btn  */}
+                  {/* This payment btn will visible in Tab or Above devices */}
+                  <div className=" hidden md:flex hover:cursor-pointer ">
+                    <button
+                      type="submit"
+                      className="text-3xl my-10 border px-8 py-2 font-bold rounded-full bg-green-500 text-white"
+                    >Order Now</button>
+                  </div>
+
+
 
                 </div>
 
-
-                <div className=" hidden md:flex hover:cursor-pointer ">
-                  <p className="text-4xl my-10 border px-8 py-2 font-bold rounded-full bg-green-500 text-white">Pay Now</p>
+                {/* order now btn  */}
+                {/* This payment btn will visible in mobile devices */}
+                <div className=" mx-auto md:hidden hover:cursor-pointer">
+                  <button type="submit"
+                    className="text-4xl my-10 border px-10 py-2 font-bold rounded-full bg-green-500 text-white"
+                  >Order Now</button>
                 </div>
 
               </div>
-            </div>
 
-
-
-            {/* <div className="mt-6 flex items-center justify-end gap-x-6">
-              <button type="button" className="text-sm font-semibold leading-6 ">
-                Cancel
-              </button>
-              <button
-                type="submit"
-                className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              >
-                Save
-              </button>
-            </div> */}
-
-
-
-
-            {/* Now used in above div with check box.  */}
-
-            {/* <div className=" hidden md:flex hover:cursor-pointer ">
-              <p className="text-5xl my-10 border px-10 py-2 font-bold rounded-full bg-green-500 text-white">Pay Now</p>
-            </div> */}
-
+            </form>
 
           </div>
-
-
+          {/* Cart comp div here ---> */}
           <div className=" md:w-2/5">
             <CartComponent mainCartComp={false} />
           </div>
@@ -181,11 +398,13 @@ const PaymentComp = () => {
         </div>
 
 
-
+        {/* order now btn  */}
         {/* This payment btn will visible in mobile devices */}
-        <div className=" md:hidden hover:cursor-pointer">
-          <p className="text-5xl my-10 border px-10 py-2 font-bold rounded-full bg-green-500 text-white">Pay Now</p>
-        </div>
+        {/* <div className=" md:hidden hover:cursor-pointer">
+            <button type="submit"
+              className="text-4xl my-10 border px-10 py-2 font-bold rounded-full bg-green-500 text-white"
+            >Order Now</button>
+          </div> */}
 
 
       </div >
@@ -198,97 +417,5 @@ const PaymentComp = () => {
 export default PaymentComp
 
 
-
-
-
-
-function AddressInputCopm() {
-
-
-  const themeMode = useSelector((state: RootState) => state.themeReducer.mode)
-
-  return (
-    <>
-      <div className="col-span-full">
-        <label htmlFor="street-address" className="block text-sm font-medium leading-6 ">
-          Street & City address
-        </label>
-        <div className="mt-2">
-          <input
-            type="text"
-            placeholder="Full address with street and city name"
-            name="street-address"
-            id="street-address"
-            autoComplete="street-address"
-            className={`block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ${!themeMode ? " bg-white text-gray-900 " : "bg-gray-900 text-white"} `}
-          />
-        </div>
-      </div>
-
-
-      <div className="sm:col-span-2 sm:col-start-1">
-        <label htmlFor="region" className="block text-sm font-medium leading-6 ">
-          State / Province
-        </label>
-        <div className="mt-2">
-          <input
-            type="text"
-            placeholder="Name of State. Ex : UP"
-            name="region"
-            id="region"
-            autoComplete="state"
-            className={`block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ${!themeMode ? " bg-white text-gray-900 " : "bg-gray-900 text-white"} `}
-          />
-        </div>
-      </div>
-
-
-      <div className="sm:col-span-2 ">
-        <label htmlFor="country" className="block text-sm font-medium leading-6 ">
-          Country
-        </label>
-        <div className="mt-2">
-          <input
-            type="text"
-            placeholder="Name of Country. Ex : India"
-            name="city"
-            id="country"
-            autoComplete="country"
-            className={`block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ${!themeMode ? " bg-white text-gray-900 " : "bg-gray-900 text-white"} `}
-          />
-        </div>
-      </div>
-
-
-      <div className="sm:col-span-2">
-        <label htmlFor="postal-code" className="block text-sm font-medium leading-6 ">
-          ZIP / Postal code
-        </label>
-        <div className="mt-2">
-          <input
-            type="text"
-            placeholder="Ex : 271007"
-            name="postal-code"
-            id="postal-code"
-            autoComplete="postal-code"
-            className={`block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ${!themeMode ? " bg-white text-gray-900 " : "bg-gray-900 text-white"} `}
-          />
-        </div>
-      </div>
-
-
-      <div className=" sm:col-span-6 flex items-center justify-end">
-        <button
-          type="submit"
-
-          className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-        >
-          + Address
-        </button>
-      </div>
-
-    </>
-  )
-}
 
 
