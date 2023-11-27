@@ -136,6 +136,8 @@ const UserAddressDiv = () => {
 
             if (!upadteAd) {
 
+                // // // Add new address --->
+
                 addressFormData.set("whatUpadte", "address")
 
                 for (let [key, value] of Object.entries(data)) {
@@ -144,6 +146,8 @@ const UserAddressDiv = () => {
 
                 dispatch(upadteUserData({ formData: addressFormData }))
             } else {
+
+                // // // Update old address --->
 
                 let { id, ...resData } = data
 
@@ -209,6 +213,7 @@ const UserAddressDiv = () => {
             setValue("pincode", "")
 
             setPostAdOpen(false)
+            setUpadteAd(false)
         }
 
     }, [isFullfiled])

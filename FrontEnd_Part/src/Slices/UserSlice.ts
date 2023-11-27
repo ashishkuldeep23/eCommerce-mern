@@ -622,7 +622,7 @@ const userSlice = createSlice({
                     state.isFullFilled = true
 
 
-                    let { id, name, firstName , lastName , email, profilePic, role, address } = action.payload.data
+                    let { id, name, firstName , lastName , email, profilePic, role, address , allImages } = action.payload.data
 
                     // // // set Some user data (Very minior data) ------>
 
@@ -632,6 +632,10 @@ const userSlice = createSlice({
                     state.userData.profilePic = profilePic
                     state.userData.role = role
                     state.userData.id = id
+
+                    if(allImages){
+                        state.userData.allImages = allImages
+                    }
 
 
                     // // // set data in localStorage ------>

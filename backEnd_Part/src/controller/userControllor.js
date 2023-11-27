@@ -191,7 +191,7 @@ async function getUserData(req, res) {
         profilePic: findUser.profilePic,
         role: findUser.role,
         id: findUser.id,
-        allImages : findUser.allImages || [],
+        allImages: findUser.allImages || [],
     }
 
 
@@ -299,12 +299,12 @@ async function updateUser(req, res) {
 
 
             let findUserData = await userModel.findByIdAndUpdate(
-                id ,
+                id,
                 {
-                    $set : {profilePic : pathUrl } ,
-                    $push : {allImages : pathUrl}
-                } ,
-                {new : true , upsert : true}
+                    $set: { profilePic: pathUrl },
+                    $push: { allImages: pathUrl }
+                },
+                { new: true, upsert: true }
             )
 
 
@@ -316,16 +316,16 @@ async function updateUser(req, res) {
 
 
         }
-        else if(whatUpadte === 'makeProfilePic'){
+        else if (whatUpadte === 'makeProfilePic') {
 
-            const {pathUrl} = resBody
+            const { pathUrl } = resBody
 
             let findUserData = await userModel.findByIdAndUpdate(
-                id ,
+                id,
                 {
-                    $set : {profilePic : pathUrl } ,
-                } ,
-                {new : true , upsert : true}
+                    $set: { profilePic: pathUrl },
+                },
+                { new: true, upsert: true }
             )
 
 

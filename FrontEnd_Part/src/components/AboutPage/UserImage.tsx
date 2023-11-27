@@ -80,8 +80,8 @@ const UserImageDiv = () => {
             return
         }
 
-        console.log(formData.get("file"))
-        console.log(formData.values())
+        // console.log(formData.get("file"))
+        // console.log(formData.values())
 
         if (formData.get("file")) {
 
@@ -154,7 +154,16 @@ const UserImageDiv = () => {
                     &&
 
                     <div className="mt-3 flex flex-col justify-start items-end">
-                        <input className='rounded-full' type="file" name="" id="change_img" onChange={(e) => { onChangeHandler(e) }} />
+                        <input
+                            className='rounded-full'
+                            type="file"
+                            name=""
+                            accept="image/png, image/gif, image/jpeg"
+                            id="change_img"
+                            onChange={(e) => { onChangeHandler(e) }}
+                        />
+
+
 
                         <div >
                             <label htmlFor="change_img" className='text-green-500'>After changing click submit </label>
