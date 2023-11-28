@@ -118,7 +118,7 @@ const UserImageDiv = () => {
                 <div className=" w-auto relative" onClick={() => { showModalWithValues() }} >
 
                     {
-                        getUserData && getUserData.name !== ""
+                        getUserData && (getUserData.firstName !== "" || getUserData.lastName !== "" )
                             ?
                             <img
                                 className=" w-80 md:max-w-sm  rounded-xl  outline outline-offset-2 outline-emerald-300  hover:outline-offset-4  transition-all "
