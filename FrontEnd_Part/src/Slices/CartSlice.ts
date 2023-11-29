@@ -10,20 +10,21 @@ import { SingleTypeObject } from "../components/ProductListing/ProductLists";
 export interface CardDataInter extends IProduct {
 
     quantity: number;
-    verity: SingleTypeObject
+    verity: SingleTypeObject;
 
 }
 
 
 interface CartInter {
     cartData: CardDataInter[],
-
+    totalPrice : number;
 }
 
 
 
 const initialState: CartInter = {
     cartData: [],
+    totalPrice : 0
     // totalCartvalue : 0
 }
 
@@ -40,6 +41,9 @@ const cartSlice = createSlice({
         //     state.cartData = action.payload.data
         // },
 
+        setToTalPrice(state , action){
+            state.totalPrice = action.payload
+        },
 
 
         addItemInCart(state, action) {
@@ -219,7 +223,7 @@ const cartSlice = createSlice({
 
 
 
-export const { addItemInCart, removeOneItem,  onePlusQuan, oneMinusQuan } = cartSlice.actions
+export const { addItemInCart, removeOneItem,  onePlusQuan, oneMinusQuan , setToTalPrice } = cartSlice.actions
 
 export default cartSlice.reducer
 

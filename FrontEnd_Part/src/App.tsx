@@ -163,7 +163,7 @@ function App() {
   return (
     <>
 
-
+      {/* Above from routes will avilable for all pages ---> */}
       <Modal />
 
 

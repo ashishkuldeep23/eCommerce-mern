@@ -1,7 +1,9 @@
 import { Link, useNavigate } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../store'
 import SingleCartItem from "./SingleCartItem"
+import {useEffect} from "react"
+import { setToTalPrice } from '../../Slices/CartSlice'
 
 
 
@@ -33,6 +35,7 @@ export default function CartComponent({ mainCartComp = true }: CartCompProp) {
 
   const cartData = useSelector((store: RootState) => store.CartReducer.cartData)
 
+  const dispatch = useDispatch()
 
 
   // // // I'm responsible for total price
@@ -46,6 +49,19 @@ export default function CartComponent({ mainCartComp = true }: CartCompProp) {
 
     return formatedNum
   }
+
+
+
+
+  useEffect( ()=>{
+
+    let getTotalPrice = cartData.reduce((sum, items) => { return sum + (items.price * items.quantity) }, 0)
+
+    if(getTotalPrice > 0){
+      dispatch(setToTalPrice(getTotalPrice))
+    }
+
+  } , [cartData])
 
 
 
