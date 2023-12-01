@@ -14,7 +14,8 @@ export type SingleTypeObject = {
   "typeName": string[],
   "typeStock": number,
   "typeVerity": string[],
-  "typeId": string
+  "typeId": string ,
+  "typePrice" : number
 }
 
 

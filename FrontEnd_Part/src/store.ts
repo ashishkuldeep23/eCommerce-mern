@@ -13,6 +13,8 @@ import reviewReducer from "./Slices/ReviewSlice"
 
 import modalReducer from './Slices/ModalSlice'
 
+import orderReducer from './Slices/OrderSlice'
+
 
 export const store = configureStore({
     reducer: {
@@ -21,7 +23,8 @@ export const store = configureStore({
         CartReducer,
         userReducer,
         reviewReducer,
-        modalReducer
+        modalReducer ,
+        orderReducer
     },
 
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({

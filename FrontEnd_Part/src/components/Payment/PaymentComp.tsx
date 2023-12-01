@@ -1,8 +1,8 @@
 
 // import React from 'react'
 
-import { useSelector } from "react-redux"
-import { RootState } from "../../store"
+import { useDispatch, useSelector } from "react-redux"
+import { AppDispatch, RootState } from "../../store"
 import { useForm, SubmitHandler } from "react-hook-form"
 import CartComponent, { makeMoreRaedablePrice } from "../CartComp/CartComponent"
 import UserAddressDiv from "../AboutPage/UserAddressDiv"
@@ -10,10 +10,11 @@ import { UserAddressObj, userState } from "../../Slices/UserSlice"
 import { CardDataInter } from "../../Slices/CartSlice"
 import { checkEmail } from "../AboutPage/DetailsOfUser"
 import { Fragment } from "react"
+import { createOrder } from "../../Slices/OrderSlice"
 
 
 
-type OrderData = {
+export type OrderData = {
   fullName: string,
   phone: number,
   address: UserAddressObj,
@@ -31,13 +32,19 @@ const PaymentComp = () => {
 
   const themeMode = useSelector((store: RootState) => store.themeReducer.mode)
 
-  const { register, handleSubmit, formState: { errors }, setError, setValue } = useForm<OrderData>()
+  const { register, handleSubmit, formState: { errors }, setError, setValue, clearErrors } = useForm<OrderData>()
 
 
   const getUserData = userState().userData
 
 
-  const getTotalPriceOfCart = useSelector((store : RootState)=>store.CartReducer.totalPrice)
+  const getTotalPriceOfCart = useSelector((store: RootState) => store.CartReducer.totalPrice)
+
+  const getTotalItemsOfCart = useSelector((store: RootState) => store.CartReducer.cartData)
+
+
+  const dispatch = useDispatch<AppDispatch>()
+
 
   // // // // This fn used to submit addres (used in onChange of address input btn) --->
 
@@ -46,16 +53,20 @@ const PaymentComp = () => {
 
     if (Object.keys(addressData).length > 0) {
 
+      // console.log(addressData)
 
       // const addressKey = "address"
       // let addressObj : UserAddressObj = {...addressData}
 
       setValue("address", addressData)
 
+      // // // After setting value we need clear error (other wise it will error)
+
+      clearErrors("address")
+
       // for(let [key , value] of Object.entries(data)){
       //   addressObj[key] = value
       // }
-
     }
 
   }
@@ -66,11 +77,12 @@ const PaymentComp = () => {
 
   // // // So This is actual fucton that handles onSubit event
   const onSubmit: SubmitHandler<OrderData> = (data) => {
-    console.log(data);
+    // console.log(data);
     // alert()
 
     // // // Show the error addres --->
-    if (!data.address || (data.address && Object.values(data.address).length < 3)) {
+
+    if (!data.address || (data.address && Object.keys(data.address).length < 3)) {
       setError("address", { type: "manual", message: "Please Add or Choose addres." })
       return
     }
@@ -80,47 +92,25 @@ const PaymentComp = () => {
     if (Object.keys(errors).length <= 0) {
 
       // // // Here set neccessory some info of data object --->
-      data.whenCreated = "now"
-      data.totalPrice = "150"
-      data.totalItems = 1
+      data.whenCreated = `${new Date()}`
+      data.totalPrice = `₹${makeMoreRaedablePrice(getTotalPriceOfCart)}`
+      data.totalItems = getTotalItemsOfCart.length
 
 
-
-      // const { confirmPassword, ...resData } = data
-
-      // const formData = new FormData()
+      console.log(data)
 
 
-      // for (let [key, value] of Object.entries(resData)) {
+      if(data.paymentMethod === "online"){
+        alert("Online Dispatch")
+      }
+    
+      if(data.paymentMethod === "COD"){
+        dispatch(createOrder({body : data}))
+      }
 
-
-      //     if (key === "address") {
-
-      //         // formData.append(key, JSON.stringify(value))
-
-      //         for (let [key2, value2] of Object.entries(resData?.address)) {
-
-      //             formData.set(`${key}[${key2}]`, `${value2}`)
-      //             // // // Above line ---> ( address.city = gonda ) and so on. 
-      //         }
-
-      //     } else {
-      //         formData.set(key, `${value}`)
-
-      //         // // // Don't use append in form data use set() -----> See MDN form data docs.
-      //     }
-
-
-      // }
+      // alert("Call dispatch now")
 
     }
-
-    // // // Before dispatch add 3 keys in data (WhenCreated , TotalItems , TotalPrice)
-    // dispatch(createNewUser({ formData: formData }))
-
-    console.log(data)
-
-    alert("Call dispatch now")
 
   }
 
@@ -140,12 +130,13 @@ const PaymentComp = () => {
 
           <div className=" md:w-3/5 p-2 px-3 flex flex-col justify-start items-center ">
 
-            <h1 className=" font-bold text-5xl">Total Price is : {makeMoreRaedablePrice(getTotalPriceOfCart)}</h1>
+            {/* <h1 className=" font-bold text-5xl">Total Price is : {makeMoreRaedablePrice(getTotalPriceOfCart)}</h1>
+            <h1 className=" font-bold text-5xl">Total Price is : {getTotalItemsOfCart.length}</h1> */}
 
             {/* User details including address (main problem solved ) */}
             <div className="flex flex-col items-center justify-center w-full pb-5 mt-10">
 
-              <div className="flex flex-col items-center justify-center border border-blue-500 rounded-xl bg-blue-50 py-5 px-1 sm:w-4/5  md:w-2/3">
+              <div className={`flex flex-col items-center justify-center border border-blue-500 rounded-xl  py-5 px-1 sm:w-4/5  md:w-2/3  ${!themeMode ? "bg-blue-50" : "bg-blue-950"} `}>
 
 
                 <h2 className="font-semibold leading-7 text-center underline md:mt-0 mb-2 text-3xl">Personal Information</h2>
@@ -202,7 +193,7 @@ const PaymentComp = () => {
 
               <div className=" w-full smm:w-4/5 border-b border-gray-900/10 pb-12">
 
-                <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6  border border-teal-500 p-5 rounded-xl bg-teal-50">
+                <div className={`mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6  border border-teal-500 p-5 rounded-xl ${!themeMode ? "bg-teal-50" : "bg-teal-950"}  `}>
 
                   <h2 className="font-semibold leading-7 text-3xl text-center underline  col-span-full ">Order Details</h2>
 
@@ -295,9 +286,9 @@ const PaymentComp = () => {
                                     className="  z-10 mt-2"
                                     name="address"
                                     id={`single_address_${i}`}
-                                    onChange={(e) => { e.stopPropagation(); submitAddress(ele) }}
+                                    // onChange={(e) => { e.stopPropagation(); submitAddress(ele) }}
 
-                                  // onClick={(e)=>{ e.stopPropagation(); submitAddress(ele)}}
+                                    onClick={(e) => { e.stopPropagation(); submitAddress(ele) }}
                                   />
 
 
@@ -415,7 +406,6 @@ const PaymentComp = () => {
 
 
                   </div>
-
 
                   {/* order now btn  */}
                   {/* This payment btn will visible in Tab or Above devices */}

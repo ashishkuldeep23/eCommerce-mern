@@ -12,6 +12,9 @@ const { createNewReview , deleteReview , updateReview , likeReview , dislikeRevi
 const { creteUserControllor, logInControllor, logOutControl, getUserData , updateUser  } = require("../controller/userControllor")
 
 
+const { createNewOrder } = require("../controller/orderControllor")
+
+
 const { isAuthorized } = require("../middleware/authorization")
 
 /* GET home page. */
@@ -128,6 +131,11 @@ router.get("/login/success", (req, res) => {
 
 })
 
+
+
+// // // Order Api --------->
+
+router.post("/createOrder" , isAuthorized , createNewOrder)
 
 
 

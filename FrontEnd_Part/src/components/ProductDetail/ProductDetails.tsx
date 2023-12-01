@@ -25,10 +25,10 @@ export type ReviewData = {
 
 
     "userId": {
-        firstName : string,
-        lastName : string,
-        id : string,
-        profilePic : string
+        firstName: string,
+        lastName: string,
+        id: string,
+        profilePic: string
     },
 
     "productName": string,
@@ -49,6 +49,7 @@ type TypeObject = {
     typeName: string[],
     typeStock: number,
     typeVerity: string[],
+    typePrice : number
     isChanged: boolean
 }
 
@@ -61,6 +62,7 @@ export default function ProductDetails() {
     const [type, setType] = useState<TypeObject>({
         typeName: [""],
         typeVerity: [""],
+        typePrice : 0,
         typeStock: 0,
         isChanged: false    // // // Just to check option chenged or not
     })
@@ -89,6 +91,9 @@ export default function ProductDetails() {
 
         // console.log(singleProductData)
 
+        // console.log(type)
+
+
         e.stopPropagation();
         // e.preventDefault();
 
@@ -114,6 +119,8 @@ export default function ProductDetails() {
         }
 
 
+
+        // // // Check user choosed type or not -->
         if (!type.isChanged) {
             console.log("Option not changed.");
 
@@ -133,7 +140,7 @@ export default function ProductDetails() {
 
         // console.log(singleProductData)
 
-        let newObjWithType = { ...singleProductData, type: type }
+        let newObjWithType = { ...singleProductData, type: type , price : (Math.round(type.typePrice - ((singleProductData.discountPercentage * type.typePrice) / 100))) }
 
         // console.log(newObjWithType)
 
@@ -167,7 +174,7 @@ export default function ProductDetails() {
     useEffect(() => {
 
 
-        if(!reviewIsFullFilled){
+        if (!reviewIsFullFilled) {
 
             window.scroll(0, 0)   // // // This line is responsibil for scrooling the window
         }
@@ -344,7 +351,7 @@ export default function ProductDetails() {
                                 </div>
 
 
-                                {/* Available types div */}
+                                {/* Available types div and add to cart btn ---> */}
                                 <div className="mt-10">
 
                                     <div>
@@ -366,7 +373,7 @@ export default function ProductDetails() {
                                                         className=' font-semibold mx-2 px-2 border border-blue-600 rounded hover:cursor-pointer hover:bg-blue-600 hover:text-white capitalize  inline-flex  items-start'
 
                                                         htmlFor={`type${i}`}
-                                                    >{`${item.typeName[0]} :  ${item.typeName[1]} | ${item.typeVerity[0]} : ${item.typeVerity[1]} | Stocks : ${item.typeStock}`}</label>
+                                                    >{`${item.typeName[0]} :  ${item.typeName[1]} | ${item.typeVerity[0]} : ${item.typeVerity[1]} | Stocks : ${item.typeStock} | Price : ₹${(Math.round(item.typePrice - ((singleProductData.discountPercentage * item.typePrice) / 100)))}`}</label>
 
                                                 </div>
                                             })
