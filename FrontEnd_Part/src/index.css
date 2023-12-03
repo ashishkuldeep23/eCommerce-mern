@@ -124,18 +124,28 @@ input::-webkit-inner-spin-button {
 
 
 
-#user_single_img>button {
+/* #user_single_img>button {
     visibility: hidden;
     opacity: .5;
     transition: all 0.4s;
 }
 
-
 #user_single_img:hover >button {
     visibility: visible;
     opacity: 1;
+} */
 
+
+#single_order_div > p{
+    transition: 0.7s all;
 }
+
+#single_order_div:hover > p{
+    transform: translateY(-20px);
+}
+
+
+
 
 
 

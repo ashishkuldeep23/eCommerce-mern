@@ -124,7 +124,6 @@ export const fetchUser = createAsyncThunk("user/fetchUser", async () => {
 
     let option: RequestInit = {
         credentials: 'include',
-
         headers: {
             "token": `${gettingTokenInCookieAndLocalHost()}`
         }

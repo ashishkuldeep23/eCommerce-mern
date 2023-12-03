@@ -322,11 +322,17 @@ function UserImgsMoreThenOn() {
 
 
 
-    function showModalWithValues(userImage : string) {
+    function showModalWithValues(userImage: string) {
 
-        
-        let ChildrenOfModal = <img className=" rounded" src={userImage} alt="" />
-        
+
+        let ChildrenOfModal = <div>
+            <img className=" rounded" src={userImage} alt="" />
+            <button
+                onClick={(e) => { e.stopPropagation(); makeThisProfilePic(userImage) }}
+                className=" text-3xl  rounded-b text-white font-serif font-thin bg-green-700 w-full"
+            >Make Profile Pic</button>
+        </div>
+
         dispatch(setOpenMoadl(true))
         dispatch(setChildrenModal(ChildrenOfModal))
 
@@ -384,7 +390,7 @@ function UserImgsMoreThenOn() {
                             return (
                                 <div
                                     key={i}
-                                    onClick={ (e)=>{e.stopPropagation(); showModalWithValues(img)}}
+                                    onClick={(e) => { e.stopPropagation(); showModalWithValues(img) }}
                                     className=" relative p-0.5 rounded hover:scale-110 hover:z-10 hover:border-green-400 hover:border "
                                     id="user_single_img"
                                 >
@@ -393,7 +399,7 @@ function UserImgsMoreThenOn() {
                                     <img className="w-full sm:w-80 rounded-t" src={img} alt="" />
                                     <button
                                         onClick={(e) => { e.stopPropagation(); makeThisProfilePic(img) }}
-                                        className=" text-3xl font-bold rounded-b bg-green-700 w-full"
+                                        className=" text-3xl  rounded-b text-white font-serif font-thin bg-green-700 w-full"
                                     >Make Profile Pic</button>
                                 </div>
                             )

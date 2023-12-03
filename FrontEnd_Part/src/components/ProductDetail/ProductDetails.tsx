@@ -23,7 +23,6 @@ export type ReviewData = {
         "userUID": string,
     },
 
-
     "userId": {
         firstName: string,
         lastName: string,
@@ -363,10 +362,10 @@ export default function ProductDetails() {
 
                                             // // // Mapping all option --->
 
-                                            singleProductData?.type?.map((item, i) => {
+                                            singleProductData?.type?.map((item : TypeObject , i) => {
                                                 return <div className='my-2' key={i}>
 
-                                                    <input type="radio" name="type" id={`type${i}`} onChange={() => { setType({ ...item, isChanged: true }) }} />
+                                                    <input type="radio" name="type" id={`type${i}`} onChange={() => { setType({ ...item ,  isChanged: true }) }} />
 
                                                     <label
 
@@ -375,6 +374,7 @@ export default function ProductDetails() {
                                                         htmlFor={`type${i}`}
                                                     >{`${item.typeName[0]} :  ${item.typeName[1]} | ${item.typeVerity[0]} : ${item.typeVerity[1]} | Stocks : ${item.typeStock} | Price : ₹${(Math.round(item.typePrice - ((singleProductData.discountPercentage * item.typePrice) / 100)))}`}</label>
 
+                                                    
                                                 </div>
                                             })
 

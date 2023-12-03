@@ -193,6 +193,7 @@ const cartSlice = createSlice({
         setClearCartData(state){
             state.cartData = []
             state.totalPrice = 0
+            localStorage.removeItem("cardData")
         }
 
 
@@ -204,6 +205,7 @@ const cartSlice = createSlice({
 
 
         builder
+            // // //set card data after getting data from backend --->
             .addCase("fetchAllProducts/fulfilled", (state) => {
                 // console.log("From Cart")
 
