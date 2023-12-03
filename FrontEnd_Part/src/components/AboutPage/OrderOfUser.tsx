@@ -85,7 +85,7 @@ const OrderOfUser = () => {
                                 {/* {`${JSON.stringify(getUserData.orders)}`} */}
 
 
-                                <div className=' pb-20 flex justify-center'>
+                                <div className=' pb-28 flex justify-center'>
 
                                     {/* <div className=' flex justify-between flex-wrap'>
 
@@ -98,7 +98,7 @@ const OrderOfUser = () => {
 
 
 
-                                    <div className=' w-fit h-fit border-b-2 border-green-300 sm:pr-3 rounded  flex flex-wrap gap-2 justify-center items-center'>
+                                    <div className=' w-fit h-fit border-b-2 border-l-2 border-green-300 sm:pr-3 rounded  flex flex-wrap gap-2 justify-center items-center'>
 
                                         <div className={`w-full smm:w-72 h-96 border-2 border-green-300 rounded md:max-w-sm px-1 flex flex-col justify-center text-center relative ${!themeMode ? "bg-green-300" : "bg-green-800"} `}>
 

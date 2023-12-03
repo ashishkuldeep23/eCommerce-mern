@@ -55,7 +55,6 @@ export default function Modal() {
                                 >
 
 
-
                                     <button
                                         type="button"
                                         className=" justify-center  px-2 py-1 text-sm font-semibold  shadow-sm ring-1 ring-inset ring-red-600  sm:mt-0  absolute right-0.5 top-7 rounded-full bg-red-600 text-white z-10 w-full hidden sm:inline-flex sm:w-auto"
@@ -66,7 +65,7 @@ export default function Modal() {
                                     </button>
 
                                     {/* Below div will hold children ---> main content */}
-                                    <div className="rounded bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4 border flex flex-col items-center">
+                                    <div className="rounded bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4 border flex flex-col items-center  overflow-hidden">
 
                                         {
                                             modalStore().children

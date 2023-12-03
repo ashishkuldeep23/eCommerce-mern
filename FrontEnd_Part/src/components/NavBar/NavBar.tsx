@@ -6,7 +6,6 @@ import { Link, useNavigate } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux";
 import { toggleModeValue } from '../../Slices/ThemeSlices'
 import { AppDispatch, RootState } from '../../store'
-
 import { setSingleOProductId, fetchOneProductByID, setSingleProductData } from '../../Slices/AllProductSlice';
 import { toast } from 'react-toastify';
 import { userState } from '../../Slices/UserSlice';
@@ -368,7 +367,9 @@ function MobileUICodeLeftSection({ open }: { open: boolean }) {
 // // // {/* Common left section here This will visible in both screen */ }
 function MenuOfMobileShowByBTN() {
 
+    const navigate = useNavigate()
     const userData = userState().userData
+    
 
     return (
         <>
@@ -382,6 +383,7 @@ function MenuOfMobileShowByBTN() {
                             // href={item.href}
                             className={`${item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'} block rounded-md px-3 py-2 text-base font-medium `}
                             aria-current={item.current ? 'page' : undefined}
+                            onClick={(e) => { e.stopPropagation(); navigate(item.href) }}
                         >
                             {
                                 item.name !== "name"

@@ -3,8 +3,7 @@
 // // // required models ---->
 
 const productModel = require("../model/productModel")
-const reviewModel = require("../model/reviewModel")
-
+// const reviewModel = require("../model/reviewModel")
 
 
 async function createNewProduct(req, res) {
@@ -39,8 +38,6 @@ async function createNewProduct(req, res) {
         res.status(500).send({ status: false, message: "Server Error" })
     }
 }
-
-
 
 
 
@@ -145,7 +142,6 @@ async function findAllProducts(req, res) {
 
 
 
-
 async function getCategoryAndHighlight(req, res) {
 
     const findAllProducts = await productModel.find({ isDeleted: false }).select('-_id -updatedAt -createdAt -__v -description -type -review')
@@ -171,7 +167,6 @@ async function getCategoryAndHighlight(req, res) {
     return res.status(200).send({ status: true, allCategory: allCategoryOfProducts, allBrands: allBrandsOfProducts, allHighlights: allHighlights, totalProducts: findAllProducts.length })
 
 }
-
 
 
 
@@ -218,7 +213,7 @@ async function findOneProduct(req, res) {
 
 
         // // // Latest review first ---------->
-        if (product.review && product.review.length > 1) {
+        if (product.review && product.review.length > 0) {
             product.review = product.review.reverse()
         }
 
@@ -258,8 +253,6 @@ async function findOneProduct(req, res) {
         res.status(500).send({ status: false, message: "Server Error" })
     }
 }
-
-
 
 
 

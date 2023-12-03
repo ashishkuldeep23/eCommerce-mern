@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom'
 import { fetchOneProductByID } from '../../Slices/AllProductSlice'
 import ReviewDivBoth from './ReviewDivBoth'
 import { reviewState } from '../../Slices/ReviewSlice'
+import { setChildrenModal, setOpenMoadl } from '../../Slices/ModalSlice'
 
 
 
@@ -167,6 +168,23 @@ export default function ProductDetails() {
 
 
 
+
+    
+    function showModalWithValues(userImage: string) {
+
+
+        let ChildrenOfModal = <img className=" rounded" src={userImage} alt="" />
+      
+
+        dispatch(setOpenMoadl(true))
+        dispatch(setChildrenModal(ChildrenOfModal))
+
+    }
+
+
+
+
+
     // const mainDivRef = useRef<HTMLDivElement>(null)  // // Generics should given outerwise it will give err.
     // // // Type is imprtant of useRef ----> (Above will remove null error)
 
@@ -264,6 +282,7 @@ export default function ProductDetails() {
                                             return (
                                                 <div key={i}>
                                                     <img
+                                                        onClick={(e)=>{e.stopPropagation(); showModalWithValues(image) }}
                                                         src={image}
                                                         alt={singleProductData.title}
                                                         className="h-full w-full rounded object-cover object-center hover:scale-95 transition-all"

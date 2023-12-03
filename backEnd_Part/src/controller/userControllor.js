@@ -190,7 +190,7 @@ async function getUserData(req, res) {
     let userOrders = []
 
 
-    if(findUser.orders && findUser.orders.length > 1){
+    if(findUser.orders && findUser.orders.length > 0){
         userOrders = findUser.orders.reverse()
     }
 

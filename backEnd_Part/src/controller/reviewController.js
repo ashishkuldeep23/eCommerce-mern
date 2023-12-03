@@ -188,8 +188,6 @@ async function deleteReview(req, res) {
 }
 
 
-
-
 async function updateReview(req, res) {
 
     try {
@@ -349,8 +347,6 @@ async function likeReview(req, res) {
 
 
 }
-
-
 
 
 async function dislikeReview(req, res) {
