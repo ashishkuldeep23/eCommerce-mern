@@ -124,14 +124,14 @@ input::-webkit-inner-spin-button {
 
 
 
-#user_single_img>p {
+#user_single_img>button {
     visibility: hidden;
     opacity: .5;
     transition: all 0.4s;
 }
 
 
-#user_single_img:hover >p {
+#user_single_img:hover >button {
     visibility: visible;
     opacity: 1;
 

@@ -15,9 +15,9 @@ import { userState } from '../../Slices/UserSlice';
 
 
 const navigation = [
-    { name: 'My Orders', href: '#', current: true },
-    { name: 'AAAA', href: '#', current: false },
-    { name: 'AAAA', href: '#', current: false },
+    { name: 'My Orders', href: '/orders', current: true },
+    { name: 'name', href: '/about', current: false },
+    // { name: 'AAAA', href: '#', current: false },
     // { name: 'Team', href: '#', current: false },
     // { name: 'Projects', href: '#', current: false },
     // { name: 'Calendar', href: '#', current: false },
@@ -89,6 +89,8 @@ export default function NavBar() {
 function MenuOfTabAndAbove() {
 
 
+    const userData = userState().userData
+
     const navigate = useNavigate()
 
     return (
@@ -115,10 +117,15 @@ function MenuOfTabAndAbove() {
                             <a
                                 key={i}
                                 // href={item.href}
+                                onClick={(e) => { e.stopPropagation(); navigate(item.href) }}
                                 className={` ${item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'} rounded-md px-3 py-2 text-md font-medium `}
                                 aria-current={item.current ? 'page' : undefined}
                             >
-                                {item.name}
+                                {
+                                    item.name !== "name"
+                                        ? item.name
+                                        : `Welcome, ${userData.firstName} ${userData.lastName}😊`
+                                }
                             </a>
                         ))}
 
@@ -138,7 +145,6 @@ function MenuOfTabAndAbove() {
         </>
     )
 }
-
 
 
 
@@ -176,7 +182,7 @@ function MainSearchBarWithLogics() {
         }
     }
 
-    
+
 
     // // // Product search ------>
     function SuggestionHandler() {
@@ -318,7 +324,6 @@ function MainSearchBarWithLogics() {
 }
 
 
-
 // // // {/* This div will visiable on less then md devices main div. (This div includes Icon and open & close icon) */ }
 function MobileUICodeLeftSection({ open }: { open: boolean }) {
 
@@ -360,9 +365,11 @@ function MobileUICodeLeftSection({ open }: { open: boolean }) {
 }
 
 
-
 // // // {/* Common left section here This will visible in both screen */ }
 function MenuOfMobileShowByBTN() {
+
+    const userData = userState().userData
+
     return (
         <>
             <Disclosure.Panel className="md:hidden">
@@ -376,7 +383,11 @@ function MenuOfMobileShowByBTN() {
                             className={`${item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'} block rounded-md px-3 py-2 text-base font-medium `}
                             aria-current={item.current ? 'page' : undefined}
                         >
-                            {item.name}
+                            {
+                                item.name !== "name"
+                                    ? item.name
+                                    : `Welcome, ${userData.firstName} ${userData.lastName}😊`
+                            }
                         </Disclosure.Button>
                     ))}
 
@@ -387,7 +398,6 @@ function MenuOfMobileShowByBTN() {
         </>
     )
 }
-
 
 
 // // // {/* Here menu items will visible and show when user click ok icon */ }
@@ -627,7 +637,6 @@ function RightCommonSection() {
     )
 
 }
-
 
 
 // // // (search bar full width less then tab) 

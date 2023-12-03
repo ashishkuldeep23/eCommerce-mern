@@ -111,6 +111,7 @@ export default DetailsOfUser
 
 
 import { useForm, SubmitHandler } from "react-hook-form"
+import { setChildrenModal, setOpenMoadl } from "../../Slices/ModalSlice"
 
 
 type UpdateName = {
@@ -130,7 +131,7 @@ function UserNameAndUpadte() {
 
     const themeMode = useSelector((state: RootState) => state.themeReducer.mode)
 
-    const { register, handleSubmit, formState: { errors }, setValue } = useForm<UpdateName>({ values: { firstName: `${getUserData.firstName}` , lastName: `${getUserData.lastName}` } })
+    const { register, handleSubmit, formState: { errors }, setValue } = useForm<UpdateName>({ values: { firstName: `${getUserData.firstName}`, lastName: `${getUserData.lastName}` } })
 
     const [updateName, setUpadteName] = useState(false)
 
@@ -320,6 +321,20 @@ function UserImgsMoreThenOn() {
     const [userAllImgs, setUserAllImgs] = useState([])
 
 
+
+    function showModalWithValues(userImage : string) {
+
+        
+        let ChildrenOfModal = <img className=" rounded" src={userImage} alt="" />
+        
+        dispatch(setOpenMoadl(true))
+        dispatch(setChildrenModal(ChildrenOfModal))
+
+    }
+
+
+
+
     useEffect(() => {
 
 
@@ -356,7 +371,7 @@ function UserImgsMoreThenOn() {
                     }
                 </div>
 
-                <h1 className=" text-2xl  underline text-blue-500">Your all updated images</h1>
+                <h1 className=" text-4xl  underline text-blue-500">Your all updated images</h1>
 
                 <p className="mb-5 text-teal-400">Click on image and make profile picture.</p>
 
@@ -369,12 +384,17 @@ function UserImgsMoreThenOn() {
                             return (
                                 <div
                                     key={i}
-                                    onClick={(e) => { e.stopPropagation(); makeThisProfilePic(img) }}
-                                    className=" relative p-0.5 rounded hover:scale-110  hover:cursor-pointer hover:z-10 hover:border-green-400 hover:border "
+                                    onClick={ (e)=>{e.stopPropagation(); showModalWithValues(img)}}
+                                    className=" relative p-0.5 rounded hover:scale-110 hover:z-10 hover:border-green-400 hover:border "
                                     id="user_single_img"
                                 >
-                                    <p className=" absolute top-1/2 -translate-y-1/2 z-20 text-green-400 text-center text-xl xsm:text-4xl sm:text-6xl  ">Make Profile Pic</p>
-                                    <img className="w-full sm:w-80 rounded " src={img} alt="" />
+
+                                    {/* <p className=" absolute top-1/2 -translate-y-1/2 z-20 text-green-400 text-center text-xl xsm:text-4xl sm:text-6xl  ">Make Profile Pic</p> */}
+                                    <img className="w-full sm:w-80 rounded-t" src={img} alt="" />
+                                    <button
+                                        onClick={(e) => { e.stopPropagation(); makeThisProfilePic(img) }}
+                                        className=" text-3xl font-bold rounded-b bg-green-700 w-full"
+                                    >Make Profile Pic</button>
                                 </div>
                             )
                         })

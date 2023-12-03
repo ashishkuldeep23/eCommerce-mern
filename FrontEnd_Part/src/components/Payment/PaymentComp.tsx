@@ -1,17 +1,17 @@
 
-// import React from 'react'
-
+import { useEffect } from 'react'
 import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch, RootState } from "../../store"
 import { useForm, SubmitHandler } from "react-hook-form"
 import CartComponent, { makeMoreRaedablePrice } from "../CartComp/CartComponent"
 import UserAddressDiv from "../AboutPage/UserAddressDiv"
 import { UserAddressObj, userState } from "../../Slices/UserSlice"
-import { CardDataInter } from "../../Slices/CartSlice"
+import { CardDataInter, setClearCartData } from "../../Slices/CartSlice"
 import { checkEmail } from "../AboutPage/DetailsOfUser"
 import { Fragment } from "react"
-import { createOrder } from "../../Slices/OrderSlice"
-
+import { createOrder, orderState } from "../../Slices/OrderSlice"
+import { toast } from "react-toastify"
+import { useNavigate } from 'react-router-dom'
 
 
 export type OrderData = {
@@ -20,6 +20,7 @@ export type OrderData = {
   address: UserAddressObj,
   paymentMethod: string,
   cartData: CardDataInter[],
+  userId: string,
   whenCreated: string,
   totalItems: number,
   totalPrice: string,
@@ -30,18 +31,19 @@ export type OrderData = {
 
 const PaymentComp = () => {
 
+  const navigate = useNavigate()
+
   const themeMode = useSelector((store: RootState) => store.themeReducer.mode)
 
   const { register, handleSubmit, formState: { errors }, setError, setValue, clearErrors } = useForm<OrderData>()
 
-
   const getUserData = userState().userData
-
 
   const getTotalPriceOfCart = useSelector((store: RootState) => store.CartReducer.totalPrice)
 
   const getTotalItemsOfCart = useSelector((store: RootState) => store.CartReducer.cartData)
 
+  const getOrderData = orderState()
 
   const dispatch = useDispatch<AppDispatch>()
 
@@ -73,12 +75,27 @@ const PaymentComp = () => {
 
 
 
-
-
   // // // So This is actual fucton that handles onSubit event
   const onSubmit: SubmitHandler<OrderData> = (data) => {
     // console.log(data);
     // alert()
+
+
+    // // // Check requiest sended --->
+    if (getOrderData.isLoading) {
+      toast.error(`Wait for one request`, {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+      return
+    }
+
 
     // // // Show the error addres --->
 
@@ -95,17 +112,19 @@ const PaymentComp = () => {
       data.whenCreated = `${new Date()}`
       data.totalPrice = `₹${makeMoreRaedablePrice(getTotalPriceOfCart)}`
       data.totalItems = getTotalItemsOfCart.length
+      data.cartData = getTotalItemsOfCart
+      data.userId = getUserData.id
 
 
-      console.log(data)
+      // console.log(data)
 
 
-      if(data.paymentMethod === "online"){
+      if (data.paymentMethod === "online") {
         alert("Online Dispatch")
       }
-    
-      if(data.paymentMethod === "COD"){
-        dispatch(createOrder({body : data}))
+
+      if (data.paymentMethod === "COD") {
+        dispatch(createOrder({ body: data }))
       }
 
       // alert("Call dispatch now")
@@ -118,6 +137,24 @@ const PaymentComp = () => {
 
 
   console.log(errors)
+
+
+  // // // useEffect for fullfill true ---->
+
+  useEffect(() => {
+
+    if (getOrderData.isFullFilled) {
+
+      // // // Clear cart data -->
+
+      dispatch(setClearCartData())
+
+      // // Now got to about to show orders ---> (Or go to Orders page ---->)
+      navigate("/orders")
+    }
+
+  }, [getOrderData.isFullFilled])
+
 
 
 
@@ -189,11 +226,28 @@ const PaymentComp = () => {
             </div>
 
             {/* Order Form starts here ---> */}
-            <form noValidate className="space-y-3 w-full flex flex-col items-center" onSubmit={handleSubmit(onSubmit)}>
+            <form noValidate className={`space-y-3 w-full flex flex-col items-center relative ${getOrderData.isLoading && "opacity-50"} `} onSubmit={handleSubmit(onSubmit)}>
+
+
+              {/* Loader code -------> */}
+              <div className=" absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-100 scale-150 z-10">
+                {
+                  getOrderData.isLoading
+                  &&
+                  <div role="status">
+                    <svg aria-hidden="true" className="inline w-40 h-40  text-transparent animate-spin fill-blue-600 opacity-100 " viewBox="0 0 100 101" fill="none" >
+                      <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor" />
+                      <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill" />
+                    </svg>
+                  </div>
+                }
+              </div>
+
+
 
               <div className=" w-full smm:w-4/5 border-b border-gray-900/10 pb-12">
 
-                <div className={`mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6  border border-teal-500 p-5 rounded-xl ${!themeMode ? "bg-teal-50" : "bg-teal-950"}  `}>
+                <div className={`mt-10 grid grid-cols-1 gap-x-6  gap-y-5 sm:grid-cols-6  border border-teal-500 p-5 rounded-xl ${!themeMode ? "bg-teal-50" : "bg-teal-950"}  `}>
 
                   <h2 className="font-semibold leading-7 text-3xl text-center underline  col-span-full ">Order Details</h2>
 
@@ -252,7 +306,7 @@ const PaymentComp = () => {
 
                   {/* User addres div with all Functionilaty */}
                   <div
-                    className="flex justify-center flex-col md:flex-row col-span-full relative border-b border-teal-500 pb-2 gap-2 sm:gap-5 "
+                    className="flex flex-col items-end justify-center  md:flex-row col-span-full relative border-b border-teal-500 pb-2 gap-2 sm:gap-5 "
                   >
                     {/* <AddressInputCopm /> */}
                     {/* <UserAddressDiv submitAddress={submitAddress} /> */}
@@ -278,7 +332,7 @@ const PaymentComp = () => {
 
                               <Fragment key={ele.id}>
 
-                                <div className=" flex items-center ">
+                                <div className=" flex items-center overflow-hidden">
 
 
                                   <input
@@ -338,7 +392,7 @@ const PaymentComp = () => {
 
                       <h2 className="text-base font-semibold leading-7 ">Payment Method</h2>
                       <p className="mt-1 text-sm leading-6 ">
-                        Use Online Paymet to see more features like payment feature.
+                        Use Online payment to get payment page.
                       </p>
 
 
@@ -409,7 +463,13 @@ const PaymentComp = () => {
 
                   {/* order now btn  */}
                   {/* This payment btn will visible in Tab or Above devices */}
-                  <div className=" col-span-full flex justify-center hover:cursor-pointer ">
+                  <div className=" col-span-full flex justify-center flex-col items-center hover:cursor-pointer ">
+
+                    <div className="flex justify-around w-full mb-4" >
+                      <p>Total items : {getTotalItemsOfCart.length}</p>
+                      <p>Total Price : ₹{makeMoreRaedablePrice(getTotalPriceOfCart)}</p>
+                    </div>
+
                     <button
                       type="submit"
                       className="text-3xl  border px-8 py-2 font-bold rounded-full bg-green-500 text-white"

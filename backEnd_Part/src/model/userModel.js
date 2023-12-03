@@ -39,7 +39,7 @@ const userSchema = new mongoose.Schema({
     isEmailVerified: { type: Boolean, default: false },
 
     orders: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: [mongoose.Schema.Types.ObjectId] ,
         ref: "order"
     },
 

@@ -20,7 +20,7 @@ export const createOrder = createAsyncThunk("order/createOrder", async ({ body }
 
     let option: RequestInit = {
         credentials: 'include',
-        method : "POST",
+        method: "POST",
 
         headers: {
             'Content-Type': 'application/json',
@@ -72,6 +72,7 @@ const orderSlice = createSlice({
 
             .addCase(createOrder.pending, (state) => {
                 state.isLoading = true
+                state.isFullFilled = false
             })
 
             .addCase(createOrder.fulfilled, (state, action) => {
@@ -81,6 +82,7 @@ const orderSlice = createSlice({
                 if (action.payload.status === false) {
 
                     state.isError = true
+                    state.isFullFilled = false
 
                     toast.error(`${action.payload.message} | 400`, {
                         position: "top-right",
@@ -94,10 +96,18 @@ const orderSlice = createSlice({
                     })
                 } else {
 
+                    state.isFullFilled = true
 
-
-                    console.log(action.payload)
-
+                    toast.success(`${action.payload.message}`, {
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: false,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                    })
                 }
 
 
@@ -125,6 +135,7 @@ const orderSlice = createSlice({
 
                 state.isLoading = false
                 state.isError = true
+                state.isFullFilled = false
             })
 
     }

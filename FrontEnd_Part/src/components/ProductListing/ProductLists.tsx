@@ -36,7 +36,7 @@ export interface IProduct {
   "price": number;
   "discountPercentage": number;
 
-  "type"?: SingleTypeObject[]
+  "type"?: []
 
   "brand": string;
   "category": string;

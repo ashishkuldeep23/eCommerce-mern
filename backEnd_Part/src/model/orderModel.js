@@ -17,9 +17,7 @@ const orderSchema = new mongoose.Schema({
 
     fullName: { type: String, required: true, trim: true },
 
-
     phone : {type : String , required : true , trim : true} ,
-
 
     address : {
         _id: false,
@@ -38,6 +36,8 @@ const orderSchema = new mongoose.Schema({
     totalItems : { type: Number, required: true, trim: true },
 
     cartData : { type: Array, required: true },
+
+    userId : {type : String , required : true}
 
 } , {timestamps : true})
 

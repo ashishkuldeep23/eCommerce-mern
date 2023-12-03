@@ -20,6 +20,7 @@ import Modal from "./components/Modal/Modal"
 
 import LogInProtected from "./components/Protected/LogInProtected"
 import { fetchAllCategoryAndHighlight, fetchAllProducts } from "./Slices/AllProductSlice"
+import OrdersScreen from "./Screens/MyOrdersScreen"
 
 // import { fetchAllProducts , fetchAllCategoryAndHighlight } from "./Slices/AllProductSlice"
 
@@ -173,6 +174,8 @@ function App() {
         <Route path="/" element={<LogInProtected> <HomePage /> </LogInProtected>} />
 
         <Route path="/about" element={<LogInProtected> <UserDetails /> </LogInProtected>} />
+
+        <Route path="/orders" element={<LogInProtected> <OrdersScreen /> </LogInProtected>} />
 
         <Route path="/product" element={<LogInProtected> <DetailOfSingleProduct /> </LogInProtected>} />
 

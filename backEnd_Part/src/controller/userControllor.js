@@ -182,7 +182,17 @@ async function getUserData(req, res) {
     // console.log(req.tokenUserData)
 
     const id = req.tokenUserData.userId
-    let findUser = await userModel.findById(id)
+    let findUser = await userModel.findById(id).populate({ path: "orders", select: "-_id -createdAt -updatedAt -__v", sort: "1" })
+
+    // console.log(findUser)
+
+    // // // Hold user order
+    let userOrders = []
+
+
+    if(findUser.orders && findUser.orders.length > 1){
+        userOrders = findUser.orders.reverse()
+    }
 
     let sendUserData = {
         // name: `${findUser.firstName} ${findUser.lastName}`,
@@ -194,6 +204,7 @@ async function getUserData(req, res) {
         role: findUser.role,
         id: findUser.id,
         allImages: findUser.allImages || [],
+        orders: userOrders || []
     }
 
 
@@ -318,7 +329,7 @@ async function updateUser(req, res) {
         }
         else if (whatUpadte === 'makeProfilePic') {
 
-            const { pathUrl  } = resBody
+            const { pathUrl } = resBody
 
             let findUserData = await userModel.findByIdAndUpdate(
                 id,
@@ -336,18 +347,18 @@ async function updateUser(req, res) {
 
         }
         else if (whatUpadte === "updateUserName") {
-            const { firstName , lastName } = resBody
+            const { firstName, lastName } = resBody
 
             let findUserData = await userModel.findByIdAndUpdate(
                 id,
                 {
-                    
-                    $set: { firstName: firstName , lastName : lastName },
+
+                    $set: { firstName: firstName, lastName: lastName },
                 },
                 { new: true, upsert: true }
             )
 
-            
+
             upadtedUser = findUserData
 
 

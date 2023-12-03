@@ -24,13 +24,11 @@ const UserImageDiv = () => {
 
 
     function showModalWithValues() {
-
-        dispatch(setOpenMoadl(true))
-
+        
         let ChildrenOfModal = <img className=" rounded" src={userImage} alt="" />
-
+        
+        dispatch(setOpenMoadl(true))
         dispatch(setChildrenModal(ChildrenOfModal))
-
     }
 
 
@@ -118,7 +116,7 @@ const UserImageDiv = () => {
                 <div className=" w-auto relative" onClick={() => { showModalWithValues() }} >
 
                     {
-                        getUserData && (getUserData.firstName !== "" || getUserData.lastName !== "" )
+                        getUserData && (getUserData.firstName !== "" || getUserData.lastName !== "")
                             ?
                             <img
                                 className=" w-80 md:max-w-sm  rounded-xl  outline outline-offset-2 outline-emerald-300  hover:outline-offset-4  transition-all "
@@ -162,7 +160,6 @@ const UserImageDiv = () => {
                             id="change_img"
                             onChange={(e) => { onChangeHandler(e) }}
                         />
-
 
 
                         <div >

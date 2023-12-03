@@ -60,7 +60,8 @@ const productSchema = new mongoose.Schema({
             // // [key , value] ex : ["color" , "white"]
             typeVerity: [String, String],
             // // [key , value] ex : ["RAM-ROM" , "4-64"]
-            typeStock: Number,
+            typeStock: {type : Number , default : 0} ,
+            typePrice : {type : Number , default : 0},
             typeId: {
                 type: String,
                 default: () => uuid.v4()

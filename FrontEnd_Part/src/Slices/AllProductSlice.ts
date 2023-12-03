@@ -191,7 +191,7 @@ const initialState: IAllProductsWithCat = {
         },
         "price": 0,
         "discountPercentage": 0,
-        type: [],
+        "type": [],
         "rating": {
             totalPerson: 0,
             avgRating: 0

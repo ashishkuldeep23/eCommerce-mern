@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { toast } from "react-toastify"
 import { RootState } from "../store";
 import { gettingTokenInCookieAndLocalHost } from "../App";
+import { CardDataInter } from "./CartSlice";
 
 
 
@@ -98,7 +99,7 @@ type UpdatUserData = {
 
 
 
-export const upadteUserData = createAsyncThunk("user/updateUser", async ({formData } : UpdatUserData) => {
+export const upadteUserData = createAsyncThunk("user/updateUser", async ({ formData }: UpdatUserData) => {
     const option: RequestInit = {
         method: 'POST',
         credentials: 'include',
@@ -153,6 +154,20 @@ export type UserAddressObj = {
 }
 
 
+export type UserOrderOj = {
+    address: UserAddressObj,
+    cartData: CardDataInter[],
+    fullName: string,
+    id: string,
+    paymentMethod: string,
+    phone: string,
+    totalItems: number
+    totalPrice: string,
+    userId: string,
+    whenCreated: string,
+}
+
+
 
 type User = {
     isLoading: boolean;
@@ -162,15 +177,15 @@ type User = {
     isFullFilled: boolean;
     userData: {
         // name: string;
-        lastName : string;
-        firstName : string;
+        lastName: string;
+        firstName: string;
         profilePic: string;
         role: string;
         email: string;
         id: string;
         address?: UserAddressObj[];
-        orders?: []
-        allImages ?: []
+        orders?: UserOrderOj[]
+        allImages?: []
     }
 }
 
@@ -184,15 +199,15 @@ const initialState: User = {
     isFullFilled: false,
     userData: {
         // name: "",
-        lastName : "",
-        firstName : "",
+        lastName: "",
+        firstName: "",
         profilePic: "https://res.cloudinary.com/dlvq8n2ca/image/upload/v1700368567/ej31ylpxtamndu3trqtk.png",
         role: "user",
         email: "",
         id: "",
         address: [],
-        orders: [] ,
-        allImages : [],
+        orders: [],
+        allImages: [],
     }
 }
 
@@ -211,7 +226,7 @@ const userSlice = createSlice({
             state.isLogIn = action.payload.isLogIn
         },
 
-        setIsLoading(state , action){
+        setIsLoading(state, action) {
             state.isLoading = action.payload
         }
 
@@ -337,7 +352,7 @@ const userSlice = createSlice({
                     // let role = action.payload.data.role
                     // let email = action.payload.data.email
 
-                    let { id, firstName , lastName , email, profilePic, role, address } = action.payload.data
+                    let { id, firstName, lastName, email, profilePic, role, address } = action.payload.data
 
                     // // // set Some user data (Very minior data) ------>
 
@@ -353,7 +368,7 @@ const userSlice = createSlice({
 
                     // // // set data in localStorage ------>
 
-                    localStorage.setItem("userData", JSON.stringify({ firstName , lastName , email, profilePic, role, id }))
+                    localStorage.setItem("userData", JSON.stringify({ firstName, lastName, email, profilePic, role, id }))
                     localStorage.setItem("isUserLogIn", JSON.stringify(true))
 
                 }
@@ -628,27 +643,27 @@ const userSlice = createSlice({
                     state.isFullFilled = true
 
 
-                    let { id, firstName , lastName , email, profilePic, role, address , allImages } = action.payload.data
+                    let { id, firstName, lastName, email, profilePic, role, address, allImages } = action.payload.data
 
                     // // // set Some user data (Very minior data) ------>
 
                     state.userData.address = address
                     // state.userData.name = `${firstName} ${lastName}`
-                    state.userData.firstName = firstName ,
-                    state.userData.lastName = lastName,
-                    state.userData.email = email
+                    state.userData.firstName = firstName,
+                        state.userData.lastName = lastName,
+                        state.userData.email = email
                     state.userData.profilePic = profilePic
                     state.userData.role = role
                     state.userData.id = id
 
-                    if(allImages){
+                    if (allImages) {
                         state.userData.allImages = allImages
                     }
 
 
                     // // // set data in localStorage ------>
 
-                    localStorage.setItem("userData", JSON.stringify({firstName , lastName,  email, profilePic, role, id }))
+                    localStorage.setItem("userData", JSON.stringify({ firstName, lastName, email, profilePic, role, id }))
 
                 }
 
@@ -677,7 +692,7 @@ const userSlice = createSlice({
 
 
 
-export const { setUserData, setLogInStatus , setIsLoading } = userSlice.actions
+export const { setUserData, setLogInStatus, setIsLoading } = userSlice.actions
 
 export const userState = () => useSelector((state: RootState) => state.userReducer)
 
