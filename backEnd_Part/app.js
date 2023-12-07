@@ -195,7 +195,7 @@ passport.deserializeUser(function (user, cb) {
 // // // Stripe intgration ------------>
 
 
-let stripekey = 'sk_test_51OJqyYSBfy1BwBmQPlkp14O7XqwmkdvxAXD8M5xyUO4ymymc6F3a0g0NIPeDXShZKBNhW05zb4XfLkH5zFom9uMs00tUHKfeXU'
+let stripekey = `${process.env.STRIPE_KEY}`
 
 
 const stripe = require("stripe")(stripekey);

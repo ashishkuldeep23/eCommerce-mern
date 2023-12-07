@@ -10,7 +10,7 @@ import { orderState } from "../../Slices/OrderSlice";
 // recreating the Stripe object on every render.
 // This is your test publishable API key.
 
-const stripeKey = 'pk_test_51OJqyYSBfy1BwBmQEoYyid4t50zL5WKMb588vYhhnB9yoDTmL0AM0EOUGf1asbhLxOSyLY0v2jS6ReTHcbxtWOeO00n11CtE6h'
+const stripeKey = `${import.meta.env.VITE_STRIPE_KEY}`
 
 const stripePromise = loadStripe(stripeKey);
 
