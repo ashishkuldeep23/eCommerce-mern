@@ -58,7 +58,7 @@ const OrderOfUser = () => {
     useEffect(() => {
 
         if (gettingTokenInCookieAndLocalHost()) {
-            // // // Call server to fetch user ----->
+            // // // Call server to fetch user (calling server to fetch orders Or updated order data ---> ) ----->
             dispatch(fetchUser())
         }
 

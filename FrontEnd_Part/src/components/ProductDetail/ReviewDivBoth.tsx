@@ -1,6 +1,6 @@
 
 
-import { useEffect } from 'react'
+import { useEffect  } from 'react'
 import { useDispatch, useSelector } from "react-redux"
 import { reviewState,  setReviewUpadte } from "../../Slices/ReviewSlice"
 import PostReview from "./PostReview"
@@ -12,8 +12,7 @@ import { fetchOneProductByID } from '../../Slices/AllProductSlice'
 
 
 
-
-const ReviewDivBoth = () => {
+const ReviewDivBoth = ()=> {
 
     const singleProductData = useSelector((store: RootState) => store.allProductWithCatReducer.singleProductData)
 
@@ -22,6 +21,8 @@ const ReviewDivBoth = () => {
     const isFullfilled = reviewState().isFullfilled
 
     const dispatch = useDispatch<AppDispatch>()
+
+
 
 
     useEffect(() => {
@@ -58,14 +59,9 @@ const ReviewDivBoth = () => {
     }, [isFullfilled])
 
 
-
-
     return (
         <>
             <div className={` lg:w-1/2 flex flex-col items-start lg:items-center my-10 lg:h-5/6 lg:overflow-x-scroll relative ${isLoading && " opacity-50"} `}>
-
-
-
 
                 {/* Loader code -------> */}
                 <div className=" absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-100 scale-200 z-10">

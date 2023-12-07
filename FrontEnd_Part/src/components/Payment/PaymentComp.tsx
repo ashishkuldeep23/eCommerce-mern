@@ -9,7 +9,7 @@ import { UserAddressObj, userState } from "../../Slices/UserSlice"
 import { CardDataInter, setClearCartData } from "../../Slices/CartSlice"
 import { checkEmail } from "../AboutPage/DetailsOfUser"
 import { Fragment } from "react"
-import { createOrder, orderState } from "../../Slices/OrderSlice"
+import { orderState, setOrderdata } from "../../Slices/OrderSlice"
 import { toast } from "react-toastify"
 import { useNavigate } from 'react-router-dom'
 
@@ -118,13 +118,21 @@ const PaymentComp = () => {
 
       // console.log(data)
 
+      // // // set order data now ---->
+      dispatch(setOrderdata({data : data}))
+
+
+      // // // set order data in loaclhost to get that data in order-success page (By both payment methosds)
+      localStorage.setItem("newOrderData" , JSON.stringify(data))
+
 
       if (data.paymentMethod === "online") {
-        alert("Online Dispatch")
+        navigate("/stripePay")
       }
 
       if (data.paymentMethod === "COD") {
-        dispatch(createOrder({ body: data }))
+        // dispatch(createOrder({ body: data }))
+        navigate("/order-confirm")
       }
 
       // alert("Call dispatch now")

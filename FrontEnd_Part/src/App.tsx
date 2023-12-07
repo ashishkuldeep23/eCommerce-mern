@@ -21,6 +21,8 @@ import Modal from "./components/Modal/Modal"
 import LogInProtected from "./components/Protected/LogInProtected"
 import { fetchAllCategoryAndHighlight, fetchAllProducts } from "./Slices/AllProductSlice"
 import OrdersScreen from "./Screens/MyOrdersScreen"
+import StripeMainPage from "./Screens/StripeMainPage"
+import OrderConfirm from "./components/OrderConfirm/OrderConfirm"
 
 // import { fetchAllProducts , fetchAllCategoryAndHighlight } from "./Slices/AllProductSlice"
 
@@ -186,6 +188,10 @@ function App() {
         <Route path="/cart" element={<LogInProtected> <CartScreen /> </LogInProtected>} />
 
         <Route path="/pay" element={<LogInProtected> <PaymentScreen /> </LogInProtected>} />
+
+        <Route path="/stripePay" element={<LogInProtected>  <StripeMainPage /> </LogInProtected>} />
+
+        <Route path="/order-confirm" element={<LogInProtected>  <OrderConfirm /> </LogInProtected>} />
 
         {/* So this route i'll use fater gogal logIn , plan atleast --> */}
         <Route path="/goUser" element={<UserSinInSuccessfull />} />

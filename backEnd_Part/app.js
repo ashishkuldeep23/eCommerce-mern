@@ -192,6 +192,48 @@ passport.deserializeUser(function (user, cb) {
 
 
 
+// // // Stripe intgration ------------>
+
+
+let stripekey = 'sk_test_51OJqyYSBfy1BwBmQPlkp14O7XqwmkdvxAXD8M5xyUO4ymymc6F3a0g0NIPeDXShZKBNhW05zb4XfLkH5zFom9uMs00tUHKfeXU'
+
+
+const stripe = require("stripe")(stripekey);
+
+
+const calculateOrderAmount = (price) => {
+  // Replace this constant with a calculation of the order's amount
+  // Calculate the order total on the server to prevent
+  // people from directly manipulating the amount on the client
+
+  // console.log(price * 100)
+
+  return price*100;
+};
+
+
+
+app.post("/create-payment-intent", async (req, res) => {
+  const { totalPrice } = req.body;
+
+  // console.log(req.body)
+
+  // Create a PaymentIntent with the order amount and currency
+  const paymentIntent = await stripe.paymentIntents.create({
+    amount: calculateOrderAmount( totalPrice ),
+    // amount: totalPrice,
+    currency: "inr",
+    // In the latest version of the API, specifying the `automatic_payment_methods` parameter is optional because Stripe enables its functionality by default.
+    automatic_payment_methods: {
+      enabled: true,
+    },
+  });
+
+  res.send({
+    clientSecret: paymentIntent.client_secret,
+  });
+
+});
 
 
 

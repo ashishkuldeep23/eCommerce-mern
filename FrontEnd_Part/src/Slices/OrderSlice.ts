@@ -16,7 +16,11 @@ import { toast } from "react-toastify"
 export const createOrder = createAsyncThunk("order/createOrder", async ({ body }: { body: OrderData }) => {
 
 
-    console.log("From Body -->", body)
+    // console.log("From Body -->", body)
+
+    // // // Put validtaion here ------>
+
+
 
     let option: RequestInit = {
         credentials: 'include',
@@ -40,16 +44,34 @@ export const createOrder = createAsyncThunk("order/createOrder", async ({ body }
 
 
 interface OrderInterface {
-    orderArr: OrderData[],
+    orderArr: OrderData,
     isLoading: boolean,
     isError: boolean,
     isFullFilled: boolean
 }
 
 
+const intialOrderData: OrderData = {
+    fullName: "",
+    phone: 0,
+    address: {
+        id: "",
+        city: "",
+        street: "",
+        country: "",
+        pincode: ""
+    },
+    paymentMethod: "",
+    cartData: [],
+    userId: "",
+    whenCreated: "",
+    totalItems: 0,
+    totalPrice: "",
+}
+
 
 const initialState: OrderInterface = {
-    orderArr: [],
+    orderArr: intialOrderData,
     isLoading: false,
     isError: false,
     isFullFilled: false
@@ -61,6 +83,10 @@ const orderSlice = createSlice({
     name: "order",
     initialState,
     reducers: {
+
+        setOrderdata(state, action) {
+            state.orderArr = action.payload.data
+        }
 
     },
 
@@ -97,7 +123,6 @@ const orderSlice = createSlice({
                 } else {
 
                     state.isFullFilled = true
-
                     toast.success(`${action.payload.message}`, {
                         position: "top-right",
                         autoClose: 2000,
@@ -144,7 +169,7 @@ const orderSlice = createSlice({
 
 
 
-export const { } = orderSlice.actions
+export const { setOrderdata } = orderSlice.actions
 
 export const orderState = () => useSelector((state: RootState) => state.orderReducer)
 

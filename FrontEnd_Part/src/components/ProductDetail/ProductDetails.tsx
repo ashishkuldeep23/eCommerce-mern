@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState  } from 'react'
 import { StarIcon } from '@heroicons/react/20/solid'
 import { useSelector, useDispatch } from 'react-redux'
 import { AppDispatch, RootState } from '../../store'
@@ -49,7 +49,7 @@ type TypeObject = {
     typeName: string[],
     typeStock: number,
     typeVerity: string[],
-    typePrice : number
+    typePrice: number
     isChanged: boolean
 }
 
@@ -62,7 +62,7 @@ export default function ProductDetails() {
     const [type, setType] = useState<TypeObject>({
         typeName: [""],
         typeVerity: [""],
-        typePrice : 0,
+        typePrice: 0,
         typeStock: 0,
         isChanged: false    // // // Just to check option chenged or not
     })
@@ -75,6 +75,8 @@ export default function ProductDetails() {
     const dispatch = useDispatch<AppDispatch>()
 
     const navigate = useNavigate()
+
+    // const reiewRef = useRef<HTMLElement>(null)
 
 
     const singleProductData = useSelector((store: RootState) => store.allProductWithCatReducer.singleProductData)
@@ -140,7 +142,7 @@ export default function ProductDetails() {
 
         // console.log(singleProductData)
 
-        let newObjWithType = { ...singleProductData, type: type , price : (Math.round(type.typePrice - ((singleProductData.discountPercentage * type.typePrice) / 100))) }
+        let newObjWithType = { ...singleProductData, type: type, price: (Math.round(type.typePrice - ((singleProductData.discountPercentage * type.typePrice) / 100))) }
 
         // console.log(newObjWithType)
 
@@ -169,12 +171,12 @@ export default function ProductDetails() {
 
 
 
-    
+
     function showModalWithValues(userImage: string) {
 
 
         let ChildrenOfModal = <img className=" rounded" src={userImage} alt="" />
-      
+
 
         dispatch(setOpenMoadl(true))
         dispatch(setChildrenModal(ChildrenOfModal))
@@ -282,7 +284,7 @@ export default function ProductDetails() {
                                             return (
                                                 <div key={i}>
                                                     <img
-                                                        onClick={(e)=>{e.stopPropagation(); showModalWithValues(image) }}
+                                                        onClick={(e) => { e.stopPropagation(); showModalWithValues(image) }}
                                                         src={image}
                                                         alt={singleProductData.title}
                                                         className="h-full w-full rounded object-cover object-center hover:scale-95 transition-all"
@@ -360,7 +362,10 @@ export default function ProductDetails() {
 
 
                                         {/* </div> */}
-                                        <p className="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500">
+                                        <p
+                                            className="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500"
+                                            onClick={(e) => { e.stopPropagation(); }}
+                                        >
                                             {singleProductData?.review?.length} reviews
                                         </p>
 
@@ -381,10 +386,10 @@ export default function ProductDetails() {
 
                                             // // // Mapping all option --->
 
-                                            singleProductData?.type?.map((item : TypeObject , i) => {
+                                            singleProductData?.type?.map((item: TypeObject, i) => {
                                                 return <div className='my-2' key={i}>
 
-                                                    <input type="radio" name="type" id={`type${i}`} onChange={() => { setType({ ...item ,  isChanged: true }) }} />
+                                                    <input type="radio" name="type" id={`type${i}`} onChange={() => { setType({ ...item, isChanged: true }) }} />
 
                                                     <label
 
@@ -393,7 +398,7 @@ export default function ProductDetails() {
                                                         htmlFor={`type${i}`}
                                                     >{`${item.typeName[0]} :  ${item.typeName[1]} | ${item.typeVerity[0]} : ${item.typeVerity[1]} | Stocks : ${item.typeStock} | Price : ₹${(Math.round(item.typePrice - ((singleProductData.discountPercentage * item.typePrice) / 100)))}`}</label>
 
-                                                    
+
                                                 </div>
                                             })
 
