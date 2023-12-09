@@ -96,7 +96,9 @@ router.get("/auth/google/callback", passport.authenticate("google", {
 
     // res.status(200).send({ status: true, message: "LogIn Successfull", data: req.user })
 
-    res.redirect(`${process.env.FRONTEND_URL}`)
+    // res.redirect(`${process.env.FRONTEND_URL}`)
+
+    res.render("googleAuth", { check: `${req.user.token}` })
 
   }
   else {
