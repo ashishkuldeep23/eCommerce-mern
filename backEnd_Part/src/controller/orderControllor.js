@@ -1,8 +1,8 @@
 
+const uuid = require("uuid")
 const orderModel = require("../model/orderModel")
 const userModel = require("../model/userModel")
 const productModel = require("../model/productModel")
-
 
 // // create new order 
 // // Reduce stocks in profuct section --
@@ -117,6 +117,43 @@ async function createNewOrder(req, res) {
 
 
 
+// // // Upadte Order data 
+// // // Like : Status of order, 
 
-module.exports = { createNewOrder }
+async function updateOrder(req, res) {
+
+    try {
+
+        const {whatUpdate , orderId} = req.body
+
+        if(!whatUpdate) return res.status(400).send({status : false , message : "Metion what you want to update."})
+
+        if(!orderId || !uuid.validate(orderId)) return res.status(400).send({status : false , message : "OrderId is not given or invalid orderId."})
+
+        // console.log(whatUpdate , orderId)
+
+        const findOrder = await orderModel.findOne({ id : orderId})
+
+        if(!findOrder) return res.status(400).send({status : false , message : "No order data found with given ID."})
+
+        // console.log(findOrder)
+
+
+        if(whatUpdate === "status"){
+            findOrder.status = "Received"
+            await findOrder.save()
+        }
+
+        res.status(200).send({status : true , message : "Order updated" })
+    }
+    catch (err) {
+        console.log(err.message)
+        res.status(500).send({ status: false, message: "Server Error" })
+    }
+
+}
+
+
+
+module.exports = { createNewOrder , updateOrder }
 

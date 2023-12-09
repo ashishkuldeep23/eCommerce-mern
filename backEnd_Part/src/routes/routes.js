@@ -12,7 +12,7 @@ const { createNewReview , deleteReview , updateReview , likeReview , dislikeRevi
 const { creteUserControllor, logInControllor, logOutControl, getUserData , updateUser  } = require("../controller/userControllor")
 
 
-const { createNewOrder } = require("../controller/orderControllor")
+const { createNewOrder , updateOrder } = require("../controller/orderControllor")
 
 
 const { isAuthorized } = require("../middleware/authorization")
@@ -137,6 +137,7 @@ router.get("/login/success", (req, res) => {
 
 router.post("/createOrder" , isAuthorized , createNewOrder)
 
+router.put("/updateOrder" , isAuthorized , updateOrder)
 
 
 

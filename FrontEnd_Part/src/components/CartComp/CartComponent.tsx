@@ -2,7 +2,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../store'
 import SingleCartItem from "./SingleCartItem"
-import {useEffect} from "react"
+import { useEffect } from "react"
 import { setToTalPrice } from '../../Slices/CartSlice'
 
 
@@ -53,15 +53,15 @@ export default function CartComponent({ mainCartComp = true }: CartCompProp) {
 
 
 
-  useEffect( ()=>{
+  useEffect(() => {
 
     let getTotalPrice = cartData.reduce((sum, items) => { return sum + (items.price * items.quantity) }, 0)
 
-    if(getTotalPrice > 0){
+    if (getTotalPrice > 0) {
       dispatch(setToTalPrice(getTotalPrice))
     }
 
-  } , [cartData])
+  }, [cartData])
 
 
 
@@ -101,6 +101,7 @@ export default function CartComponent({ mainCartComp = true }: CartCompProp) {
             }
           </div>
 
+          {/* This div hols cart item in loop  */}
           <div className="mt-8">
             <div className="flow-root">
               <ul role="list" className="-my-6 divide-y divide-green-300">
@@ -139,7 +140,7 @@ export default function CartComponent({ mainCartComp = true }: CartCompProp) {
 
         {/* This is total amount div with both btns */}
         {
-
+          // // // mainCartComp value is responsible for what data show in main cart component or in payment page --->
           (mainCartComp)
 
             ?
@@ -215,9 +216,17 @@ export default function CartComponent({ mainCartComp = true }: CartCompProp) {
             :
 
             <>
-              <div className="flex  justify-end text-base font-medium mb-5 border-t border-green-300">
-                <p>Total amount : </p>
-                <p> ₹{totalPriceOfItems()}</p>
+              <div className="flex  justify-between text-base font-medium mb-5 border-t border-green-300">
+
+                <div>
+                  <p>Total items : {cartData.length}</p>
+                </div>
+
+
+                <div className='flex  justify-end'>
+                  <p>Total amount : </p>
+                  <p>₹{totalPriceOfItems()}</p>
+                </div>
               </div>
             </>
 

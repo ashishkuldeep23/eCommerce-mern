@@ -1,8 +1,8 @@
 
 
-import { useEffect  } from 'react'
+import { useEffect, forwardRef } from 'react'
 import { useDispatch, useSelector } from "react-redux"
-import { reviewState,  setReviewUpadte } from "../../Slices/ReviewSlice"
+import { reviewState, setReviewUpadte } from "../../Slices/ReviewSlice"
 import PostReview from "./PostReview"
 import { AppDispatch, RootState } from "../../store"
 
@@ -12,7 +12,16 @@ import { fetchOneProductByID } from '../../Slices/AllProductSlice'
 
 
 
-const ReviewDivBoth = ()=> {
+interface Props {
+    data: "submit" | "button" | 'Using forword ref';
+}
+
+// type Ref = React.MutableRefObject<HTMLDivElement>
+// type Ref = React.LegacyRef<HTMLDivElement> | undefined;
+type Ref = HTMLDivElement
+
+
+const ReviewDivBoth = forwardRef<Ref, Props>(({ data }, ref) => {
 
     const singleProductData = useSelector((store: RootState) => store.allProductWithCatReducer.singleProductData)
 
@@ -26,6 +35,9 @@ const ReviewDivBoth = ()=> {
 
 
     useEffect(() => {
+
+
+        console.log(data)
 
         // console.log(reviewData)
 
@@ -61,7 +73,10 @@ const ReviewDivBoth = ()=> {
 
     return (
         <>
-            <div className={` lg:w-1/2 flex flex-col items-start lg:items-center my-10 lg:h-5/6 lg:overflow-x-scroll relative ${isLoading && " opacity-50"} `}>
+            <div
+                className={` lg:w-1/2 flex flex-col items-start lg:items-center my-10 lg:h-5/6 lg:overflow-x-scroll relative ${isLoading && " opacity-50"} `}
+                ref={ref as React.RefObject<HTMLDivElement>}
+            >
 
                 {/* Loader code -------> */}
                 <div className=" absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-100 scale-200 z-10">
@@ -85,8 +100,10 @@ const ReviewDivBoth = ()=> {
                 <PostReview />
 
 
-                <div className="mt-10">
-                    <h3 className="text-3xl font-bold underline lg:text-center ">All Reviews</h3>
+                <div
+                    className="mt-10"
+                >
+                    <h3 className="text-3xl font-bold underline lg:text-center " >All Reviews</h3>
 
                     {/* All Review div ----> */}
                     <div className='flex flex-wrap my-5 lg:justify-center'>
@@ -123,6 +140,6 @@ const ReviewDivBoth = ()=> {
 
         </>
     )
-}
+})
 
 export default ReviewDivBoth

@@ -123,7 +123,7 @@ function MenuOfTabAndAbove() {
                                 {
                                     item.name !== "name"
                                         ? item.name
-                                        : `Welcome, ${userData.firstName} ${userData.lastName}😊`
+                                        : `Welcome,${userData.firstName}😊`
                                 }
                             </a>
                         ))}
@@ -388,7 +388,7 @@ function MenuOfMobileShowByBTN() {
                             {
                                 item.name !== "name"
                                     ? item.name
-                                    : `Welcome, ${userData.firstName} ${userData.lastName}😊`
+                                    : `Welcome,${userData.firstName}😊`
                             }
                         </Disclosure.Button>
                     ))}

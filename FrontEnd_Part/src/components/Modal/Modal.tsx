@@ -2,12 +2,17 @@ import { Fragment, useRef } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 // import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 import { modalStore, setOpenMoadl } from '../../Slices/ModalSlice'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from '../../store'
 
 export default function Modal() {
     // const [open, setOpen] = useState(true)
 
     const dispatch = useDispatch()
+
+    const themeMode = useSelector((state: RootState) => state.themeReducer.mode)
+
+
 
     const open = modalStore().open
 
@@ -65,7 +70,9 @@ export default function Modal() {
                                     </button>
 
                                     {/* Below div will hold children ---> main content */}
-                                    <div className="rounded bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4 border flex flex-col items-center  overflow-hidden">
+                                    <div
+                                        className={` ${!themeMode ? "bg-white border-white" : "bg-black border-black"} rounded px-4 pb-4 pt-5 sm:p-6 sm:pb-4 border flex flex-col items-center  overflow-hidden`}
+                                    >
 
                                         {
                                             modalStore().children

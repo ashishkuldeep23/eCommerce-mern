@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom'
 import { fetchOneProductByID, setSingleOProductId, setSingleProductData } from '../../Slices/AllProductSlice'
 import { CardDataInter } from '../../Slices/CartSlice'
 import { gettingTokenInCookieAndLocalHost } from '../../App'
+import { orderState, updateOrder } from '../../Slices/OrderSlice'
 
 
 
@@ -46,14 +47,15 @@ const OrderOfUser = () => {
 
     const getUserData = userState().userData
 
-    const isLoadingInUserData = userState().isLoading
-
     const themeMode = useSelector((state: RootState) => state.themeReducer.mode)
 
     const dispatch = useDispatch<AppDispatch>()
 
+    const navigate = useNavigate()
+
     // console.log(getUserData)
 
+    const isFullfilled = orderState().isFullFilled
 
     useEffect(() => {
 
@@ -62,7 +64,7 @@ const OrderOfUser = () => {
             dispatch(fetchUser())
         }
 
-    },[])
+    }, [isFullfilled])
 
 
     return (
@@ -76,18 +78,22 @@ const OrderOfUser = () => {
                 getUserData.orders && (getUserData.orders.length > 0)
 
                     ?
+                    // // Actual UI code ---->
 
-                    getUserData.orders.map((order, i) => {
+                    <div className='flex flex-wrap justify-evenly'>
+                        {
 
-                        return (
-                            <Fragment key={order.id}>
+                            getUserData.orders.map((order, i) => {
 
-                                {/* {`${JSON.stringify(getUserData.orders)}`} */}
+                                return (
+                                    <Fragment key={order.id}>
+
+                                        {/* {`${JSON.stringify(getUserData.orders)}`} */}
 
 
-                                <div className=' pb-28 flex justify-center'>
+                                        <div className=' pb-28 flex justify-center'>
 
-                                    {/* <div className=' flex justify-between flex-wrap'>
+                                            {/* <div className=' flex justify-between flex-wrap'>
 
                                         <p>For : {order.fullName}</p>
                                         <p>Method : {order.paymentMethod}</p>
@@ -98,75 +104,87 @@ const OrderOfUser = () => {
 
 
 
-                                    <div className=' w-fit h-fit border-b-2 border-l-2 border-green-300 sm:pr-3 rounded  flex flex-wrap gap-2 justify-center items-center'>
+                                            <div className={` w-fit h-fit sm:pr-3 rounded  flex flex-wrap gap-2 justify-center items-center relative  border-b-2 border-l-2 ${!themeMode ? "border-green-500" : "border-green-300"} transition-all `}>
 
-                                        <div className={`w-full smm:w-72 h-96 border-2 border-green-300 rounded md:max-w-sm px-1 flex flex-col justify-center text-center relative ${!themeMode ? "bg-green-300" : "bg-green-800"} `}>
+                                                <div className={`w-full smm:w-72 h-96 border-2 rounded md:max-w-sm px-1 flex flex-col justify-center text-center relative ${!themeMode ? "bg-green-300 border-green-500 " : "bg-green-800 border-green-300 "}  transition-all`}>
 
-                                            <p className=' font-bold font-mono underline text-xl absolute top-8 left-1/2 -translate-x-1/2 w-full'> {getUserData.orders && getUserData.orders?.length - i + ")"}Order Details</p>
+                                                    <p className=' font-bold font-mono underline text-xl absolute top-8 left-1/2 -translate-x-1/2 w-full'> {getUserData.orders && getUserData.orders?.length - i + ")"}Order Details</p>
 
-                                            <p className=' text-3xl font-bold underline'>{order.fullName}</p>
+                                                    <p className=' text-3xl font-bold underline'>{order.fullName}</p>
 
-                                            <div className='flex justify-center text-xl'>
-                                                <p>{order.paymentMethod},</p>
-                                                <p>{order.phone}</p>
+                                                    <div className='flex justify-center text-xl'>
+                                                        <p>{order.paymentMethod},</p>
+                                                        <p>{order.phone}</p>
+                                                    </div>
+
+                                                    <p className=' underline'>Address : {order.address.street + " " + order.address.city + " " + order.address.country + " " + order.address.pincode}</p>
+
+                                                    <p>Date & Time : {order.whenCreated}</p>
+
+                                                    <p>All <span className='font-extrabold bg-yellow-500 px-1 rounded'>{order.cartData.length}</span> Orders <span className=' hidden sm:inline'>➡️</span> <span className=' inline sm:hidden'>⬇️</span> </p>
+
+                                                    <div className=' w-11/12 flex  justify-end absolute bottom-0 right-0'>
+
+                                                        {
+                                                            order.status !== "Received"
+                                                            &&
+                                                            <button
+                                                                className=' bg-yellow-400 px-2 text-black rounded font-bold hover:text-red-500 hover:bg-yellow-200 absolute left-0'
+                                                                onClick={(e) => { e.stopPropagation(); dispatch(updateOrder({ body: { whatUpdate: "status", orderId: `${order.id}` } })) }}
+                                                            >Make Received</button>
+                                                        }
+                                                        <p className={`border-2 px-2 rounded ${!themeMode ? "border-green-500" : "border-green-300"}`}>Status : {order.status}</p>
+                                                    </div>
+
+                                                </div>
+
+                                                {/* <div className=' flex flex-wrap justify-evenly gap-2'> */}
+
+                                                {
+                                                    order.cartData && (order.cartData.length > 0)
+
+                                                    &&
+
+                                                    order.cartData.map((order: CardDataInter, i) => <SingleOrderData key={i} order={order} />)
+
+                                                }
+
+
+                                                {/* </div> */}
+
                                             </div>
-                                            
-                                            <p className=' underline'>Address : {order.address.street + " " + order.address.city + " " + order.address.country + " " + order.address.pincode}</p>
 
-                                            <p>Date & Time : {order.whenCreated}</p>
 
-                                            <p>All <span className='font-extrabold bg-yellow-500 px-1 rounded'>{order.cartData.length}</span> Orders <span className=' hidden sm:inline'>➡️</span> <span className=' inline sm:hidden'>⬇️</span> </p>
 
                                         </div>
 
-                                        {/* <div className=' flex flex-wrap justify-evenly gap-2'> */}
 
-                                            {
+                                    </Fragment>
+                                )
 
-                                                order.cartData && (order.cartData.length > 0)
-
-                                                &&
-
-                                                order.cartData.map((order: CardDataInter , i) => <SingleOrderData key={i} order={order} />)
-
-
-                                            }
-
-
-                                        {/* </div> */}
-
-                                    </div>
-
-
-
-                                </div>
-
-
-                            </Fragment>
-                        )
-
-                    })
+                            })
+                        }
+                    </div>
 
 
                     :
-
+                    // // // Skeleton code ---->
                     <div className="flex flex-col items-center">
-
-                        {
-                            !isLoadingInUserData
-                            &&
-
-                            <p className=' text-3xl'>Getting actual data...</p>
-
-                        }
 
                         {
                             (getUserData.orders && getUserData.orders?.length === 0)
                             &&
-                            <p className=' text-3xl'>No order found, order something first</p>
+                            <div className='flex flex-col items-center'>
+                                <p className=' text-3xl'>No order found, order something first</p>
+                                <button
+                                    className=' bg-blue-500 px-2 rounded font-bold mt-3'
+                                    onClick={(e) => { e.stopPropagation(); navigate("/") }}
+                                >GoTo Home🏠</button>
+                            </div>
                         }
 
 
+                        {/* Skeleton div -----> */}
                         <div className=" flex justify-center flex-wrap gap-3 ">
 
 

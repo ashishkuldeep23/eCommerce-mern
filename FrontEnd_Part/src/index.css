@@ -10,7 +10,7 @@
 
 * {
     scroll-behavior: smooth;
-    /* transition: .2s all; */
+    transition: 25ms all;
 }
 
 

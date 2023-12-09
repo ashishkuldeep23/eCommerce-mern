@@ -250,11 +250,11 @@ const UserAddressDiv = () => {
 
                 // &&
 
-                getUserData.address.map((ele) => {
+                getUserData.address.map((ele , i) => {
                     return (
 
 
-                        <Fragment key={ele.id}>
+                        <Fragment key={i}>
 
 
                             <div className={`${!themeMode ? "bg-slate-100" : "bg-slate-900"} relative p-0.5 rounded  border-b border-green-300`}>

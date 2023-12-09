@@ -32,7 +32,6 @@ const UserImageDiv = () => {
     }
 
 
-
     function onChangeHandler(e: React.ChangeEvent<HTMLInputElement>) {
 
         e.stopPropagation();
@@ -97,7 +96,6 @@ const UserImageDiv = () => {
 
 
     useEffect(() => {
-
         // console.log(getUserData.profilePic)
 
         setUserImage(getUserData.profilePic)

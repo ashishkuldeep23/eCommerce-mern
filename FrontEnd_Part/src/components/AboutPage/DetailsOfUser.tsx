@@ -328,7 +328,7 @@ function UserImgsMoreThenOn() {
         let ChildrenOfModal = <div>
             <img className=" rounded" src={userImage} alt="" />
             <button
-                onClick={(e) => { e.stopPropagation(); makeThisProfilePic(userImage) }}
+                onClick={() =>makeThisProfilePic(userImage)}
                 className=" text-3xl  rounded-b text-white font-serif font-thin bg-green-700 w-full"
             >Make Profile Pic</button>
         </div>
@@ -404,8 +404,7 @@ function UserImgsMoreThenOn() {
                                 </div>
                             )
                         })
-
-
+                        
                     }
 
 

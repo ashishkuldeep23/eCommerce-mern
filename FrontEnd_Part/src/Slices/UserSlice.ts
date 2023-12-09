@@ -163,7 +163,8 @@ export type UserOrderOj = {
     totalItems: number
     totalPrice: string,
     userId: string,
-    whenCreated: string,
+    whenCreated: string;
+    status : string,
 }
 
 
@@ -183,8 +184,8 @@ type User = {
         email: string;
         id: string;
         address?: UserAddressObj[];
-        orders?: UserOrderOj[]
-        allImages?: []
+        orders?: UserOrderOj[];
+        allImages?: [];
     }
 }
 

@@ -140,16 +140,19 @@ const SingleReview = ({ reviewData }: PropOfSingleReview) => {
                     {/* Review (Comment and Stars) */}
                     <div className='flex items-center'>
 
-                        <div className='flex items-center bg-yellow-400 text-white my-1 px-1 rounded'>
+                        <div className='flex items-center bg-yellow-400 text-black my-1 px-1 rounded'>
                             <StarIcon className={` h-4 w-4 flex-shrink-0`} />
                             <p className=" font-bold" >{reviewData.stars}</p>
                         </div>
-                        <p className='ml-2 text-xl'>{reviewData.comment}</p>
+                        <p
+                            className='ml-2 text-xl'
+                            style={{ lineBreak: "anywhere" }}
+                        >{reviewData.comment}</p>
 
                     </div>
 
                     {/* Like Dislike btns ---> */}
-                    <div className='flex  w-4/5 my-2'>
+                    <div className='flex  w-4/5 mt-2'>
 
 
                         <p
@@ -174,7 +177,7 @@ const SingleReview = ({ reviewData }: PropOfSingleReview) => {
                     </div>
 
                     {/* Edit Delete btns ---> */}
-                    <div className={`flex  justify-end relative  ${userDataId !== reviewData.userData.userUID ? " hidden" : "display"} `}>
+                    <div className={` mt-0.5 flex  justify-end relative  ${userDataId !== reviewData.userData.userUID ? " hidden" : "display"} `}>
 
                         <div className=" absolute left-0">
 

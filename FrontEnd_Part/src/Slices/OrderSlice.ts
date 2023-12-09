@@ -41,6 +41,32 @@ export const createOrder = createAsyncThunk("order/createOrder", async ({ body }
 
 
 
+type UpadteOrderBody={
+    whatUpdate : string;
+    orderId : string;
+}
+
+export const updateOrder = createAsyncThunk("order/updateOrder", async ({body} : {body : UpadteOrderBody}) => {
+
+
+    let option: RequestInit = {
+        credentials: 'include',
+        method: "PUT",
+
+        headers: {
+            'Content-Type': 'application/json',
+            "token": `${gettingTokenInCookieAndLocalHost()}`
+        },
+        body: JSON.stringify(body)
+
+    }
+
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/updateOrder`, option)
+    let data = await response.json();
+    return data
+})
+
+
 
 
 interface OrderInterface {
@@ -67,6 +93,7 @@ const intialOrderData: OrderData = {
     whenCreated: "",
     totalItems: 0,
     totalPrice: "",
+    status: ""
 }
 
 
@@ -96,6 +123,7 @@ const orderSlice = createSlice({
 
             // // // fetchUser reducers ----->
 
+            // // // Create Order reducer --->
             .addCase(createOrder.pending, (state) => {
                 state.isLoading = true
                 state.isFullFilled = false
@@ -143,6 +171,76 @@ const orderSlice = createSlice({
             })
 
             .addCase(createOrder.rejected, (state, action) => {
+
+                // console.log(action)
+
+                toast.error(`${action.error.message} | Check your Network | Refresh the page`, {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                });
+
+
+                state.isLoading = false
+                state.isError = true
+                state.isFullFilled = false
+            })
+
+
+
+            // // // Update order reducer --->
+            .addCase(updateOrder.pending, (state) => {
+                state.isLoading = true
+                state.isFullFilled = false
+            })
+
+            .addCase(updateOrder.fulfilled, (state, action) => {
+
+                // console.log(action.payload)
+
+                if (action.payload.status === false) {
+
+                    state.isError = true
+                    state.isFullFilled = false
+
+                    toast.error(`${action.payload.message} | 400`, {
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: false,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                    })
+                } else {
+
+                    state.isFullFilled = true
+                    toast.success(`${action.payload.message}`, {
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: false,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                    })
+                }
+
+
+                // console.log(action.payload.message)
+
+                state.isLoading = false
+
+            })
+
+            .addCase(updateOrder.rejected, (state, action) => {
 
                 // console.log(action)
 

@@ -37,7 +37,9 @@ const orderSchema = new mongoose.Schema({
 
     cartData : { type: Array, required: true },
 
-    userId : {type : String , required : true}
+    userId : {type : String , required : true} ,
+
+    status : {type : String , required : true , default : "Pending"} ,
 
 } , {timestamps : true})
 

@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom"
 import { createOrder } from "../../Slices/OrderSlice"
 import { toast } from "react-toastify"
 import { OrderData } from "../Payment/PaymentComp"
+import { setClearCartData } from "../../Slices/CartSlice"
 // import { OrderData } from "../Payment/PaymentComp"
 
 const OrderConfirm = () => {
@@ -31,9 +32,9 @@ const OrderConfirm = () => {
             // dispatch(setOrderdata({ data: getOrderData }))
 
 
-            console.log(orderData)
+            // console.log(orderData)
 
-
+            // // // Here calling actual async to carete new order data ---->
             dispatch(createOrder({ body: orderData }))
 
 
@@ -58,9 +59,17 @@ const OrderConfirm = () => {
 
         // dispatch(createOrder({ body: orderData }))
 
+        // // // Now set back to normal each and everything like order data and cart data --->
+
         // // // Remove order item after successful sended to backend
         localStorage.removeItem("newOrderData")
 
+
+        // // // Remove cart data -->
+        localStorage.removeItem("cardData")
+
+        // // // make cart emoty --->
+        dispatch(setClearCartData())
 
     }, [])
 

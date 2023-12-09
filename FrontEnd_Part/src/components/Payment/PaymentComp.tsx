@@ -24,6 +24,7 @@ export type OrderData = {
   whenCreated: string,
   totalItems: number,
   totalPrice: string,
+  status : string,
 }
 
 
@@ -119,11 +120,11 @@ const PaymentComp = () => {
       // console.log(data)
 
       // // // set order data now ---->
-      dispatch(setOrderdata({data : data}))
+      dispatch(setOrderdata({ data: data }))
 
 
       // // // set order data in loaclhost to get that data in order-success page (By both payment methosds)
-      localStorage.setItem("newOrderData" , JSON.stringify(data))
+      localStorage.setItem("newOrderData", JSON.stringify(data))
 
 
       if (data.paymentMethod === "online") {
@@ -178,8 +179,10 @@ const PaymentComp = () => {
             {/* <h1 className=" font-bold text-5xl">Total Price is : {makeMoreRaedablePrice(getTotalPriceOfCart)}</h1>
             <h1 className=" font-bold text-5xl">Total Price is : {getTotalItemsOfCart.length}</h1> */}
 
+            <h1 className='mt-5 bg-emerald-400 px-3 rounded text-white text-2xl font-bold'>Order Place 🛒</h1>
+
             {/* User details including address (main problem solved ) */}
-            <div className="flex flex-col items-center justify-center w-full pb-5 mt-10">
+            <div className="flex flex-col items-center justify-center w-full pb-5 mt-5">
 
               <div className={`flex flex-col items-center justify-center border border-blue-500 rounded-xl  py-5 px-1 sm:w-4/5  md:w-2/3  ${!themeMode ? "bg-blue-50" : "bg-blue-950"} `}>
 
@@ -252,7 +255,6 @@ const PaymentComp = () => {
               </div>
 
 
-
               <div className=" w-full smm:w-4/5 border-b border-gray-900/10 pb-12">
 
                 <div className={`mt-10 grid grid-cols-1 gap-x-6  gap-y-5 sm:grid-cols-6  border border-teal-500 p-5 rounded-xl ${!themeMode ? "bg-teal-50" : "bg-teal-950"}  `}>
@@ -314,11 +316,12 @@ const PaymentComp = () => {
 
                   {/* User addres div with all Functionilaty */}
                   <div
-                    className="flex flex-col items-end justify-center  md:flex-row col-span-full relative border-b border-teal-500 pb-2 gap-2 sm:gap-5 "
+                    className="flex flex-col items-start justify-center  md:flex-row col-span-full relative border-b border-teal-500 pb-2 gap-2 sm:gap-5 "
                   >
                     {/* <AddressInputCopm /> */}
                     {/* <UserAddressDiv submitAddress={submitAddress} /> */}
 
+                    {/* Choose Address div here ---> */}
                     <div className=" md:w-1/2">
 
 
@@ -356,7 +359,7 @@ const PaymentComp = () => {
 
                                   <label className=" w-full" htmlFor={`single_address_${i}`}>
 
-                                    <div className={`${!themeMode ? "bg-slate-100" : "bg-slate-900"} relative p-0.5 rounded  border-b border-green-300`}>
+                                    <div className={`${!themeMode ? "bg-slate-100" : "bg-slate-900"} relative p-0.5 rounded  border-b border-green-300 pr-5 md:pr-0`}>
 
                                       {/* <span className=" absolute left-5 border border-green-300 px-1 rounded-full text-green-300">{i + 1}</span> */}
                                       <p>Street : {ele.street || "Not Given"}</p>
@@ -396,6 +399,7 @@ const PaymentComp = () => {
                     </div>
 
 
+                    {/* Choose payment method div ---> */}
                     <div className=" md:w-1/2 flex flex-col smm:w-4/5">
 
                       <h2 className="text-base font-semibold leading-7 ">Payment Method</h2>
@@ -498,16 +502,6 @@ const PaymentComp = () => {
           </div>
 
         </div>
-
-
-        {/* order now btn  */}
-        {/* This payment btn will visible in mobile devices */}
-        {/* <div className=" md:hidden hover:cursor-pointer">
-            <button type="submit"
-              className="text-4xl my-10 border px-10 py-2 font-bold rounded-full bg-green-500 text-white"
-            >Order Now</button>
-          </div> */}
-
 
       </div >
 

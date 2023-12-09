@@ -1,4 +1,4 @@
-import { useEffect, useState  } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { StarIcon } from '@heroicons/react/20/solid'
 import { useSelector, useDispatch } from 'react-redux'
 import { AppDispatch, RootState } from '../../store'
@@ -88,6 +88,8 @@ export default function ProductDetails() {
     const reviewIsFullFilled = reviewState().isFullfilled
 
 
+    const reviewRef = useRef<HTMLDivElement>(null)
+
     // // // // Add to cart fn --->
     function addToCartHandler(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
 
@@ -172,18 +174,15 @@ export default function ProductDetails() {
 
 
 
-    function showModalWithValues(userImage: string) {
+    function showModalWithValues(userImage: string , productName : string) {
 
-
-        let ChildrenOfModal = <img className=" rounded" src={userImage} alt="" />
-
+        // // // Modal inner value (UI shown)
+        let ChildrenOfModal = <div><img className=" rounded" src={userImage} alt="" /> <p className='text-center mt-1 font-bold underline'>{productName}</p> </div> 
 
         dispatch(setOpenMoadl(true))
         dispatch(setChildrenModal(ChildrenOfModal))
 
     }
-
-
 
 
 
@@ -227,6 +226,8 @@ export default function ProductDetails() {
 
         // console.log("Calling Backend...")
     }, [singleProductData])
+
+
 
     return (
 
@@ -284,7 +285,7 @@ export default function ProductDetails() {
                                             return (
                                                 <div key={i}>
                                                     <img
-                                                        onClick={(e) => { e.stopPropagation(); showModalWithValues(image) }}
+                                                        onClick={(e) => { e.stopPropagation(); showModalWithValues(image , singleProductData.title) }}
                                                         src={image}
                                                         alt={singleProductData.title}
                                                         className="h-full w-full rounded object-cover object-center hover:scale-95 transition-all"
@@ -336,7 +337,12 @@ export default function ProductDetails() {
 
 
                                 {/* Review div start here ----> */}
-                                <div className="mt-6">
+                                <div className="mt-6 "
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        (singleProductData?.rating?.totalPerson > 0) && (reviewRef.current?.getBoundingClientRect() && window.scrollTo(0, reviewRef.current?.getBoundingClientRect().top))
+                                    }}
+                                >
                                     <h3 className="sr-only">Reviews</h3>
                                     <div className="flex items-center">
 
@@ -364,7 +370,6 @@ export default function ProductDetails() {
                                         {/* </div> */}
                                         <p
                                             className="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500"
-                                            onClick={(e) => { e.stopPropagation(); }}
                                         >
                                             {singleProductData?.review?.length} reviews
                                         </p>
@@ -550,7 +555,7 @@ export default function ProductDetails() {
 
                                 {/* Review div (Both read all and create new) --------> */}
 
-                                <ReviewDivBoth />
+                                <ReviewDivBoth ref={reviewRef} data="Using forword ref" />
 
 
                             </div>
