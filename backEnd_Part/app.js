@@ -112,7 +112,6 @@ passport.use("local", new LocalStrategy(
 ));
 
 
-
 // // // Code for Google Stratgy ---->
 passport.use("google", new GoogleStrategy({
   clientID: `${process.env.GOOGLE_CLIENT_ID}`,
@@ -138,9 +137,9 @@ passport.use("google", new GoogleStrategy({
 
     // let createOrFindUser = await userModel.
 
-    let searchObj = { email: id, firstName: firstName, lastName: lastName, profilePic: photos[0].value , whenCreted : `${new Date()}`}
+    let newUserDataObj = { email: id, firstName: firstName, lastName: lastName, profilePic: photos[0].value , whenCreted : `${new Date()}`}
 
-    let userProfile = await userModel.findOneAndUpdate({ email: id }, searchObj, { upsert: true }).lean()
+    let userProfile = await userModel.findOneAndUpdate({ email: id }, newUserDataObj , { upsert: true }).lean()
 
     // console.log(userProfile)
 

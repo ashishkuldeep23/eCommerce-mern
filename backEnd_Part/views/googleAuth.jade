@@ -1,0 +1,16 @@
+doctype html
+html
+  head
+    title= "Google auth logIn"
+    link(href='/css/check.css', rel='stylesheet')
+    script(type='text/javascript').
+      console.log('#{check}')
+      localStorage.setItem("google" , '#{check}')
+    body
+      .check
+        h1 Hello by Google.  
+        p #{check}    
+  
+  
+
+  
