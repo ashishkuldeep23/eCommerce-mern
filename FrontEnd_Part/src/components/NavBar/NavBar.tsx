@@ -44,7 +44,8 @@ export default function NavBar() {
     return (
 
 
-        <Disclosure as="nav" className="bg-gray-800 border-b-2 border-green-200  sticky -top-16 md:top-0 z-40  ">
+
+        <Disclosure as="nav" className="bg-gray-800 sticky -top-16 md:top-0 z-40  ">
             {({ open }) => (
                 <>
                     <div className=" mx-auto max-w-full md:max-w-allAk px-1  md:px-8 ">
@@ -74,9 +75,15 @@ export default function NavBar() {
                     {/* (search bar full width less then tab) Below search bar will visible less then md (in mobile only)    */}
                     <SearchBarTabAndLess />
 
+
+                    <UniersalLoader />
+
+
+
                 </>
             )}
         </Disclosure>
+
 
 
     )
@@ -369,7 +376,7 @@ function MenuOfMobileShowByBTN() {
 
     const navigate = useNavigate()
     const userData = userState().userData
-    
+
 
     return (
         <>
@@ -656,5 +663,85 @@ function SearchBarTabAndLess() {
         </>
     )
 }
+
+
+
+
+
+
+function UniersalLoader() {
+
+
+    const productIsLoading = useSelector((state: RootState) => state.allProductWithCatReducer.isLoading)
+    const orderIsLoading = useSelector((state: RootState) => state.orderReducer.isLoading)
+    const reviewIsLoading = useSelector((state: RootState) => state.reviewReducer.isLoading)
+    const userIsLoading = useSelector((state: RootState) => state.userReducer.isLoading)
+
+
+    const [width, setWidth] = useState<string>("10%")
+
+
+
+    // // // Scroll percentage div (code here ---> ) ---->
+
+    document.addEventListener("scroll", scrollPageAndGetSetData)
+
+    function scrollPageAndGetSetData() {
+        // console.log(dets)
+
+        let totalHeightOfWebPage = document.body.scrollHeight
+
+        let currentDistanceFromTop = document.documentElement.scrollTop
+
+        const windowHeight = document.documentElement.clientHeight
+
+        const scroolPercentge = (currentDistanceFromTop / (totalHeightOfWebPage - windowHeight)) * 100
+
+        // console.log(scroolPercentge)
+
+        setWidth(Math.round(scroolPercentge) + "%")
+    }
+
+
+
+    useEffect(() => {
+
+       
+        scrollPageAndGetSetData()
+
+
+
+
+
+    }, [])
+
+
+
+
+    if (productIsLoading || orderIsLoading || reviewIsLoading || userIsLoading) {
+        return (
+            <>
+                <div style={{ height: "1px" }} className=' w-full bg-blue-200 flex items-center relative'>
+
+                    <div className='universal_loader_holder absolute -top-4'>
+                        <span className="universal_loader"></span>
+                    </div>
+                </div>
+            </>
+        )
+    }
+
+
+
+    // // // Scroll percentage div ---->
+    return (
+        <>
+            <div style={{ width: width }} className=' h-0.5 bg-green-300 rounded'></div>
+        </>
+    )
+
+}
+
+
 
 

@@ -8,6 +8,12 @@
 @import "tailwindcss/utilities";
 
 
+
+:root{
+    --theme : #3b82f6;
+}
+
+
 * {
     scroll-behavior: smooth;
     transition: 25ms all;
@@ -136,12 +142,97 @@ input::-webkit-inner-spin-button {
 } */
 
 
-#single_order_div > p{
+#single_order_div>p {
     transition: 0.7s all;
 }
 
-#single_order_div:hover > p{
+#single_order_div:hover>p {
     transform: translateY(-20px);
+}
+
+
+
+
+/* Universal loader code -----> */
+
+.universal_loader_holder{
+    width: 90%;
+}
+
+.universal_loader {
+    width: 0;
+    height: 3px;
+    border-radius: 100px;
+    display: inline-block;
+    position: relative;
+    background: var(--theme);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    box-sizing: border-box;
+    animation: animFw 2.5s linear infinite;
+    z-index: 1000;
+}
+
+.universal_loader::after,
+.universal_loader::before {
+    content: '';
+    color: var(--theme);
+    width: 10px;
+    height: 10px;
+    border-radius: 100px;
+    background: var(--theme);
+    position: absolute;
+    top: 9px;
+    right: -2px;
+    opacity: 0;
+    transform: rotate(-45deg) translateX(0px);
+    box-sizing: border-box;
+    animation: coli1 0.3s linear infinite alternate-reverse;
+    z-index: 1000;
+}
+
+
+
+.universal_loader::before {
+    top: -4px;
+    transform: rotate(45deg);
+    animation: coli2 0.3s linear infinite alternate-reverse;
+}
+
+
+
+
+@keyframes animFw {
+    0% {
+        width: 0;
+    }
+
+    100% {
+        width: 100%;
+    }
+}
+
+@keyframes coli1 {
+    0% {
+        transform: rotate(-45deg) translateX(0px);
+        opacity: 0.7;
+    }
+
+    100% {
+        transform: rotate(-45deg) translateX(-45px);
+        opacity: 0;
+    }
+}
+
+@keyframes coli2 {
+    0% {
+        transform: rotate(45deg) translateX(0px);
+        opacity: 1;
+    }
+
+    100% {
+        transform: rotate(45deg) translateX(-45px);
+        opacity: 0.7;
+    }
 }
 
 
