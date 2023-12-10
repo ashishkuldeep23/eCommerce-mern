@@ -147,6 +147,54 @@ export const fetchOneProductByID = createAsyncThunk("fetchSingleProduct/:id", as
 
 
 
+type PropForLikeAndDislike = {
+    productId: string | number;
+    userId: string;
+    isLiking?: boolean;
+    isDisliking?: boolean
+}
+
+
+export const likeProduct = createAsyncThunk("product/like", async ({ productId, userId, isLiking }: PropForLikeAndDislike) => {
+    let option: RequestInit = {
+        credentials: 'include',
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+            "token": `${gettingTokenInCookieAndLocalHost()}`,
+        },
+        body: JSON.stringify({ productId, userId, isLiking })
+
+    }
+
+
+
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/likeProduct`, option)
+    let data = await response.json();
+    return data
+})
+
+
+export const dislikeProduct = createAsyncThunk("product/dislike", async ({ productId, userId, isDisliking }: PropForLikeAndDislike) => {
+    let option: RequestInit = {
+        credentials: 'include',
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+            "token": `${gettingTokenInCookieAndLocalHost()}`,
+        },
+        body: JSON.stringify({ productId, userId, isDisliking })
+
+    }
+
+
+
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/dislikeProduct`, option)
+    let data = await response.json();
+    return data
+})
+
+
 
 interface IAllProductsWithCat {
     allProducts: IProduct[],
@@ -202,7 +250,11 @@ const initialState: IAllProductsWithCat = {
         "images": [],
         "isHighlight": false,
         "isDeleted": false,
-        "review": []
+        "review": [],
+        "likes": 0,
+        "dislikes": 0,
+        "likedUserIds": [],
+        "dislikedUserIds": [],
     },
 
     simmilarProductWithOnePro: [],
@@ -387,7 +439,6 @@ const allProductsCatSlice = createSlice({
 
 
 
-
             .addCase(fetchOneProductByID.pending, () => {
                 console.log("Getting Data from Backend. Now pending")
             })
@@ -402,6 +453,131 @@ const allProductsCatSlice = createSlice({
 
             .addCase(fetchOneProductByID.rejected, (state, action) => {
 
+                state.isError = true
+                toast.error(`${action.error.message} | Check your Network | Refresh the page`, {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                });
+            })
+
+
+
+            .addCase(likeProduct.pending, (state) => {
+                // console.log("Getting Data from Backend. Now pending")
+                state.isLoading = true
+            })
+
+            .addCase(likeProduct.fulfilled, (state, action) => {
+
+
+                if (action.payload.status === false) {
+
+                    state.isError = true
+                    toast.error(`${action.payload.message} | 400`, {
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: false,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                    })
+                } else {
+
+                    toast.success(`${action.payload.message}`, {
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: false,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                    })
+
+                    // // reload loaction ----->
+                    // location.reload()
+                    state.singleProductData = action.payload.data
+
+                }
+
+                state.isLoading = false
+
+                // console.log(action.payload)
+            })
+
+            .addCase(likeProduct.rejected, (state, action) => {
+                state.isLoading = false
+                state.isError = true
+                toast.error(`${action.error.message} | Check your Network | Refresh the page`, {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                });
+            })
+
+
+
+
+            .addCase(dislikeProduct.pending, (state) => {
+                // console.log("Getting Data from Backend. Now pending")
+                state.isLoading = true
+            })
+
+            .addCase(dislikeProduct.fulfilled, (state, action) => {
+
+
+                if (action.payload.status === false) {
+
+                    state.isError = true
+                    toast.error(`${action.payload.message} | 400`, {
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: false,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                    })
+                } else {
+
+                    toast.success(`${action.payload.message}`, {
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: false,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                    })
+
+                    // // reload loaction ----->
+                    // location.reload()
+                    state.singleProductData = action.payload.data
+
+                }
+
+                state.isLoading = false
+
+                // console.log(action.payload)
+            })
+
+            .addCase(dislikeProduct.rejected, (state, action) => {
+                state.isLoading = false
                 state.isError = true
                 toast.error(`${action.error.message} | Check your Network | Refresh the page`, {
                     position: "top-right",

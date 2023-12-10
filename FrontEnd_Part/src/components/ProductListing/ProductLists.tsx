@@ -14,8 +14,8 @@ export type SingleTypeObject = {
   "typeName": string[],
   "typeStock": number,
   "typeVerity": string[],
-  "typeId": string ,
-  "typePrice" : number
+  "typeId": string,
+  "typePrice": number
 }
 
 
@@ -51,7 +51,14 @@ export interface IProduct {
   "isHighlight": boolean;
 
   "isDeleted": boolean;
-  "review"?: ReviewData[]
+  "review"?: ReviewData[];
+
+  "likes": number,
+  "dislikes": number,
+
+  "likedUserIds": string[],
+
+  "dislikedUserIds": string[],
 
 }
 

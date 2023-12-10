@@ -180,7 +180,7 @@ const PostReview = () => {
                             <p className=" opacity-80 hover:cursor-pointer hover:bg-blue-400" onClick={(e) => { submitEmoji(e, "✅") }} >✅</p>
                         </div>
 
-
+                            {/* Stars input ---> */}
                         <div className='flex justify-between items-center'>
                             <div className='flex items-center '>
 

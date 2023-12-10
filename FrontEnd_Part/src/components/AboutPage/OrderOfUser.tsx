@@ -68,7 +68,7 @@ const OrderOfUser = () => {
 
 
     return (
-        <div className={`${!themeMode ? "bg-white text-gray-900" : "bg-black text-gray-200"} py-10`}>
+        <div className={`${!themeMode ? "bg-white text-gray-900" : "bg-black text-gray-200"} py-10 flex justify-center flex-col items-center `}>
 
             {/* order div */}
 
@@ -80,7 +80,7 @@ const OrderOfUser = () => {
                     ?
                     // // Actual UI code ---->
 
-                    <div className='flex flex-wrap justify-evenly'>
+                    <div className='flex flex-wrap justify-evenly px-5'>
                         {
 
                             getUserData.orders.map((order, i) => {
@@ -106,6 +106,7 @@ const OrderOfUser = () => {
 
                                             <div className={` w-fit h-fit sm:pr-3 rounded  flex flex-wrap gap-2 justify-center items-center relative  border-b-2 border-l-2 ${!themeMode ? "border-green-500" : "border-green-300"} transition-all `}>
 
+                                                {/* single order detaio */}
                                                 <div className={`w-full smm:w-72 h-96 border-2 rounded md:max-w-sm px-1 flex flex-col justify-center text-center relative ${!themeMode ? "bg-green-300 border-green-500 " : "bg-green-800 border-green-300 "}  transition-all`}>
 
                                                     <p className=' font-bold font-mono underline text-xl absolute top-8 left-1/2 -translate-x-1/2 w-full'> {getUserData.orders && getUserData.orders?.length - i + ")"}Order Details</p>
@@ -169,7 +170,7 @@ const OrderOfUser = () => {
 
                     :
                     // // // Skeleton code ---->
-                    <div className="flex flex-col items-center">
+                    <div className="flex flex-col items-center px-5">
 
                         {
                             (getUserData.orders && getUserData.orders?.length === 0)

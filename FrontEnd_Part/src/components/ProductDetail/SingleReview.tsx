@@ -1,4 +1,4 @@
-import { StarIcon } from "@heroicons/react/24/outline"
+import { StarIcon } from "@heroicons/react/24/solid"
 import { ReviewData } from "./ProductDetails"
 import { userState } from "../../Slices/UserSlice"
 import { useDispatch, useSelector } from "react-redux"
@@ -138,11 +138,11 @@ const SingleReview = ({ reviewData }: PropOfSingleReview) => {
                 <div>
 
                     {/* Review (Comment and Stars) */}
-                    <div className='flex items-center'>
+                    <div className='flex items-start'>
 
-                        <div className='flex items-center bg-yellow-400 text-black my-1 px-1 rounded'>
-                            <StarIcon className={` h-4 w-4 flex-shrink-0`} />
-                            <p className=" font-bold" >{reviewData.stars}</p>
+                        <div className=' inline-flex items-center  text-black my-1 px-1 rounded '>
+                            <p className=" font-bold text-yellow-400" >{reviewData.stars}</p>
+                            <StarIcon className={` h-5 w-5 text-yellow-400 text-5xl flex-shrink-0`} />
                         </div>
                         <p
                             className='ml-2 text-xl'

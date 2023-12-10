@@ -37,7 +37,7 @@ const ReviewDivBoth = forwardRef<Ref, Props>(({ data }, ref) => {
     useEffect(() => {
 
 
-        console.log(data)
+        console.log(data , "Can't remove this log.")
 
         // console.log(reviewData)
 

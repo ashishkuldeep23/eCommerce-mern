@@ -127,12 +127,12 @@ async function deleteReview(req, res) {
 
 
         if (!findReview) {
-            return res.status(400).send({ status: false, message: "No review found with this review id." })
+            return res.status(404).send({ status: false, message: "No review found with this review id." })
         }
 
 
         if (findReview.isDeleted) {
-            return res.status(400).send({ status: false, message: "Review is already deleted." })
+            return res.status(404).send({ status: false, message: "Review is already deleted." })
         }
 
 
@@ -209,11 +209,11 @@ async function updateReview(req, res) {
         let findReview = await reviewModel.findOne({ id: reviewId })
 
         if (!findReview) {
-            return res.status(400).send({ status: false, message: "No Review found with given object id." })
+            return res.status(404).send({ status: false, message: "No Review found with given object id." })
         }
 
         if (findReview.isDeleted) {
-            return res.status(400).send({ status: false, message: "Review is already deleted." })
+            return res.status(404).send({ status: false, message: "Review is already deleted." })
         }
 
         // console.log(findReview)
@@ -285,11 +285,11 @@ async function likeReview(req, res) {
         let findReview = await reviewModel.findOne({ id: reviewId })
 
         if (!findReview) {
-            return res.status(400).send({ status: false, message: "No Review found with given object id." })
+            return res.status(404).send({ status: false, message: "No Review found with given object id." })
         }
 
         if (findReview.isDeleted) {
-            return res.status(400).send({ status: false, message: "Review is already deleted." })
+            return res.status(404).send({ status: false, message: "Review is already deleted." })
         }
 
 
@@ -344,8 +344,6 @@ async function likeReview(req, res) {
     }
 
 
-
-
 }
 
 
@@ -365,11 +363,11 @@ async function dislikeReview(req, res) {
         let findReview = await reviewModel.findOne({ id: reviewId })
 
         if (!findReview) {
-            return res.status(400).send({ status: false, message: "No Review found with given object id." })
+            return res.status(404).send({ status: false, message: "No Review found with given object id." })
         }
 
         if (findReview.isDeleted) {
-            return res.status(400).send({ status: false, message: "Review is already deleted." })
+            return res.status(404).send({ status: false, message: "Review is already deleted." })
         }
 
 
@@ -426,8 +424,6 @@ async function dislikeReview(req, res) {
         console.log(err.message)
         res.status(500).send({ status: false, message: "Server Error" })
     }
-
-
 
 }
 

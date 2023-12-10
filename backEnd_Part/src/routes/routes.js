@@ -7,7 +7,7 @@ const passport = require('passport');
 
 // // // Import controles -->
 
-const { createNewProduct, findAllProducts, getCategoryAndHighlight, findOneProduct } = require("../controller/productControllor")
+const { createNewProduct, findAllProducts, getCategoryAndHighlight, findOneProduct , dislikeProduct , likeProduct } = require("../controller/productControllor")
 const { createNewReview, deleteReview, updateReview, likeReview, dislikeReview } = require("../controller/reviewController")
 const { creteUserControllor, logInControllor, logOutControl, getUserData, updateUser } = require("../controller/userControllor")
 
@@ -45,6 +45,10 @@ router.get("/findAllProducts", isAuthorized, findAllProducts)
 router.get("/getCategoryAndHighlight", isAuthorized, getCategoryAndHighlight)
 
 router.get("/findOneProduct/:productId", isAuthorized, findOneProduct)
+
+router.post("/likeProduct" , isAuthorized , likeProduct )
+
+router.post("/dislikeProduct" , isAuthorized , dislikeProduct)
 
 
 

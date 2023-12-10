@@ -97,6 +97,26 @@ const productSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+
+    likes : {
+        type : Number ,
+        required : true,
+        default : 0
+    },
+    dislikes : {
+        type : Number ,
+        required : true,
+        default : 0
+    },
+
+    likedUserIds : {
+        type : [String]
+    },
+
+    dislikedUserIds :{
+        type : [String]
+    },
+
     isDeleted: {
         type: Boolean,
         default: false

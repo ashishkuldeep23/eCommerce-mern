@@ -7,10 +7,10 @@ import { toast } from "react-toastify"
 import 'react-toastify/ReactToastify.css';
 import SingleProduct from '../ProductListing/SingleProduct'
 import { useNavigate } from 'react-router-dom'
-import { fetchOneProductByID } from '../../Slices/AllProductSlice'
+import { dislikeProduct, fetchOneProductByID, likeProduct } from '../../Slices/AllProductSlice'
 import ReviewDivBoth from './ReviewDivBoth'
-import { reviewState } from '../../Slices/ReviewSlice'
 import { setChildrenModal, setOpenMoadl } from '../../Slices/ModalSlice'
+import { userState } from '../../Slices/UserSlice'
 
 
 
@@ -85,8 +85,7 @@ export default function ProductDetails() {
 
     const simmilarProducts = useSelector((store: RootState) => store.allProductWithCatReducer.simmilarProductWithOnePro)
 
-    const reviewIsFullFilled = reviewState().isFullfilled
-
+    const userDataId = userState().userData.id
 
     const reviewRef = useRef<HTMLDivElement>(null)
 
@@ -174,10 +173,10 @@ export default function ProductDetails() {
 
 
 
-    function showModalWithValues(userImage: string , productName : string) {
+    function showModalWithValues(userImage: string, productName: string) {
 
         // // // Modal inner value (UI shown)
-        let ChildrenOfModal = <div><img className=" rounded" src={userImage} alt="" /> <p className='text-center mt-1 font-bold underline'>{productName}</p> </div> 
+        let ChildrenOfModal = <div><img className=" rounded" src={userImage} alt="" /> <p className='text-center mt-1 font-bold underline'>{productName}</p> </div>
 
         dispatch(setOpenMoadl(true))
         dispatch(setChildrenModal(ChildrenOfModal))
@@ -186,16 +185,46 @@ export default function ProductDetails() {
 
 
 
+    function productLikeHandler(e: React.MouseEvent<HTMLParagraphElement, MouseEvent>) {
+        e.stopPropagation();
+
+        if (!singleProductData?.likedUserIds?.includes(userDataId)) {
+
+            dispatch(likeProduct({ productId: singleProductData.id, isLiking: true, userId: userDataId }))
+        } else {
+
+            dispatch(likeProduct({ productId: singleProductData.id, isLiking: false, userId: userDataId }))
+        }
+
+    }
+
+
+
+    function productDislikeHandler(e: React.MouseEvent<HTMLParagraphElement, MouseEvent>) {
+        e.stopPropagation();
+
+
+        if (!singleProductData?.dislikedUserIds?.includes(userDataId)) {
+
+            dispatch(dislikeProduct({ productId: singleProductData.id, isDisliking: true, userId: userDataId }))
+        } else {
+
+            dispatch(dislikeProduct({ productId: singleProductData.id, isDisliking: false, userId: userDataId }))
+        }
+
+    }
+
+
     // const mainDivRef = useRef<HTMLDivElement>(null)  // // Generics should given outerwise it will give err.
     // // // Type is imprtant of useRef ----> (Above will remove null error)
 
     useEffect(() => {
 
 
-        if (!reviewIsFullFilled) {
-
-            window.scroll(0, 0)   // // // This line is responsibil for scrooling the window
-        }
+        // // // No need to srool window in useEffect of singleProduct , i have added this in on click --->
+        // if (!reviewIsFullFilled) {
+        //     window.scroll(0, 0)   // // // This line is responsibil for scrooling the window
+        // }
 
 
         // console.log(productId)
@@ -285,7 +314,7 @@ export default function ProductDetails() {
                                             return (
                                                 <div key={i}>
                                                     <img
-                                                        onClick={(e) => { e.stopPropagation(); showModalWithValues(image , singleProductData.title) }}
+                                                        onClick={(e) => { e.stopPropagation(); showModalWithValues(image, singleProductData.title) }}
                                                         src={image}
                                                         alt={singleProductData.title}
                                                         className="h-full w-full rounded object-cover object-center hover:scale-95 transition-all"
@@ -322,22 +351,56 @@ export default function ProductDetails() {
                             {/* About and Option div of product */}
                             <div className="mt-4 lg:row-span-3   flex flex-col justify-center lg:w-2/5 lg:ml-5 lg:mt-10">
                                 <h2 className="sr-only">Product information</h2>
-                                <p className="text-3xl tracking-tight  font-bold capitalize underline">{singleProductData && singleProductData.title}</p>
-                                {/* <p className="text-3xl tracking-tight ">₹{singleProductData.price}</p> */}
 
-                                {
-                                    singleProductData && singleProductData.discountPercentage
-                                        ?
-                                        <p className={`text-2xl text-start font-medium ${!themeMode ? "text-gray-900" : "text-gray-300"} `}> <span className=' text-sm font-thin line-through'>₹{singleProductData.price}</span> ₹{(Math.round(singleProductData.price - ((singleProductData.discountPercentage * singleProductData.price) / 100)))}</p>
 
-                                        :
-                                        <p className={`text-lg text-end font-medium ${!themeMode ? "text-gray-900" : "text-gray-300"} `}> ₹{singleProductData && singleProductData.price} </p>
+                                {/* Product name and price div */}
+                                <div >
 
-                                }
+                                    <p className="text-3xl tracking-tight  font-bold capitalize underline">{singleProductData && singleProductData.title}</p>
+                                    {/* <p className="text-3xl tracking-tight ">₹{singleProductData.price}</p> */}
+
+                                    {
+                                        singleProductData && singleProductData.discountPercentage
+                                            ?
+                                            <p className={`text-2xl text-start font-medium ${!themeMode ? "text-gray-900" : "text-gray-300"} `}> <span className=' text-sm font-thin line-through'>₹{singleProductData.price}</span> ₹{(Math.round(singleProductData.price - ((singleProductData.discountPercentage * singleProductData.price) / 100)))}</p>
+
+                                            :
+                                            <p className={`text-lg text-end font-medium ${!themeMode ? "text-gray-900" : "text-gray-300"} `}> ₹{singleProductData && singleProductData.price} </p>
+
+                                    }
+
+                                </div>
+
+
+                                {/* Product like and dislike btn ----> */}
+                                <div className='flex  w-4/5 mt-5'>
+
+
+                                    <p
+                                        className={`border px-3 mr-3 rounded text-2xl hover:cursor-pointer hover:bg-blue-200 ${singleProductData?.likedUserIds?.includes(userDataId) && 'text-blue-400'}  `}
+                                        onClick={(e) => { productLikeHandler(e) }}
+                                    >
+                                        <i
+                                            className={`ri-thumb-up-fill  ${singleProductData?.likedUserIds?.includes(userDataId) ? 'text-blue-400' : "text-gray-300"} `}
+                                        ></i> {singleProductData.likes || 0}
+                                    </p>
+
+
+
+                                    <p
+                                        className={`border px-3 rounded text-2xl hover:cursor-pointer hover:bg-red-200 ${singleProductData?.dislikedUserIds?.includes(userDataId) && 'text-red-400'}  `}
+                                        onClick={(e) => { productDislikeHandler(e) }}
+                                    >
+                                        <i
+                                            className={`ri-thumb-down-fill ${singleProductData?.dislikedUserIds?.includes(userDataId) ? 'text-red-400' : "text-gray-300"} `}
+                                        ></i> {singleProductData.dislikes || 0}
+                                    </p>
+                                </div>
+
 
 
                                 {/* Review div start here ----> */}
-                                <div className="mt-6 "
+                                <div className="mt-5 "
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         (singleProductData?.rating?.totalPerson > 0) && (reviewRef.current?.getBoundingClientRect() && window.scrollTo(0, reviewRef.current?.getBoundingClientRect().top))
@@ -379,8 +442,9 @@ export default function ProductDetails() {
                                 </div>
 
 
+
                                 {/* Available types div and add to cart btn ---> */}
-                                <div className="mt-10">
+                                <div className="mt-5">
 
                                     <div>
 

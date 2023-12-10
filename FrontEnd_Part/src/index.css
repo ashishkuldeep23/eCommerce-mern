@@ -168,7 +168,7 @@ input::-webkit-inner-spin-button {
     background: var(--theme);
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
     box-sizing: border-box;
-    animation: animFw 2.5s linear infinite;
+    animation: animFw 3s linear infinite;
     z-index: 1000;
 }
 
@@ -177,7 +177,7 @@ input::-webkit-inner-spin-button {
     content: '';
     color: var(--theme);
     width: 10px;
-    height: 10px;
+    height: 4px;
     border-radius: 100px;
     background: var(--theme);
     position: absolute;
@@ -186,7 +186,7 @@ input::-webkit-inner-spin-button {
     opacity: 0;
     transform: rotate(-45deg) translateX(0px);
     box-sizing: border-box;
-    animation: coli1 0.3s linear infinite alternate-reverse;
+    animation: coli1 0.4s linear infinite ;
     z-index: 1000;
 }
 
@@ -195,7 +195,7 @@ input::-webkit-inner-spin-button {
 .universal_loader::before {
     top: -4px;
     transform: rotate(45deg);
-    animation: coli2 0.3s linear infinite alternate-reverse;
+    animation: coli2 0.4s linear infinite ;
 }
 
 

@@ -1,4 +1,5 @@
 
+const uuid = require("uuid")
 
 // // // required models ---->
 
@@ -201,7 +202,7 @@ async function findOneProduct(req, res) {
 
 
 
-        if (!product) return res.status(400).send({ status: false, message: "Product not found by this id." })
+        if (!product) return res.status(404).send({ status: false, message: "Product not found by this id." })
 
 
         // // // Now using populate of populate (product to review and review to userData).
@@ -256,5 +257,194 @@ async function findOneProduct(req, res) {
 
 
 
-module.exports = { createNewProduct, findAllProducts, getCategoryAndHighlight, findOneProduct }
+
+async function likeProduct(req , res){
+    
+    try {
+
+        let { productId, isLiking, userId } = req.body
+
+        // console.log(req.body)
+
+        // // Validatintion ---->
+
+
+
+        if (!productId || !uuid.validate(productId)) {
+            return res.status(400).send({ status: false, message: "Bad object id or Product objectId is not given." })
+        }
+
+        // let findProduct = await reviewModel.findOne({ id: reviewId })
+
+        let findProduct = await productModel.findOne({id : productId}).select('-updatedAt -createdAt -__v ')
+        .populate({
+            path: "review",
+            match: { isDeleted: false },
+            select: "-updatedAt -createdAt -__v  -userId -productID -isDeleted",
+            populate: {
+                path: 'userId',
+                select: "id firstName lastName profilePic "
+            }
+
+        })
+
+        if (!findProduct) {
+            return res.status(404).send({ status: false, message: "No Product found with given object id." })
+        }
+
+        if (findProduct.isDeleted) {
+            return res.status(404).send({ status: false, message: "Product is already deleted." })
+        }
+
+
+        // // // InCreaseing ----->
+
+        if (isLiking) {
+            findProduct.likes = findProduct.likes + 1
+
+            if (findProduct.dislikedUserIds.includes(userId)) {
+
+
+                let index = findProduct.dislikedUserIds.findIndex((ids) => ids === userId)
+
+                // console.log(index)
+
+                findProduct.dislikedUserIds.splice(index, 1)
+
+                findProduct.dislikes = findProduct.dislikes - 1
+
+
+            }
+
+
+            if (!findProduct.likedUserIds.includes(userId)) {
+                findProduct.likedUserIds.push(userId)
+            }
+
+
+
+        } else {
+            findProduct.likes = findProduct.likes - 1
+
+            if (findProduct.likedUserIds.includes(userId)) {
+
+                let index = findProduct.likedUserIds.findIndex((ids) => ids === userId)
+
+                // console.log(index)
+
+                findProduct.likedUserIds.splice(index, 1)
+            }
+        }
+
+
+
+        await findProduct.save()
+
+        res.status(200).send({ status: true, message: `${findProduct.title} Like Done✅` , data : findProduct })
+    }
+    catch (err) {
+        console.log(err.message)
+        res.status(500).send({ status: false, message:`Server Error (${err.message})`})
+    }
+
+
+}
+
+
+
+async function dislikeProduct(req , res){
+
+    try {
+
+        let { productId, isDisliking, userId } = req.body
+
+        // console.log(req.body)
+
+        // // Validatintion ---->
+
+        if (!productId || !uuid.validate(productId)) {
+            return res.status(400).send({ status: false, message: "Bad object id or Product objectId is not given." })
+        }
+
+        let findProduct = await productModel.findOne({ id: productId })
+        .select('-updatedAt -createdAt -__v ')
+        .populate({
+            path: "review",
+            match: { isDeleted: false },
+            select: "-updatedAt -createdAt -__v  -userId -productID -isDeleted",
+            populate: {
+                path: 'userId',
+                select: "id firstName lastName profilePic"
+            }
+
+        })
+
+        if (!findProduct) {
+            return res.status(404).send({ status: false, message: "No Review found with given object id." })
+        }
+
+        if (findProduct.isDeleted) {
+            return res.status(404).send({ status: false, message: "Review is already deleted." })
+        }
+
+
+        // // // InCreaseing ----->
+
+        if (isDisliking) {
+            findProduct.dislikes = findProduct.dislikes + 1
+
+
+
+            if (findProduct.likedUserIds.includes(userId)) {
+
+                let index = findProduct.likedUserIds.findIndex((ids) => ids === userId)
+
+                // console.log(index)
+
+                findProduct.likedUserIds.splice(index, 1)
+
+                findProduct.likes = findProduct.likes - 1
+            }
+
+
+
+
+            if (!findProduct.dislikedUserIds.includes(userId)) {
+
+                findProduct.dislikedUserIds.push(userId)
+            }
+
+
+
+
+
+        } else {
+            findProduct.dislikes = findProduct.dislikes - 1
+
+            if (findProduct.dislikedUserIds.includes(userId)) {
+
+                let index = findProduct.dislikedUserIds.findIndex((ids) => ids === userId)
+
+                // console.log(index)
+
+                findProduct.dislikedUserIds.splice(index, 1)
+            }
+        }
+
+
+
+        await findProduct.save()
+
+        res.status(200).send({ status: true, message: `${findProduct.title} Dislike Done✅` , data : findProduct})
+    }
+    catch (err) {
+        console.log(err.message)
+        res.status(500).send({ status: false, message: `Server Error (${err.message})` })
+    }
+
+
+}
+
+
+module.exports = { createNewProduct, findAllProducts, getCategoryAndHighlight, findOneProduct , likeProduct , dislikeProduct }
 
