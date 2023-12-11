@@ -201,6 +201,15 @@ input::-webkit-inner-spin-button {
 
 
 
+/* Double click like btn ----> */
+
+
+#double_click_like_eff{
+    filter: drop-shadow(0px 0px 50px red);
+}
+
+
+
 @keyframes animFw {
     0% {
         width: 0;

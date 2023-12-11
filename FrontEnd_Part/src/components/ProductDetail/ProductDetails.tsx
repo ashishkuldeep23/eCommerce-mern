@@ -11,6 +11,7 @@ import { dislikeProduct, fetchOneProductByID, likeProduct } from '../../Slices/A
 import ReviewDivBoth from './ReviewDivBoth'
 import { setChildrenModal, setOpenMoadl } from '../../Slices/ModalSlice'
 import { userState } from '../../Slices/UserSlice'
+import { LikeBtnDoubleClick } from './LikeBtnDoubleClick'
 
 
 
@@ -69,6 +70,7 @@ export default function ProductDetails() {
 
     // console.log(type)
 
+    const [doubleClickLike, setDoubleClickLike] = useState<boolean>(false)
 
     const themeMode = useSelector((state: RootState) => state.themeReducer.mode)
 
@@ -171,8 +173,6 @@ export default function ProductDetails() {
 
 
 
-
-
     function showModalWithValues(userImage: string, productName: string) {
 
         // // // Modal inner value (UI shown)
@@ -213,6 +213,24 @@ export default function ProductDetails() {
         }
 
     }
+
+
+    function doubleClickHandler(e: React.MouseEvent<HTMLParagraphElement, MouseEvent>) {
+
+        e.stopPropagation();
+
+        if (!singleProductData?.likedUserIds?.includes(userDataId)) {
+            setDoubleClickLike(true)
+
+            productLikeHandler(e)
+
+            setTimeout(() => {
+                setDoubleClickLike(false)
+            }, 1000)
+        }
+
+    }
+
 
 
     // const mainDivRef = useRef<HTMLDivElement>(null)  // // Generics should given outerwise it will give err.
@@ -349,54 +367,64 @@ export default function ProductDetails() {
                             </div>
 
                             {/* About and Option div of product */}
-                            <div className="mt-4 lg:row-span-3   flex flex-col justify-center lg:w-2/5 lg:ml-5 lg:mt-10">
+                            <div className="mt-4 lg:row-span-3 flex flex-col justify-center lg:w-2/5 lg:ml-5 lg:mt-10">
                                 <h2 className="sr-only">Product information</h2>
 
+                                {/* Product name price and like btn */}
+                                <div
+                                    className='relative'
+                                    onDoubleClick={(e) => doubleClickHandler(e)}
+                                >
 
-                                {/* Product name and price div */}
-                                <div >
+                                    {/* Show on double click  */}
+                                    <LikeBtnDoubleClick doubleClickLike={doubleClickLike} left={false} />
 
-                                    <p className="text-3xl tracking-tight  font-bold capitalize underline">{singleProductData && singleProductData.title}</p>
-                                    {/* <p className="text-3xl tracking-tight ">₹{singleProductData.price}</p> */}
 
-                                    {
-                                        singleProductData && singleProductData.discountPercentage
-                                            ?
-                                            <p className={`text-2xl text-start font-medium ${!themeMode ? "text-gray-900" : "text-gray-300"} `}> <span className=' text-sm font-thin line-through'>₹{singleProductData.price}</span> ₹{(Math.round(singleProductData.price - ((singleProductData.discountPercentage * singleProductData.price) / 100)))}</p>
+                                    {/* Product name and price div */}
+                                    <div >
 
-                                            :
-                                            <p className={`text-lg text-end font-medium ${!themeMode ? "text-gray-900" : "text-gray-300"} `}> ₹{singleProductData && singleProductData.price} </p>
+                                        <p className="text-3xl tracking-tight  font-bold capitalize underline">{singleProductData && singleProductData.title}</p>
+                                        {/* <p className="text-3xl tracking-tight ">₹{singleProductData.price}</p> */}
 
-                                    }
+                                        {
+                                            singleProductData && singleProductData.discountPercentage
+                                                ?
+                                                <p className={`text-2xl text-start font-medium ${!themeMode ? "text-gray-900" : "text-gray-300"} `}> <span className=' text-sm font-thin line-through'>₹{singleProductData.price}</span> ₹{(Math.round(singleProductData.price - ((singleProductData.discountPercentage * singleProductData.price) / 100)))}</p>
+
+                                                :
+                                                <p className={`text-lg text-end font-medium ${!themeMode ? "text-gray-900" : "text-gray-300"} `}> ₹{singleProductData && singleProductData.price} </p>
+
+                                        }
+
+                                    </div>
+
+
+                                    {/* Product like and dislike btn ----> */}
+                                    <div className='flex  w-4/5 mt-5'>
+
+
+                                        <p
+                                            className={`border px-3 mr-3 rounded text-2xl hover:cursor-pointer hover:bg-blue-200 ${singleProductData?.likedUserIds?.includes(userDataId) && 'text-blue-400'}  `}
+                                            onClick={(e) => { productLikeHandler(e) }}
+                                        >
+                                            <i
+                                                className={`ri-thumb-up-fill  ${singleProductData?.likedUserIds?.includes(userDataId) ? 'text-blue-400' : "text-gray-300"} `}
+                                            ></i> {singleProductData?.likes || 0}
+                                        </p>
+
+
+
+                                        <p
+                                            className={`border px-3 rounded text-2xl hover:cursor-pointer hover:bg-red-200 ${singleProductData?.dislikedUserIds?.includes(userDataId) && 'text-red-400'}  `}
+                                            onClick={(e) => { productDislikeHandler(e) }}
+                                        >
+                                            <i
+                                                className={`ri-thumb-down-fill ${singleProductData?.dislikedUserIds?.includes(userDataId) ? 'text-red-400' : "text-gray-300"} `}
+                                            ></i> {singleProductData?.dislikes || 0}
+                                        </p>
+                                    </div>
 
                                 </div>
-
-
-                                {/* Product like and dislike btn ----> */}
-                                <div className='flex  w-4/5 mt-5'>
-
-
-                                    <p
-                                        className={`border px-3 mr-3 rounded text-2xl hover:cursor-pointer hover:bg-blue-200 ${singleProductData?.likedUserIds?.includes(userDataId) && 'text-blue-400'}  `}
-                                        onClick={(e) => { productLikeHandler(e) }}
-                                    >
-                                        <i
-                                            className={`ri-thumb-up-fill  ${singleProductData?.likedUserIds?.includes(userDataId) ? 'text-blue-400' : "text-gray-300"} `}
-                                        ></i> {singleProductData.likes || 0}
-                                    </p>
-
-
-
-                                    <p
-                                        className={`border px-3 rounded text-2xl hover:cursor-pointer hover:bg-red-200 ${singleProductData?.dislikedUserIds?.includes(userDataId) && 'text-red-400'}  `}
-                                        onClick={(e) => { productDislikeHandler(e) }}
-                                    >
-                                        <i
-                                            className={`ri-thumb-down-fill ${singleProductData?.dislikedUserIds?.includes(userDataId) ? 'text-red-400' : "text-gray-300"} `}
-                                        ></i> {singleProductData.dislikes || 0}
-                                    </p>
-                                </div>
-
 
 
                                 {/* Review div start here ----> */}

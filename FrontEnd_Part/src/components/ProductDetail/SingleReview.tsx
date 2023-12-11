@@ -6,6 +6,7 @@ import { AppDispatch, RootState } from "../../store"
 import { deleteReview, dislikeReview, likeReview, setReviewData, setReviewUpadte } from "../../Slices/ReviewSlice"
 import { setChildrenModal, setOpenMoadl } from "../../Slices/ModalSlice"
 import { useState } from "react"
+import { LikeBtnDoubleClick } from "./LikeBtnDoubleClick"
 
 
 
@@ -109,9 +110,9 @@ const SingleReview = ({ reviewData }: PropOfSingleReview) => {
             setDoubleClickLike(true)
             likeHandler(e)
 
-            setTimeout( ()=>{
+            setTimeout(() => {
                 setDoubleClickLike(false)
-            } , 1000 )
+            }, 1000)
         }
     }
 
@@ -145,13 +146,8 @@ const SingleReview = ({ reviewData }: PropOfSingleReview) => {
             >
 
 
-                {
-
-                    doubleClickLike
-                    &&
-                    <i className="ri-thumb-up-fill text-9xl absolute left-1/2 top-1/2 -translate-y-1/2 -translate-x-1/2 text-blue-500 animate__animated animate__zoomIn"></i>
-
-                }
+                {/* Show on double click  */}
+                <LikeBtnDoubleClick doubleClickLike={doubleClickLike} left={false} />
 
                 {/* User Info Div (Containing Pic and Name ) */}
                 <div
