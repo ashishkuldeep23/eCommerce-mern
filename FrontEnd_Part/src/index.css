@@ -37,14 +37,14 @@
 
 
 *::-webkit-scrollbar-thumb {
-    background-color: #ccc;
+    background-color: #bbf7d0;
     border-radius: 100px;
     cursor: pointer;
 }
 
 *::-webkit-scrollbar-thumb:hover {
 
-    background-color: #bbf7d0;
+    background-color: #ccc;
 }
 
 

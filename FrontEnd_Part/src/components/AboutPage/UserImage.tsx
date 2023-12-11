@@ -134,8 +134,8 @@ const UserImageDiv = () => {
                     >
                         {
                             !showImgInput
-                                ? "Upload"
-                                : "Close"
+                                ?  <span className='font-bold'>Upload</span>
+                                :  <span className=' text-red-100 font-bold'>Close</span>
                         }
 
                     </button>
@@ -162,7 +162,7 @@ const UserImageDiv = () => {
 
                         <div >
                             <label htmlFor="change_img" className='text-green-500'>After changing click submit </label>
-                            <button className="bg-green-500 px-1 rounded text-white" onClick={(e) => { e.stopPropagation(); submitNewImg(); }}>☝️Submit</button>
+                            <button className="bg-green-500 px-1 rounded text-white font-bold" onClick={(e) => { e.stopPropagation(); submitNewImg(); }}>☝️Upload</button>
                         </div>
 
                     </div>

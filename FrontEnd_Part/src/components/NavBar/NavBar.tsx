@@ -27,22 +27,18 @@ const navigation = [
 // // // I'm main UI code for Navbar (All Functional comps present in-side me)
 export default function NavBar() {
 
-    // const userData = userState().userData
 
+    // const userData = userState().userData
 
 
 
     // // // calling user data ------->
     // useEffect( ()=>{
-
-
-
     // } , [userData])
 
 
 
     return (
-
 
 
         <Disclosure as="nav" className="bg-gray-800 sticky -top-16 md:top-0 z-40  ">
@@ -76,8 +72,7 @@ export default function NavBar() {
                     <SearchBarTabAndLess />
 
 
-                    <UniersalLoader />
-
+                    <UniersalLoaderAndScroll />
 
 
                 </>
@@ -130,7 +125,7 @@ function MenuOfTabAndAbove() {
                                 {
                                     item.name !== "name"
                                         ? item.name
-                                        : `Welcome,${userData.firstName}😊`
+                                        : `Welcome,${userData.firstName || "user"}😊`
                                 }
                             </a>
                         ))}
@@ -395,7 +390,7 @@ function MenuOfMobileShowByBTN() {
                             {
                                 item.name !== "name"
                                     ? item.name
-                                    : `Welcome,${userData.firstName}😊`
+                                    : `Welcome,${userData.firstName || "user"}😊`
                             }
                         </Disclosure.Button>
                     ))}
@@ -665,11 +660,8 @@ function SearchBarTabAndLess() {
 }
 
 
-
-
-
-
-function UniersalLoader() {
+// // // Universal loader code here ---->
+function UniersalLoaderAndScroll() {
 
 
     const productIsLoading = useSelector((state: RootState) => state.allProductWithCatReducer.isLoading)
@@ -678,7 +670,7 @@ function UniersalLoader() {
     const userIsLoading = useSelector((state: RootState) => state.userReducer.isLoading)
 
 
-    const [width, setWidth] = useState<string>("10%")
+    const [left , setLeft] = useState<number>(0)
 
 
 
@@ -699,25 +691,23 @@ function UniersalLoader() {
 
         // console.log(scroolPercentge)
 
-        setWidth(Math.round(scroolPercentge) + "%")
+        const roundedSroolValue = Math.round(scroolPercentge)
+
+        if(roundedSroolValue < 90){
+            setLeft(roundedSroolValue)
+        }
+
     }
 
 
 
-    useEffect(() => {
-
-       
-        scrollPageAndGetSetData()
-
+    // useEffect(() => {
+    //     // scrollPageAndGetSetData()
+    // }, [])
 
 
 
-
-    }, [])
-
-
-
-
+    // // // Loader UI ------>
     if (productIsLoading || orderIsLoading || reviewIsLoading || userIsLoading) {
         return (
             <>
@@ -736,7 +726,13 @@ function UniersalLoader() {
     // // // Scroll percentage div ---->
     return (
         <>
-            <div style={{ width: width }} className=' h-0.5 bg-green-300 rounded'></div>
+            <div className='w-full h-1 relative bg-gray-800 '>
+                <div
+                    // style={{ width: width }} 
+                    style={ { left : `${left}%` } }
+                    className=' absolute left-10 w-1/12 h-1 bg-green-300 rounded transition-all'
+                ></div>
+            </div>
         </>
     )
 

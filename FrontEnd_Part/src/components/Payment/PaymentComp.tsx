@@ -24,7 +24,7 @@ export type OrderData = {
   whenCreated: string,
   totalItems: number,
   totalPrice: string,
-  status : string,
+  status: string,
 }
 
 
@@ -179,20 +179,20 @@ const PaymentComp = () => {
             {/* <h1 className=" font-bold text-5xl">Total Price is : {makeMoreRaedablePrice(getTotalPriceOfCart)}</h1>
             <h1 className=" font-bold text-5xl">Total Price is : {getTotalItemsOfCart.length}</h1> */}
 
-            <h1 className='mt-5 bg-emerald-400 px-3 rounded text-white text-2xl font-bold'>Order Place 🛒</h1>
+            <h1 className='mt-5 bg-emerald-400 px-3 rounded text-white text-2xl font-bold'>Place Order 🛒</h1>
 
             {/* User details including address (main problem solved ) */}
-            <div className="flex flex-col items-center justify-center w-full pb-5 mt-5">
+            <div className="flex flex-col items-center justify-center w-3/4  mt-10">
 
               <div className={`flex flex-col items-center justify-center border border-blue-500 rounded-xl  py-5 px-1 sm:w-4/5  md:w-2/3  ${!themeMode ? "bg-blue-50" : "bg-blue-950"} `}>
 
 
-                <h2 className="font-semibold leading-7 text-center underline md:mt-0 mb-2 text-3xl">Personal Information</h2>
+                <h2 className="font-semibold leading-7 text-center underline md:mt-0 mb-2 text-xl">Personal Information</h2>
                 {/* <p className="mt-1 text-sm leading-6 ">Use a permanent address where you can receive mail.</p> */}
 
                 {/* <p>Use details will shown here like name email and old address</p> */}
 
-                <img src={getUserData.profilePic} className=" w-56 rounded-md" alt="" />
+                {/* <img src={getUserData.profilePic} className=" w-56 rounded-md" alt="" /> */}
 
                 <h2
                   className={` ${!themeMode ? "bg-slate-100" : "bg-slate-900"}  font-bold rounded my-0.5 px-1`}
@@ -257,7 +257,7 @@ const PaymentComp = () => {
 
               <div className=" w-full smm:w-4/5 border-b border-gray-900/10 pb-12">
 
-                <div className={`mt-10 grid grid-cols-1 gap-x-6  gap-y-5 sm:grid-cols-6  border border-teal-500 p-5 rounded-xl ${!themeMode ? "bg-teal-50" : "bg-teal-950"}  `}>
+                <div className={`grid grid-cols-1 gap-x-6  gap-y-5 sm:grid-cols-6  border border-teal-500 p-5 rounded-xl ${!themeMode ? "bg-teal-50" : "bg-teal-950"}  `}>
 
                   <h2 className="font-semibold leading-7 text-3xl text-center underline  col-span-full ">Order Details</h2>
 
@@ -504,7 +504,6 @@ const PaymentComp = () => {
         </div>
 
       </div >
-
 
     </>
   )

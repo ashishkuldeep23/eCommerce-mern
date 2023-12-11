@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch, RootState } from "../../store"
 import { deleteReview, dislikeReview, likeReview, setReviewData, setReviewUpadte } from "../../Slices/ReviewSlice"
 import { setChildrenModal, setOpenMoadl } from "../../Slices/ModalSlice"
+import { useState } from "react"
 
 
 
@@ -14,6 +15,8 @@ type PropOfSingleReview = {
 
 
 const SingleReview = ({ reviewData }: PropOfSingleReview) => {
+
+    const [doubleClickLike, setDoubleClickLike] = useState<boolean>(false)
 
     const themeMode = useSelector((state: RootState) => state.themeReducer.mode)
 
@@ -101,6 +104,19 @@ const SingleReview = ({ reviewData }: PropOfSingleReview) => {
 
 
 
+    const doubleClickHandler = (e: React.MouseEvent<HTMLParagraphElement, MouseEvent>) => {
+        if (!reviewData?.likedUserIds?.includes(userDataId)) {
+            setDoubleClickLike(true)
+            likeHandler(e)
+
+            setTimeout( ()=>{
+                setDoubleClickLike(false)
+            } , 1000 )
+        }
+    }
+
+
+
 
     function showModalWithValues() {
 
@@ -123,7 +139,19 @@ const SingleReview = ({ reviewData }: PropOfSingleReview) => {
     return (
         <>
 
-            <div className={`p-1   my-4 mx-2 px-2 border border-green-300 rounded ${!themeMode ? "bg-blue-50" : "bg-blue-950"} `} id="post_review">
+            <div
+                className={`p-1 my-4 mx-2 px-2 border border-green-300 rounded ${!themeMode ? "bg-blue-50" : "bg-blue-950"} relative `} id="post_review"
+                onDoubleClick={(e) => doubleClickHandler(e)}
+            >
+
+
+                {
+
+                    doubleClickLike
+                    &&
+                    <i className="ri-thumb-up-fill text-9xl absolute left-1/2 top-1/2 -translate-y-1/2 -translate-x-1/2 text-blue-500 animate__animated animate__zoomIn"></i>
+
+                }
 
                 {/* User Info Div (Containing Pic and Name ) */}
                 <div
@@ -140,7 +168,7 @@ const SingleReview = ({ reviewData }: PropOfSingleReview) => {
                     {/* Review (Comment and Stars) */}
                     <div className='flex items-start'>
 
-                        <div className=' inline-flex items-center  text-black my-1 px-1 rounded '>
+                        <div className=' border border-yellow-400 rounded inline-flex items-center my-1 px-1'>
                             <p className=" font-bold text-yellow-400" >{reviewData.stars}</p>
                             <StarIcon className={` h-5 w-5 text-yellow-400 text-5xl flex-shrink-0`} />
                         </div>
