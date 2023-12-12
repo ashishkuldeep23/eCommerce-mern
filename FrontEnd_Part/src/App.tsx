@@ -3,9 +3,6 @@ import DetailOfSingleProduct from "./Screens/DetailOfSingleProduct"
 import LogInScreen from "./Screens/LogInScreen"
 import SignInScreeen from "./Screens/SignInScreen"
 import UserDetails from "./Screens/UserDetails"
-
-
-import { Routes, Route } from "react-router-dom"
 import CartScreen from "./Screens/CartScreen"
 import PaymentScreen from "./Screens/PaymentScreen"
 import { useEffect } from "react"
@@ -23,6 +20,9 @@ import { fetchAllCategoryAndHighlight, fetchAllProducts } from "./Slices/AllProd
 import OrdersScreen from "./Screens/MyOrdersScreen"
 import StripeMainPage from "./Screens/StripeMainPage"
 import OrderConfirm from "./components/OrderConfirm/OrderConfirm"
+
+import { createBrowserRouter, RouterProvider } from "react-router-dom"
+
 
 // import { fetchAllProducts , fetchAllCategoryAndHighlight } from "./Slices/AllProductSlice"
 
@@ -57,6 +57,43 @@ export const gettingTokenInCookieAndLocalHost = () => {
 }
 
 
+
+// // // Now using createBrowserRouter instedof BrowserRouter component ---> ( let's see what happen in production mode)
+
+const router = createBrowserRouter([
+
+  { path: "/", element: (<LogInProtected> <HomePage /> </LogInProtected>) },
+
+  { path: "/about", element: (<LogInProtected> <UserDetails /> </LogInProtected>) },
+
+  { path: "/orders", element: (<LogInProtected> <OrdersScreen /> </LogInProtected>) },
+
+  { path: "/product", element: (<LogInProtected> <DetailOfSingleProduct /> </LogInProtected>) },
+  { path: "/login", element: <LogInScreen /> },
+
+  { path: "/signin", element: <SignInScreeen /> },
+
+  { path: "/cart", element: (<LogInProtected> <CartScreen /> </LogInProtected>) },
+
+  { path: "/pay", element: (<LogInProtected> <PaymentScreen /> </LogInProtected>) },
+
+  { path: "/stripePay", element: (<LogInProtected>  <StripeMainPage /> </LogInProtected>) },
+
+  { path: "/order-confirm", element: (<LogInProtected>  <OrderConfirm /> </LogInProtected>) },
+
+  // // // So this route i'll use fater gogal logIn , plan atleast -->
+  { path: "/goUser", element: <UserSinInSuccessfull /> },
+
+
+  // // // Page not found --->
+  {
+    path: '*',
+    // // // here write custome comp. for page not found --->
+    element: <><h1 className=" text-center text-3xl text-red-500">Page not Found, Go to Home please.</h1></>,
+  },
+
+
+])
 
 
 
@@ -169,35 +206,9 @@ function App() {
       {/* Above from routes will avilable for all pages ---> */}
       <Modal />
 
+        {/* Privous code present here for routing ---> */}
 
-      <Routes>
-
-        {/* In future remove protection from homepage ---> */}
-        <Route path="/" element={<LogInProtected> <HomePage /> </LogInProtected>} />
-
-        <Route path="/about" element={<LogInProtected> <UserDetails /> </LogInProtected>} />
-
-        <Route path="/orders" element={<LogInProtected> <OrdersScreen /> </LogInProtected>} />
-
-        <Route path="/product" element={<LogInProtected> <DetailOfSingleProduct /> </LogInProtected>} />
-
-        <Route path="/login" element={<LogInScreen />} />
-
-        <Route path="/signin" element={<SignInScreeen />} />
-
-        <Route path="/cart" element={<LogInProtected> <CartScreen /> </LogInProtected>} />
-
-        <Route path="/pay" element={<LogInProtected> <PaymentScreen /> </LogInProtected>} />
-
-        <Route path="/stripePay" element={<LogInProtected>  <StripeMainPage /> </LogInProtected>} />
-
-        <Route path="/order-confirm" element={<LogInProtected>  <OrderConfirm /> </LogInProtected>} />
-
-        {/* So this route i'll use fater gogal logIn , plan atleast --> */}
-        <Route path="/goUser" element={<UserSinInSuccessfull />} />
-
-      </Routes>
-
+        <RouterProvider router={router}/>
 
       <ToastContainer />
 
