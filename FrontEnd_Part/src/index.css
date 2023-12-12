@@ -98,7 +98,7 @@ input::-webkit-inner-spin-button {
     position: absolute;
 
     scale: 1.3;
-    transition: 0.5s all;
+    transition: 0.3s all;
 }
 
 
@@ -113,6 +113,12 @@ input::-webkit-inner-spin-button {
 .crouselBtn:hover {
     scale: 1.7;
 }
+
+.crouselBtn:active{
+    background: #bbf7d0;
+    color: #000;
+}
+
 
 
 #singleCardHolder:hover>div>img {
