@@ -9,6 +9,7 @@ import { AppDispatch, RootState } from "../../store"
 import { ReviewData } from "./ProductDetails"
 import SingleReview from "./SingleReview"
 import { fetchOneProductByID } from '../../Slices/AllProductSlice'
+import { useParams } from 'react-router-dom'
 
 
 
@@ -31,13 +32,14 @@ const ReviewDivBoth = forwardRef<Ref, Props>(({ data }, ref) => {
 
     const dispatch = useDispatch<AppDispatch>()
 
+    const params = useParams();
 
 
 
     useEffect(() => {
 
 
-        console.log(data , "Can't remove this log.")
+        console.log(data, "Can't remove this log.")
 
         // console.log(reviewData)
 
@@ -49,22 +51,26 @@ const ReviewDivBoth = forwardRef<Ref, Props>(({ data }, ref) => {
 
             // // // refresh this product ---->
 
-            let getIdOfProductLastView = localStorage.getItem("singleProductId")
+            // let getIdOfProductLastView = localStorage.getItem("singleProductId")
 
-            // // // // If product id saved in localhost then go inside or not.
-            if (getIdOfProductLastView) {
+            // // // // // If product id saved in localhost then go inside or not.
+            // if (getIdOfProductLastView) {
 
-                getIdOfProductLastView = JSON.parse(getIdOfProductLastView)
+            //     getIdOfProductLastView = JSON.parse(getIdOfProductLastView)
 
-                // console.log(getIdOfProductLastView)
+            //     // console.log(getIdOfProductLastView)
 
-                getIdOfProductLastView && dispatch(fetchOneProductByID({ productId: getIdOfProductLastView }))
+            //     getIdOfProductLastView && dispatch(fetchOneProductByID({ productId: getIdOfProductLastView }))
 
-            }
+            // }
+
+
+
+            // // // Now call get product id from params ---->
+            params.id && dispatch(fetchOneProductByID({ productId: params.id }))
 
 
             // // // Now set the input as normal --->
-
             dispatch(setReviewUpadte(false))
         }
 
@@ -74,7 +80,7 @@ const ReviewDivBoth = forwardRef<Ref, Props>(({ data }, ref) => {
     return (
         <>
             <div
-                className={` lg:w-1/2 flex flex-col items-start lg:items-center my-10 lg:h-5/6 lg:overflow-x-scroll relative ${isLoading && " opacity-50"} `}
+                className={` lg:w-1/2 flex flex-col items-start lg:items-center my-10 lg:h-5/6 lg:overflow-x-scroll relative  `}
                 ref={ref as React.RefObject<HTMLDivElement>}
             >
 
@@ -105,12 +111,21 @@ const ReviewDivBoth = forwardRef<Ref, Props>(({ data }, ref) => {
                 >
                     <h3 className="text-3xl font-bold underline lg:text-center " >All Reviews</h3>
 
+                    {
+                        singleProductData?.review && (singleProductData?.review?.length > 0)
+                        &&
+                        <p className=' mt-5 text-center'>*Use double click to like reviews (like in insta)</p>
+                    }
+
+
+
+
                     {/* All Review div ----> */}
                     <div className='flex flex-wrap my-5 lg:justify-center'>
 
 
                         {
-                            singleProductData && singleProductData.review && singleProductData?.review?.length > 0
+                            singleProductData && singleProductData?.review && singleProductData?.review?.length > 0
                                 ?
                                 singleProductData?.review?.map((reviewData: ReviewData) => <SingleReview reviewData={reviewData} key={reviewData.id} />)
 

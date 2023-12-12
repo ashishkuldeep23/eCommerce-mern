@@ -298,18 +298,6 @@ const allProductsCatSlice = createSlice({
             state.singleProductData = getSingleItem[0]
         },
 
-
-        setSingleOProductId(state, action) {
-
-            // console.log(action.payload)
-
-            state.singleProductId = action.payload.id
-
-            localStorage.setItem("singleProductId", JSON.stringify(action.payload.id))
-
-        },
-
-
         setFilterItems(state, action) {
             state.allProducts = action.payload.allProducts
         },
@@ -597,7 +585,7 @@ const allProductsCatSlice = createSlice({
 })
 
 
-export const { loadDataIntoState, setSingleProductData, setFilterItems, setSingleOProductId, setSortByPriceChange } = allProductsCatSlice.actions
+export const { loadDataIntoState, setSingleProductData, setFilterItems,  setSortByPriceChange } = allProductsCatSlice.actions
 
 export default allProductsCatSlice.reducer
 

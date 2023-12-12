@@ -21,7 +21,7 @@ import OrdersScreen from "./Screens/MyOrdersScreen"
 import StripeMainPage from "./Screens/StripeMainPage"
 import OrderConfirm from "./components/OrderConfirm/OrderConfirm"
 
-import { createBrowserRouter,  RouterProvider } from "react-router-dom"
+import { createBrowserRouter, RouterProvider, Link } from "react-router-dom"
 
 // import { fetchAllProducts , fetchAllCategoryAndHighlight } from "./Slices/AllProductSlice"
 
@@ -66,7 +66,11 @@ const router = createBrowserRouter([
 
   { path: "/orders", element: (<LogInProtected> <OrdersScreen /> </LogInProtected>) },
 
-  { path: "/product", element: (<LogInProtected> <DetailOfSingleProduct /> </LogInProtected>) },
+  // { path: "/product", element: (<LogInProtected> <DetailOfSingleProduct /> </LogInProtected>) },
+
+  // { path: "/product/:id", element: (<DetailOfSingleProduct /> ) },
+  { path: "/product/:id", element: (<LogInProtected> <DetailOfSingleProduct /> </LogInProtected>) },
+
   { path: "/login", element: <LogInScreen /> },
 
   { path: "/signin", element: <SignInScreeen /> },
@@ -87,7 +91,16 @@ const router = createBrowserRouter([
   {
     path: '*',
     // // // here write custome comp. for page not found --->
-    element: <><h1 className=" text-center text-3xl text-red-500">Page not Found, Go to Home please.</h1></>,
+    element:
+      <>
+        <div
+          style={{ height: "99vh" }}
+          className=" flex flex-col justify-center items-center "
+        >
+          <h1 className=" text-center text-3xl text-red-500">Page not Found, Go to Home please.</h1>
+          <Link to="/"><button className="border my-3 rounded text-white bg-green-500 px-2">GoTo Home 🏠</button></Link>
+        </div>
+      </>,
   },
 
 
@@ -204,9 +217,9 @@ function App() {
       {/* Above from routes will avilable for all pages ---> */}
       <Modal />
 
-        {/* Privous code present here for routing ---> */}
+      {/* Privous code present here for routing ---> */}
 
-        <RouterProvider router={router}/>
+      <RouterProvider router={router} />
 
       <ToastContainer />
 

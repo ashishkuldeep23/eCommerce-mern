@@ -12,7 +12,7 @@ import ReviewDivBoth from './ReviewDivBoth'
 import { setChildrenModal, setOpenMoadl } from '../../Slices/ModalSlice'
 import { userState } from '../../Slices/UserSlice'
 import { LikeBtnDoubleClick } from './LikeBtnDoubleClick'
-
+import { useParams } from 'react-router-dom';
 
 
 
@@ -45,7 +45,6 @@ export type ReviewData = {
 }
 
 
-
 type TypeObject = {
     typeName: string[],
     typeStock: number,
@@ -53,8 +52,6 @@ type TypeObject = {
     typePrice: number
     isChanged: boolean
 }
-
-
 
 
 export default function ProductDetails() {
@@ -78,12 +75,12 @@ export default function ProductDetails() {
 
     const navigate = useNavigate()
 
+    const params = useParams();
+
     // const reiewRef = useRef<HTMLElement>(null)
 
 
     const singleProductData = useSelector((store: RootState) => store.allProductWithCatReducer.singleProductData)
-
-    const productId = useSelector((store: RootState) => store.allProductWithCatReducer.singleProductId)
 
     const simmilarProducts = useSelector((store: RootState) => store.allProductWithCatReducer.simmilarProductWithOnePro)
 
@@ -239,6 +236,9 @@ export default function ProductDetails() {
     useEffect(() => {
 
 
+        // console.log(params)
+
+
         // // // No need to srool window in useEffect of singleProduct , i have added this in on click --->
         // if (!reviewIsFullFilled) {
         //     window.scroll(0, 0)   // // // This line is responsibil for scrooling the window
@@ -247,32 +247,39 @@ export default function ProductDetails() {
 
         // console.log(productId)
         /// // // This if check any data present in store with productId ----> (if not)
-        if (!productId) {
-            // alert("Goood to go chief")
 
-            let getIdOfProductLastView = localStorage.getItem("singleProductId")
 
-            // // // // If product id saved in localhost then go inside or not.
-            if (getIdOfProductLastView) {
+        // if (!productId) {
+        //     // alert("Goood to go chief")
 
-                getIdOfProductLastView = JSON.parse(getIdOfProductLastView)
+        //     let getIdOfProductLastView = localStorage.getItem("singleProductId")
 
-                // console.log(getIdOfProductLastView)
+        //     // // // // If product id saved in localhost then go inside or not.
+        //     if (getIdOfProductLastView) {
 
-                // // // Here checking data is present in store or not ---->
-                if (singleProductData.images.length === 0) {
+        //         getIdOfProductLastView = JSON.parse(getIdOfProductLastView)
 
-                    getIdOfProductLastView && dispatch(fetchOneProductByID({ productId: getIdOfProductLastView }))
-                }
+        //         // console.log(getIdOfProductLastView)
 
-            }
+        //         // // // Here checking data is present in store or not ---->
+        //         if (singleProductData.images.length === 0) {
 
-        }
+        //             getIdOfProductLastView && params.id && dispatch(fetchOneProductByID({ productId: params.id }))
+        //         }
 
+        //     }
+
+        // }
+
+
+
+        // // // Previously using Above code but now no need of that (becoz now using useParam hook of react router dom) ---->
+
+        params.id && dispatch(fetchOneProductByID({ productId: params.id }))
 
 
         // console.log("Calling Backend...")
-    }, [singleProductData])
+    }, [  ])
 
 
 

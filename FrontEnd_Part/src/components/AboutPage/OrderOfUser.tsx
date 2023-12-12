@@ -5,7 +5,7 @@ import { makeMoreRaedablePrice } from '../CartComp/CartComponent'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../../store'
 import { useNavigate } from 'react-router-dom'
-import { fetchOneProductByID, setSingleOProductId, setSingleProductData } from '../../Slices/AllProductSlice'
+import { fetchOneProductByID, setSingleProductData } from '../../Slices/AllProductSlice'
 import { CardDataInter } from '../../Slices/CartSlice'
 import { gettingTokenInCookieAndLocalHost } from '../../App'
 import { orderState, updateOrder } from '../../Slices/OrderSlice'
@@ -111,18 +111,25 @@ const OrderOfUser = () => {
 
                                                     <p className=' font-bold font-mono underline text-xl absolute top-8 left-1/2 -translate-x-1/2 w-full'> {getUserData.orders && getUserData.orders?.length - i + ")"}Order Details</p>
 
-                                                    <p className=' text-3xl font-bold underline'>{order.fullName}</p>
 
-                                                    <div className='flex justify-center text-xl'>
-                                                        <p>{order.paymentMethod},</p>
-                                                        <p>{order.phone}</p>
+                                                    <div className=' text-start ml-3 pl-2 border-l rounded '>
+
+                                                        <p className=' text-3xl font-bold underline'> <span className=' underline text-lg'>Name</span> : {order.fullName}</p>
+
+                                                        <div className='flex text-xl'>
+                                                            <span className=' underline text-lg'>Mo. No.:</span>
+                                                            <p>{order.phone},</p>
+                                                            <p>{order.paymentMethod}</p>
+                                                        </div>
+
+                                                        <p className=' underline'><span className=' underline text-lg'>Address</span>  : {order.address.street + " " + order.address.city + " " + order.address.country + " " + order.address.pincode}</p>
+
+                                                        <p> <span className=' underline text-lg'>Date & Time</span> : {order.whenCreated}</p>
+
+                                                        <p><span className=' underline text-lg'>Total items</span> : All <span className='font-extrabold bg-yellow-500 px-1 rounded'>{order.cartData.length}</span> Orders <span className=' hidden sm:inline'>➡️</span> <span className=' inline sm:hidden'>⬇️</span> </p>
+
                                                     </div>
 
-                                                    <p className=' underline'>Address : {order.address.street + " " + order.address.city + " " + order.address.country + " " + order.address.pincode}</p>
-
-                                                    <p>Date & Time : {order.whenCreated}</p>
-
-                                                    <p>All <span className='font-extrabold bg-yellow-500 px-1 rounded'>{order.cartData.length}</span> Orders <span className=' hidden sm:inline'>➡️</span> <span className=' inline sm:hidden'>⬇️</span> </p>
 
                                                     <div className=' w-11/12 flex  justify-end absolute bottom-0 right-0'>
 
@@ -193,7 +200,7 @@ const OrderOfUser = () => {
                                 previousOrders && previousOrders.map((item, i) => {
                                     return (
 
-                                        <div key={i} className="mt-10 w-full sm:w-auto">
+                                        <div key={i} className="mt-10 w-full sm:w-auto text-black">
                                             {/* <img className=" w-72 md:max-w-sm rounded" src={item.imageSrc} ></img> */}
 
                                             <div className=" w-full sm:w-72  h-56 sm:h-72 bg-slate-300 rounded md:max-w-sm"></div>
@@ -237,7 +244,13 @@ function SingleOrderData({ order }: { order: CardDataInter }) {
             key={order.id}
             id='single_order_div'
             className="w-full smm:w-72 flex flex-col items-center overflow-hidden hover:cursor-pointer"
-            onClick={(e) => { e.stopPropagation(); navigate("/product"); dispatch(setSingleProductData({ id: order.id })); dispatch(fetchOneProductByID({ productId: order.id })); dispatch(setSingleOProductId({ id: order.id })); }}
+            onClick={(e) => { 
+                e.stopPropagation(); 
+                navigate(`/product/${order.id}`); 
+                dispatch(fetchOneProductByID({ productId: order.id })); 
+                dispatch(setSingleProductData({ id: order.id })); 
+                window.scroll(0, 0);
+            }}
         >
 
             <img className=" w-72 h-64 object-cover md:max-w-sm rounded hover:scale-150 transition-all" src={order.thumbnail} ></img>

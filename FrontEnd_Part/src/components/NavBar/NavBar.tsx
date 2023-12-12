@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux";
 import { toggleModeValue } from '../../Slices/ThemeSlices'
 import { AppDispatch, RootState } from '../../store'
-import { setSingleOProductId, fetchOneProductByID, setSingleProductData } from '../../Slices/AllProductSlice';
+import { fetchOneProductByID, setSingleProductData } from '../../Slices/AllProductSlice';
 import { toast } from 'react-toastify';
 import { userState } from '../../Slices/UserSlice';
 
@@ -218,10 +218,11 @@ function MainSearchBarWithLogics() {
                     onClick={(e) => {
                         // e.stopPropagation();
                         e.preventDefault();
-                        navigate("/product");
+                        navigate(`/product/${product.id}`);
                         dispatch(setSingleProductData({ id: product.id }));
                         dispatch(fetchOneProductByID({ productId: product.id }));
-                        dispatch(setSingleOProductId({ id: product.id }));
+                        // dispatch(setSingleOProductId({ id: product.id }));
+                        window.scroll(0, 0);
                         setText("")
                     }}
                 >

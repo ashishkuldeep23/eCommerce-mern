@@ -4,7 +4,7 @@
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { CardDataInter } from "../../Slices/CartSlice";
-import { fetchOneProductByID, setSingleOProductId, setSingleProductData } from "../../Slices/AllProductSlice";
+import { fetchOneProductByID, setSingleProductData } from "../../Slices/AllProductSlice";
 import { removeOneItem, onePlusQuan, oneMinusQuan } from "../../Slices/CartSlice";
 import { makeMoreRaedablePrice } from "./CartComponent";
 import { AppDispatch } from "../../store";
@@ -25,7 +25,11 @@ const SingleCartItem = ({ product, mainCartComp }: { product: CardDataInter, mai
                 onClick={() => {
 
                     if (mainCartComp) {
-                        navigate("/product"); dispatch(setSingleProductData({ id: product.id })); dispatch(fetchOneProductByID({productId : product.id})); dispatch(setSingleOProductId({id : product.id})); 
+                        navigate(`/product/${product.id}`); 
+                        dispatch(fetchOneProductByID({productId : product.id})); 
+                        dispatch(setSingleProductData({ id: product.id })); 
+                        // dispatch(setSingleOProductId({id : product.id})); 
+                        window.scroll(0, 0);
                     }
 
                 }}
