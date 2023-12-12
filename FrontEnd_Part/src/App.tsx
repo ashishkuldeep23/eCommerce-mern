@@ -21,11 +21,9 @@ import OrdersScreen from "./Screens/MyOrdersScreen"
 import StripeMainPage from "./Screens/StripeMainPage"
 import OrderConfirm from "./components/OrderConfirm/OrderConfirm"
 
-import { createBrowserRouter, RouterProvider } from "react-router-dom"
-
+import { createBrowserRouter,  RouterProvider } from "react-router-dom"
 
 // import { fetchAllProducts , fetchAllCategoryAndHighlight } from "./Slices/AllProductSlice"
-
 
 
 // // fn write to check only based on this ---> calling fetch user ---> in LocalHost also -->
@@ -58,7 +56,7 @@ export const gettingTokenInCookieAndLocalHost = () => {
 
 
 
-// // // Now using createBrowserRouter instedof BrowserRouter component ---> ( let's see what happen in production mode)
+// // // Now using createBrowserRouter instead of BrowserRouter component ---> ( let's see what happen in production mode)
 
 const router = createBrowserRouter([
 

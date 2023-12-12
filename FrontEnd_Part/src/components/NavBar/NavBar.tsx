@@ -730,6 +730,7 @@ function UniersalLoaderAndScroll() {
                 <div
                     // style={{ width: width }} 
                     style={ { left : `${left}%` } }
+                    id='scroll_percent_indi_top'
                     className=' absolute left-10 w-1/12 h-1 bg-green-300 rounded transition-all'
                 ></div>
             </div>
