@@ -188,6 +188,8 @@ export default function ProductDetails() {
         if (!singleProductData?.likedUserIds?.includes(userDataId)) {
 
             dispatch(likeProduct({ productId: singleProductData.id, isLiking: true, userId: userDataId }))
+
+            animationCodeForLike() // // // show the animation for like now --->
         } else {
 
             dispatch(likeProduct({ productId: singleProductData.id, isLiking: false, userId: userDataId }))
@@ -217,15 +219,21 @@ export default function ProductDetails() {
         e.stopPropagation();
 
         if (!singleProductData?.likedUserIds?.includes(userDataId)) {
-            setDoubleClickLike(true)
-
+            // // // Below code is responsiable for like product ---->
             productLikeHandler(e)
 
-            setTimeout(() => {
-                setDoubleClickLike(false)
-            }, 1000)
         }
 
+    }
+
+
+    // // // Below code is used to show animation ---->
+    function animationCodeForLike(){
+        setDoubleClickLike(true)
+
+        setTimeout(() => {
+            setDoubleClickLike(false)
+        }, 1000)
     }
 
 
@@ -279,7 +287,7 @@ export default function ProductDetails() {
 
 
         // console.log("Calling Backend...")
-    }, [  ])
+    }, [])
 
 
 

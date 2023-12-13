@@ -1,5 +1,5 @@
 
-import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit"
+import { createAsyncThunk, createSlice, current, PayloadAction } from "@reduxjs/toolkit"
 
 // // // by using corrent i can use updated data ----> (see the setSingleProduct  funtion )
 
@@ -29,7 +29,6 @@ export const fetchAllProducts = createAsyncThunk("fetchAllProducts", async ({ br
 
 
     if (brand && brand !== '') {
-
         url = url + `?brand=${brand}`
     }
 
@@ -196,6 +195,7 @@ export const dislikeProduct = createAsyncThunk("product/dislike", async ({ produ
 
 
 
+
 interface IAllProductsWithCat {
     allProducts: IProduct[],
     allCaegory: string[],
@@ -209,10 +209,13 @@ interface IAllProductsWithCat {
     singleProductId: string | number,
     singleProductData: IProduct,
     simmilarProductWithOnePro: IProduct[],
+    searchBrandAndCate: {
+        brand: string,
+        category: string
+    }
     isLoading: boolean,
     isError: boolean
 }
-
 
 
 const initialState: IAllProductsWithCat = {
@@ -258,6 +261,10 @@ const initialState: IAllProductsWithCat = {
     },
 
     simmilarProductWithOnePro: [],
+    searchBrandAndCate: {
+        brand: "",
+        category: ""
+    },
 
     isLoading: false,
     isError: false
@@ -305,6 +312,16 @@ const allProductsCatSlice = createSlice({
 
         setSortByPriceChange(state, action) {
             state.sortByPrice = action.payload.newPrice
+        },
+
+
+        setSearchBrandAndCate(state, action) {
+            // console.log(action.payload)
+            // state.searchBrandAndCate = action.payload.brand || ""
+            // state.searchBrandAndCate = action.payload.category || ''
+
+
+            state.searchBrandAndCate = { brand: action.payload.brand || "", category: action.payload.category || '' }
         }
 
     },
@@ -580,12 +597,121 @@ const allProductsCatSlice = createSlice({
             })
 
 
+
+
+            // // // review events --->
+            // // //  type of action should given if you are catching any other async action
+            // // Like review fullfill -->
+            .addCase("review/like/fulfilled", (state, action: PayloadAction<any, never>) => {
+                // console.log(action.payload.data)
+
+                let updatedreview = action.payload.data
+
+                let updatedState = current(state)
+
+                if (updatedState.singleProductData.review) {
+
+
+                    let copyArrOfCurrentReviewArr = [...updatedState.singleProductData.review]
+
+
+                    let index = copyArrOfCurrentReviewArr?.findIndex(ele => ele.id === updatedreview.id)
+
+                    // console.log(index)
+
+
+                    if (index !== undefined) {
+
+                        copyArrOfCurrentReviewArr?.splice(index, 1, { ...updatedreview })
+
+                        state.singleProductData.review = copyArrOfCurrentReviewArr
+                    }
+
+                }
+
+
+                // console.log("done")
+
+
+            })
+
+
+            // // Dislike review Fullfill -->
+            .addCase("review/dislike/fulfilled", (state, action: PayloadAction<any, never>) => {
+
+                // console.log(action.payload.data)
+
+                let updatedreview = action.payload.data
+
+                let updatedState = current(state)
+
+
+                if (updatedState.singleProductData.review) {
+                    let copyArrOfCurrentReviewArr = [...updatedState.singleProductData.review]
+
+
+                    let index = copyArrOfCurrentReviewArr?.findIndex(ele => ele.id === updatedreview.id)
+
+                    // console.log(index)
+
+
+                    if (index !== undefined) {
+
+                        copyArrOfCurrentReviewArr?.splice(index, 1, { ...updatedreview })
+
+                        state.singleProductData.review = copyArrOfCurrentReviewArr
+                    }
+                }
+
+
+
+                // console.log("dislike done")
+
+            })
+
+
+            // // Create review fullfill -->
+            .addCase("review/newReview/fulfilled", (state, action: PayloadAction<any, never>) => {
+
+                // console.log(action.payload.data)
+
+                // // // set all new array of data --->
+                state.singleProductData.review = [...action.payload.data].reverse()
+
+            })
+
+
+            // // delete review fullfill -->
+            .addCase("review/deleteReview/fulfilled", (state, action: PayloadAction<any, never>) => {
+
+                // console.log(action.payload.data)
+
+                // // // set all new array of data --->
+                state.singleProductData.review = [...action.payload.data].reverse()
+
+            })
+
+
+            // /// // update review fullfill -->
+            .addCase("review/update/fulfilled", (state, action: PayloadAction<any, never>) => {
+
+                // console.log(action.payload.data)
+
+                // // // set all new array of data --->
+                state.singleProductData.review = [...action.payload.data].reverse()
+
+            })
+
+
+            // // //Extra reducers for review done --->
+
+
     }
 
 })
 
 
-export const { loadDataIntoState, setSingleProductData, setFilterItems,  setSortByPriceChange } = allProductsCatSlice.actions
+export const { loadDataIntoState, setSingleProductData, setFilterItems, setSortByPriceChange, setSearchBrandAndCate } = allProductsCatSlice.actions
 
 export default allProductsCatSlice.reducer
 

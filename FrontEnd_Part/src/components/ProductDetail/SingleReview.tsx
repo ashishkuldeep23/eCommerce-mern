@@ -73,6 +73,8 @@ const SingleReview = ({ reviewData }: PropOfSingleReview) => {
         if (!reviewData.likedUserIds.includes(userDataId)) {
 
             dispatch(likeReview({ reviewId: reviewData.id, isLiking: true, userId: userDataId }))
+
+            animationForLike()  // // // Show like animation code -->
         } else {
 
             dispatch(likeReview({ reviewId: reviewData.id, isLiking: false, userId: userDataId }))
@@ -107,15 +109,20 @@ const SingleReview = ({ reviewData }: PropOfSingleReview) => {
 
     const doubleClickHandler = (e: React.MouseEvent<HTMLParagraphElement, MouseEvent>) => {
         if (!reviewData?.likedUserIds?.includes(userDataId)) {
-            setDoubleClickLike(true)
             likeHandler(e)
 
-            setTimeout(() => {
-                setDoubleClickLike(false)
-            }, 1000)
         }
     }
+    
 
+    // // // this code will show like animation --->
+    function animationForLike(){
+        setDoubleClickLike(true)
+        
+        setTimeout(() => {
+            setDoubleClickLike(false)
+        }, 1000)
+    }
 
 
 
@@ -154,8 +161,8 @@ const SingleReview = ({ reviewData }: PropOfSingleReview) => {
                     className='flex items-center hover:cursor-pointer'
                     onClick={showModalWithValues}
                 >
-                    <img className=' w-6 h-6 object-cover rounded-full hover:rounded-sm hover:scale-125 transition-all' src={reviewData.userId.profilePic} alt="" />
-                    <p className=' text-xl pl-2 font-bold border-b '>{reviewData.userId.firstName + " " + reviewData.userId.lastName} </p>
+                    <img className=' w-6 h-6 object-cover rounded-full hover:rounded-sm hover:scale-125 transition-all' src={reviewData?.userId?.profilePic || ''} alt="" />
+                    <p className=' text-xl pl-2 font-bold border-b '>{reviewData?.userId?.firstName || '' + " " + reviewData?.userId?.lastName || ''} </p>
                 </div>
 
                 {/* Review Info Div --> */}

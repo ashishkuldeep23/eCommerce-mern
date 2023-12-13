@@ -5,7 +5,7 @@ import { Fragment } from "react"
 
 
 import SingleProduct from "./SingleProduct"
-import { fetchAllCategoryAndHighlight, fetchAllProducts } from "../../Slices/AllProductSlice"
+import {  fetchAllProducts, setSearchBrandAndCate } from "../../Slices/AllProductSlice"
 import { ReviewData } from "../ProductDetail/ProductDetails"
 
 
@@ -78,6 +78,8 @@ export default function ProductLists() {
 
   const searchByQuery = useSelector((state: RootState) => state.allProductWithCatReducer.searchByQuery)
 
+  const {brand , category} = useSelector((state : RootState)=>state.allProductWithCatReducer.searchBrandAndCate)
+
   const limitValue = useSelector((state: RootState) => state.allProductWithCatReducer.onePageLimit)
 
 
@@ -149,8 +151,6 @@ export default function ProductLists() {
 
 
 
-
-
             :
 
             <>
@@ -160,15 +160,17 @@ export default function ProductLists() {
                 // // // Btn to data back to normal --->
                 searchByQuery
                 &&
-                <div className="flex justify-start">
-                  <h1
-                    className="border  px-1 rounded-lg font-bold hover:bg-green-500 hover:scale-110 transition-all"
+                <div className="flex flex-col items-start justify-start  ">
+                  <button
+                    className="border  px-1 rounded-lg font-bold hover:bg-green-500 hover:scale-110 hover:text-white transition-all"
                     onClick={() => {
-                      dispatch(fetchAllCategoryAndHighlight());
+                      // dispatch(fetchAllCategoryAndHighlight());
                       dispatch(fetchAllProducts({ brand: "", category: '', price: "-1", limit: `${limitValue}` }));
-                      window.scroll(0, 0)
+                      dispatch(setSearchBrandAndCate( {brand : "" , category : ""}))
+                      window.scroll(0, 500)
                     }}
-                  >Back To normal Data</h1>
+                  >Back To normal Data</button>
+                  <p>No data was found with these queries (Brand :- <span className=" font-bold capitalize">{brand}</span>  , Category :- <span className=" font-bold capitalize">{category}</span>) </p>
                 </div>
 
               }
@@ -520,7 +522,6 @@ export default function ProductLists() {
                 </div>
 
               </Fragment>
-
 
 
               <Fragment >

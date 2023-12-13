@@ -258,8 +258,8 @@ async function findOneProduct(req, res) {
 
 
 
-async function likeProduct(req , res){
-    
+async function likeProduct(req, res) {
+
     try {
 
         let { productId, isLiking, userId } = req.body
@@ -276,17 +276,17 @@ async function likeProduct(req , res){
 
         // let findProduct = await reviewModel.findOne({ id: reviewId })
 
-        let findProduct = await productModel.findOne({id : productId}).select('-updatedAt -createdAt -__v ')
-        .populate({
-            path: "review",
-            match: { isDeleted: false },
-            select: "-updatedAt -createdAt -__v  -userId -productID -isDeleted",
-            populate: {
-                path: 'userId',
-                select: "id firstName lastName profilePic "
-            }
+        let findProduct = await productModel.findOne({ id: productId }).select('-updatedAt -createdAt -__v ')
+            .populate({
+                path: "review",
+                match: { isDeleted: false },
+                select: "-updatedAt -createdAt -__v  -userId -productID -isDeleted",
+                populate: {
+                    path: 'userId',
+                    select: "id firstName lastName profilePic "
+                }
 
-        })
+            })
 
         if (!findProduct) {
             return res.status(404).send({ status: false, message: "No Product found with given object id." })
@@ -340,11 +340,11 @@ async function likeProduct(req , res){
 
         await findProduct.save()
 
-        res.status(200).send({ status: true, message: `${findProduct.title} Like Done✅` , data : findProduct })
+        res.status(200).send({ status: true, message: `${findProduct.title} Like Done✅`, data: findProduct })
     }
     catch (err) {
         console.log(err.message)
-        res.status(500).send({ status: false, message:`Server Error (${err.message})`})
+        res.status(500).send({ status: false, message: `Server Error (${err.message})` })
     }
 
 
@@ -352,7 +352,7 @@ async function likeProduct(req , res){
 
 
 
-async function dislikeProduct(req , res){
+async function dislikeProduct(req, res) {
 
     try {
 
@@ -367,17 +367,17 @@ async function dislikeProduct(req , res){
         }
 
         let findProduct = await productModel.findOne({ id: productId })
-        .select('-updatedAt -createdAt -__v ')
-        .populate({
-            path: "review",
-            match: { isDeleted: false },
-            select: "-updatedAt -createdAt -__v  -userId -productID -isDeleted",
-            populate: {
-                path: 'userId',
-                select: "id firstName lastName profilePic"
-            }
+            .select('-updatedAt -createdAt -__v ')
+            .populate({
+                path: "review",
+                match: { isDeleted: false },
+                select: "-updatedAt -createdAt -__v  -userId -productID -isDeleted -_id",
+                populate: {
+                    path: 'userId',
+                    select: "id firstName lastName profilePic -_id"
+                }
 
-        })
+            })
 
         if (!findProduct) {
             return res.status(404).send({ status: false, message: "No Review found with given object id." })
@@ -435,7 +435,7 @@ async function dislikeProduct(req , res){
 
         await findProduct.save()
 
-        res.status(200).send({ status: true, message: `${findProduct.title} Dislike Done✅` , data : findProduct})
+        res.status(200).send({ status: true, message: `${findProduct.title} Dislike Done✅`, data: findProduct })
     }
     catch (err) {
         console.log(err.message)
@@ -446,5 +446,5 @@ async function dislikeProduct(req , res){
 }
 
 
-module.exports = { createNewProduct, findAllProducts, getCategoryAndHighlight, findOneProduct , likeProduct , dislikeProduct }
+module.exports = { createNewProduct, findAllProducts, getCategoryAndHighlight, findOneProduct, likeProduct, dislikeProduct }
 

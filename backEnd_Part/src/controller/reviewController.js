@@ -2,6 +2,7 @@
 
 const reviewModel = require("../model/reviewModel")
 const productModel = require("../model/productModel")
+const userModel = require("../model/userModel")
 const uuid = require("uuid")
 
 
@@ -86,8 +87,28 @@ async function createNewReview(req, res) {
         await updateProductWithReview.save()
 
 
+        // // // getting data to send frontend ---->
 
-        return res.status(201).send({ status: true, message: "Review created successfully", data: newReview })
+        // // // Find product with updated data and send to frontend --->
+
+        let findUpdatedProduct = await productModel.findOne({ id: productID })
+            .select('-updatedAt -createdAt -__v ')
+            .populate({
+                path: "review",
+                match: { isDeleted: false },
+                select: "-updatedAt -createdAt -__v  -userId -productID -isDeleted -_id",
+                populate: {
+                    path: 'userId',
+                    select: "id firstName lastName profilePic -_id"
+                }
+
+            })
+
+
+        // console.log(findUpdatedProduct)
+
+
+        return res.status(201).send({ status: true, message: "Review created successfully", data: findUpdatedProduct.review })
 
 
     } catch (err) {
@@ -174,7 +195,30 @@ async function deleteReview(req, res) {
 
         // console.log(findReview)
 
-        res.status(200).send({ status: true, message: "Review deleted sucessfull." })
+
+
+        // // // getting data to send frontend ---->
+
+        // // // Find product with updated data and send to frontend --->
+
+        let findUpdatedProduct = await productModel.findById(productId)
+            .select('-updatedAt -createdAt -__v ')
+            .populate({
+                path: "review",
+                match: { isDeleted: false },
+                select: "-updatedAt -createdAt -__v  -userId -productID -isDeleted -_id",
+                populate: {
+                    path: 'userId',
+                    select: "id firstName lastName profilePic -_id"
+                }
+
+            })
+
+
+        // console.log(findUpdatedProduct)
+
+
+        res.status(200).send({ status: true, message: "Review deleted sucessfull.", data: findUpdatedProduct.review })
 
     }
     catch (err) {
@@ -253,7 +297,30 @@ async function updateReview(req, res) {
 
         await findProductAndUpadte.save()
 
-        res.status(200).send({ status: true, message: "Review updated." })
+
+        // // // getting data to send frontend ---->
+
+        // // // Find product with updated data and send to frontend --->
+
+        let findUpdatedProduct = await productModel.findById(productIDInReview)
+            .select('-updatedAt -createdAt -__v ')
+            .populate({
+                path: "review",
+                match: { isDeleted: false },
+                select: "-updatedAt -createdAt -__v  -userId -productID -isDeleted -_id",
+                populate: {
+                    path: 'userId',
+                    select: "id firstName lastName profilePic -_id"
+                }
+
+            })
+
+
+        // console.log(findUpdatedProduct)
+
+
+
+        res.status(200).send({ status: true, message: "Review updated." , data : findUpdatedProduct.review })
 
     }
     catch (err) {
@@ -283,6 +350,11 @@ async function likeReview(req, res) {
         }
 
         let findReview = await reviewModel.findOne({ id: reviewId })
+            .select("-updatedAt -createdAt -__v   -productID -isDeleted")
+            .populate({
+                path: "userId",
+                select: "id firstName lastName profilePic -_id"
+            })
 
         if (!findReview) {
             return res.status(404).send({ status: false, message: "No Review found with given object id." })
@@ -336,7 +408,7 @@ async function likeReview(req, res) {
 
         await findReview.save()
 
-        res.status(200).send({ status: true, message: "Like Done" })
+        res.status(200).send({ status: true, message: "Like Done", data: findReview })
     }
     catch (err) {
         console.log(err.message)
@@ -361,6 +433,12 @@ async function dislikeReview(req, res) {
         }
 
         let findReview = await reviewModel.findOne({ id: reviewId })
+            .select("-updatedAt -createdAt -__v   -productID -isDeleted")
+            .populate({
+                path: "userId",
+                select: "id firstName lastName profilePic -_id"
+            })
+
 
         if (!findReview) {
             return res.status(404).send({ status: false, message: "No Review found with given object id." })
@@ -418,7 +496,7 @@ async function dislikeReview(req, res) {
 
         await findReview.save()
 
-        res.status(200).send({ status: true, message: "Dislike Done" })
+        res.status(200).send({ status: true, message: "Dislike Done", data: findReview })
     }
     catch (err) {
         console.log(err.message)

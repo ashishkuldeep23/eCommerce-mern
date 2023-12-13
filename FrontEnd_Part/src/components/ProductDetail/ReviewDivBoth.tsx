@@ -8,8 +8,8 @@ import { AppDispatch, RootState } from "../../store"
 
 import { ReviewData } from "./ProductDetails"
 import SingleReview from "./SingleReview"
-import { fetchOneProductByID } from '../../Slices/AllProductSlice'
-import { useParams } from 'react-router-dom'
+// import { fetchOneProductByID } from '../../Slices/AllProductSlice'
+// import { useParams } from 'react-router-dom'
 
 
 
@@ -32,7 +32,7 @@ const ReviewDivBoth = forwardRef<Ref, Props>(({ data }, ref) => {
 
     const dispatch = useDispatch<AppDispatch>()
 
-    const params = useParams();
+    // const params = useParams();
 
 
 
@@ -65,9 +65,9 @@ const ReviewDivBoth = forwardRef<Ref, Props>(({ data }, ref) => {
             // }
 
 
-
+            // // // No need to call updated data now ---->
             // // // Now call get product id from params ---->
-            params.id && dispatch(fetchOneProductByID({ productId: params.id }))
+            // params.id && dispatch(fetchOneProductByID({ productId: params.id }))
 
 
             // // // Now set the input as normal --->

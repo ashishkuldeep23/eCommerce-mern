@@ -6,7 +6,7 @@ import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon } from '@heroicons/rea
 
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../../store'
-import { fetchAllProducts, setSortByPriceChange } from '../../Slices/AllProductSlice'
+import { fetchAllProducts, setSearchBrandAndCate, setSortByPriceChange } from '../../Slices/AllProductSlice'
 import Pagination from '../Pagination/Pagination'
 
 
@@ -141,7 +141,10 @@ export default function FilterSection({ children }: any) {
 
     const [newFilter, setNewFilter] = useState([...filters])
 
-    const [queryObj, setQueryObj] = useState({ brand: '', category: "" })
+    // const [queryObj, setQueryObj] = useState({ brand: '', category: "" })
+
+
+    const {brand , category } = useSelector((state : RootState)=>state.allProductWithCatReducer.searchBrandAndCate)
 
     const dispatch = useDispatch<AppDispatch>()
 
@@ -163,19 +166,27 @@ export default function FilterSection({ children }: any) {
         // console.log(section, value)
 
 
+
+        console.log("search here now -----> " , brand , category)
+
+
         if (section === "brand") {
 
-            setQueryObj({ ...queryObj, brand: value })
+            // setQueryObj({ ...queryObj, brand: value })
 
-            dispatch(fetchAllProducts({ brand: value, category: queryObj.category, price: sortByPrice }))
+            dispatch(setSearchBrandAndCate( {brand : value , category : category }))
+
+            dispatch(fetchAllProducts({ brand: value, category: category, price: sortByPrice }))
         }
 
 
         if (section === "category") {
 
-            setQueryObj({ ...queryObj, category: value })
+            dispatch(setSearchBrandAndCate( {brand : brand , category : value}))
 
-            dispatch(fetchAllProducts({ brand: queryObj.brand, category: value, price: sortByPrice }))
+            // setQueryObj({ ...queryObj, category: value })
+
+            dispatch(fetchAllProducts({ brand: brand, category: value, price: sortByPrice }))
         }
 
 
@@ -200,13 +211,13 @@ export default function FilterSection({ children }: any) {
 
             // setQueryObj({...queryObj , price : "1"})
             dispatch(setSortByPriceChange({ newPrice: "1" }))
-            dispatch(fetchAllProducts({ brand: queryObj.brand, category: queryObj.category, price: "1" }))
+            dispatch(fetchAllProducts({ brand: brand, category: category, price: "1" }))
         }
 
         if (price === "dec") {
             // setQueryObj({...queryObj , price : "-1"})
             dispatch(setSortByPriceChange({ newPrice: "-1" }))
-            dispatch(fetchAllProducts({ brand: queryObj.brand, category: queryObj.category, price: "-1" }))
+            dispatch(fetchAllProducts({ brand: brand, category: category, price: "-1" }))
         }
 
 
