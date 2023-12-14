@@ -22,6 +22,7 @@ import StripeMainPage from "./Screens/StripeMainPage"
 import OrderConfirm from "./components/OrderConfirm/OrderConfirm"
 
 import { createBrowserRouter, RouterProvider, Link } from "react-router-dom"
+import { CategorySearchPage } from "./Screens/CategorySearchPage"
 
 // import { fetchAllProducts , fetchAllCategoryAndHighlight } from "./Slices/AllProductSlice"
 
@@ -74,6 +75,8 @@ const router = createBrowserRouter([
   { path: "/login", element: <LogInScreen /> },
 
   { path: "/signin", element: <SignInScreeen /> },
+
+  { path: "/catPage", element: <CategorySearchPage /> },
 
   { path: "/cart", element: (<LogInProtected> <CartScreen /> </LogInProtected>) },
 
