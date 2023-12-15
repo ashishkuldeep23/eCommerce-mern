@@ -19,7 +19,7 @@ export default function Pagination() {
 
     const onePageLimitValue = useSelector((state: RootState) => state.allProductWithCatReducer.onePageLimit)
 
-    const isLoding = useSelector((state: RootState) => state.allProductWithCatReducer.isLoading)
+    // const isLoding = useSelector((state: RootState) => state.allProductWithCatReducer.isLoading)
 
     const sortByPrice = useSelector((state: RootState) => state.allProductWithCatReducer.sortByPrice)
 
@@ -75,111 +75,149 @@ export default function Pagination() {
 
 
 
-                
+
         // let productHeading = document.getElementById("products-heading")!
         // window.scroll({ top : 100 , left: 0 , behavior: "smooth",})   // // // This line is responsibil for scrooling the window
 
 
-        if(window.innerWidth <= 640){
-            window.scroll({ top : 100 , left: 0 , behavior: "smooth",}) 
-        }else{
-            window.scroll({ top : 250 , left: 0 , behavior: "smooth",}) 
+        if (window.innerWidth <= 640) {
+            window.scroll({ top: 100, left: 0, behavior: "smooth", })
+        } else {
+            window.scroll({ top: 250, left: 0, behavior: "smooth", })
         }
 
     }
 
 
-    // // // If Getting data then show nothing
-    if (isLoding) {
-        return ""
-    }
+    // // // // If Getting data then show nothing
+    // if (isLoding) {
+    //     return ""
+    // }
 
 
-    // // // if total page calculation is less then or qual to 1 then show nothing
-    if (totalPageShow <= 1) {
-        return ""
-    }
+    // // // // if total page calculation is less then or qual to 1 then show nothing
+    // if (totalPageShow <= 1) {
+    //     return ""
+    // }
 
 
 
     return (
 
 
+        <div>
+
+
+            {
+                (totalPageShow <= 0)
+                &&
+                <p className='text-end pr-5 '>Getting actual data...(don't use pagination now)</p>
+            }
 
 
 
-        <div className="flex items-center justify-between border-t border-gray-200  px-4 py-3 sm:px-6" >
-            <div className="flex flex-1 justify-between items-center sm:hidden">
-                <p
-                    className="relative inline-flex items-center rounded-md border border-gray-300 px-4 py-2 text-sm font-medium  hover:bg-gray-50"
-                    onClick={(e) =>{e.preventDefault(); e.stopPropagation(); handlePagination(currentPage - 1) }}
-                >
-                    Previous
-                </p>
+            <div className="flex items-center justify-between border-t border-gray-200  px-4 py-3 sm:px-6" >
 
-                {/* <p>{`${currentPage}/${totalPageShow}`}</p> */}
 
-                <p> <span className=' font-bold text-blue-700'>{currentPage}</span>/<span>{totalPageShow}</span> </p>
 
-                <p
-                    className="relative ml-3 inline-flex items-center rounded-md border border-gray-300 px-4 py-2 text-sm font-medium  hover:bg-gray-50"
-                    onClick={(e) =>{e.preventDefault(); e.stopPropagation(); handlePagination(currentPage + 1) }}
-                >
-                    Next
-                </p>
-            </div>
-            <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
-                <div>
-                    <p className="text-sm ">
-                        Showing page <span className="font-medium">{currentPage}</span>  of{' '}
-                        <span className="font-medium">{totalPageShow}</span> results
+                {/* Below div will visiable only in mobile -----> */}
+                <div className="flex flex-1 justify-between items-center sm:hidden">
+                    <p
+                        className="relative inline-flex items-center rounded-md border border-gray-300 px-4 py-2 text-sm font-medium  hover:bg-gray-50"
+                        onClick={(e) => { e.preventDefault(); e.stopPropagation(); handlePagination(currentPage - 1) }}
+                    >
+                        Previous
+                    </p>
+
+                    {/* <p>{`${currentPage}/${totalPageShow}`}</p> */}
+
+                    <p> <span className=' font-bold text-blue-700'>{currentPage}</span>/<span>{totalPageShow}</span> </p>
+
+                    <p
+                        className="relative ml-3 inline-flex items-center rounded-md border border-gray-300 px-4 py-2 text-sm font-medium  hover:bg-gray-50"
+                        onClick={(e) => { e.preventDefault(); e.stopPropagation(); handlePagination(currentPage + 1) }}
+                    >
+                        Next
                     </p>
                 </div>
-                <div>
-                    <nav className="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
-                        <p
 
-                            className="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
-                            onClick={(e) =>{e.preventDefault(); e.stopPropagation(); handlePagination(currentPage - 1) }}
-                        >
-                            <span className="sr-only">Previous</span>
-                            <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
+                {/* Below div will visiable above then mobile devices ----> */}
+                <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
+                    <div>
+                        <p className="text-sm ">
+                            Showing page <span className="font-medium">{currentPage}</span>  of{' '}
+                            <span className="font-medium">{totalPageShow || 1}</span> results
                         </p>
+                    </div>
+                    <div>
+                        <nav className="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
+                            <p
+
+                                className="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+                                onClick={(e) => { e.preventDefault(); e.stopPropagation(); handlePagination(currentPage - 1) }}
+                            >
+                                <span className="sr-only">Previous</span>
+                                <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
+                            </p>
 
 
 
 
-                        {
+                            {
 
-                            (totalPageShow > 0) && Array.from(Array(totalPageShow), (ele, i) => {
-                                return (
-                                    <p
-                                        key={i}
+                                (totalPageShow > 0)
 
-                                        className={` ${(currentPage === i + 1) && "bg-blue-700 text-white"} relative inline-flex items-center px-4 py-2 text-sm font-semibold  ring-1 ring-inset ring-gray-300 hover:bg-blue-200 focus:z-20 focus:outline-offset-0`}
-                                        onClick={(e) => { e.preventDefault(); e.stopPropagation(); console.log("This console lo is imp." , ele); handlePagination(++i); }}
-                                    >
-                                        {`${i + 1} `}
-                                    </p>
-                                )
-                            })
+                                    ?
 
-                        }
+                                    Array.from(Array(totalPageShow), (ele, i) => {
+                                        return (
+                                            <p
+                                                key={i}
+
+                                                className={` ${(currentPage === i + 1) && "bg-blue-700 text-white"} relative inline-flex items-center px-4 py-2 text-sm font-semibold  ring-1 ring-inset ring-gray-300 hover:bg-blue-200 hover:text-black focus:z-20 focus:outline-offset-0`}
+                                                onClick={(e) => { e.preventDefault(); e.stopPropagation(); console.log("This console lo is imp.", ele); handlePagination(++i); }}
+                                            >
+                                                {`${i + 1} `}
+                                            </p>
+                                        )
+                                    })
 
 
-                        <p
+                                    :
 
-                            className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
-                            onClick={(e) =>{e.preventDefault(); e.stopPropagation(); handlePagination(currentPage + 1) }}
-                        >
-                            <span className="sr-only">Next</span>
-                            <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
-                        </p>
-                    </nav>
+
+                                    Array.from(Array(4), (ele, i) => {
+                                        return (
+
+
+                                            <p
+                                                key={i}
+
+                                                className={` ${(currentPage === i + 1) && "bg-red-500 text-white"} relative inline-flex items-center px-4 py-2 text-sm font-semibold  ring-1 ring-inset ring-gray-300 hover:bg-red-200 hover:text-black focus:z-20 focus:outline-offset-0`}
+                                                onClick={(e) => { e.stopPropagation(); console.log("This console lo is imp.", ele); }}
+                                            >
+                                                {`${i + 1} `}
+                                            </p>
+                                        )
+                                    })
+                            }
+
+
+                            <p
+
+                                className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+                                onClick={(e) => { e.preventDefault(); e.stopPropagation(); handlePagination(currentPage + 1) }}
+                            >
+                                <span className="sr-only">Next</span>
+                                <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
+                            </p>
+
+                        </nav>
+                    </div>
                 </div>
-            </div>
-        </div >
+            </div >
 
+        </div>
 
 
 

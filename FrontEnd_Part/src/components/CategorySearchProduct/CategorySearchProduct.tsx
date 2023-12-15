@@ -4,7 +4,7 @@
 import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch, RootState } from "../../store"
 import { useEffect } from "react"
-import { fetchAllProducts } from "../../Slices/AllProductSlice"
+import { fetchAllCategoryAndHighlight, fetchAllProducts } from "../../Slices/AllProductSlice"
 import SingleProduct from "../ProductListing/SingleProduct"
 import { useNavigate } from "react-router-dom"
 
@@ -17,6 +17,8 @@ const CategorySearchProduct = () => {
     const isLoading = useSelector((state: RootState) => state.allProductWithCatReducer.isLoading)
 
     const allProducts = useSelector((state: RootState) => state.allProductWithCatReducer.allProducts)
+
+    const limitValue = useSelector((state: RootState) => state.allProductWithCatReducer.onePageLimit)
 
     const dispatch = useDispatch<AppDispatch>()
 
@@ -43,7 +45,7 @@ const CategorySearchProduct = () => {
 
             <div className={`${!themeMode ? "bg-white text-gray-600 " : 'bg-black text-gray-300 '} `}>
 
-                <div className="mx-auto max-w-full md:max-w-allAk px-1 md:px-2 py-10">
+                <div className="mx-auto max-w-full md:max-w-allAk px-1 md:px-2 pt-10">
 
 
                     {/* Loader code -------> */}
@@ -85,6 +87,20 @@ const CategorySearchProduct = () => {
                             allProducts.map((product) => <SingleProduct className="mx-10 p-5" product={product} key={product.id} />)
                         }
 
+                    </div>
+
+
+                    {/* Goto home btn  */}
+                    <div className=" mt-5 flex justify-end items-end">
+                        <button
+                            className=" px-2 my-2 rounded font-bold border border-yellow-300 hover:scale-x-110 transition-all"
+                            onClick={() => {
+                                navigate("/");
+                                dispatch(fetchAllCategoryAndHighlight())
+                                dispatch(fetchAllProducts({ brand: "", category: '', price: "-1", limit: `${limitValue}` }))
+                                window.scroll(0, 500);
+                            }}
+                        >GoTo Home 🏠</button>
                     </div>
 
 

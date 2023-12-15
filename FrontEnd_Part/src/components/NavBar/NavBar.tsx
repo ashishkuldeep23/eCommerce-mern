@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux";
 import { toggleModeValue } from '../../Slices/ThemeSlices'
 import { AppDispatch, RootState } from '../../store'
-import { fetchOneProductByID, setSingleProductData } from '../../Slices/AllProductSlice';
+import { fetchAllCategoryAndHighlight, fetchAllProducts, fetchOneProductByID, setSingleProductData } from '../../Slices/AllProductSlice';
 import { toast } from 'react-toastify';
 import { userState } from '../../Slices/UserSlice';
 
@@ -72,7 +72,7 @@ export default function NavBar() {
                     <SearchBarTabAndLess />
 
 
-                    <UniersalLoaderAndScroll />
+                    <UniversalLoaderAndScroll />
 
 
                 </>
@@ -94,6 +94,10 @@ function MenuOfTabAndAbove() {
 
     const navigate = useNavigate()
 
+    const dispatch = useDispatch<AppDispatch>()
+
+    const limitValue = useSelector((state: RootState) => state.allProductWithCatReducer.onePageLimit)
+
     return (
         <>
 
@@ -105,7 +109,12 @@ function MenuOfTabAndAbove() {
                         className="h-8 w-auto hover:scale-125 hover:z-20 transition-all"
                         src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
                         alt="Your Company"
-                        onClick={() => { navigate("/"), { replace: true } }}
+                        onClick={() => {
+                            navigate("/");
+                            dispatch(fetchAllCategoryAndHighlight())
+                            dispatch(fetchAllProducts({ brand: "", category: '', price: "-1", limit: `${limitValue}` }))
+                            window.scroll(0, 500);
+                        }}
                     />
                 </div>
 
@@ -147,6 +156,58 @@ function MenuOfTabAndAbove() {
     )
 }
 
+
+// // // {/* This div will visiable on less then md devices main div. (This div includes Icon and open & close icon) */ }
+function MobileUICodeLeftSection({ open }: { open: boolean }) {
+
+    const navigate = useNavigate()
+
+    const dispatch = useDispatch<AppDispatch>()
+
+    const limitValue = useSelector((state: RootState) => state.allProductWithCatReducer.onePageLimit)
+
+    return (
+        <>
+
+            <div className="absolute inset-y-0 left-0 flex items-center md:hidden ">
+
+                {/* Mobile menu button*/}
+                <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+                    <span className="absolute -inset-0.5" />
+                    <span className="sr-only">Open main menu</span>
+                    {open ? (
+                        <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
+                    ) : (
+                        <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
+                    )}
+                </Disclosure.Button>
+
+
+                {/* Barnd ICon */}
+                <div className="flex flex-shrink-0 items-center ">
+                    <img
+                        className="h-8 w-auto hover:scale-125 hover:z-20 transition-all"
+                        src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+                        alt="Your Company"
+                        onClick={() => {
+                            navigate("/");
+
+                            dispatch(fetchAllCategoryAndHighlight())
+                            dispatch(fetchAllProducts({ brand: "", category: '', price: "-1", limit: `${limitValue}` }))
+                            window.scroll(0, 500);
+
+
+                        }}
+                    />
+                </div>
+
+            </div>
+
+
+
+        </>
+    )
+}
 
 
 // // // This div contains Input box and search btn and suggestion div all ---> and it's neccessory thing 
@@ -318,47 +379,6 @@ function MainSearchBarWithLogics() {
 
             }
 
-
-
-
-        </>
-    )
-}
-
-
-// // // {/* This div will visiable on less then md devices main div. (This div includes Icon and open & close icon) */ }
-function MobileUICodeLeftSection({ open }: { open: boolean }) {
-
-    const navigate = useNavigate()
-
-    return (
-        <>
-
-            <div className="absolute inset-y-0 left-0 flex items-center md:hidden ">
-
-                {/* Mobile menu button*/}
-                <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
-                    <span className="absolute -inset-0.5" />
-                    <span className="sr-only">Open main menu</span>
-                    {open ? (
-                        <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
-                    ) : (
-                        <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
-                    )}
-                </Disclosure.Button>
-
-
-                {/* Barnd ICon */}
-                <div className="flex flex-shrink-0 items-center ">
-                    <img
-                        className="h-8 w-auto hover:scale-125 hover:z-20 transition-all"
-                        src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                        alt="Your Company"
-                        onClick={() => { navigate("/"), { replace: true } }}
-                    />
-                </div>
-
-            </div>
 
 
 
@@ -662,7 +682,7 @@ function SearchBarTabAndLess() {
 
 
 // // // Universal loader code here ---->
-function UniersalLoaderAndScroll() {
+function UniversalLoaderAndScroll() {
 
 
     const productIsLoading = useSelector((state: RootState) => state.allProductWithCatReducer.isLoading)
@@ -671,7 +691,7 @@ function UniersalLoaderAndScroll() {
     const userIsLoading = useSelector((state: RootState) => state.userReducer.isLoading)
 
 
-    const [left , setLeft] = useState<number>(0)
+    const [left, setLeft] = useState<number>(0)
 
 
 
@@ -694,7 +714,7 @@ function UniersalLoaderAndScroll() {
 
         const roundedSroolValue = Math.round(scroolPercentge)
 
-        if(roundedSroolValue < 90){
+        if (roundedSroolValue < 90) {
             setLeft(roundedSroolValue)
         }
 
@@ -730,7 +750,7 @@ function UniersalLoaderAndScroll() {
             <div className='w-full h-1 relative bg-gray-800 '>
                 <div
                     // style={{ width: width }} 
-                    style={ { left : `${left}%` } }
+                    style={{ left: `${left}%` }}
                     id='scroll_percent_indi_top'
                     className=' absolute left-10 w-1/12 h-1 bg-green-300 rounded transition-all'
                 ></div>

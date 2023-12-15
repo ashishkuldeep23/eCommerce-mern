@@ -374,6 +374,8 @@ export default function FilterSection({ children }: any) {
 
                 {/* Below div is visiable in leptop or above screen */}
                 <main className="mx-auto max-w-full md:max-w-allAk px-1 md:px-2 lg:px-8  p-2 pt-16 ">
+
+                    {/* Left section  */}
                     <div className="flex flex-wrap items-baseline justify-between border-b border-gray-200 pb-6 ">
                         <h1 className="text-4xl font-bold tracking-tight ">Products</h1>
 
@@ -432,6 +434,7 @@ export default function FilterSection({ children }: any) {
                         </div>
                     </div>
 
+                    {/* Right section all products will visiable in this section  */}
                     <section aria-labelledby="products-heading" className="pb-24 pt-6">
                         <h2 id="products-heading" className="sr-only">
                             Products

@@ -5,7 +5,7 @@ import { Fragment } from "react"
 
 
 import SingleProduct from "./SingleProduct"
-import {  fetchAllProducts, setSearchBrandAndCate } from "../../Slices/AllProductSlice"
+import { fetchAllProducts, setSearchBrandAndCate } from "../../Slices/AllProductSlice"
 import { ReviewData } from "../ProductDetail/ProductDetails"
 
 
@@ -78,7 +78,7 @@ export default function ProductLists() {
 
   const searchByQuery = useSelector((state: RootState) => state.allProductWithCatReducer.searchByQuery)
 
-  const {brand , category} = useSelector((state : RootState)=>state.allProductWithCatReducer.searchBrandAndCate)
+  const { brand, category } = useSelector((state: RootState) => state.allProductWithCatReducer.searchBrandAndCate)
 
   const limitValue = useSelector((state: RootState) => state.allProductWithCatReducer.onePageLimit)
 
@@ -113,6 +113,8 @@ export default function ProductLists() {
           (productCategory && productCategory.length > 0)
 
             ?
+
+            // // // Actual ui code here --->
 
             productCategory.map((element, i) => {
 
@@ -153,8 +155,8 @@ export default function ProductLists() {
 
             :
 
+            // // // Dummy code here --->
             <>
-
 
               {
                 // // // Btn to data back to normal --->
@@ -166,7 +168,7 @@ export default function ProductLists() {
                     onClick={() => {
                       // dispatch(fetchAllCategoryAndHighlight());
                       dispatch(fetchAllProducts({ brand: "", category: '', price: "-1", limit: `${limitValue}` }));
-                      dispatch(setSearchBrandAndCate( {brand : "" , category : ""}))
+                      dispatch(setSearchBrandAndCate({ brand: "", category: "" }))
                       window.scroll(0, 500)
                     }}
                   >Back To normal Data</button>
@@ -177,7 +179,6 @@ export default function ProductLists() {
 
 
               {/* Dummy data Skeleton only ------> */}
-
 
               <Fragment >
 
@@ -316,7 +317,6 @@ export default function ProductLists() {
                 </div>
 
               </Fragment>
-
 
 
               <Fragment >
@@ -522,7 +522,6 @@ export default function ProductLists() {
                 </div>
 
               </Fragment>
-
 
               <Fragment >
 
@@ -786,8 +785,6 @@ export default function ProductLists() {
                 </div>
 
               </Fragment>
-
-
 
             </>
 
