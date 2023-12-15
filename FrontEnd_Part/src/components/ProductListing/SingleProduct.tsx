@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom'
 
 type TProductPrope = {
     product: IProduct,
-    className : string
+    className ?: string
 }
 
 
