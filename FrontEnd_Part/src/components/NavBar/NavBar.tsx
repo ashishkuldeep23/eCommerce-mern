@@ -542,11 +542,49 @@ function UniversalLoaderAndScroll() {
 
         const roundedSroolValue = Math.round(scroolPercentge)
 
-        if (roundedSroolValue < 90) {
+        if (roundedSroolValue < 82) {
             setLeft(roundedSroolValue)
         }
 
     }
+
+
+
+
+
+    function leftClickhandler(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+        e.stopPropagation()
+
+
+        let aboveScrollDivLeft = document.getElementById('scroll_percent_indi_top')?.getClientRects()[0].x
+
+        // console.log(aboveScrollDivLeft)
+
+        if (aboveScrollDivLeft !== undefined) {
+
+            window.scroll(0, aboveScrollDivLeft - 200)
+        }
+    }
+
+
+    function rightClickHandler(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+        e.stopPropagation()
+
+
+        let aboveScrollDivLeft = document.getElementById('scroll_percent_indi_top')?.getClientRects()[0].x
+
+        // console.log(aboveScrollDivLeft)
+
+        if (aboveScrollDivLeft !== undefined) {
+
+            window.scroll(0, aboveScrollDivLeft + 200)
+        }
+
+    }
+
+
+
+
 
 
 
@@ -575,13 +613,25 @@ function UniversalLoaderAndScroll() {
     // // // Scroll percentage div ---->
     return (
         <>
-            <div className='w-full h-1 relative bg-gray-800 '>
+            <div className='w-full h-1.5 relative bg-gray-800 border-b '>
                 <div
-                    // style={{ width: width }} 
-                    style={{ left: `${left}%` }}
+
+                    // style={{ width: width }}
+                    style={{ left: `${left}%`, width: "10%" }}
                     id='scroll_percent_indi_top'
-                    className=' absolute left-10 w-1/12 h-1 bg-green-300 rounded transition-all'
-                ></div>
+                    className=' absolute left-10 h-1.5 bg-green-300 rounded hover:scale-y-200 transition-all overflow-hidden'
+                >
+
+                    <button
+                        onClick={(e) => leftClickhandler(e)}
+                        className='w-1/2  h-full border border-green-400 bg-green-700 '
+                    >.</button>
+                    <button
+                        onClick={(e) => rightClickHandler(e)}
+                        className='w-1/2  h-full border border-blue-400 bg-blue-700'
+                    >.</button>
+
+                </div>
             </div>
         </>
     )
@@ -646,75 +696,45 @@ function MainSearchBarWithLogics() {
 
 
 
-    // // // Product search ------>
-    function SuggestionHandler() {
+    // // // // Product search ------>
+    // function SuggestionHandler() {
 
-        // // // This will run first (when ever text is empty)
-        // if (text === "") {
-        //     return <h1 className='my-5 mx-1 text-center text-danger fw-bold'>Search product by it's <strong>Name</strong> or <strong>Category</strong> or <strong>Brand name</strong>.</h1>
-        // }
-
-
-
-        // // // frontend filter logic (OLD)
-        // let returnArrFromFilter = allProduct.filter((product) => {
-        //     if (text === "") {
-        //         return product
-        //     }
-        //     else if (product.title.toLocaleLowerCase().includes(text.toLocaleLowerCase())) {
-        //         return product
-        //     }
-        //     else if (product.category.toLocaleLowerCase().includes(text.toLocaleLowerCase())) {
-        //         return product
-        //     }
-        //     else if (product.brand.toLocaleLowerCase().includes(text.toLocaleLowerCase())) {
-        //         return product
-        //     }
-
-        // })
+    //     // // // This will run first (when ever text is empty)
+    //     // if (text === "") {
+    //     //     return <h1 className='my-5 mx-1 text-center text-danger fw-bold'>Search product by it's <strong>Name</strong> or <strong>Category</strong> or <strong>Brand name</strong>.</h1>
+    //     // }
 
 
 
-        // returnArrFromFilter = []
-        // // // just checking thier
+    //     // // // frontend filter logic (OLD)
+    //     // let returnArrFromFilter = allProduct.filter((product) => {
+    //     //     if (text === "") {
+    //     //         return product
+    //     //     }
+    //     //     else if (product.title.toLocaleLowerCase().includes(text.toLocaleLowerCase())) {
+    //     //         return product
+    //     //     }
+    //     //     else if (product.category.toLocaleLowerCase().includes(text.toLocaleLowerCase())) {
+    //     //         return product
+    //     //     }
+    //     //     else if (product.brand.toLocaleLowerCase().includes(text.toLocaleLowerCase())) {
+    //     //         return product
+    //     //     }
 
-        return (
+    //     // })
 
 
-            (text === "")
-                ?
 
-                <h1 className='my-5 mx-1 text-center text-danger fw-bold'>Search product by it's <strong>Name</strong> or <strong>Category</strong> or <strong>Brand name</strong>.</h1>
+    //     // returnArrFromFilter = []
+    //     // // // just checking thier
 
-                :
+    //     return (
 
-                (isFullfilled && !isError && !isLoading)
-                    ?
-                    allProduct.map((product) => {
-                        return (
-                            <li
-                                key={product.id}
-                                className='my-2 border rounded px-1 flex items-center hover:cursor-pointer hover:scale-95 transition-all'
-                                onClick={(e) => {
-                                    // e.stopPropagation();
-                                    e.preventDefault();
-                                    navigate(`/product/${product.id}`);
-                                    dispatch(setSingleProductData({ id: product.id }));
-                                    dispatch(fetchOneProductByID({ productId: product.id }));
-                                    // dispatch(setSingleOProductId({ id: product.id }));
-                                    window.scroll(0, 0);
-                                    setText("")
-                                }}
-                            >
-                                <img className=' w-12 mr-1 ' src={product.thumbnail} alt="" />
-                                <p className=' capitalize'>{` ${product.title} - ${product.brand} - ${product.category} - ₹${product.price} `}</p>
-                            </li>
-                        )
-                    })
-                    :
-                    <h1 className='my-5 mx-1 text-center text-danger fw-bold'>{errorMessage}</h1>)
 
-    }
+
+    //     )
+
+    // }
 
 
 
@@ -836,8 +856,39 @@ function MainSearchBarWithLogics() {
 
                         {
                             (allProduct && (allProduct.length >= 0))
-                            &&
-                            SuggestionHandler()
+                                &&
+                                (text === "")
+                                ?
+
+                                <h1 className='my-5 mx-1 text-center text-danger fw-bold'>Search product by it's <strong>Name</strong> or <strong>Category</strong> or <strong>Brand name</strong>.</h1>
+
+                                :
+
+                                (isFullfilled && !isError && !isLoading)
+                                    ?
+                                    allProduct.map((product) => {
+                                        return (
+                                            <li
+                                                key={product.id}
+                                                className='my-2 border rounded px-1 flex items-center hover:cursor-pointer hover:scale-95 transition-all'
+                                                onClick={(e) => {
+                                                    // e.stopPropagation();
+                                                    e.preventDefault();
+                                                    navigate(`/product/${product.id}`);
+                                                    dispatch(setSingleProductData({ id: product.id }));
+                                                    dispatch(fetchOneProductByID({ productId: product.id }));
+                                                    // dispatch(setSingleOProductId({ id: product.id }));
+                                                    window.scroll(0, 0);
+                                                    setText("")
+                                                }}
+                                            >
+                                                <img className=' w-12 mr-1 ' src={product.thumbnail} alt="" />
+                                                <p className=' capitalize'>{` ${product.title} - ${product.brand} - ${product.category} - ₹${product.price} `}</p>
+                                            </li>
+                                        )
+                                    })
+                                    :
+                                    <h1 className='my-5 mx-1 text-center text-danger fw-bold'>{errorMessage}</h1>
                         }
 
 
