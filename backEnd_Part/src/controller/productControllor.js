@@ -467,7 +467,7 @@ async function searchProductByKeyowrd(req, res) {
         })
 
 
-        if (getProductFromDB.length <= 0) return res.status(400).send({ status: false, message: `No data found with this keyword :(${keyword})` })
+        if (getProductFromDB.length <= 0) return res.status(404).send({ status: false, message: `No data found with this keyword :(${keyword})` })
 
         // console.log(getProductFromDB)
 

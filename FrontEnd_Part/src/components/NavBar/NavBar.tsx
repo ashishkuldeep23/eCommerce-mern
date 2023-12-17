@@ -614,6 +614,7 @@ function MainSearchBarWithLogics() {
     const isLoading = searchProductState().isLoading
     const isFullfilled = searchProductState().isFullFilled
     const isError = searchProductState().isError
+    const errorMessage = searchProductState().errMsg
 
 
     // // // Input onchange handler --->
@@ -687,7 +688,7 @@ function MainSearchBarWithLogics() {
 
                 :
 
-                (isFullfilled && !isError)
+                (isFullfilled && !isError && !isLoading)
                     ?
                     allProduct.map((product) => {
                         return (
@@ -711,7 +712,7 @@ function MainSearchBarWithLogics() {
                         )
                     })
                     :
-                    <h1 className='my-5 mx-1 text-center text-danger fw-bold'>Product not found with this keyword | 404 :- {text}</h1>)
+                    <h1 className='my-5 mx-1 text-center text-danger fw-bold'>{errorMessage}</h1>)
 
     }
 
@@ -797,7 +798,8 @@ function MainSearchBarWithLogics() {
 
 
             {
-                showSuggestion &&
+                showSuggestion
+                &&
 
                 <div className={` ${!themeSate ? "bg-white text-black" : " bg-gray-900 text-white"} w-full absolute top-full mt-0.5  rounded-b-md py-2 px-1 z-20 `}>
 
@@ -812,13 +814,24 @@ function MainSearchBarWithLogics() {
                         {
                             text
                             &&
-                            <div className='p-1 bg-red-500 m-1 font-bold rounded flex justify-between'
+                            <div className='p-1 text-white bg-red-500 m-1 font-bold rounded flex justify-between'
                                 onClick={() => { setText(""); }}
                             >
                                 <p>Close</p>
                                 <p className='border px-1 rounded'>x</p>
                             </div>
                         }
+
+
+
+
+                        {
+                            isLoading
+                            &&
+                            <span id="search_loader"></span>
+                        }
+
+
 
 
                         {

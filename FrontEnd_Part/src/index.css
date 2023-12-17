@@ -9,8 +9,8 @@
 
 
 
-:root{
-    --theme : #3b82f6;
+:root {
+    --theme: #3b82f6;
 }
 
 
@@ -31,13 +31,13 @@
 
 
 *::-webkit-scrollbar:hover {
-    border: 1px solid #bbf7d0;
+    border: 1px solid #dcfce7;
     cursor: pointer;
 }
 
 
 *::-webkit-scrollbar-thumb {
-    background-color: #bbf7d0;
+    background-color: #dcfce7;
     border-radius: 100px;
     cursor: pointer;
 }
@@ -85,9 +85,9 @@ input::-webkit-inner-spin-button {
 
 .crouselBtn {
     align-self: center;
-    border: 1px solid #bbf7d0;
+    border: 1px solid #dcfce7;
     border-radius: 50%;
-    color: #bbf7d0;
+    color: #dcfce7;
     cursor: pointer;
     font-size: 20px;
     height: 30px;
@@ -114,8 +114,8 @@ input::-webkit-inner-spin-button {
     scale: 1.7;
 }
 
-.crouselBtn:active{
-    background: #bbf7d0;
+.crouselBtn:active {
+    background: #dcfce7;
     color: #000;
 }
 
@@ -161,7 +161,7 @@ input::-webkit-inner-spin-button {
 
 /* Universal loader code -----> */
 
-.universal_loader_holder{
+.universal_loader_holder {
     width: 90%;
 }
 
@@ -192,7 +192,7 @@ input::-webkit-inner-spin-button {
     opacity: 0;
     transform: rotate(-45deg) translateX(0px);
     box-sizing: border-box;
-    animation: coli1 0.4s linear infinite ;
+    animation: coli1 0.4s linear infinite;
     z-index: 1000;
 }
 
@@ -201,7 +201,7 @@ input::-webkit-inner-spin-button {
 .universal_loader::before {
     top: -4px;
     transform: rotate(45deg);
-    animation: coli2 0.4s linear infinite ;
+    animation: coli2 0.4s linear infinite;
 }
 
 
@@ -210,7 +210,7 @@ input::-webkit-inner-spin-button {
 /* Double click like btn ----> */
 
 
-#double_click_like_eff{
+#double_click_like_eff {
     filter: drop-shadow(0px 0px 50px red);
 }
 
@@ -219,10 +219,64 @@ input::-webkit-inner-spin-button {
 /* Scroll  percent showing at top --> */
 
 
-#scroll_percent_indi_top{
+#scroll_percent_indi_top {
     /* transition: ; */
-    transition: all 700ms cubic-bezier(0.19, 1, 0.22, 1) ;
+    transition: all 700ms cubic-bezier(0.19, 1, 0.22, 1);
 }
+
+
+/* Search loader code here ---> */
+#search_loader {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: block;
+    margin: 15px auto;
+    position: relative;
+    color: #dcfce7;
+    left: -100px;
+    box-sizing: border-box;
+    animation: shadowRolling 2s linear infinite;
+}
+
+@keyframes shadowRolling {
+    0% {
+        box-shadow: 0px 0 rgba(255, 255, 255, 0), 0px 0 rgba(255, 255, 255, 0), 0px 0 rgba(255, 255, 255, 0), 0px 0 rgba(255, 255, 255, 0);
+    }
+
+    12% {
+        box-shadow: 100px 0 #dcfce7, 0px 0 rgba(255, 255, 255, 0), 0px 0 rgba(255, 255, 255, 0), 0px 0 rgba(255, 255, 255, 0);
+    }
+
+    25% {
+        box-shadow: 110px 0 #dcfce7, 100px 0 #dcfce7, 0px 0 rgba(255, 255, 255, 0), 0px 0 rgba(255, 255, 255, 0);
+    }
+
+    36% {
+        box-shadow: 120px 0 #dcfce7, 110px 0 #dcfce7, 100px 0 #dcfce7, 0px 0 rgba(255, 255, 255, 0);
+    }
+
+    50% {
+        box-shadow: 130px 0 #dcfce7, 120px 0 #dcfce7, 110px 0 #dcfce7, 100px 0 #dcfce7;
+    }
+
+    62% {
+        box-shadow: 200px 0 rgba(255, 255, 255, 0), 130px 0 #dcfce7, 120px 0 #dcfce7, 110px 0 #dcfce7;
+    }
+
+    75% {
+        box-shadow: 200px 0 rgba(255, 255, 255, 0), 200px 0 rgba(255, 255, 255, 0), 130px 0 #dcfce7, 120px 0 #dcfce7;
+    }
+
+    87% {
+        box-shadow: 200px 0 rgba(255, 255, 255, 0), 200px 0 rgba(255, 255, 255, 0), 200px 0 rgba(255, 255, 255, 0), 130px 0 #dcfce7;
+    }
+
+    100% {
+        box-shadow: 200px 0 rgba(255, 255, 255, 0), 200px 0 rgba(255, 255, 255, 0), 200px 0 rgba(255, 255, 255, 0), 200px 0 rgba(255, 255, 255, 0);
+    }
+}
+
 
 
 
