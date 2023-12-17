@@ -9,6 +9,7 @@ import { AppDispatch, RootState } from '../../store'
 import { fetchAllCategoryAndHighlight, fetchAllProducts, fetchOneProductByID, setSingleProductData } from '../../Slices/AllProductSlice';
 import { toast } from 'react-toastify';
 import { userState } from '../../Slices/UserSlice';
+import { searchProduct, searchProductState, setKeyText } from '../../Slices/ProductSearchByKey';
 
 
 
@@ -67,6 +68,7 @@ export default function NavBar() {
 
                     {/* Here menu items will visible and show when user click ok icon */}
                     <MenuOfMobileShowByBTN />
+
 
                     {/* (search bar full width less then tab) Below search bar will visible less then md (in mobile only)    */}
                     <SearchBarTabAndLess />
@@ -202,183 +204,6 @@ function MobileUICodeLeftSection({ open }: { open: boolean }) {
                 </div>
 
             </div>
-
-
-
-        </>
-    )
-}
-
-
-// // // This div contains Input box and search btn and suggestion div all ---> and it's neccessory thing 
-// // // Used is two placed in leptop and mobile also ---->
-function MainSearchBarWithLogics() {
-
-    const navigate = useNavigate();
-    const dispatch = useDispatch<AppDispatch>();
-
-
-
-    const themeSate = useSelector((store: RootState) => store.themeReducer.mode)
-    const allProduct = useSelector((store: RootState) => store.allProductWithCatReducer.allProducts)
-
-
-    const [showSuggestion, setShowSuggestion] = useState(false)
-    const inputRef = useRef<HTMLInputElement | null>(null);
-
-    const [text, setText] = useState("")
-    // // // Text var is used as search Text --->
-
-
-    const handleInboxClick = () => {
-        setShowSuggestion(true);
-    }
-
-
-    const handleOutsideClick = (e: MouseEvent) => {
-
-        setText("");  // // // Empty text now --->
-
-        if (inputRef.current && e.target !== inputRef.current) {
-            setShowSuggestion(false);
-        }
-    }
-
-
-
-    // // // Product search ------>
-    function SuggestionHandler() {
-
-        // // // This will run first (when ever text is empty)
-        if (text === "") {
-            return <h1 className='my-5 mx-1 text-center text-danger fw-bold'>Search product by it's <strong>Name</strong> or <strong>Category</strong> or <strong>Brand name</strong>.</h1>
-        }
-
-
-        let returnArrFromFilter = allProduct.filter((product) => {
-
-
-            if (text === "") {
-                return product
-            }
-            else if (product.title.toLocaleLowerCase().includes(text.toLocaleLowerCase())) {
-                return product
-            }
-            else if (product.category.toLocaleLowerCase().includes(text.toLocaleLowerCase())) {
-                return product
-            }
-            else if (product.brand.toLocaleLowerCase().includes(text.toLocaleLowerCase())) {
-                return product
-            }
-
-        }).map((product) => {
-            return (
-                <li
-                    key={product.id}
-                    className='my-2 border rounded px-1 flex items-center hover:cursor-pointer hover:scale-95 transition-all'
-                    onClick={(e) => {
-                        // e.stopPropagation();
-                        e.preventDefault();
-                        navigate(`/product/${product.id}`);
-                        dispatch(setSingleProductData({ id: product.id }));
-                        dispatch(fetchOneProductByID({ productId: product.id }));
-                        // dispatch(setSingleOProductId({ id: product.id }));
-                        window.scroll(0, 0);
-                        setText("")
-                    }}
-                >
-                    <img className=' w-12 mr-1 ' src={product.thumbnail} alt="" />
-                    <p className=' capitalize'>{` ${product.title} - ${product.brand} - ${product.category} - ₹${product.price} `}</p>
-                </li>
-            )
-        })
-
-
-        return (returnArrFromFilter.length > 0) ? returnArrFromFilter : <h1 className='my-5 mx-1 text-center text-danger fw-bold'>Product not found with this keyword | 404 :- {text}</h1>
-
-
-    }
-
-
-
-
-
-
-    useEffect(() => {
-        document.addEventListener('click', handleOutsideClick);
-        return () => {
-            document.removeEventListener('click', handleOutsideClick);
-        };
-    }, []);
-
-
-
-    return (
-        <>
-
-            <input
-                type="text" placeholder='Search Product...'
-                className={` ${!themeSate ? "bg-white text-black" : " bg-gray-900 text-white"}  py-1 rounded w-full`}
-                name="" id=""
-                value={text}
-
-                // onFocus={()=>{alert("ok")}}
-
-                // onFocusCapture={()=>alert("ok")}
-                ref={inputRef}
-
-                onClick={handleInboxClick}
-
-                onChange={(e) => { setText(e.target.value); }}
-
-            // onClick={() => { alert("ok") }}
-
-            />
-
-            <button className='border text-white rounded text-md p-1 font-medium  hover:bg-gray-700 hover:text-white'>
-                <MagnifyingGlassIcon className="h-6 w-6 text-gray-200" />
-            </button>
-
-
-            {
-                showSuggestion &&
-
-                <div className={` ${!themeSate ? "bg-white text-black" : " bg-gray-900 text-white"} w-full absolute top-full mt-0.5  rounded-b-md py-2 px-1  `}>
-
-
-                    <ul className=' max-h-96 overflow-y-scroll border rounded border-green-300'>
-
-                        {/* <li>1 productOne ---</li>
-                        <li>1 productOne ---</li>
-                        <li>1 productOne ---</li>
-                        <li>1 productOne ---</li> */}
-
-                        {
-                            text &&
-                            <div className='p-1 bg-red-500 m-1 font-bold rounded flex justify-between'
-                                onClick={() => { setText(""); }}
-                            >
-                                <p>Close</p>
-                                <p className='border px-1 rounded'>x</p>
-                            </div>
-                        }
-
-
-                        {
-                            allProduct && (allProduct.length > 0)
-                            &&
-                            SuggestionHandler()
-                        }
-
-
-
-                    </ul>
-
-                </div>
-
-
-            }
-
 
 
 
@@ -675,6 +500,9 @@ function SearchBarTabAndLess() {
 
                 <MainSearchBarWithLogics />
 
+                {/* <MainSearchBarWithLogicsOnNode /> */}
+
+
             </div>
         </>
     )
@@ -761,5 +589,257 @@ function UniversalLoaderAndScroll() {
 }
 
 
+
+// // // This div contains Input box and search btn and suggestion div all ---> and it's neccessory thing 
+// // // Used is two placed in leptop and mobile also ---->
+function MainSearchBarWithLogics() {
+
+    const navigate = useNavigate();
+    const dispatch = useDispatch<AppDispatch>();
+
+    const themeSate = useSelector((store: RootState) => store.themeReducer.mode)
+
+
+
+
+    const [showSuggestion, setShowSuggestion] = useState(false)
+    const inputRef = useRef<HTMLInputElement | null>(null);
+
+    // const [text, setText] = useState("")
+    // // // Text var is used as search Text --->
+
+    const text = searchProductState().keyText
+    const setText = (text: string) => dispatch(setKeyText(text));
+    const allProduct = searchProductState().productSuggetionArr
+    const isLoading = searchProductState().isLoading
+    const isFullfilled = searchProductState().isFullFilled
+    const isError = searchProductState().isError
+
+
+    // // // Input onchange handler --->
+
+
+
+    // let isUserStopTyping = false
+
+
+    const [isUserStopTyping, setIsUserStopTyping] = useState<boolean>(false)
+
+    // // // This type we can use in set timeout -->
+    type Timer = ReturnType<typeof setTimeout>
+
+    let timeOutValue: Timer;
+
+    function searchOncahngeHandler(e: React.ChangeEvent<HTMLInputElement>) {
+
+        setText(e.target.value);
+
+        clearTimeout(timeOutValue)
+
+        timeOutValue = setTimeout(() => {
+            setIsUserStopTyping(true)
+        }, 500)
+    }
+
+
+
+
+
+    // // // Product search ------>
+    function SuggestionHandler() {
+
+        // // // This will run first (when ever text is empty)
+        // if (text === "") {
+        //     return <h1 className='my-5 mx-1 text-center text-danger fw-bold'>Search product by it's <strong>Name</strong> or <strong>Category</strong> or <strong>Brand name</strong>.</h1>
+        // }
+
+
+
+        // // // frontend filter logic (OLD)
+        // let returnArrFromFilter = allProduct.filter((product) => {
+        //     if (text === "") {
+        //         return product
+        //     }
+        //     else if (product.title.toLocaleLowerCase().includes(text.toLocaleLowerCase())) {
+        //         return product
+        //     }
+        //     else if (product.category.toLocaleLowerCase().includes(text.toLocaleLowerCase())) {
+        //         return product
+        //     }
+        //     else if (product.brand.toLocaleLowerCase().includes(text.toLocaleLowerCase())) {
+        //         return product
+        //     }
+
+        // })
+
+
+
+        // returnArrFromFilter = []
+        // // // just checking thier
+
+        return (
+
+
+            (text === "")
+                ?
+
+                <h1 className='my-5 mx-1 text-center text-danger fw-bold'>Search product by it's <strong>Name</strong> or <strong>Category</strong> or <strong>Brand name</strong>.</h1>
+
+                :
+
+                (isFullfilled && !isError)
+                    ?
+                    allProduct.map((product) => {
+                        return (
+                            <li
+                                key={product.id}
+                                className='my-2 border rounded px-1 flex items-center hover:cursor-pointer hover:scale-95 transition-all'
+                                onClick={(e) => {
+                                    // e.stopPropagation();
+                                    e.preventDefault();
+                                    navigate(`/product/${product.id}`);
+                                    dispatch(setSingleProductData({ id: product.id }));
+                                    dispatch(fetchOneProductByID({ productId: product.id }));
+                                    // dispatch(setSingleOProductId({ id: product.id }));
+                                    window.scroll(0, 0);
+                                    setText("")
+                                }}
+                            >
+                                <img className=' w-12 mr-1 ' src={product.thumbnail} alt="" />
+                                <p className=' capitalize'>{` ${product.title} - ${product.brand} - ${product.category} - ₹${product.price} `}</p>
+                            </li>
+                        )
+                    })
+                    :
+                    <h1 className='my-5 mx-1 text-center text-danger fw-bold'>Product not found with this keyword | 404 :- {text}</h1>)
+
+    }
+
+
+
+    const handleInboxClick = () => {
+        setShowSuggestion(true);
+    }
+
+
+    const handleOutsideClick = (e: MouseEvent) => {
+
+        setText("");  // // // Empty text now --->
+
+        if (inputRef.current && e.target !== inputRef.current) {
+            setShowSuggestion(false);
+        }
+    }
+
+
+
+
+
+    useEffect(() => {
+
+
+        if (isUserStopTyping) {
+
+            // // // Here checking two thing 
+            // // 1s is) is loading is false (means not getting data)
+            // // // 2nd is) text having someting 
+            if (!isLoading && text) {
+                // alert("Calling Dispatch here --->")
+                // console.log("calling db")
+
+
+                dispatch(searchProduct(text))
+
+
+                setIsUserStopTyping(false)
+            }
+        }
+
+    }, [text, isUserStopTyping])
+
+
+
+
+    useEffect(() => {
+        document.addEventListener('click', handleOutsideClick);
+        return () => {
+            document.removeEventListener('click', handleOutsideClick);
+        };
+    }, []);
+
+
+
+    return (
+        <>
+
+            <input
+                type="text" placeholder='Search Product...'
+                className={` ${!themeSate ? "bg-white text-black" : " bg-gray-900 text-white"}  py-1 rounded w-full`}
+                name="" id=""
+                value={text}
+
+                // onFocus={()=>{alert("ok")}}
+
+                // onFocusCapture={()=>alert("ok")}
+                ref={inputRef}
+
+                onClick={handleInboxClick}
+
+                onChange={(e) => { e.stopPropagation(); searchOncahngeHandler(e); }}
+
+            // onClick={() => { alert("ok") }}
+
+            />
+
+            <button className='border text-white rounded text-md p-1 font-medium  hover:bg-gray-700 hover:text-white'>
+                <MagnifyingGlassIcon className="h-6 w-6 text-gray-200" />
+            </button>
+
+
+            {
+                showSuggestion &&
+
+                <div className={` ${!themeSate ? "bg-white text-black" : " bg-gray-900 text-white"} w-full absolute top-full mt-0.5  rounded-b-md py-2 px-1 z-20 `}>
+
+
+                    <ul className=' max-h-96 overflow-y-scroll border rounded border-green-300'>
+
+                        {/* <li>1 productOne ---</li>
+                        <li>1 productOne ---</li>
+                        <li>1 productOne ---</li>
+                        <li>1 productOne ---</li> */}
+
+                        {
+                            text
+                            &&
+                            <div className='p-1 bg-red-500 m-1 font-bold rounded flex justify-between'
+                                onClick={() => { setText(""); }}
+                            >
+                                <p>Close</p>
+                                <p className='border px-1 rounded'>x</p>
+                            </div>
+                        }
+
+
+                        {
+                            (allProduct && (allProduct.length >= 0))
+                            &&
+                            SuggestionHandler()
+                        }
+
+
+
+                    </ul>
+
+                </div>
+
+
+            }
+
+
+
+        </>
+    )
+}
 
 

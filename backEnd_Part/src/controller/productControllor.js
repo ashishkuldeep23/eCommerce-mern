@@ -446,5 +446,39 @@ async function dislikeProduct(req, res) {
 }
 
 
-module.exports = { createNewProduct, findAllProducts, getCategoryAndHighlight, findOneProduct, likeProduct, dislikeProduct }
+
+async function searchProductByKeyowrd(req, res) {
+
+    try {
+
+        const { keyword } = req.query
+
+        if (!keyword) return res.status(400).send({ status: false, message: "Search by keyword.See your backend code." })
+
+
+        // let getProductFromDB = await productModel.find(filterPoducts)
+
+        let getProductFromDB = await productModel.find({
+            $or: [
+                { title: { $regex: keyword, $options: 'i' } }, // case-insensitive
+                { category: { $regex: keyword, $options: 'i' } },
+                { brand: { $regex: keyword, $options: 'i' } },
+            ],
+        })
+
+
+        if (getProductFromDB.length <= 0) return res.status(400).send({ status: false, message: `No data found with this keyword :(${keyword})` })
+
+        // console.log(getProductFromDB)
+
+        res.status(200).send({ status: true, totalData: getProductFromDB.length, data: getProductFromDB, message: `Data found successfull by this keyword : ${keyword}` })
+    }
+    catch (err) {
+        console.log(err.message)
+        res.status(500).send({ status: false, message: `Server Error (${err.message})` })
+    }
+}
+
+
+module.exports = { createNewProduct, findAllProducts, getCategoryAndHighlight, findOneProduct, likeProduct, dislikeProduct, searchProductByKeyowrd }
 
