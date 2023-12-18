@@ -87,8 +87,6 @@ const SingleCartItem = ({ product, mainCartComp }: { product: CardDataInter, mai
                     <div className="flex flex-1 items-end justify-between text-sm">
 
 
-
-
                         <div className='flex flex-col items-center'>
 
                             <p className=" font-bold">Qty {product.quantity}</p>

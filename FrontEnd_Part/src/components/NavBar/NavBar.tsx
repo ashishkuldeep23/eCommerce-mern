@@ -624,11 +624,11 @@ function UniversalLoaderAndScroll() {
 
                     <button
                         onClick={(e) => leftClickhandler(e)}
-                        className='w-1/2  h-full border border-green-400 bg-green-700 '
+                        className='w-1/2  h-full bg-green-300'
                     >.</button>
                     <button
                         onClick={(e) => rightClickHandler(e)}
-                        className='w-1/2  h-full border border-blue-400 bg-blue-700'
+                        className='w-1/2  h-full  bg-green-300'
                     >.</button>
 
                 </div>

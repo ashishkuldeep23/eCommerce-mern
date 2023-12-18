@@ -1,12 +1,12 @@
 
-import { useEffect } from 'react'
+// import { useEffect } from 'react'
 import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch, RootState } from "../../store"
 import { useForm, SubmitHandler } from "react-hook-form"
 import CartComponent, { makeMoreRaedablePrice } from "../CartComp/CartComponent"
 import UserAddressDiv from "../AboutPage/UserAddressDiv"
 import { UserAddressObj, userState } from "../../Slices/UserSlice"
-import { CardDataInter, setClearCartData } from "../../Slices/CartSlice"
+import { CardDataInter } from "../../Slices/CartSlice"
 import { checkEmail } from "../AboutPage/DetailsOfUser"
 import { Fragment } from "react"
 import { orderState, setOrderdata } from "../../Slices/OrderSlice"
@@ -144,26 +144,7 @@ const PaymentComp = () => {
 
 
 
-
   console.log(errors)
-
-
-  // // // useEffect for fullfill true ---->
-
-  useEffect(() => {
-
-    if (getOrderData.isFullFilled) {
-
-      // // // Clear cart data -->
-
-      dispatch(setClearCartData())
-
-      // // Now got to about to show orders ---> (Or go to Orders page ---->)
-      navigate("/orders")
-    }
-
-  }, [getOrderData.isFullFilled])
-
 
 
 

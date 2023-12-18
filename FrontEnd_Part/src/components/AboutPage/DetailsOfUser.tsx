@@ -339,10 +339,7 @@ function UserImgsMoreThenOn() {
     }
 
 
-
-
     useEffect(() => {
-
 
         if (getUserData.allImages) {
 
@@ -354,6 +351,11 @@ function UserImgsMoreThenOn() {
 
     }, [getUserData.allImages])
 
+
+
+    useEffect(() => {
+        window.scroll(0,0)
+    } , [] )
 
 
     return (
@@ -409,8 +411,6 @@ function UserImgsMoreThenOn() {
 
 
                 </div>
-
-
 
             </div>
 
