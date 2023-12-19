@@ -2,11 +2,11 @@ const nodemailer = require("nodemailer")
 
 const transport = nodemailer.createTransport({
 
-    service: "gmail",
-    auth: {
-        user: process.env.ADMIN_EMAIL,
-        pass: process.env.ADMIN_PASS
-    }
+  service: "gmail",
+  auth: {
+    user: process.env.ADMIN_EMAIL,
+    pass: process.env.ADMIN_PASS
+  }
 
 })
 
@@ -25,25 +25,21 @@ const transport = nodemailer.createTransport({
 
 const sendMailWithNodemailerFormate = (to, subjcet, text) => {
 
-    return {
-        from: process.env.ADMIN_EMAIL,
-        to: to,
-        subject: `${subjcet} | Sended from AmaKart Ecommerce Web App by Ashish Kuldeep.`,
-        text: `${text}`,
-        html: `${text}`,
+  return {
+    from: process.env.ADMIN_EMAIL,
+    to: to,
+    subject: `${subjcet} | Sended from AmmaKart Ecommerce Web App by Ashish Kuldeep.`,
+    text: `${text}`,
+    html: `${text}`,
 
-    }
+  }
 
 }
 
 
 
-
-
-
-
 function makeHtmlForOrders(order, unSubribeUrl) {
-    let makeHtmlWithText = `
+  let makeHtmlWithText = `
     <!DOCTYPE html>
 <html>
 <head>
@@ -240,16 +236,16 @@ A preheader is the short summary text that follows the subject line when an emai
 
 
               ${item.discountPercentage
-            ?
-            //  <p className={`text-lg text-end font-medium ${!themeMode ? "text-gray-900" : "text-gray-300"} `}> <span className=' text-sm font-thin line-through'>₹{item.price}</span> ₹{(Math.round(item.price - ((item.discountPercentage * item.price) / 100)))}</p>
-            `<td align="left" width="20%" style="padding: 6px 12px;font-family: "Source Sans Pro", Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">₹${(Math.round(item.verity.typePrice - ((item.discountPercentage * item.verity.typePrice) / 100))) * item.quantity}</td>`
-            :
-            //  <p className={`text-lg text-end font-medium ${!themeMode ? "text-gray-900" : "text-gray-300"} `}> ₹{item.price} </p>
-            `<td align="left" width="20%" style="padding: 6px 12px;font-family: "Source Sans Pro", Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">₹${item.verity.typePrice}</td>`
-        }
+      ?
+      //  <p className={`text-lg text-end font-medium ${!themeMode ? "text-gray-900" : "text-gray-300"} `}> <span className=' text-sm font-thin line-through'>₹{item.price}</span> ₹{(Math.round(item.price - ((item.discountPercentage * item.price) / 100)))}</p>
+      `<td align="left" width="20%" style="padding: 6px 12px;font-family: "Source Sans Pro", Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">₹${(Math.round(item.verity.typePrice - ((item.discountPercentage * item.verity.typePrice) / 100))) * item.quantity}</td>`
+      :
+      //  <p className={`text-lg text-end font-medium ${!themeMode ? "text-gray-900" : "text-gray-300"} `}> ₹{item.price} </p>
+      `<td align="left" width="20%" style="padding: 6px 12px;font-family: "Source Sans Pro", Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">₹${item.verity.typePrice}</td>`
+    }
             </tr>`)
 
-        }
+    }
            
            
             <tr>
@@ -369,13 +365,118 @@ A preheader is the short summary text that follows the subject line when an emai
     `
 
 
-    return makeHtmlWithText
+  return makeHtmlWithText
 
 }
 
 
+function makeHtmlMailForVerifyEmail(url) {
+  let makedHtmltemplate = `
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <meta charset="utf-8">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      <title>Email Verification</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style type="text/css">
+            table {
+                font-family: arial, sans-serif;
+                border-collapse: collapse;
+            }
+            td {
+                border-bottom-style: solid;
+                border-color: #dddddd;
+                border-bottom-width: 1px;
+                text-align: left;
+                padding-top: 13px;
+                padding-right: 14px;
+            }
+            th {
+                padding: 8px;
+                display:flex;
+                flex-direction:column;
+                justify-content:center;
+                align-items:center;
+            }
+            .image {
+                width: 293px;
+                height: 80px;
+                background-image: url(data:image/png;base64, DATA);
+                background-size: contain;
+                margin: 0 auto;
+            }
+            .topper {
+                background-color: #003d8f;
+                width: 100%;
+                height: 80px;
+                color: white;
+                font-family: sans-serif;
+                text-align: center;
+            }
+            .topper h1 {
+                padding-top: 20px;
+            }
+            .content {
+                margin: 0 auto;
+                width: fit-content;
+            }
+            .footer p {
+                width: fit-content;
+                margin-left: auto;
+                margin-right: auto;
+                color: gray;
+                font-size: small;
+            }
+
+            p{
+              text-align: center;
+              font-size: 1.3rem;
+            }
+  
+          a{
+              font-size: 3rem;
+              border-radius: 5vh;
+              padding: 5px 15px;
+              font-weight: bolder;
+              background-color: green;
+              color:white;
+              text-align: center;
+              text-decoration: none;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="topper">
+            <h1>SingUp Successfull</h1>
+        </div>
+        <br />
+        <div class="content">
+            <div class="image"></div>
+            <br />
+            <br />
+            <br />
+            <table>
+                <tr>
+                    <td> <a href='${url}' >Verify Mail</a> </td>
+                    <td>OR</td>
+                    <td><b>URL : ${url}</b></td>
+                </tr>
+            </table>
+            <br />
+            <br />
+        </div>
+        <br />
+        <br />
+        <br />
+        <hr/ style="border-top: 1px solid #e2e1e1; border-left: 0px">
+    </body>
+</html>
+  `
+
+  return makedHtmltemplate
+}
 
 
 
-
-module.exports = { transport, sendMailWithNodemailerFormate, makeHtmlForOrders }
+module.exports = { transport, sendMailWithNodemailerFormate, makeHtmlForOrders, makeHtmlMailForVerifyEmail }

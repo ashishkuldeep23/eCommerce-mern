@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt")
 const userModel = require("../model/userModel")
-
+const jwt = require("jsonwebtoken")
+const { transport, sendMailWithNodemailerFormate, makeHtmlMailForVerifyEmail } = require("../../lib/nodemailer")
 
 const cloudinary = require("cloudinary").v2
 
@@ -45,6 +46,9 @@ async function creteUserControllor(req, res) {
 
         // console.log(req.body)
 
+
+        // // // Validation here ------>
+
         if (Object.keys(req.body).length <= 0) return res.status(400).send({ status: false, message: "Body can't be empty." })
 
         if (!firstName || !lastName || !email || !password) return res.status(400).send({ status: false, message: "Imp field missing." })
@@ -76,7 +80,7 @@ async function creteUserControllor(req, res) {
 
 
 
-
+        // // // Check already present with this email or not ---->
 
         let findByEmailForUnique = await userModel.findOne({ email: email })
 
@@ -86,11 +90,22 @@ async function creteUserControllor(req, res) {
         // // // Set opt here ------->
 
 
+        // // // Now here (create some tokens like :- 1st : verifyEmailToken , 2nd is resetPasswordToken , and save these tokens in User DB ) ----->
+
+
+        const verifyMailToken = jwt.sign({ email: email }, process.env.JWT_SECRET_KEY);
+
+
+        const resetPassToken = jwt.sign({ email: email }, process.env.JWT_SECRET_KEY);
+
+
+        // console.log(verifyMailToken , resetPassToken)
+
 
 
         // // // // Upload File -------->
 
-        const file = req.files;
+        // const file = req.files;
 
         // console.log(file)
 
@@ -114,7 +129,24 @@ async function creteUserControllor(req, res) {
         let hashPassword = await bcrypt.hash(password, salt)
 
 
-        const createNewUser = await userModel.create({ ...req.body, password: hashPassword, profilePic: pathUrl, allImages: [pathUrl] })
+        // console.log(hashPassword)
+
+
+        // // // Yaha pr spread pahle krege.(Agar bad me kr rhe hai to ye purana wala upadate ho jayega)
+
+
+        const createNewUser = await userModel.create({
+            ...req.body,
+            resetPasswordToken: resetPassToken,
+            verifyMailToken: verifyMailToken,
+            password: hashPassword,
+            profilePic: pathUrl,
+            allImages: [pathUrl],
+
+        })
+
+
+        // console.log(createNewUser)
 
 
         let data = {
@@ -126,7 +158,29 @@ async function creteUserControllor(req, res) {
         }
 
 
-        res.status(201).send({ status: true, data: data, message: "New user created successful" })
+        // // // Now send a mail to verify email (if user is verified then he/she will able to change their password. )
+
+
+        let responceObject = { status: true, data: data, message: "New user created successful" }
+
+        let mailOptions = sendMailWithNodemailerFormate(createNewUser.email, "Thank you for shopping with us. Check your order details.", makeHtmlMailForVerifyEmail(`${process.env.BACKEND_URL}/verifyMail?token=${createNewUser.verifyMailToken}&email=${createNewUser.email}`))
+
+        await transport.sendMail(mailOptions, function (err, info) {
+
+            if (err) {
+                console.log(err)
+                return res.status(400).send({ status: false, message: `${JSON.stringify(err)} AND reachout to developer.` })
+            } else {
+                console.log(info.response)
+                // return res.status(200).send({ status: true, message: 'Message sent successfully , Thankyou for sending email , Admin will respond you soon.' })
+
+                responceObject.message = `${responceObject.message} AND  email sent successfully.`
+            }
+
+        })
+
+
+        res.status(201).send(responceObject)
 
     } catch (err) {
 
@@ -171,8 +225,6 @@ function logOutControl(req, res) {
         })
         .send({ status: true, message: "SingOut Done ✅" })
 
-
-
 }
 
 
@@ -190,7 +242,7 @@ async function getUserData(req, res) {
     let userOrders = []
 
 
-    if(findUser.orders && findUser.orders.length > 0){
+    if (findUser.orders && findUser.orders.length > 0) {
         userOrders = findUser.orders.reverse()
     }
 
@@ -210,9 +262,6 @@ async function getUserData(req, res) {
 
     res.status(200).send({ status: true, data: sendUserData, message: "User Fetch successful" })
 }
-
-
-
 
 
 // // // Upadte user logic here ------>
@@ -377,5 +426,46 @@ async function updateUser(req, res) {
 }
 
 
+// // // verifyMailController  -------> 
+async function verifyMailController(req, res) {
 
-module.exports = { creteUserControllor, logInControllor, logOutControl, getUserData, updateUser }
+    try {
+
+
+        // console.log(req.query)
+
+        const { token, email } = req.query
+
+        if (!token || !email) return res.status(400).send({ status: false, message: "Email and token gien in Query." })
+
+
+        let findUser = await userModel.findOne({ email: email, verifyMailToken: token })
+
+        if (!findUser) {
+            return res.status(400).send({ status: false, message: "No such user found with this Mail id" })
+        }
+
+        // res.send("bye bye")
+
+        findUser.isEmailVerified = true
+        findUser.verifyMailToken = "null"
+
+        await findUser.save()
+
+
+        // res.send(`${process.env.FRONTEND_URL}`)
+
+        // //  If everyThing is good send user to front-end
+
+        res.redirect(`${process.env.FRONTEND_URL}`)
+
+    } catch (err) {
+        console.log(err.message)
+        return res.status(500).send({ status: false, message: `Error by server (${err.message})` })
+    }
+
+}
+
+
+
+module.exports = { creteUserControllor, logInControllor, logOutControl, getUserData, updateUser, verifyMailController }

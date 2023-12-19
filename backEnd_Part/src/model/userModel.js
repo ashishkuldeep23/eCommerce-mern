@@ -36,12 +36,16 @@ const userSchema = new mongoose.Schema({
 
     whenCreted: { type: String, default: () => Date.now() },
 
-    isEmailVerified: { type: Boolean, default: false },
-
     orders: {
         type: [mongoose.Schema.Types.ObjectId] ,
         ref: "order"
     },
+
+    isEmailVerified: { type: Boolean, default: false },
+
+    resetPasswordToken: {type: String, default:''},
+
+    verifyMailToken: {type: String, default:''}
 
 
 }, { timestamps: true })
