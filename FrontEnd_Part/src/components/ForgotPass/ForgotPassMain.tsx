@@ -32,8 +32,6 @@ const ForgotPassMain = () => {
 
     const isLoading = userState().isLoading
 
-    const isFullFilled = userState().isFullFilled
-
     const errMsg = userState().errMsg
 
     const dispatch = useDispatch<AppDispatch>()
@@ -87,10 +85,6 @@ const ForgotPassMain = () => {
     }, [])
 
 
-    useEffect(() => {
-
-        if (isFullFilled) { navigate("/login") }
-    }, [isFullFilled])
 
     return (
         <>
@@ -207,7 +201,13 @@ const ForgotPassMain = () => {
                             </div>
 
 
-                            <div className="text-red-500 font-bold text-center">{errMsg}</div>
+                            <div className={`font-bold text-center`}>
+                                {
+                                    errMsg !== "New password saved successfull."
+                                        ? <p className=" text-red-500">{errMsg}</p>
+                                        : <span className="px-2 rounded font-bold text-white bg-green-500 my-1" onClick={() => navigate("/login")}>GoTo LogIn</span>
+                                }
+                            </div>
 
                             <div>
                                 <button

@@ -426,7 +426,6 @@ const userSlice = createSlice({
                 state.isLoading = false
 
             })
-
             .addCase(logInUser.rejected, (state, action) => {
 
                 // console.log(action)
@@ -837,7 +836,7 @@ const userSlice = createSlice({
 
                     state.isFullFilled = true
                 
-
+                    state.errMsg = action.payload.message
 
                 }
 
