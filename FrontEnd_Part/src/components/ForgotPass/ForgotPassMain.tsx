@@ -34,6 +34,8 @@ const ForgotPassMain = () => {
 
     const errMsg = userState().errMsg
 
+    const isForgotFullFilled = userState().isForgotFullFilled
+
     const dispatch = useDispatch<AppDispatch>()
 
     const { register, handleSubmit, formState: { errors }, } = useForm<FormInputs>()
@@ -84,6 +86,14 @@ const ForgotPassMain = () => {
 
     }, [])
 
+
+    useEffect(()=>{
+
+        if(isForgotFullFilled){
+            navigate("/login")
+        }
+
+    } , [isForgotFullFilled])
 
 
     return (

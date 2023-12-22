@@ -25,13 +25,15 @@ export default function LogIn() {
 
     const isLoading = userState().isLoading
 
+    const userData = userState()
+
     const limitValue = useSelector((state: RootState) => state.allProductWithCatReducer.onePageLimit)
 
     const dispatch = useDispatch<AppDispatch>()
 
     const navigate = useNavigate()
 
-    const { register, handleSubmit, formState: { errors }, } = useForm<FormInputs>()
+    const { register, handleSubmit, formState: { errors }, setValue } = useForm<FormInputs>()
 
 
     const onSubmit: SubmitHandler<FormInputs> = (data) => {
@@ -57,7 +59,14 @@ export default function LogIn() {
         // }
 
 
+        // // // Set email here if user forgot pass then only -->
+        if(userData.userData.email){
+            setValue('username' , userData.userData.email)
+        }
 
+
+
+        // // // Now if user give login value correct
         if (isLogin) {
 
             // let expires = new Date()

@@ -218,6 +218,7 @@ export type UserDataForOder = {
     isSingIn: boolean;
     isLogIn: boolean;
     isFullFilled: boolean;
+    isForgotFullFilled : boolean;
     errMsg : string;
     userData: {
         // name: string;
@@ -241,6 +242,7 @@ const initialState: UserDataForOder = {
     isSingIn: false,
     isLogIn: false,
     isFullFilled: false,
+    isForgotFullFilled: false,
     errMsg : "",
     userData: {
         // name: "",
@@ -835,6 +837,10 @@ const userSlice = createSlice({
                     })
 
                     state.isFullFilled = true
+                    
+                    state.isForgotFullFilled = true
+
+                    state.userData.email = action.payload.data
                 
                     state.errMsg = action.payload.message
 

@@ -637,7 +637,7 @@ async function forgotMainHandler(req, res) {
         await getUser.save()
 
 
-        res.status(200).send({ status: true, message: "New password saved successfull." })
+        res.status(200).send({ status: true, message: "New password saved successfull." , data : getUser.email })
 
         // console.log("done -------->")
 
