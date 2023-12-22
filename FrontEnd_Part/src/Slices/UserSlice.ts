@@ -765,7 +765,7 @@ const userSlice = createSlice({
                     })
 
                     state.isFullFilled = true
-                
+                    state.errMsg = action.payload.message
 
 
                 }

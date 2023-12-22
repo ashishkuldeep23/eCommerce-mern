@@ -104,10 +104,6 @@ export default function LogIn() {
                 }
             </div>
 
-
-
-
-
             <div className={` ${isLoading && "opacity-75"} flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8  border h-allAk ${!themeMode ? "bg-white text-black" : " bg-black text-white "}  `}>
 
                 <p className="text-center text-sm text-gray-500 fixed top-5 right-5">

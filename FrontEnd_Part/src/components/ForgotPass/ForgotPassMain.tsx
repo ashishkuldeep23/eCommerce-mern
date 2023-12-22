@@ -3,7 +3,7 @@
 
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { AppDispatch, RootState } from "../../store"
 import { useForm, SubmitHandler } from "react-hook-form"
 import { forgotMain, userState } from "../../Slices/UserSlice"
@@ -23,18 +23,22 @@ const ForgotPassMain = () => {
 
     const params = useParams()
 
+    const navigate = useNavigate()
+
+
     const [userInfo, setUserInfo] = useState({ email: "", token: "", password: "" })
 
     const [passType, setPassType] = useState<string>("password")
 
     const isLoading = userState().isLoading
 
+    const isFullFilled = userState().isFullFilled
+
     const errMsg = userState().errMsg
 
     const dispatch = useDispatch<AppDispatch>()
 
     const { register, handleSubmit, formState: { errors }, } = useForm<FormInputs>()
-
 
     const onSubmit: SubmitHandler<FormInputs> = (data) => {
 
@@ -62,10 +66,16 @@ const ForgotPassMain = () => {
         // console.log("BK")
         // console.log(params)
 
-        const { token, email } = params
+        const { token, email , emailDomain } = params
 
-        if (email && token) {
-            setUserInfo({ ...userInfo, email: email, token: token })
+        if (email && token && emailDomain) {
+
+            let actualEmail = `${email}@${emailDomain}`
+
+
+            setUserInfo({ ...userInfo, email: actualEmail, token: token })
+        }else{
+            alert("Required path params are not given.")
         }
 
 
@@ -74,6 +84,12 @@ const ForgotPassMain = () => {
 
 
     }, [])
+
+
+    useEffect(()=>{
+
+        if(isFullFilled){ navigate("/login") }
+    } , [])
 
     return (
         <>
@@ -113,10 +129,6 @@ const ForgotPassMain = () => {
 
 
                     <div className="sm:mx-auto sm:w-full sm:max-w-sm rounded p-1 xsm:p-5">
-
-
-                        {/* <div>{userInfo.token}</div> */}
-                        {/* <div>{userInfo.email}</div> */}
 
 
                         <label htmlFor="email" className="block text-sm font-medium leading-6 ">
@@ -194,7 +206,6 @@ const ForgotPassMain = () => {
                             </div>
 
 
-                            {/* Error message from backend */}
                             <div className="text-red-500 font-bold text-center">{errMsg}</div>
 
                             <div>

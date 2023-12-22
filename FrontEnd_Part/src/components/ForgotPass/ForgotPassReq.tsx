@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch, RootState } from "../../store"
 import { useForm, SubmitHandler } from "react-hook-form"
 import { forgotRequest, userState } from "../../Slices/UserSlice"
+import { useEffect } from "react"
 
 
 type FormInputs = {
@@ -19,9 +20,11 @@ const ForgotPassReq = () => {
 
     const themeMode = useSelector((state: RootState) => state.themeReducer.mode)
 
-    const { register, handleSubmit, formState: { errors }, } = useForm<FormInputs>()
+    const { register, handleSubmit, formState: { errors }, setValue } = useForm<FormInputs>()
 
     const isLoading = userState().isLoading
+
+    const isFullfilled = userState().isFullFilled
 
     const errMsg = userState().errMsg
 
@@ -39,6 +42,14 @@ const ForgotPassReq = () => {
 
     }
 
+
+    useEffect(()=>{
+
+        if(isFullfilled){
+            setValue("email" , "")
+        }
+
+    } , [isFullfilled])
 
 
     return (

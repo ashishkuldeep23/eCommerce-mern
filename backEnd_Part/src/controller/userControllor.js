@@ -540,7 +540,14 @@ async function forgotReqHandler(req, res) {
         // console.log("send mail now --->")
 
 
-        let url = `${process.env.FRONTEND_URL}/forgot-pass-main/${email}/${resetPassToken}`
+        let findAtInEmail = email.indexOf("@")
+
+        let emailUserId = email.slice(0, findAtInEmail)
+
+        let emailDomain = email.slice(findAtInEmail + 1)
+
+
+        let url = `${process.env.FRONTEND_URL}/forgot-pass-main/${resetPassToken}/${emailDomain}/${emailUserId}`
 
 
         let html = ` <p><a href='${url}'>Click here</a> to forgot password. OR URL :- ${url} incase btn is not working.</p>`
@@ -617,7 +624,7 @@ async function forgotMainHandler(req, res) {
 
         // console.log(passCompare)
         if (passCompare) {
-            return res.status(400).send({status : false , message : "Give different password please.(given new password found same as old password)"})
+            return res.status(400).send({ status: false, message: "Give different password please.(given new password found same as old password)" })
         }
 
 
@@ -626,14 +633,14 @@ async function forgotMainHandler(req, res) {
         let salt = await bcrypt.genSalt(10)
         let hashPassword = await bcrypt.hash(password, salt)
 
-    
+
         getUser.password = hashPassword
         getUser.resetPasswordToken = "null"
 
         await getUser.save()
-        
 
-        res.status(200).send({status : true , message : "New password saved successfull."})
+
+        res.status(200).send({ status: true, message: "New password saved successfull." })
 
         // console.log("done -------->")
 
