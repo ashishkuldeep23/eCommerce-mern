@@ -57,7 +57,6 @@ app.use(passport.authenticate('session'));
 
 
 
-
 // // // Code for local strategy --->
 passport.use("local", new LocalStrategy(
   // { usernameField: "email" },

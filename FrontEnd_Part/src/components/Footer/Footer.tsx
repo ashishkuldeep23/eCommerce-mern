@@ -86,7 +86,7 @@ const Footer = () => {
                             key={i}
                             style={{ lineBreak: "anywhere" }}
                             onClick={(e) => { e.stopPropagation(); searchByCatClickhandler("category", ele) }}
-                            className=" my-1 px-2 rounded capitalize font-bold border inline hover:scale-x-110 hover:bg-blue-400 transition-all"
+                            className={` my-1 px-2 rounded capitalize font-bold inline hover:scale-x-110 hover:bg-blue-400 transition-all border  ${themeMode ? "border-slate-300" : "border-slate-800"} `}
                           >{ele}</li>
                         )
                       })
@@ -106,7 +106,7 @@ const Footer = () => {
                             key={i}
                             style={{ lineBreak: "anywhere" }}
                             onClick={(e) => { e.stopPropagation(); searchByCatClickhandler("brand", ele) }}
-                            className=" my-1 mx-0.5 px-2 rounded capitalize font-bold border inline hover:scale-x-110 hover:bg-blue-400 transition-all"
+                            className={` my-1 mx-0.5 px-2 rounded capitalize font-bold border inline hover:scale-x-110 hover:bg-blue-400 transition-all  ${themeMode ? "border-slate-300" : "border-slate-800"} `}
                           >{ele}</li>
                         )
                       })

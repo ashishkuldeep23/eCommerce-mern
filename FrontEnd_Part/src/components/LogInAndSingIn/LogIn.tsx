@@ -208,6 +208,11 @@ export default function LogIn() {
                         </div>
                     </form>
 
+                    <button
+                        onClick={(e) => { e.stopPropagation(); navigate("/forgot-pass-req") }}
+                        className=" text-end w-full mt-2 px-1 hover:text-red-300 transition-all"
+                    >Forgot Password</button>
+
                     <p className="mt-10 text-center text-sm text-gray-500">
                         Not a member?{' '}
                         <Link to="/signin" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">

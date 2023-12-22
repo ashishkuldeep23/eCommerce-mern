@@ -1,6 +1,6 @@
 
-import { Fragment, useEffect } from 'react'
-import { fetchUser, userState } from "../../Slices/UserSlice"
+import { Fragment, useEffect, useState } from 'react'
+import { UserOrderOj, fetchUser, userState } from "../../Slices/UserSlice"
 import { makeMoreRaedablePrice } from '../CartComp/CartComponent'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../../store'
@@ -53,7 +53,10 @@ const OrderOfUser = () => {
 
     const navigate = useNavigate()
 
-    // console.log(getUserData)
+    const [allOrdersOfUser, setAllOrdersOfUser] = useState<UserOrderOj[]>([])
+
+    // console.log(allOrdersOfUser)
+
 
     const isFullfilled = orderState().isFullFilled
 
@@ -64,7 +67,17 @@ const OrderOfUser = () => {
             dispatch(fetchUser())
         }
 
+
     }, [isFullfilled])
+
+
+
+    // // // Set data for everytime when changes ------->
+    useEffect(() => {
+        if (getUserData.orders) {
+            setAllOrdersOfUser([...getUserData.orders])
+        }
+    }, [getUserData])
 
 
     return (
@@ -72,7 +85,14 @@ const OrderOfUser = () => {
 
             {/* order div */}
 
-            <h2 className=" text-4xl text-center mb-5 underline text-green-300">Your previous orders </h2>
+            <h2 className=" text-4xl text-center  underline text-green-300">Your previous orders </h2>
+
+
+            <div className='my-10'>
+                <OrderFilterSection allOrdersOfUser={allOrdersOfUser} setAllOrdersOfUser={setAllOrdersOfUser} />
+            </div>
+
+
 
             {
                 getUserData.orders && (getUserData.orders.length > 0)
@@ -83,12 +103,12 @@ const OrderOfUser = () => {
                     <div className='flex flex-wrap justify-evenly px-5'>
                         {
 
-                            getUserData.orders.map((order, i) => {
+                            allOrdersOfUser.map((order, i) => {
 
                                 return (
                                     <Fragment key={order.id}>
 
-                                        {/* {`${JSON.stringify(getUserData.orders)}`} */}
+                                        {/* {`${JSON.stringify(allOrdersOfUser.orders)}`} */}
 
 
                                         <div className=' pb-28 flex justify-center'>
@@ -109,7 +129,7 @@ const OrderOfUser = () => {
                                                 {/* single order detaio */}
                                                 <div className={`w-full smm:w-72 h-96 border-2 rounded md:max-w-sm px-1 flex flex-col justify-center text-center relative ${!themeMode ? "bg-green-300 border-green-500 " : "bg-green-800 border-green-300 "}  transition-all`}>
 
-                                                    <p className=' font-bold font-mono underline text-xl absolute top-8 left-1/2 -translate-x-1/2 w-full'> {getUserData.orders && getUserData.orders?.length - i + ")"}Order Details</p>
+                                                    <p className=' font-bold font-mono underline text-xl absolute top-8 left-1/2 -translate-x-1/2 w-full'> {allOrdersOfUser && allOrdersOfUser?.length - i + ")"}Order Details</p>
 
 
                                                     <div className=' text-start ml-3 pl-2 border-l rounded '>
@@ -127,6 +147,8 @@ const OrderOfUser = () => {
                                                         <p> <span className=' underline text-lg'>Date & Time</span> : {order.whenCreated}</p>
 
                                                         <p><span className=' underline text-lg'>Total items</span> : All <span className='font-extrabold bg-yellow-500 px-1 rounded'>{order.cartData.length}</span> Orders <span className=' hidden sm:inline'>➡️</span> <span className=' inline sm:hidden'>⬇️</span> </p>
+
+                                                        <p><span className=' underline text-lg'>Total Price</span> : <span>{order.totalPrice}</span></p>
 
                                                     </div>
 
@@ -180,7 +202,7 @@ const OrderOfUser = () => {
                     <div className="flex flex-col items-center px-5">
 
                         {
-                            (getUserData.orders && getUserData.orders?.length === 0)
+                            (allOrdersOfUser && allOrdersOfUser.length === 0)
                             &&
                             <div className='flex flex-col items-center'>
                                 <p className=' text-3xl'>No order found, order something first</p>
@@ -203,11 +225,11 @@ const OrderOfUser = () => {
                                         <div key={i} className="mt-10 w-full sm:w-auto text-black">
                                             {/* <img className=" w-72 md:max-w-sm rounded" src={item.imageSrc} ></img> */}
 
-                                            <div className=" w-full sm:w-72  h-56 sm:h-72 bg-slate-300 rounded md:max-w-sm"></div>
+                                            <div className=" w-full sm:w-72  h-56 sm:h-72 bg-slate-300 rounded md:max-w-sm animate-pulse"></div>
 
-                                            <p className=" bg-slate-300 h-6 w-full rounded my-0.5 px-1 mt-4">{item.name}</p>
-                                            <p className=" bg-slate-300 h-6 w-full rounded my-0.5 px-1 font-bold">{item.price}</p>
-                                            <h2 className="bg-slate-300 h-6 w-full rounded my-0.5 px-1">Date and Time </h2>
+                                            <p className=" bg-slate-300 h-6 w-full rounded my-0.5 px-1 mt-4 animate-pulse">{item.name}</p>
+                                            <p className=" bg-slate-300 h-6 w-full rounded my-0.5 px-1 font-bold animate-pulse">{item.price}</p>
+                                            <h2 className="bg-slate-300 h-6 w-full rounded my-0.5 px-1 animate-pulse">Date and Time </h2>
                                         </div>
 
                                     )
@@ -244,11 +266,11 @@ function SingleOrderData({ order }: { order: CardDataInter }) {
             key={order.id}
             id='single_order_div'
             className="w-full smm:w-72 flex flex-col items-center overflow-hidden hover:cursor-pointer"
-            onClick={(e) => { 
-                e.stopPropagation(); 
-                navigate(`/product/${order.id}`); 
-                dispatch(fetchOneProductByID({ productId: order.id })); 
-                dispatch(setSingleProductData({ id: order.id })); 
+            onClick={(e) => {
+                e.stopPropagation();
+                navigate(`/product/${order.id}`);
+                dispatch(fetchOneProductByID({ productId: order.id }));
+                dispatch(setSingleProductData({ id: order.id }));
                 window.scroll(0, 0);
             }}
         >
@@ -272,3 +294,75 @@ function SingleOrderData({ order }: { order: CardDataInter }) {
 
 
 
+
+
+function OrderFilterSection({ allOrdersOfUser, setAllOrdersOfUser }: { allOrdersOfUser: UserOrderOj[], setAllOrdersOfUser: React.Dispatch<React.SetStateAction<UserOrderOj[]>> }) {
+
+
+    function filterOrders(whichOneClicked: string) {
+
+        alert("Now working on it --->")
+
+        switch (whichOneClicked) {
+            case "oldest":
+                setAllOrdersOfUser([...allOrdersOfUser].reverse())
+                break;
+
+            case "minprice":
+
+            
+                setAllOrdersOfUser([...allOrdersOfUser].reverse())
+                break;
+
+            default:
+                break;
+        }
+
+    }
+
+
+
+    return (
+        <>
+
+            {
+
+                (allOrdersOfUser.length !== 0)
+                    ?
+
+
+                    <div className='flex justify-center items-center'>
+                        <h1 className='mx-2 font-bold rounded border px-2 py-1'>Filter By ➡️</h1>
+                        <ul className='flex flex-wrap justify-center gap-3 px-2 py-1 rounded '>
+                            <li className='border font-bold rounded px-2 hover:-translate-y-1 hover:cursor-pointer hover:opacity-50 transition-all' onClick={(e) => { e.stopPropagation(); filterOrders("oldest") }} >Oldest</li>
+                            <li className='border font-bold  rounded px-2 hover:-translate-y-1 hover:cursor-pointer hover:opacity-50 transition-all' onClick={(e) => { e.stopPropagation(); filterOrders('newest') }}   >Newest</li>
+                            <li className='border font-bold rounded px-2 hover:-translate-y-1 hover:cursor-pointer hover:opacity-50 transition-all' onClick={(e) => { e.stopPropagation(); filterOrders('minprice') }} >Min Price</li>
+                            <li className='border font-bold rounded px-2 hover:-translate-y-1 hover:cursor-pointer hover:opacity-50 transition-all' onClick={(e) => { e.stopPropagation(); filterOrders('maxprice') }} >Max Price</li>
+                            <li className='border font-bold rounded px-2 hover:-translate-y-1 hover:cursor-pointer hover:opacity-50 transition-all' onClick={(e) => { e.stopPropagation(); filterOrders('category') }} >Category</li>
+                            <li className='border font-bold rounded px-2 hover:-translate-y-1 hover:cursor-pointer hover:opacity-50 transition-all' onClick={(e) => { e.stopPropagation(); filterOrders('status') }} >Status</li>
+                        </ul>
+                    </div>
+
+
+                    :
+
+
+                    <div className='flex justify-center items-center'>
+                        <h1 className='mx-2 font-bold rounded border px-2 py-1'>Filter By ➡️</h1>
+                        <ul className='flex flex-wrap justify-center gap-3 px-2 py-1 rounded '>
+                            <li className='w-16 h-6  bg-slate-300 animate-pulse border font-bold rounded px-2 hover:-translate-y-1 hover:cursor-pointer hover:opacity-50 transition-all' ></li>
+                            <li className='w-16 h-6 bg-slate-300 animate-pulse border font-bold  rounded px-2 hover:-translate-y-1 hover:cursor-pointer hover:opacity-50 transition-all'></li>
+                            <li className='w-16 h-6 bg-slate-300 animate-pulse border font-bold rounded px-2 hover:-translate-y-1 hover:cursor-pointer hover:opacity-50 transition-all' ></li>
+                            <li className='w-16 h-6 bg-slate-300 animate-pulse border font-bold rounded px-2 hover:-translate-y-1 hover:cursor-pointer hover:opacity-50 transition-all' ></li>
+                            <li className='w-16 h-6 bg-slate-300 animate-pulse border font-bold rounded px-2 hover:-translate-y-1 hover:cursor-pointer hover:opacity-50 transition-all' ></li>
+                            <li className='w-16 h-6 bg-slate-300 animate-pulse border font-bold rounded px-2 hover:-translate-y-1 hover:cursor-pointer hover:opacity-50 transition-all' ></li>
+                        </ul>
+                    </div>
+
+            }
+
+
+            {/* <p>{allOrdersOfUser.length}</p> */}
+        </>
+    )
+}

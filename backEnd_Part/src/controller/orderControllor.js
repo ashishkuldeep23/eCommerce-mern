@@ -52,7 +52,7 @@ async function createNewOrder(req, res) {
 
         // // // Now send a mail to use for succesfull ordring items ---->
 
-        let mailOptions = sendMailWithNodemailerFormate(userData.email, "Thank you for shopping with us. Check your order details.", makeHtmlForOrders(req.body , "unsubcribe_URL"))
+        let mailOptions = sendMailWithNodemailerFormate(userData.email, "Thank you for shopping with us. Check your order details.", makeHtmlForOrders(req.body, "unsubcribe_URL"))
 
         await transport.sendMail(mailOptions, function (err, info) {
 

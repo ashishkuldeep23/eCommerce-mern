@@ -13,7 +13,6 @@ const transport = nodemailer.createTransport({
 
 
 
-
 // const mailOptions = {
 //     from: process.env.USER_EMAIL,
 //     to: email,
@@ -35,7 +34,6 @@ const sendMailWithNodemailerFormate = (to, subjcet, text) => {
   }
 
 }
-
 
 
 function makeHtmlForOrders(order, unSubribeUrl) {
@@ -374,104 +372,123 @@ function makeHtmlMailForVerifyEmail(url) {
   let makedHtmltemplate = `
   <!DOCTYPE html>
   <html>
-    <head>
-      <meta charset="utf-8">
-      <meta http-equiv="x-ua-compatible" content="ie=edge">
-      <title>Email Verification</title>
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-        <style type="text/css">
-            table {
-                font-family: arial, sans-serif;
-                border-collapse: collapse;
-            }
-            td {
-                border-bottom-style: solid;
-                border-color: #dddddd;
-                border-bottom-width: 1px;
-                text-align: left;
-                padding-top: 13px;
-                padding-right: 14px;
-            }
-            th {
-                padding: 8px;
-                display:flex;
-                flex-direction:column;
-                justify-content:center;
-                align-items:center;
-            }
-            .image {
-                width: 293px;
-                height: 80px;
-                background-image: url(data:image/png;base64, DATA);
-                background-size: contain;
-                margin: 0 auto;
-            }
-            .topper {
-                background-color: #003d8f;
-                width: 100%;
-                height: 80px;
-                color: white;
-                font-family: sans-serif;
-                text-align: center;
-            }
-            .topper h1 {
-                padding-top: 20px;
-            }
-            .content {
-                margin: 0 auto;
-                width: fit-content;
-            }
-            .footer p {
-                width: fit-content;
-                margin-left: auto;
-                margin-right: auto;
-                color: gray;
-                font-size: small;
-            }
-
-            p{
-              text-align: center;
-              font-size: 1.3rem;
-            }
   
-          a{
-              font-size: 3rem;
-              border-radius: 5vh;
-              padding: 5px 15px;
-              font-weight: bolder;
-              background-color: green;
-              color:white;
-              text-align: center;
-              text-decoration: none;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="topper">
-            <h1>SingUp Successfull</h1>
-        </div>
-        <br />
-        <div class="content">
-            <div class="image"></div>
-            <br />
-            <br />
-            <br />
-            <table>
-                <tr>
-                    <td> <a href='${url}' >Verify Mail</a> </td>
-                    <td>OR</td>
-                    <td><b>URL : ${url}</b></td>
-                </tr>
-            </table>
-            <br />
-            <br />
-        </div>
-        <br />
-        <br />
-        <br />
-        <hr/ style="border-top: 1px solid #e2e1e1; border-left: 0px">
-    </body>
-</html>
+      <head>
+          <meta charset="utf-8">
+          <meta http-equiv="x-ua-compatible" content="ie=edge">
+          <title>Email Verification</title>
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <style type="text/css">
+              table {
+                  font-family: arial, sans-serif;
+                  border-collapse: collapse;
+                  
+              }
+  
+              td {
+                  border-bottom-style: solid;
+                  border-color: #dddddd;
+                  border-bottom-width: 1px;
+                  text-align: left;
+                  padding-top: 14px;
+                  padding-right: 14px;
+                  display: flex ;
+                  justify-content: center;
+                  align-items: center;
+                  
+              }
+  
+              th {
+                  padding: 8px;
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: center;
+                  align-items: center;
+              }
+  
+              .image {
+                  width: 293px;
+                  height: 80px;
+                  background-image: url(data:image/png;base64);
+                  background-size: contain;
+                  margin: 0 auto;
+              }
+  
+              .topper {
+                  background-color: #003d8f;
+                  width: 100%;
+                  height: 80px;
+                  color: white;
+                  font-family: sans-serif;
+                  text-align: center;
+              }
+  
+              .topper h1 {
+                  padding-top: 20px;
+              }
+  
+              .content {
+                  margin: 0 auto;
+                  width: fit-content;
+              }
+  
+              .footer p {
+                  width: fit-content;
+                  margin-left: auto;
+                  margin-right: auto;
+                  color: gray;
+                  font-size: small;
+              }
+  
+              p {
+                  text-align: center;
+                  font-size: 1.3rem;
+              }
+  
+              a {
+                  font-size: 3rem;
+                  border-radius: 5vh;
+                  padding: 5px 15px;
+                  font-weight: bolder;
+                  background-color: green;
+                  color: white;
+                  text-align: center;
+                  text-decoration: none;
+              }
+          </style>
+      </head>
+  
+      <body>
+          <div class="topper">
+              <h1>Singup Successfull</h1>
+          </div>
+          <br />
+          <div class="content">
+              <div class="image"></div>
+              <br />
+              <br />
+              <br />
+              <table>
+                  <tr>
+                      <td> <a href="${url}">Verify Mail</a> </td>
+                  </tr>
+                  <tr>
+                      <td>OR</td>
+                  </tr>
+                  <tr>
+                      <td><b>URL : ${url}</b></td>
+                  </tr>
+              </table>
+              <br />
+              <br />
+          </div>
+          <br />
+          <br />
+          <br />
+          <hr / style="border-top: 1px solid #e2e1e1; border-left: 0px">
+      </body>
+  
+  </html>
   `
 
   return makedHtmltemplate

@@ -92,9 +92,7 @@ async function creteUserControllor(req, res) {
 
         // // // Now here (create some tokens like :- 1st : verifyEmailToken , 2nd is resetPasswordToken , and save these tokens in User DB ) ----->
 
-
-        const verifyMailToken = jwt.sign({ email: email }, process.env.JWT_SECRET_KEY);
-
+        const verifyMailToken = jwt.sign({ email: email }, process.env.JWT_SECRET_KEY, { expiresIn: '10d' });
 
         const resetPassToken = jwt.sign({ email: email }, process.env.JWT_SECRET_KEY);
 
@@ -211,7 +209,6 @@ async function logInControllor(req, res) {
     }
 
 }
-
 
 
 function logOutControl(req, res) {
@@ -431,12 +428,26 @@ async function verifyMailController(req, res) {
 
     try {
 
-
         // console.log(req.query)
 
         const { token, email } = req.query
 
         if (!token || !email) return res.status(400).send({ status: false, message: "Email and token gien in Query." })
+
+        // // Verify token here ---->
+        let verifyToken;
+
+        try {
+            verifyToken = await jwt.verify(token, `${process.env.JWT_SECRET_KEY}`)
+            // console.log(verifyToken)
+        } catch (err) {
+
+            if (err.message === "jwt expired") {
+                return res.status(403).send({ status: false, message: `${err.message}` })
+            }
+
+            return res.status(403).send({ status: false, message: `Go to profile and verify your mail again | ${err.message}` })
+        }
 
 
         let findUser = await userModel.findOne({ email: email, verifyMailToken: token })
@@ -452,9 +463,7 @@ async function verifyMailController(req, res) {
 
         await findUser.save()
 
-
         // res.send(`${process.env.FRONTEND_URL}`)
-
         // //  If everyThing is good send user to front-end
 
         res.redirect(`${process.env.FRONTEND_URL}`)
@@ -468,4 +477,175 @@ async function verifyMailController(req, res) {
 
 
 
-module.exports = { creteUserControllor, logInControllor, logOutControl, getUserData, updateUser, verifyMailController }
+
+
+async function checkUserPesentWithMail(email) {
+
+
+    try {
+
+        // console.log("reached")
+
+        let checkingUser = await userModel.findOne({ email: email })
+
+        // console.log(checkingUser)
+
+        if (!checkingUser) return false
+        else return checkingUser
+
+    } catch (err) {
+        console.log(err.message)
+        return { status: false, message: `Error by server (${err.message})` }
+    }
+
+
+}
+
+
+// // // Make a request for forget pass and send email to user --->
+
+async function forgotReqHandler(req, res) {
+
+    try {
+
+        // console.log(req.body)
+
+        const { email } = req.body
+
+        if (!email) return res.status(400).send({ status: false, message: "Please provide email of user." })
+
+
+        let userFoundWithMail = await checkUserPesentWithMail(email)
+
+        // console.log(userFoundWithMail)
+
+        if (!userFoundWithMail) return res.status(404).send({ status: false, message: "No user found with this mail" })
+
+
+        const resetPassToken = jwt.sign({ email: email }, process.env.JWT_SECRET_KEY, { expiresIn: '1H' });
+
+        // console.log(resetPassToken)
+
+
+        await userModel.findByIdAndUpdate(
+            { _id: userFoundWithMail._id },
+            { $set: { resetPasswordToken: resetPassToken } },
+            { new: true, upsert: true }
+
+        )
+
+
+        //  console.log(resetToeknInUserData)
+
+        // console.log("send mail now --->")
+
+
+        let url = `${process.env.FRONTEND_URL}/forgot-pass-main/${email}/${resetPassToken}`
+
+
+        let html = ` <p><a href='${url}'>Click here</a> to forgot password. OR URL :- ${url} incase btn is not working.</p>`
+
+
+        let mailOptions = sendMailWithNodemailerFormate(
+            email,
+            "Forgot password, click on given link please.",
+            html
+        )
+
+        await transport.sendMail(mailOptions, function (err, info) {
+
+            if (err) {
+                console.log(err)
+                return res.status(400).send({ status: false, message: `${JSON.stringify(err)} AND reachout to developer.` })
+            } else {
+                console.log(info.response)
+                // return res.status(200).send({ status: true, message: 'Message sent successfully , Thankyou for sending email , Admin will respond you soon.' })
+
+                responceObject.message = `${responceObject.message} AND  email sent successfully.`
+            }
+
+        })
+
+
+        res.status(200).send({ status: true, message: "Mail sended sucessfull, check you mail now." })
+
+
+    }
+    catch (err) {
+        console.log(err.message)
+        return res.status(500).send({ status: false, message: `Error by server (${err.message})` })
+    }
+
+}
+
+
+
+async function forgotMainHandler(req, res) {
+
+    try {
+
+        const { email, token, password } = req.body
+
+        if (!email || !token || !password) return res.status(400).send({ status: false, message: "Imp. feilds not given." })
+
+
+        // // Verify token here ---->
+        let verifyToken;
+
+        try {
+            verifyToken = await jwt.verify(token, `${process.env.JWT_SECRET_KEY}`)
+            // console.log(verifyToken)
+        } catch (err) {
+
+            if (err.message === "jwt expired") {
+                return res.status(403).send({ status: false, message: `${err.message}` })
+            }
+
+            return res.status(403).send({ status: false, message: `Invalid token check your mail agian | ${err.message}` })
+        }
+
+
+
+        let getUser = await userModel.findOne({ email: email, resetPasswordToken: token })
+
+        if (!getUser) return res.status(404).send({ status: false, message: "User not found, check your mail box or again generate forget token again." })
+
+
+        // // Now compare new pass with old pass
+
+        let passCompare = await bcrypt.compare(password, getUser.password)
+
+        // console.log(passCompare)
+        if (passCompare) {
+            return res.status(400).send({status : false , message : "Give different password please.(given new password found same as old password)"})
+        }
+
+
+        // // // Now save new pass here ------>
+
+        let salt = await bcrypt.genSalt(10)
+        let hashPassword = await bcrypt.hash(password, salt)
+
+    
+        getUser.password = hashPassword
+        getUser.resetPasswordToken = "null"
+
+        await getUser.save()
+        
+
+        res.status(200).send({status : true , message : "New password saved successfull."})
+
+        // console.log("done -------->")
+
+    }
+    catch (err) {
+        console.log(err.message)
+        return res.status(500).send({ status: false, message: `Error by server (${err.message})` })
+    }
+
+}
+
+
+
+
+module.exports = { creteUserControllor, logInControllor, logOutControl, getUserData, updateUser, verifyMailController, forgotReqHandler, forgotMainHandler }

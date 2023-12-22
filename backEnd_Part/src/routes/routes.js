@@ -9,7 +9,7 @@ const passport = require('passport');
 
 const { createNewProduct, findAllProducts, getCategoryAndHighlight, findOneProduct , dislikeProduct , likeProduct , searchProductByKeyowrd } = require("../controller/productControllor")
 const { createNewReview, deleteReview, updateReview, likeReview, dislikeReview } = require("../controller/reviewController")
-const { creteUserControllor, logInControllor, logOutControl, getUserData, updateUser , verifyMailController } = require("../controller/userControllor")
+const { creteUserControllor, logInControllor, logOutControl, getUserData, updateUser , verifyMailController , forgotReqHandler ,forgotMainHandler } = require("../controller/userControllor")
 
 
 const { createNewOrder, updateOrder } = require("../controller/orderControllor")
@@ -81,6 +81,17 @@ router.get("/userSingout", isAuthorized, logOutControl)
 router.post("/updateUser", isAuthorized, upload.array("file"), updateUser)
 
 router.get("/verifyMail" , verifyMailController)
+
+router.post("/forgot-req" , forgotReqHandler)
+
+router.post("/forgot-main" , forgotMainHandler)
+
+
+// router.get("/resetPasswordPage" , ( req , res)=>{
+
+//   res.sendFile( process.cwd() + "/public/resetPass.html")
+
+// })
 
 
 router.get("/auth/google/callback", passport.authenticate("google", {

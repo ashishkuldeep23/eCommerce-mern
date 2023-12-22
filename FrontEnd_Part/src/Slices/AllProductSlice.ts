@@ -328,16 +328,50 @@ const allProductsCatSlice = createSlice({
 
 
     extraReducers: (builder) => {
+        builder
 
-        builder.addCase(fetchAllProducts.pending, (state) => {
-            state.isLoading = true;
-            state.allCaegory = [];
-        })
+            .addCase(fetchAllProducts.pending, (state) => {
+                state.isLoading = true;
+                state.allCaegory = [];
+            })
 
-        builder.addCase(fetchAllProducts.fulfilled, (state, action) => {
+            .addCase(fetchAllProducts.fulfilled, (state, action) => {
 
-            if (action.payload.totaldata === 0) {
-                toast.error(`Data Not Found for your query | 404`, {
+                if (action.payload.totaldata === 0) {
+                    toast.error(`Data Not Found for your query | 404`, {
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: false,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                    });
+                }
+
+                state.isLoading = false;
+                state.allProducts = action.payload.allProductData
+                state.allCaegory = action.payload.allCategory
+                state.searchByQuery = false
+
+
+                if (action.payload.searchByQuery) {
+                    state.totalProducts = action.payload.allProductData.length
+                    state.searchByQuery = true
+                }
+
+                // state.allHighlightProducts = action.payload.allHighlights
+
+                // console.log(action.payload)
+            })
+
+            .addCase(fetchAllProducts.rejected, (state, action) => {
+                state.isError = true;
+
+                console.log(action.error)
+
+                toast.error(`${action.error.message} | Check your Network | Refresh the page`, {
                     position: "top-right",
                     autoClose: 2000,
                     hideProgressBar: false,
@@ -347,40 +381,9 @@ const allProductsCatSlice = createSlice({
                     progress: undefined,
                     theme: "dark",
                 });
-            }
-
-            state.isLoading = false;
-            state.allProducts = action.payload.allProductData
-            state.allCaegory = action.payload.allCategory
-            state.searchByQuery = false
+            })
 
 
-            if (action.payload.searchByQuery) {
-                state.totalProducts = action.payload.allProductData.length
-                state.searchByQuery = true
-            }
-
-            // state.allHighlightProducts = action.payload.allHighlights
-
-            // console.log(action.payload)
-        })
-
-        builder.addCase(fetchAllProducts.rejected, (state, action) => {
-            state.isError = true;
-
-            console.log(action.error)
-
-            toast.error(`${action.error.message} | Check your Network | Refresh the page`, {
-                position: "top-right",
-                autoClose: 2000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: false,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-            });
-        })
 
 
 
@@ -408,6 +411,15 @@ const allProductsCatSlice = createSlice({
 
                     // // // Some error part
 
+                    // console.log(action)
+
+                    // // // jwt expired remove token in localStorage -->
+                    if (action.payload.message === "jwt expired") {
+                        localStorage.removeItem("userToken")
+                        return
+                    }
+
+
                     toast.error(`${action.payload.message}`, {
                         position: "top-right",
                         autoClose: 2000,
@@ -426,7 +438,7 @@ const allProductsCatSlice = createSlice({
             .addCase(fetchAllCategoryAndHighlight.rejected, (state, action) => {
 
 
-                // console.log(action.payload)
+                // console.log(action)
 
                 state.isError = true
                 toast.error(`${action.error.message} | Check your Network | Refresh the page`, {
@@ -472,6 +484,7 @@ const allProductsCatSlice = createSlice({
             })
 
 
+            
 
             .addCase(likeProduct.pending, (state) => {
                 // console.log("Getting Data from Backend. Now pending")

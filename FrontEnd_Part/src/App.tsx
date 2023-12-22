@@ -23,6 +23,8 @@ import OrderConfirm from "./components/OrderConfirm/OrderConfirm"
 
 import { createBrowserRouter, RouterProvider, Link } from "react-router-dom"
 import { CategorySearchPage } from "./Screens/CategorySearchPage"
+import ForgotPassMainScreen from "./Screens/ForgotPassMainScreen"
+import { ForgotPassReqScreen } from "./Screens/ForgotPassReqScreen"
 
 // import { fetchAllProducts , fetchAllCategoryAndHighlight } from "./Slices/AllProductSlice"
 
@@ -75,7 +77,11 @@ const router = createBrowserRouter([
   { path: "/login", element: <LogInScreen /> },
 
   { path: "/signin", element: <SignInScreeen /> },
-
+  
+  { path: "/forgot-pass-req", element: <ForgotPassReqScreen /> },
+  
+  { path: "/forgot-pass-main/:email/:token", element: <ForgotPassMainScreen /> },
+  
   { path: "/catPage", element: <CategorySearchPage /> },
 
   { path: "/cart", element: (<LogInProtected> <CartScreen /> </LogInProtected>) },

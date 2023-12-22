@@ -143,6 +143,42 @@ export const userSingout = createAsyncThunk("user/singOut", async () => {
 })
 
 
+export const forgotRequest = createAsyncThunk("user/forgotReq" ,  async (email : string) =>{
+
+
+    const option: RequestInit = {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({email : email})
+    }
+
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/forgot-req`, option)
+    let data = await response.json();
+    return data
+})
+
+
+export const forgotMain = createAsyncThunk("user/forgotMain" ,  async ({email , password , token} : {email : string , password : string , token : string}) =>{
+
+
+    const option: RequestInit = {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({email , password , token})
+    }
+
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/forgot-main`, option)
+    let data = await response.json();
+    return data
+})
+
+
 
 export type UserAddressObj = {
     id: string;
@@ -169,12 +205,13 @@ export type UserOrderOj = {
 
 
 
-type User = {
+export type UserDataForOder = {
     isLoading: boolean;
     isError: boolean;
     isSingIn: boolean;
     isLogIn: boolean;
     isFullFilled: boolean;
+    errMsg : string;
     userData: {
         // name: string;
         lastName: string;
@@ -191,12 +228,13 @@ type User = {
 
 
 
-const initialState: User = {
+const initialState: UserDataForOder = {
     isLoading: false,
     isError: false,
     isSingIn: false,
     isLogIn: false,
     isFullFilled: false,
+    errMsg : "",
     userData: {
         // name: "",
         lastName: "",
@@ -233,6 +271,8 @@ const userSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
+
+            // // // SingUp user --------->
             .addCase(createNewUser.pending, (state) => {
                 state.isLoading = true
             })
@@ -674,6 +714,134 @@ const userSlice = createSlice({
                 newState.isLoading = false
                 newState.isError = true
                 newState.isFullFilled = false
+                toast.error(`${action.error.message}`, {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                });
+            })
+
+
+            // // // Forgot req ----->
+
+            .addCase(forgotRequest.pending , (state)=>{
+                state.isLoading = true
+                state.isFullFilled = false
+            })
+
+            .addCase(forgotRequest.fulfilled, (state, action) => {
+
+                if (action.payload.status === false) {
+
+                    state.isError = true
+                    state.errMsg = action.payload.message
+
+                    toast.error(`${action.payload.message} | 400`, {
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: false,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                    })
+                } else {
+
+                    toast.success(`${action.payload.message} | SingOut Done ✅ from Backend`, {
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: false,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                    })
+
+                    state.isFullFilled = true
+                
+
+
+                }
+
+                state.isLoading = false
+            })
+
+            .addCase(forgotRequest.rejected, (newState, action) => {
+                newState.isLoading = false
+                newState.isError = true
+                newState.isFullFilled = false
+                newState.errMsg = action?.error?.message!
+                toast.error(`${action.error.message}`, {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                });
+            })
+
+
+            // // // Main forgot pass --->
+
+            .addCase(forgotMain.pending , (state)=>{
+                state.isLoading = true
+                state.isFullFilled = false
+            })
+
+            .addCase(forgotMain.fulfilled, (state, action) => {
+
+                if (action.payload.status === false) {
+
+                    state.isError = true
+                    state.errMsg = action.payload.message
+
+                    toast.error(`${action.payload.message} | 400`, {
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: false,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                    })
+                } else {
+
+                    toast.success(`${action.payload.message} | SingOut Done ✅ from Backend`, {
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: false,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                    })
+
+                    state.isFullFilled = true
+                
+
+
+                }
+
+                state.isLoading = false
+            })
+
+            .addCase(forgotMain.rejected, (newState, action) => {
+                newState.isLoading = false
+                newState.isError = true
+                newState.isFullFilled = false
+                newState.errMsg = action?.error?.message!
                 toast.error(`${action.error.message}`, {
                     position: "top-right",
                     autoClose: 2000,

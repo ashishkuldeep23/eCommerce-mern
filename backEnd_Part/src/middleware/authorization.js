@@ -44,13 +44,17 @@ exports.isAuthorized = async function (req, res, next) {
 
             // console.log(verifyToken)
         } catch (err) {
-            console.log(err.message)
+            // console.log(err.message)
 
             if (err.message === "jwt must be provided") {
-                return res.status(403).send({ status: false, message: ` Login Please with valid email and password | ${err.message}` })
+                return res.status(403).send({ status: false, message: `Login Please with valid email and password | ${err.message}` })
             }
 
-            return res.status(403).send({ status: false, message: ` Login Please with valid email and password | ${err.message}` })
+            if (err.message === "jwt expired") {
+                return res.status(403).send({ status: false, message: `${err.message}` })
+            }
+
+            return res.status(403).send({ status: false, message: `Login Please with valid email and password | ${err.message}` })
         }
 
 
