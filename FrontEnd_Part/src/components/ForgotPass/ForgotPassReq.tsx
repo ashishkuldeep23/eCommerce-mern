@@ -56,7 +56,7 @@ const ForgotPassReq = () => {
         <>
 
 
-            <div className=" fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-100">
+            <div className=" fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-100 z-40">
                 {
                     isLoading
                     &&
@@ -124,7 +124,7 @@ const ForgotPassReq = () => {
                             </div>
 
                             {/* Error message from backend */}
-                            <div className="text-red-500 font-bold text-center">{errMsg}</div>
+                            <div className={`font-bold text-center ${errMsg === "Mail sended sucessfull, check you mail now." ? " text-green-500" : " text-red-500"} `}>{errMsg}</div>
 
                             <div>
                                 <button

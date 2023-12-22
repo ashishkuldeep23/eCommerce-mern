@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { useNavigate, useParams } from "react-router-dom"
 import { AppDispatch, RootState } from "../../store"
 import { useForm, SubmitHandler } from "react-hook-form"
-import { forgotMain, userState } from "../../Slices/UserSlice"
+import { checkUserWithEmail, forgotMain, userState } from "../../Slices/UserSlice"
 
 
 type FormInputs = {
@@ -66,7 +66,7 @@ const ForgotPassMain = () => {
         // console.log("BK")
         // console.log(params)
 
-        const { token, email , emailDomain } = params
+        const { token, email, emailDomain } = params
 
         if (email && token && emailDomain) {
 
@@ -74,27 +74,28 @@ const ForgotPassMain = () => {
 
 
             setUserInfo({ ...userInfo, email: actualEmail, token: token })
-        }else{
+
+
+            // // // TODO : Here call backend to verify email (any user is present with this email)
+            dispatch(checkUserWithEmail(actualEmail))
+
+        } else {
             alert("Required path params are not given.")
         }
-
-
-        // // // TODO : Here call backend to verify email (any user is present with this email)
-
 
 
     }, [])
 
 
-    useEffect(()=>{
+    useEffect(() => {
 
-        if(isFullFilled){ navigate("/login") }
-    } , [])
+        if (isFullFilled) { navigate("/login") }
+    }, [isFullFilled])
 
     return (
         <>
 
-            <div className=" fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-100">
+            <div className=" fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-100 z-40">
                 {
                     isLoading
                     &&

@@ -476,17 +476,18 @@ async function verifyMailController(req, res) {
 }
 
 
-
-
-
 async function checkUserPesentWithMail(email) {
 
 
     try {
 
+        if (!email) return false
+
+        if (!validateEmail.test(email)) return false
+
         // console.log("reached")
 
-        let checkingUser = await userModel.findOne({ email: email })
+        let checkingUser = await userModel.findOne({ email: email }).select("-_id -password -verifyMailToken -resetPasswordToken -__v -createdAt -updatedAt")
 
         // console.log(checkingUser)
 
@@ -501,9 +502,7 @@ async function checkUserPesentWithMail(email) {
 
 }
 
-
 // // // Make a request for forget pass and send email to user --->
-
 async function forgotReqHandler(req, res) {
 
     try {
@@ -586,7 +585,6 @@ async function forgotReqHandler(req, res) {
 }
 
 
-
 async function forgotMainHandler(req, res) {
 
     try {
@@ -653,6 +651,20 @@ async function forgotMainHandler(req, res) {
 }
 
 
+async function userWithEmail(req, res) {
+
+    const email = req.params.email
+
+    if (!email) return res.status(400).send({ status: false, message: "Give email with request please. Or Given email is not correct." })
+
+    let checkUser = await checkUserPesentWithMail(email)
+
+    if (!checkUser) return res.status(400).send({ status: false, message: "Not user found with given email." })
+
+    return res.status(200).send({ status: true, message: "Data found with given email." })
+
+}
 
 
-module.exports = { creteUserControllor, logInControllor, logOutControl, getUserData, updateUser, verifyMailController, forgotReqHandler, forgotMainHandler }
+
+module.exports = { creteUserControllor, logInControllor, logOutControl, getUserData, updateUser, verifyMailController, forgotReqHandler, forgotMainHandler, userWithEmail }
