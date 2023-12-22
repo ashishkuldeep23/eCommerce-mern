@@ -526,8 +526,8 @@ async function forgotReqHandler(req, res) {
         // console.log(resetPassToken)
 
 
-        await userModel.findByIdAndUpdate(
-            { _id: userFoundWithMail._id },
+        await userModel.findOneAndUpdate(
+            { email: userFoundWithMail.email },
             { $set: { resetPasswordToken: resetPassToken } },
             { new: true, upsert: true }
 
@@ -574,7 +574,6 @@ async function forgotReqHandler(req, res) {
 
 
         res.status(200).send({ status: true, message: "Mail sended sucessfull, check you mail now." })
-
 
     }
     catch (err) {
