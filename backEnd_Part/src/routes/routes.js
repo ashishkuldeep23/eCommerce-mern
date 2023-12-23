@@ -123,8 +123,18 @@ router.get("/auth/google/callback", passport.authenticate("google", {
 
     // res.redirect(`${process.env.FRONTEND_URL}`)
 
-    res.render("googleAuth", { check: `${req.user.token}` })
+   // res.render("googleAuth", { check: `${req.user.token}` })
 
+    /*
+      // // // TODO :  1) ---> redirect to user on google auth page from frontend with token as path params 
+      2) ---> Grave the token value in page and get user data with given token by useEffect and then if eveything is good then only show the home page of frontend.
+      Hope everything will good and accordingly.
+    */
+
+      let url = `${process.env.FRONTEND_URL}/google-user/${req.user.token}/newuser`
+
+      res.redirect(url)
+    
   }
   else {
     res.status(200).send({ status: false, message: "No user found." })
