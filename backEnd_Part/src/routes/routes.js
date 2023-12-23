@@ -7,9 +7,9 @@ const passport = require('passport');
 
 // // // Import controles -->
 
-const { createNewProduct, findAllProducts, getCategoryAndHighlight, findOneProduct , dislikeProduct , likeProduct , searchProductByKeyowrd } = require("../controller/productControllor")
+const { createNewProduct, findAllProducts, getCategoryAndHighlight, findOneProduct, dislikeProduct, likeProduct, searchProductByKeyowrd } = require("../controller/productControllor")
 const { createNewReview, deleteReview, updateReview, likeReview, dislikeReview } = require("../controller/reviewController")
-const { creteUserControllor, logInControllor, logOutControl, getUserData, updateUser , verifyMailController , forgotReqHandler ,forgotMainHandler , userWithEmail } = require("../controller/userControllor")
+const { creteUserControllor, logInControllor, logOutControl, getUserData, updateUser, verifyMailController, forgotReqHandler, forgotMainHandler, userWithEmail , bugReportHandler } = require("../controller/userControllor")
 
 
 const { createNewOrder, updateOrder } = require("../controller/orderControllor")
@@ -46,11 +46,11 @@ router.get("/getCategoryAndHighlight", isAuthorized, getCategoryAndHighlight)
 
 router.get("/findOneProduct/:productId", isAuthorized, findOneProduct)
 
-router.post("/likeProduct" , isAuthorized , likeProduct )
+router.post("/likeProduct", isAuthorized, likeProduct)
 
-router.post("/dislikeProduct" , isAuthorized , dislikeProduct)
+router.post("/dislikeProduct", isAuthorized, dislikeProduct)
 
-router.get("/searchProduct" , searchProductByKeyowrd)
+router.get("/searchProduct", searchProductByKeyowrd)
 
 
 
@@ -80,13 +80,15 @@ router.get("/userSingout", isAuthorized, logOutControl)
 
 router.post("/updateUser", isAuthorized, upload.array("file"), updateUser)
 
-router.get("/verifyMail" , verifyMailController)
+router.get("/verifyMail", verifyMailController)
 
-router.post("/forgot-req" , forgotReqHandler)
+router.post("/forgot-req", forgotReqHandler)
 
-router.post("/forgot-main" , forgotMainHandler)
+router.post("/forgot-main", forgotMainHandler)
 
-router.get("/checkUserWithEmail/:email" , userWithEmail)
+router.get("/checkUserWithEmail/:email", userWithEmail)
+
+router.post("/bugReport" , bugReportHandler)
 
 
 // router.get("/resetPasswordPage" , ( req , res)=>{
@@ -158,8 +160,14 @@ router.get("/login/success", (req, res) => {
     // res.redirect(`${process.env.FRONTEND_URL}`)
 
 
-    
+
     res.render("googleAuth", { check: `${req.user.token}` })
+
+    /*
+    // // // TODO :  1) ---> redirect to user on google auth page from frontend with token as path params 
+      2) ---> Grave the token value in page and get user data with given token by useEffect and then if eveything is good then only show the home page of frontend.
+      Hope everything will good and accordingly.
+    */
 
 
   }

@@ -38,7 +38,10 @@ export default {
       
       scale : {
         '200' : "200%"
-      } 
+      },
+      margin :{
+        "feedback" : "30%"
+      }
     },
   },
   plugins: [

@@ -186,6 +186,25 @@ export const checkUserWithEmail = createAsyncThunk("user/userEmail" , async (ema
 })
 
 
+export const bugReport = createAsyncThunk("user/bugRepot" ,async ({email , bugComment } : {email : string , bugComment : string }) => {
+
+    const option: RequestInit = {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({email : email , bugComment : bugComment})
+    }
+
+
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/bugReport`, option)
+    let data = await response.json();
+    return data
+
+})
+
+
 
 export type UserAddressObj = {
     id: string;
@@ -912,6 +931,69 @@ const userSlice = createSlice({
             })
 
             .addCase(checkUserWithEmail.rejected, (newState, action) => {
+                newState.isLoading = false
+                newState.isError = true
+                newState.isFullFilled = false
+                newState.errMsg = action?.error?.message!
+                toast.error(`${action.error.message}`, {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                });
+            })
+
+
+            
+            // // // Bug report ------>
+
+            .addCase(bugReport.pending , (state)=>{
+                state.isLoading = true
+                state.isFullFilled = false
+            })
+            
+            .addCase(bugReport.fulfilled, (state, action) => {
+
+                if (action.payload.status === false) {
+
+                    state.isError = true
+                    state.errMsg = action.payload.message
+
+                    toast.error(`${action.payload.message} | 400`, {
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: false,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                    })
+                } else {
+
+                    toast.success(`${action.payload.message}`, {
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: false,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                    })
+
+                    state.isFullFilled = true
+                
+                }
+
+                state.isLoading = false
+            })
+
+            .addCase(bugReport.rejected, (newState, action) => {
                 newState.isLoading = false
                 newState.isError = true
                 newState.isFullFilled = false

@@ -545,7 +545,7 @@ async function forgotReqHandler(req, res) {
 
 
         // let url = `${process.env.FRONTEND_URL}/forgot-pass-main/${resetPassToken}/${emailDomain}/${emailUserId}`
-        
+
         let url = `${process.env.FRONTEND_URL}/forgot-pass-main/${email}/${resetPassToken}`
 
         let html = ` <p><a href='${url}'>Click here</a> to forgot password. OR URL :- ${url} incase btn is not working.</p>`
@@ -566,7 +566,7 @@ async function forgotReqHandler(req, res) {
                 console.log(info.response)
                 // return res.status(200).send({ status: true, message: 'Message sent successfully , Thankyou for sending email , Admin will respond you soon.' })
 
-                responceObject.message = `${responceObject.message} AND  email sent successfully.`
+                // responceObject.message = `${responceObject.message} AND  email sent successfully.`
             }
 
         })
@@ -636,7 +636,7 @@ async function forgotMainHandler(req, res) {
         await getUser.save()
 
 
-        res.status(200).send({ status: true, message: "New password saved successfull." , data : getUser.email })
+        res.status(200).send({ status: true, message: "New password saved successfull.", data: getUser.email })
 
         // console.log("done -------->")
 
@@ -665,4 +665,87 @@ async function userWithEmail(req, res) {
 
 
 
-module.exports = { creteUserControllor, logInControllor, logOutControl, getUserData, updateUser, verifyMailController, forgotReqHandler, forgotMainHandler, userWithEmail }
+async function bugReportHandler(req, res) {
+
+    try {
+
+        // console.log(req.body)
+
+        const {email , bugComment} = req.body
+
+        if( !email || !bugComment ) return res.status(400).send({status : false , message : "Imp. feilds not given."})
+
+        if (!validateEmail.test(email)) return res.status(400).send({status : false , message : "Email in not valid."})
+
+
+        // // // Here i need to send two mails 1. for user who report from me , 2. me to me with bug
+
+
+        // 1st to user with bug report details and thank you ----->
+
+        let html = ` <p>${bugComment}</p>`
+
+
+        let mailOptions = sendMailWithNodemailerFormate(
+            email,
+            "Thank you for reporting new bug.",
+            html
+        )
+
+        await transport.sendMail(mailOptions, function (err, info) {
+
+            if (err) {
+                console.log(err)
+                return res.status(400).send({ status: false, message: `${JSON.stringify(err)} AND reachout to developer.` })
+            } else {
+                console.log(info.response)
+                // return res.status(200).send({ status: true, message: 'Message sent successfully , Thankyou for sending email , Admin will respond you soon.' })
+
+                // responceObject.message = `${responceObject.message} AND  email sent successfully.`
+            }
+
+        })
+
+
+        // // // 2nd : now send bug to developer ---->
+
+        let htmlToDev = ` <p>${bugComment}</p>`
+
+
+        let mailOptionsToDev = sendMailWithNodemailerFormate(
+            process.env.ADMIN_EMAIL,
+            "New bug reported.(Read comment :- )",
+            htmlToDev
+        )
+
+        await transport.sendMail(mailOptionsToDev, function (err, info) {
+
+            if (err) {
+                console.log(err)
+                return res.status(400).send({ status: false, message: `${JSON.stringify(err)} AND reachout to developer.` })
+            } else {
+                console.log(info.response)
+                // return res.status(200).send({ status: true, message: 'Message sent successfully , Thankyou for sending email , Admin will respond you soon.' })
+
+                // responceObject.message = `${responceObject.message} AND  email sent successfully.`
+            }
+
+        })
+
+
+        res.status(200).send({ status: true, message: "Mail sended sucessfull, check you mail inbox now." })
+
+
+
+
+    }
+    catch (err) {
+        console.log(err.message)
+        return res.status(500).send({ status: false, message: `Error by server (${err.message})` })
+    }
+
+}
+
+
+
+module.exports = { creteUserControllor, logInControllor, logOutControl, getUserData, updateUser, verifyMailController, forgotReqHandler, forgotMainHandler, userWithEmail, bugReportHandler }
