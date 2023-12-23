@@ -518,7 +518,7 @@ async function forgotReqHandler(req, res) {
 
         // console.log(userFoundWithMail)
 
-        if (!userFoundWithMail) return res.status(404).send({ status: false, message: "No user found with this mail" })
+        if (!userFoundWithMail) return res.status(404).send({ status: false, message: "No user found with this mail-id" })
 
 
         const resetPassToken = jwt.sign({ email: email }, process.env.JWT_SECRET_KEY, { expiresIn: '1H' });
@@ -539,15 +539,14 @@ async function forgotReqHandler(req, res) {
         // console.log("send mail now --->")
 
 
-        let findAtInEmail = email.indexOf("@")
-
-        let emailUserId = email.slice(0, findAtInEmail)
-
-        let emailDomain = email.slice(findAtInEmail + 1)
+        // let findAtInEmail = email.indexOf("@")
+        // let emailUserId = email.slice(0, findAtInEmail)
+        // let emailDomain = email.slice(findAtInEmail + 1)
 
 
-        let url = `${process.env.FRONTEND_URL}/forgot-pass-main/${resetPassToken}/${emailDomain}/${emailUserId}`
-
+        // let url = `${process.env.FRONTEND_URL}/forgot-pass-main/${resetPassToken}/${emailDomain}/${emailUserId}`
+        
+        let url = `${process.env.FRONTEND_URL}/forgot-pass-main/${email}/${resetPassToken}`
 
         let html = ` <p><a href='${url}'>Click here</a> to forgot password. OR URL :- ${url} incase btn is not working.</p>`
 
@@ -573,7 +572,7 @@ async function forgotReqHandler(req, res) {
         })
 
 
-        res.status(200).send({ status: true, message: "Mail sended sucessfull, check you mail now." })
+        res.status(200).send({ status: true, message: "Mail sended sucessfull, check you mail inbox now." })
 
     }
     catch (err) {
@@ -602,7 +601,7 @@ async function forgotMainHandler(req, res) {
         } catch (err) {
 
             if (err.message === "jwt expired") {
-                return res.status(403).send({ status: false, message: `${err.message}` })
+                return res.status(403).send({ status: false, message: `Your token is expired now, generate forget token again.` })
             }
 
             return res.status(403).send({ status: false, message: `Invalid token check your mail agian | ${err.message}` })

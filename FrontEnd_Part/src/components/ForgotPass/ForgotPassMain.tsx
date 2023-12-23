@@ -66,18 +66,14 @@ const ForgotPassMain = () => {
         // console.log("BK")
         // console.log(params)
 
-        const { token, email, emailDomain } = params
+        const { token, email } = params
 
-        if (email && token && emailDomain) {
+        if (email && token ) {
 
-            let actualEmail = `${email}@${emailDomain}`
-
-
-            setUserInfo({ ...userInfo, email: actualEmail, token: token })
-
+            setUserInfo({ ...userInfo, email: email, token: token })
 
             // // // TODO : Here call backend to verify email (any user is present with this email)
-            dispatch(checkUserWithEmail(actualEmail))
+            dispatch(checkUserWithEmail(email))
 
         } else {
             alert("Required path params are not given.")

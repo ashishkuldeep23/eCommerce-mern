@@ -825,7 +825,7 @@ const userSlice = createSlice({
                     })
                 } else {
 
-                    toast.success(`${action.payload.message} | SingOut Done ✅ from Backend`, {
+                    toast.success(`${action.payload.message} | Forgot Password Done ✅`, {
                         position: "top-right",
                         autoClose: 2000,
                         hideProgressBar: false,
@@ -893,7 +893,7 @@ const userSlice = createSlice({
                     })
                 } else {
 
-                    toast.success(`${action.payload.message} | SingOut Done ✅ from Backend`, {
+                    toast.success(`${action.payload.message}`, {
                         position: "top-right",
                         autoClose: 2000,
                         hideProgressBar: false,

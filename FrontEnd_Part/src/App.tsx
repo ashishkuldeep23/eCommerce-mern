@@ -80,7 +80,7 @@ const router = createBrowserRouter([
   
   { path: "/forgot-pass-req", element: <ForgotPassReqScreen /> },
   
-  { path: "/forgot-pass-main/:token/:emailDomain/:email", element: <ForgotPassMainScreen /> },
+  { path: "/forgot-pass-main/:email/:token", element: <ForgotPassMainScreen /> },
   
   { path: "/catPage", element: <CategorySearchPage /> },
 
