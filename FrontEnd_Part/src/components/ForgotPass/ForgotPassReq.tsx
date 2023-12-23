@@ -7,6 +7,7 @@ import { AppDispatch, RootState } from "../../store"
 import { useForm, SubmitHandler } from "react-hook-form"
 import { forgotRequest, userState } from "../../Slices/UserSlice"
 import { useEffect } from "react"
+import { useNavigate } from "react-router-dom"
 
 
 type FormInputs = {
@@ -28,6 +29,8 @@ const ForgotPassReq = () => {
 
     const errMsg = userState().errMsg
 
+    const navigate = useNavigate()
+
     const dispatch = useDispatch<AppDispatch>()
 
 
@@ -47,6 +50,7 @@ const ForgotPassReq = () => {
 
         if(isFullfilled){
             setValue("email" , "")
+            navigate("/login")
         }
 
     } , [isFullfilled])

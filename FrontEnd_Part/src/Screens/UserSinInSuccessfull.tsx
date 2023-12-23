@@ -1,9 +1,14 @@
 // import React from 'react'
 
-const UserSinInSuccessfull = () => {
+import SingInWithGoogle from "../components/SingInWithGoogle/SingInWithGoogle"
+
+const UserSinInWithGoogle = () => {
   return (
-    <div>UserSinInSuccessfull</div>
+    <>
+
+      <SingInWithGoogle />
+    </>
   )
 }
 
-export default UserSinInSuccessfull
+export default UserSinInWithGoogle

@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch, RootState } from "./store"
 import { setModeOnLoad } from "./Slices/ThemeSlices"
 import { setLogInStatus, setUserData, fetchUser } from "./Slices/UserSlice"
-import UserSinInSuccessfull from "./Screens/UserSinInSuccessfull"
+import UserSinInWithGoogle from "./Screens/UserSinInSuccessfull"
 import Modal from "./components/Modal/Modal"
 
 import LogInProtected from "./components/Protected/LogInProtected"
@@ -94,7 +94,7 @@ const router = createBrowserRouter([
   { path: "/order-confirm", element: (<LogInProtected>  <OrderConfirm /> </LogInProtected>) },
 
   // // // So this route i'll use fater gogal logIn , plan atleast -->
-  { path: "/goUser", element: <UserSinInSuccessfull /> },
+  { path: "/google-user/:token/:user", element: <UserSinInWithGoogle /> },
 
   // // // Feedback section ---->
   { path: "/feedback", element: <FeedbackScreen /> },

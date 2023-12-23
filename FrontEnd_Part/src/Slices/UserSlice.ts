@@ -143,7 +143,7 @@ export const userSingout = createAsyncThunk("user/singOut", async () => {
 })
 
 
-export const forgotRequest = createAsyncThunk("user/forgotReq" ,  async (email : string) =>{
+export const forgotRequest = createAsyncThunk("user/forgotReq", async (email: string) => {
 
 
     const option: RequestInit = {
@@ -152,7 +152,7 @@ export const forgotRequest = createAsyncThunk("user/forgotReq" ,  async (email :
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({email : email})
+        body: JSON.stringify({ email: email })
     }
 
     const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/forgot-req`, option)
@@ -161,7 +161,7 @@ export const forgotRequest = createAsyncThunk("user/forgotReq" ,  async (email :
 })
 
 
-export const forgotMain = createAsyncThunk("user/forgotMain" ,  async ({email , password , token} : {email : string , password : string , token : string}) =>{
+export const forgotMain = createAsyncThunk("user/forgotMain", async ({ email, password, token }: { email: string, password: string, token: string }) => {
 
 
     const option: RequestInit = {
@@ -170,7 +170,7 @@ export const forgotMain = createAsyncThunk("user/forgotMain" ,  async ({email , 
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({email , password , token})
+        body: JSON.stringify({ email, password, token })
     }
 
     const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/forgot-main`, option)
@@ -179,14 +179,14 @@ export const forgotMain = createAsyncThunk("user/forgotMain" ,  async ({email , 
 })
 
 
-export const checkUserWithEmail = createAsyncThunk("user/userEmail" , async (email : string)=>{
+export const checkUserWithEmail = createAsyncThunk("user/userEmail", async (email: string) => {
     const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/checkUserWithEmail/${email}`)
     let data = await response.json();
     return data
 })
 
 
-export const bugReport = createAsyncThunk("user/bugRepot" ,async ({email , bugComment } : {email : string , bugComment : string }) => {
+export const bugReport = createAsyncThunk("user/bugRepot", async ({ email, bugComment }: { email: string, bugComment: string }) => {
 
     const option: RequestInit = {
         method: 'POST',
@@ -194,7 +194,7 @@ export const bugReport = createAsyncThunk("user/bugRepot" ,async ({email , bugCo
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({email : email , bugComment : bugComment})
+        body: JSON.stringify({ email: email, bugComment: bugComment })
     }
 
 
@@ -202,6 +202,23 @@ export const bugReport = createAsyncThunk("user/bugRepot" ,async ({email , bugCo
     let data = await response.json();
     return data
 
+})
+
+
+
+export const getUserDataWithToken = createAsyncThunk("user/verifyToken", async (token: string) => {
+
+    let option: RequestInit = {
+        credentials: 'include',
+        headers: {
+            "token": `${token}`
+        }
+
+    }
+
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/checkTokenGoogle`, option)
+    let data = await response.json();
+    return data
 })
 
 
@@ -226,7 +243,7 @@ export type UserOrderOj = {
     totalPrice: string,
     userId: string,
     whenCreated: string;
-    status : string,
+    status: string,
 }
 
 
@@ -237,8 +254,8 @@ export type UserDataForOder = {
     isSingIn: boolean;
     isLogIn: boolean;
     isFullFilled: boolean;
-    isForgotFullFilled : boolean;
-    errMsg : string;
+    isForgotFullFilled: boolean;
+    errMsg: string;
     userData: {
         // name: string;
         lastName: string;
@@ -262,7 +279,7 @@ const initialState: UserDataForOder = {
     isLogIn: false,
     isFullFilled: false,
     isForgotFullFilled: false,
-    errMsg : "",
+    errMsg: "",
     userData: {
         // name: "",
         lastName: "",
@@ -756,7 +773,7 @@ const userSlice = createSlice({
 
             // // // Forgot req ----->
 
-            .addCase(forgotRequest.pending , (state)=>{
+            .addCase(forgotRequest.pending, (state) => {
                 state.isLoading = true
                 state.isFullFilled = false
             })
@@ -780,7 +797,7 @@ const userSlice = createSlice({
                     })
                 } else {
 
-                    toast.success(`${action.payload.message} | SingOut Done ✅ from Backend`, {
+                    toast.success(`${action.payload.message}`, {
                         position: "top-right",
                         autoClose: 2000,
                         hideProgressBar: false,
@@ -820,7 +837,7 @@ const userSlice = createSlice({
 
             // // // Main forgot pass --->
 
-            .addCase(forgotMain.pending , (state)=>{
+            .addCase(forgotMain.pending, (state) => {
                 state.isLoading = true
                 state.isFullFilled = false
             })
@@ -856,11 +873,11 @@ const userSlice = createSlice({
                     })
 
                     state.isFullFilled = true
-                    
+
                     state.isForgotFullFilled = true
 
                     state.userData.email = action.payload.data
-                
+
                     state.errMsg = action.payload.message
 
                 }
@@ -888,11 +905,11 @@ const userSlice = createSlice({
 
             // // // Check user with mail id ------>
 
-            .addCase(checkUserWithEmail.pending , (state)=>{
+            .addCase(checkUserWithEmail.pending, (state) => {
                 state.isLoading = true
                 state.isFullFilled = false
             })
-            
+
             .addCase(checkUserWithEmail.fulfilled, (state, action) => {
 
                 if (action.payload.status === false) {
@@ -924,7 +941,7 @@ const userSlice = createSlice({
                     })
 
                     state.isFullFilled = true
-                
+
                 }
 
                 state.isLoading = false
@@ -948,14 +965,14 @@ const userSlice = createSlice({
             })
 
 
-            
+
             // // // Bug report ------>
 
-            .addCase(bugReport.pending , (state)=>{
+            .addCase(bugReport.pending, (state) => {
                 state.isLoading = true
                 state.isFullFilled = false
             })
-            
+
             .addCase(bugReport.fulfilled, (state, action) => {
 
                 if (action.payload.status === false) {
@@ -987,7 +1004,7 @@ const userSlice = createSlice({
                     })
 
                     state.isFullFilled = true
-                
+
                 }
 
                 state.isLoading = false
@@ -1009,6 +1026,140 @@ const userSlice = createSlice({
                     theme: "dark",
                 });
             })
+
+
+
+            // // // fetchUser reducers with token ----->
+
+            .addCase(getUserDataWithToken.pending, (state) => {
+                state.isLoading = true
+                state.isFullFilled = false
+            })
+
+            .addCase(getUserDataWithToken.fulfilled, (state, action) => {
+
+                // console.log(action.payload)
+
+                if (action.payload.status === false) {
+
+                    state.errMsg = action.payload.message
+
+                    state.isError = true
+
+                    toast.error(`${action.payload.message} | 400`, {
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: false,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                    })
+                } else {
+
+                    // toast.success(`${action.payload.message}`, {
+                    //     position: "top-right",
+                    //     autoClose: 2000,
+                    //     hideProgressBar: false,
+                    //     closeOnClick: true,
+                    //     pauseOnHover: false,
+                    //     draggable: true,
+                    //     progress: undefined,
+                    //     theme: "dark",
+                    // })
+
+
+                    // // // Set is logIn True ------->
+
+                    state.isLogIn = true
+                    state.isFullFilled = true
+
+
+
+                    // let name = action.payload.data.name
+                    // let profilePic = action.payload.data.profilePic
+                    // let role = action.payload.data.role
+                    // let email = action.payload.data.email
+
+                    let { id, name, email, profilePic, role, address, token } = action.payload.data
+
+
+
+                    // // // set Some user data (Very minior data) ------>
+
+                    // state.userData.name = name
+                    // state.userData.email = email
+                    // state.userData.profilePic = profilePic
+                    // state.userData.role = role
+                    // state.userData.id = id
+
+                    if (token) {
+                        localStorage.setItem("userToken", JSON.stringify(token))
+                    }
+
+
+
+                    state.userData = action.payload.data
+
+
+                    // // // set data in localStorage ------>
+
+                    localStorage.setItem("userData", JSON.stringify({ name, email, profilePic, role, id, address }))
+                    localStorage.setItem("isUserLogIn", JSON.stringify(true))
+                }
+
+
+                // console.log(action.payload.message)
+
+                state.isLoading = false
+
+            })
+
+            .addCase(getUserDataWithToken.rejected, (state, action) => {
+
+                // console.log(action)
+
+
+                let errorArray = action.error.message?.split(",")
+
+                // console.log(errorArray)
+
+                if (action.error.message && errorArray?.length === 2 && errorArray[1].includes('"Unauthorized"')) {
+
+                    toast.error(`Given Email or Password is not valid.Please check your Email and Password.`, {
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: false,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                    });
+
+                } else {
+
+                    toast.error(`${action.error.message} | Refresh the page | Relogin`, {
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: false,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                    });
+
+                }
+
+                state.errMsg = action.error.message || 'Error occured'
+                state.isLoading = false
+                state.isError = true
+            })
+
+
+
 
     }
 })
