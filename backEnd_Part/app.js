@@ -144,11 +144,14 @@ passport.use("google", new GoogleStrategy({
 
 
     // // // Create JWT Token, store UUID id of user inside it.
+    // // // Means email storing in token o user (user token will store user id) ------>
     const token = jwt.sign({ id: userProfile.id }, process.env.JWT_SECRET_KEY, { expiresIn: '100d' });
 
     let sendUserdetails = {
       id: userProfile.id,
-      name: `${userProfile.firstName} ${userProfile.lastName}`,
+      // name: `${userProfile.firstName} ${userProfile.lastName}`,
+      firstName : userProfile.firstName,
+      lastName : userProfile.lastName,
       email: userProfile.email,
       profilePic: userProfile.profilePic,
       role: userProfile.role,

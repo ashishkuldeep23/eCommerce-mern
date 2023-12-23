@@ -9,7 +9,7 @@ const passport = require('passport');
 
 const { createNewProduct, findAllProducts, getCategoryAndHighlight, findOneProduct, dislikeProduct, likeProduct, searchProductByKeyowrd } = require("../controller/productControllor")
 const { createNewReview, deleteReview, updateReview, likeReview, dislikeReview } = require("../controller/reviewController")
-const { creteUserControllor, logInControllor, logOutControl, getUserData, updateUser, verifyMailController, forgotReqHandler, forgotMainHandler, userWithEmail , bugReportHandler } = require("../controller/userControllor")
+const { creteUserControllor, logInControllor, logOutControl, getUserData, updateUser, verifyMailController, forgotReqHandler, forgotMainHandler, userWithEmail, bugReportHandler , userDataByTokenHandler } = require("../controller/userControllor")
 
 
 const { createNewOrder, updateOrder } = require("../controller/orderControllor")
@@ -88,7 +88,10 @@ router.post("/forgot-main", forgotMainHandler)
 
 router.get("/checkUserWithEmail/:email", userWithEmail)
 
-router.post("/bugReport" , bugReportHandler)
+router.post("/bugReport", bugReportHandler)
+
+
+router.get("/checkTokenGoogle" , isAuthorized , userDataByTokenHandler)
 
 
 // router.get("/resetPasswordPage" , ( req , res)=>{
@@ -140,9 +143,10 @@ router.get("/login/failed", (req, res) => {
 
 
 router.get("/login/success", (req, res) => {
-  // console.log(req.user)
 
-  console.log("Success just for checking")
+  console.log(req.user)
+
+  // console.log("Success just for checking")
 
   if (req.user) {
 
@@ -161,14 +165,17 @@ router.get("/login/success", (req, res) => {
 
 
 
-    res.render("googleAuth", { check: `${req.user.token}` })
+    // res.render("googleAuth", { check: `${req.user.token}` })
 
     /*
-    // // // TODO :  1) ---> redirect to user on google auth page from frontend with token as path params 
+      // // // TODO :  1) ---> redirect to user on google auth page from frontend with token as path params 
       2) ---> Grave the token value in page and get user data with given token by useEffect and then if eveything is good then only show the home page of frontend.
       Hope everything will good and accordingly.
     */
 
+      let url = `${process.env.FRONTEND_URL}/google-user/${req.user.token}/newuser`
+
+      res.redirect(url)
 
   }
   else {

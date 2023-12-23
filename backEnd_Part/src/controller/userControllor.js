@@ -235,6 +235,10 @@ async function getUserData(req, res) {
 
     // console.log(findUser)
 
+    if(!findUser){
+        return res.status(400).send({status : false , message : 'No data found by userID in token check code agian.'})
+    }
+
     // // // Hold user order
     let userOrders = []
 
@@ -748,4 +752,21 @@ async function bugReportHandler(req, res) {
 
 
 
-module.exports = { creteUserControllor, logInControllor, logOutControl, getUserData, updateUser, verifyMailController, forgotReqHandler, forgotMainHandler, userWithEmail, bugReportHandler }
+function userDataByTokenHandler( req , res){
+
+    try{
+
+        let userData = req.tokenUserData
+
+        res.status(200).send({status : true , data : userData})
+
+    }
+    catch (err) {
+        console.log(err.message)
+        return res.status(500).send({ status: false, message: `Error by server (${err.message})` })
+    }
+}
+
+
+
+module.exports = { creteUserControllor, logInControllor, logOutControl, getUserData, updateUser, verifyMailController, forgotReqHandler, forgotMainHandler, userWithEmail, bugReportHandler , userDataByTokenHandler }
