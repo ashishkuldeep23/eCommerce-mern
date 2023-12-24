@@ -123,6 +123,8 @@ passport.use("google", new GoogleStrategy({
     // });
 
 
+    console.log(profile)
+
 
     const { id, photos, name } = profile
 

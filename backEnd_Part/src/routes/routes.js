@@ -111,7 +111,7 @@ router.get("/auth/google/callback", passport.authenticate("google", {
 
   if (req.user) {
 
-    console.log(req.user)
+    // console.log(req.user)
 
     res.cookie("token", req.user.token,
       {
