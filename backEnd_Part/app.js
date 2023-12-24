@@ -136,7 +136,7 @@ passport.use("google", new GoogleStrategy({
 
     // let createOrFindUser = await userModel.
 
-    let newUserDataObj = { email: id, firstName: firstName, lastName: lastName, profilePic: photos[0].value , whenCreted : `${new Date()}`}
+    let newUserDataObj = { email: id, firstName: firstName, allImages : [photos[0].value], lastName: lastName, profilePic: photos[0].value , whenCreted : `${new Date()}`}
 
     let userProfile = await userModel.findOneAndUpdate({ email: id }, newUserDataObj , { upsert: true }).lean()
 

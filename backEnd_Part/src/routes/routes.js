@@ -154,7 +154,10 @@ router.get("/login/failed", (req, res) => {
 
 router.get("/login/success", (req, res) => {
 
-  console.log(req.user)
+  // // // Not useing other success url 
+  // // // Working in same route (see the (/auth/google/callback) route ) -------->
+
+  // console.log(req.user)
 
   // console.log("Success just for checking")
 
