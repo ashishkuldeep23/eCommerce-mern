@@ -90,8 +90,8 @@ router.get("/checkUserWithEmail/:email", userWithEmail)
 
 router.post("/bugReport", bugReportHandler)
 
-
-router.get("/checkTokenGoogle" , isAuthorized , userDataByTokenHandler)
+// // // Below api used to get data with given token
+router.get("/userDataByToken" , isAuthorized , userDataByTokenHandler)
 
 
 // router.get("/resetPasswordPage" , ( req , res)=>{
@@ -107,9 +107,11 @@ router.get("/auth/google/callback", passport.authenticate("google", {
   failureRedirect: "/login/failed"
 }), (req, res) => {
 
-  console.log("Success just for checking")
+  console.log("User logined by Google.")
 
   if (req.user) {
+
+    console.log(req.user)
 
     res.cookie("token", req.user.token,
       {
@@ -131,7 +133,7 @@ router.get("/auth/google/callback", passport.authenticate("google", {
       Hope everything will good and accordingly.
     */
 
-      let url = `${process.env.FRONTEND_URL}/google-user/${req.user.token}/newuser`
+      let url = `${process.env.FRONTEND_URL}/user-login/${req.user.token}/newuser`
 
       res.redirect(url)
     

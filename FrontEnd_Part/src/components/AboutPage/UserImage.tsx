@@ -110,7 +110,6 @@ const UserImageDiv = () => {
             <div>
 
 
-
                 <div className=" w-auto relative" onClick={() => { showModalWithValues() }} >
 
                     {

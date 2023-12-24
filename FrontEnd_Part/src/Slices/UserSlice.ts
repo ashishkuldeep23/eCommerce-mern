@@ -216,7 +216,7 @@ export const getUserDataWithToken = createAsyncThunk("user/verifyToken", async (
 
     }
 
-    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/checkTokenGoogle`, option)
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/userDataByToken`, option)
     let data = await response.json();
     return data
 })

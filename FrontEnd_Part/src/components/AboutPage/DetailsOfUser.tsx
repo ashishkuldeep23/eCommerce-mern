@@ -55,15 +55,12 @@ const DetailsOfUser = () => {
                 <div className="flex flex-col justify-center items-center md:items-start md:flex-row">
 
 
-
                     <UserImageDiv />
 
                     <div className="ml-0 mt-5 md:mt-0 md:ml-10">
 
 
-
                         <UserNameAndUpadte />
-
 
 
                         <p className={`  ${!themeMode ? "bg-slate-100" : "bg-slate-900"}   w-full rounded my-0.5 px-1 `} >Email : {checkEmail(getUserData.email)} </p>
@@ -91,7 +88,7 @@ const DetailsOfUser = () => {
 
                     &&
 
-                    <UserImgsMoreThenOn />
+                    <UserImgsMoreThenOne />
 
                 }
 
@@ -203,7 +200,7 @@ function UserNameAndUpadte() {
 
             <h2
                 className={` ${!themeMode ? "bg-slate-100" : "bg-slate-900"}  font-bold w-full rounded my-0.5 px-1`}
-            >Name : {getUserData.firstName + " " + getUserData.lastName}
+            >Name : {(getUserData.firstName || "") + " " + (getUserData.lastName || "")}
                 <button
                     onClick={() => { setUpadteName(!updateName) }}
                     className=" ml-10 border rounded px-1 hover:bg-green-400"
@@ -301,7 +298,7 @@ function UserNameAndUpadte() {
 
 
 
-function UserImgsMoreThenOn() {
+function UserImgsMoreThenOne() {
 
     const getUserData = userState().userData
 
@@ -328,7 +325,7 @@ function UserImgsMoreThenOn() {
         let ChildrenOfModal = <div>
             <img className=" rounded" src={userImage} alt="" />
             <button
-                onClick={() =>makeThisProfilePic(userImage)}
+                onClick={() => makeThisProfilePic(userImage)}
                 className=" text-3xl  rounded-b text-white font-serif font-thin bg-green-700 w-full"
             >Make Profile Pic</button>
         </div>
@@ -354,8 +351,8 @@ function UserImgsMoreThenOn() {
 
 
     useEffect(() => {
-        window.scroll(0,0)
-    } , [] )
+        window.scroll(0, 0)
+    }, [])
 
 
     return (
@@ -406,7 +403,7 @@ function UserImgsMoreThenOn() {
                                 </div>
                             )
                         })
-                        
+
                     }
 
 

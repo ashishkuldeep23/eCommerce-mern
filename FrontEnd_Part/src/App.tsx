@@ -94,7 +94,7 @@ const router = createBrowserRouter([
   { path: "/order-confirm", element: (<LogInProtected>  <OrderConfirm /> </LogInProtected>) },
 
   // // // So this route i'll use fater gogal logIn , plan atleast -->
-  { path: "/google-user/:token/:user", element: <UserSinInWithGoogle /> },
+  { path: "/user-login/:token/:user", element: <UserSinInWithGoogle /> },
 
   // // // Feedback section ---->
   { path: "/feedback", element: <FeedbackScreen /> },
