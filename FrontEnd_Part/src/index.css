@@ -175,7 +175,7 @@ input::-webkit-inner-spin-button {
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
     box-sizing: border-box;
     animation: animFw 3s linear infinite;
-    z-index: 1000;
+    z-index: 10;
 }
 
 .universal_loader::after,

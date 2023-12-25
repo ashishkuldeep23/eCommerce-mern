@@ -8,6 +8,9 @@ import { AppDispatch, RootState } from "../../store"
 import { useNavigate } from "react-router-dom"
 import { setSearchBrandAndCate } from "../../Slices/AllProductSlice"
 
+import { useForm, SubmitHandler } from "react-hook-form"
+import { bugReport, userState } from "../../Slices/UserSlice"
+
 const Footer = () => {
 
   const themeMode = useSelector((state: RootState) => state.themeReducer.mode)
@@ -45,36 +48,48 @@ const Footer = () => {
 
 
 
+  function currentYear(){
+
+    let date = new Date
+
+    // console.log(date)
+    // console.log(date.getFullYear())
+
+    return date.getFullYear()
+
+  }
+
+
+
+
+
   return (
     <>
 
-      <div className={`     ${themeMode ? " bg-gray-800 border-white" : ' bg-gray-200 text-black border-black'} transition-all `}>
+      <div className={`${themeMode ? " bg-gray-800 border-white" : ' bg-gray-200 text-black border-black'} transition-all relative `}>
 
 
-        <div className="mx-auto max-w-full md:max-w-allAk px-1 md:px-2 lg:px-8  p-2 py-5">
+        <div className="mx-auto max-w-full md:max-w-allAk px-1 md:px-2 lg:px-8  p-2 py-5 ">
 
           <div className="text-center">
 
-            <p> &copy; 2023 Your E-Commerce Website. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+            <p> <span className=" font-bold">&copy; {currentYear().toString()}</span> E-Commerce Website.</p>
           </div>
 
 
-
+          {/* Mai UI for footer here ---> */}
           <div className=" py-5 flex flex-col items-start  justify-around lg:flex-row ">
 
-            {/* Left section */}
+            {/* Left section starts ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/}
 
-            <div className="  rounded my-2 mt-10 px-1 py-5  w-full  lg:w-1/2">
-
-
+            <div className="  rounded my-2 mt-10 px-1 py-5  w-full  lg:w-1/2 relative">
 
               <p className=" text-center underline mb-2  text-lg font-bold">Find product by </p>
 
-
-
+              {/* Footer filter section here -----> */}
               <div className="  flex justify-center ">
 
-
+                {/* Filter by all category */}
                 <div className=" w-1/2  sm:w-2/6 px-2  text-end ">
 
                   <strong className=" w-full border-b-2 opacity-75 border-green-300  "> All Categories</strong>
@@ -86,7 +101,7 @@ const Footer = () => {
                             key={i}
                             style={{ lineBreak: "anywhere" }}
                             onClick={(e) => { e.stopPropagation(); searchByCatClickhandler("category", ele) }}
-                            className={` my-1 px-2 rounded capitalize font-bold inline hover:scale-x-110 hover:bg-blue-400 transition-all border  ${themeMode ? "border-slate-300" : "border-slate-800"} `}
+                            className={` my-1 px-2 rounded capitalize font-bold inline hover:scale-x-110 hover:bg-blue-400 transition-all border  ${themeMode ? "border-slate-300 bg-black" : "border-slate-800 bg-white"} `}
                           >{ele}</li>
                         )
                       })
@@ -95,6 +110,7 @@ const Footer = () => {
 
                 </div>
 
+                {/* Filter by all brand */}
                 <div className="border-l-2 border-green-300 w-5/12 px-2 text-start ">
 
                   <strong className=" border-b-2 opacity-75 border-green-300"> All Brands</strong>
@@ -106,7 +122,7 @@ const Footer = () => {
                             key={i}
                             style={{ lineBreak: "anywhere" }}
                             onClick={(e) => { e.stopPropagation(); searchByCatClickhandler("brand", ele) }}
-                            className={` my-1 mx-0.5 px-2 rounded capitalize font-bold border inline hover:scale-x-110 hover:bg-blue-400 transition-all  ${themeMode ? "border-slate-300" : "border-slate-800"} `}
+                            className={` my-1 mx-0.5 px-2 rounded capitalize font-bold border inline hover:scale-x-110 hover:bg-blue-400 transition-all  ${themeMode ? "border-slate-300 bg-black" : "border-slate-800 bg-white"} `}
                           >{ele}</li>
                         )
                       })
@@ -115,20 +131,23 @@ const Footer = () => {
 
                 </div>
 
+
+
+
               </div>
 
 
             </div>
 
 
-            {/* Right section  */}
-
+            {/* Right section starts ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/}
             <div className="w-full  lg:w-1/2 flex flex-col transition-all">
 
+              {/* Contect logos ---> */}
               <div className="w-fit  rounded my-6 px-2 py-3 ml-auto  text-center flex flex-col items-center " >
                 <p className="text-xl font-bold border-b  border-green-600 w-fit px-5 ">Connect with me ↓ </p>
 
-                <div className=" flex flex-wrap justify-end">
+                <div className=" flex flex-wrap justify-center">
                   <a className=" text-4xl mx-2 hover:-translate-y-1.5 hover:text-green-600 active:scale-75 transition-all" href="https://github.com/Ashishkuldeep23" target="__blank" ><i className="ri-github-line"></i></a>
                   <a className=" text-4xl mx-2 hover:-translate-y-1.5 hover:text-green-600 active:scale-75 transition-all" href="https://www.linkedin.com/in/ashish-kuldeep-09b96018b/" target="__blank" ><i className="ri-linkedin-line"></i></a>
                   <a className=" text-4xl mx-2 hover:-translate-y-1.5 hover:text-green-600 active:scale-75 transition-all" href="https://twitter.com/web_dev_with_ak" target="__blank" ><i className="ri-twitter-x-line"></i></a>
@@ -139,29 +158,33 @@ const Footer = () => {
 
               </div>
 
-
-
-
+              {/* Feedback section here ----> */}
               <div
-                className=" m-feedback bg-green-300 border border-black rounded my-2 px-2 py-3 mr-7 smm:mr-20 "
+                className=" m-feedback bg-green-300 border border-black rounded my-2 px-2 py-3 mr-7 smm:mr-20 hover:cursor-pointer hover:scale-x-110 transition-all "
                 onClick={() => { navigate("/feedback") }}
               >
                 <p className="text-center font-bold text-3xl text-black ">Feedback</p>
               </div>
 
-
-
-              <div className=" rounded my-2 px-1 py-5  ml-7 smm:ml-20  " >
+              {/* Bug section here ---> */}
+              <div className=" rounded my-2 px-1 py-5  ml-7 smm:ml-20 " >
                 <BugSectionRightSide />
               </div>
 
             </div>
+
 
           </div>
 
 
         </div>
 
+
+        {/* GoTo top BTN */}
+        <button
+          className={`  absolute bottom-5 left-5 sm:left-20 sm:bottom-16 z-10 border p-1 rounded-full text-2xl hover:-translate-y-2 hover:scale-150 active:scale-75 transition-all ${!themeMode ? "text-black bg-white border-black" : "bg-black text-white border-white"} `}
+          onClick={() => { window.scroll(0, 0) }}
+        >🔝</button>
 
       </div>
     </>
@@ -173,9 +196,6 @@ export default Footer
 
 
 
-
-import { useForm, SubmitHandler } from "react-hook-form"
-import { bugReport, userState } from "../../Slices/UserSlice"
 
 type FormInputs = {
   email: string;
@@ -253,7 +273,7 @@ function BugSectionRightSide() {
           <div className=" ml-auto w-fit flex  justify-end items-center font-bold  hover:cursor-pointer">
 
 
-            <p className="  text-green-600">Open Bug Section</p>
+            <p className="  text-green-600 hover:scale-105 hover:underline transition-all">Open Bug Section</p>
             <button className="mt-2 -ml-1">
               {/* {
                 openMainBugSec
@@ -344,7 +364,7 @@ function BugSectionRightSide() {
               <div>
                 <button
                   type="submit"
-                  className=" ml-auto flex justify-center rounded-md bg-orange-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
+                  className=" ml-auto flex justify-center rounded-md bg-orange-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600 hover:scale-x-110 transition-all"
                 >
                   Report the Bug
                 </button>

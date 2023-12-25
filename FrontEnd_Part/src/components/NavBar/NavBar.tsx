@@ -73,7 +73,7 @@ export default function NavBar() {
                     {/* (search bar full width less then tab) Below search bar will visible less then md (in mobile only)    */}
                     <SearchBarTabAndLess />
 
-
+                    {/* This comp resposible for loading and scroll tracker ----> */}
                     <UniversalLoaderAndScroll />
 
 
@@ -385,9 +385,6 @@ function RightCommonSection() {
                 }
 
 
-
-
-
                 {/* Profile dropdown */}
                 <Menu as="div" className="relative ml-3 mx-1 hover:scale-125 hover:z-20 transition-all">
 
@@ -411,7 +408,7 @@ function RightCommonSection() {
                         leaveFrom="transform opacity-100 scale-100"
                         leaveTo="transform opacity-0 scale-95"
                     >
-                        <Menu.Items className={`absolute -right-full z-10 mt-2 w-32 xsm:w-48 origin-top-right rounded-md  py-1 shadow-md ring-1 ring-opacity-5 focus:outline-none ${!themeSate ? "bg-white text-gray-900" : "bg-gray-900 text-white"} `}>
+                        <Menu.Items className={`absolute -right-full z-50 mt-2 w-32 xsm:w-48 origin-top-right rounded-md  py-1 shadow-md ring-1 ring-opacity-5 focus:outline-none ${!themeSate ? "bg-white text-gray-900" : "bg-gray-900 text-white"} `}>
 
                             {
                                 (itemsOfProfileOnHover && itemsOfProfileOnHover.length > 0)
@@ -507,137 +504,6 @@ function SearchBarTabAndLess() {
         </>
     )
 }
-
-
-// // // Universal loader code here ---->
-function UniversalLoaderAndScroll() {
-
-
-    const productIsLoading = useSelector((state: RootState) => state.allProductWithCatReducer.isLoading)
-    const orderIsLoading = useSelector((state: RootState) => state.orderReducer.isLoading)
-    const reviewIsLoading = useSelector((state: RootState) => state.reviewReducer.isLoading)
-    const userIsLoading = useSelector((state: RootState) => state.userReducer.isLoading)
-
-
-    const [left, setLeft] = useState<number>(0)
-
-
-
-    // // // Scroll percentage div (code here ---> ) ---->
-
-    document.addEventListener("scroll", scrollPageAndGetSetData)
-
-    function scrollPageAndGetSetData() {
-        // console.log(dets)
-
-        let totalHeightOfWebPage = document.body.scrollHeight
-
-        let currentDistanceFromTop = document.documentElement.scrollTop
-
-        const windowHeight = document.documentElement.clientHeight
-
-        const scroolPercentge = (currentDistanceFromTop / (totalHeightOfWebPage - windowHeight)) * 100
-
-        // console.log(scroolPercentge)
-
-        const roundedSroolValue = Math.round(scroolPercentge)
-
-        if (roundedSroolValue < 82) {
-            setLeft(roundedSroolValue)
-        }
-
-    }
-
-
-
-
-
-    function leftClickhandler(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
-        e.stopPropagation()
-
-
-        let aboveScrollDivLeft = document.getElementById('scroll_percent_indi_top')?.getClientRects()[0].x
-
-        // console.log(aboveScrollDivLeft)
-
-        if (aboveScrollDivLeft !== undefined) {
-
-            window.scroll(0, aboveScrollDivLeft - 200)
-        }
-    }
-
-
-    function rightClickHandler(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
-        e.stopPropagation()
-
-
-        let aboveScrollDivLeft = document.getElementById('scroll_percent_indi_top')?.getClientRects()[0].x
-
-        // console.log(aboveScrollDivLeft)
-
-        if (aboveScrollDivLeft !== undefined) {
-
-            window.scroll(0, aboveScrollDivLeft + 200)
-        }
-
-    }
-
-
-
-
-
-
-
-    // useEffect(() => {
-    //     // scrollPageAndGetSetData()
-    // }, [])
-
-
-
-    // // // Loader UI ------>
-    if (productIsLoading || orderIsLoading || reviewIsLoading || userIsLoading) {
-        return (
-            <>
-                <div style={{ height: "1px" }} className=' w-full bg-blue-200 flex items-center relative'>
-
-                    <div className='universal_loader_holder absolute -top-4'>
-                        <span className="universal_loader"></span>
-                    </div>
-                </div>
-            </>
-        )
-    }
-
-
-
-    // // // Scroll percentage div ---->
-    return (
-        <>
-            <div className='w-full h-1.5 relative bg-gray-800 border-b '>
-                <div
-
-                    // style={{ width: width }}
-                    style={{ left: `${left}%`, width: "10%" }}
-                    id='scroll_percent_indi_top'
-                    className=' absolute left-10 h-1.5 bg-green-300 rounded hover:scale-y-200 transition-all overflow-hidden'
-                >
-
-                    <button
-                        onClick={(e) => leftClickhandler(e)}
-                        className='w-1/2  h-full bg-green-300'
-                    >.</button>
-                    <button
-                        onClick={(e) => rightClickHandler(e)}
-                        className='w-1/2  h-full  bg-green-300'
-                    >.</button>
-
-                </div>
-            </div>
-        </>
-    )
-
-}
-
 
 
 // // // This div contains Input box and search btn and suggestion div all ---> and it's neccessory thing 
@@ -905,5 +771,141 @@ function MainSearchBarWithLogics() {
         </>
     )
 }
+
+
+
+
+// // // Universal loader code here ---->
+function UniversalLoaderAndScroll() {
+
+
+    const productIsLoading = useSelector((state: RootState) => state.allProductWithCatReducer.isLoading)
+    const orderIsLoading = useSelector((state: RootState) => state.orderReducer.isLoading)
+    const reviewIsLoading = useSelector((state: RootState) => state.reviewReducer.isLoading)
+    const userIsLoading = useSelector((state: RootState) => state.userReducer.isLoading)
+
+
+    const [left, setLeft] = useState<number>(0)
+
+    const [windowHight , setWindowHight] = useState(0)
+
+
+
+    // // // Scroll percentage div (code here ---> ) ---->
+
+    document.addEventListener("scroll", scrollPageAndGetSetData)
+
+    function scrollPageAndGetSetData() {
+        // console.log(dets)
+
+        let totalHeightOfWebPage = document.body.scrollHeight
+
+        let currentDistanceFromTop = document.documentElement.scrollTop
+
+        const windowHeight = document.documentElement.clientHeight
+
+        const scroolPercentge = (currentDistanceFromTop / (totalHeightOfWebPage - windowHeight)) * 100
+
+        // console.log(scroolPercentge)
+
+        const roundedSroolValue = Math.round(scroolPercentge)
+
+        if (roundedSroolValue < 82) {
+            setLeft(roundedSroolValue)
+        }
+
+    }
+
+
+    function leftClickhandler(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+        e.stopPropagation()
+
+
+        let aboveScrollDivLeft = document.getElementById('scroll_percent_indi_top')?.getClientRects()[0].x
+
+        // console.log(aboveScrollDivLeft)
+
+        if (aboveScrollDivLeft !== undefined) {
+
+            window.scroll(0, aboveScrollDivLeft - 200)
+        }
+    }
+
+
+    function rightClickHandler(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+        e.stopPropagation()
+
+
+        let aboveScrollDivLeft = document.getElementById('scroll_percent_indi_top')?.getClientRects()[0].x
+
+        // console.log(aboveScrollDivLeft)
+
+        if (aboveScrollDivLeft !== undefined) {
+
+            window.scroll(0, aboveScrollDivLeft + 200)
+        }
+
+    }
+
+
+
+    useEffect(() => {
+        // scrollPageAndGetSetData()
+
+        setWindowHight(window.innerHeight)
+
+        // console.log(windowHight)
+
+        scrollPageAndGetSetData()
+
+    }, [windowHight])
+
+
+
+    // // // Loader UI ------>
+    if (productIsLoading || orderIsLoading || reviewIsLoading || userIsLoading) {
+        return (
+            <>
+                <div style={{ height: "1px" }} className=' w-full bg-blue-200 flex items-center relative'>
+
+                    <div className='universal_loader_holder absolute -top-4'>
+                        <span className="universal_loader"></span>
+                    </div>
+                </div>
+            </>
+        )
+    }
+
+
+
+    // // // Scroll percentage div ---->
+    return (
+        <>
+            <div className='w-full h-1.5 relative bg-gray-800 border-b '>
+                <div
+
+                    // style={{ width: width }}
+                    // style={{ left: `${left}%`, width: "10%" }}
+                    style={{ left: `${left}%`, width: `${ Math.round(windowHight / 45) }%` }}
+                    id='scroll_percent_indi_top'
+                    className=' absolute left-10 h-1.5 bg-green-300 rounded hover:scale-y-200 transition-all overflow-hidden'
+                >
+
+                    <button
+                        onClick={(e) => leftClickhandler(e)}
+                        className='w-1/2  h-full bg-green-300'
+                    >.</button>
+                    <button
+                        onClick={(e) => rightClickHandler(e)}
+                        className='w-1/2  h-full  bg-green-300'
+                    >.</button>
+
+                </div>
+            </div>
+        </>
+    )
+
+}
+
 
 
