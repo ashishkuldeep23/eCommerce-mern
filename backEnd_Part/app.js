@@ -123,8 +123,8 @@ passport.use("google", new GoogleStrategy({
   callbackURL: `${process.env.BACKEND_URL}/auth/google/callback`,
 
   // // // Credential for laocal --->
-  // clientID: `819726192277-e43eqkajuk09d2s2dmh1sf1iitl6jveg.apps.googleusercontent.com`,
-  // clientSecret: `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`,
+  // clientID: `${process.env.GOOGLE_CLIENT_ID_LOACL}`,
+  // clientSecret: `${process.env.GOOGLE_CLIENT_SECRET_LOCAL}`,
   // callbackURL: `http://localhost:3000/auth/google/callback`
 },
   async function (accessToken, refreshToken, profile, done) {
@@ -136,13 +136,13 @@ passport.use("google", new GoogleStrategy({
     // console.log(profile)
 
 
-    const { id, photos, name } = profile
+    const { photos, name } = profile
 
     const email = profile.emails[0].value
 
     // console.log(email)
 
-    const { familyName: lastName, givenName: firstName } = name
+    const { givenName: firstName, familyName: lastName } = name
 
     // console.log(id)
     // console.log(displayName)
@@ -152,9 +152,13 @@ passport.use("google", new GoogleStrategy({
 
     // let createOrFindUser = await userModel.
 
-    let newUserDataObj = { email: email , firstName: firstName, lastName: lastName, allImages : [photos[0].value], profilePic: photos[0].value , whenCreted : `${new Date()}`}
+    let newUserDataObj = { email: email, firstName: firstName, lastName: lastName, allImages: [photos[0].value], profilePic: photos[0].value, whenCreted: `${new Date()}` }
 
-    let userProfile = await userModel.findOneAndUpdate({ email: email }, newUserDataObj , {new : true , upsert: true }).lean()
+    let userProfile = await userModel.findOneAndUpdate(
+      { email: email },
+      newUserDataObj,
+      { new: true, upsert: true }
+    ).lean()
 
     console.log(userProfile)
 
@@ -166,8 +170,8 @@ passport.use("google", new GoogleStrategy({
     let sendUserdetails = {
       id: userProfile.id,
       // name: `${userProfile.firstName} ${userProfile.lastName}`,
-      firstName : userProfile.firstName,
-      lastName : userProfile.lastName,
+      firstName: userProfile.firstName,
+      lastName: userProfile.lastName,
       email: userProfile.email,
       profilePic: userProfile.profilePic,
       role: userProfile.role,
@@ -225,7 +229,7 @@ const calculateOrderAmount = (price) => {
 
   // console.log(price * 100)
 
-  return price*100;
+  return price * 100;
 };
 
 
@@ -237,7 +241,7 @@ app.post("/create-payment-intent", async (req, res) => {
 
   // Create a PaymentIntent with the order amount and currency
   const paymentIntent = await stripe.paymentIntents.create({
-    amount: calculateOrderAmount( totalPrice ),
+    amount: calculateOrderAmount(totalPrice),
     // amount: totalPrice,
     currency: "inr",
     // In the latest version of the API, specifying the `automatic_payment_methods` parameter is optional because Stripe enables its functionality by default.

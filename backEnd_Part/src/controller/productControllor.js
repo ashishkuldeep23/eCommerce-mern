@@ -11,9 +11,10 @@ async function createNewProduct(req, res) {
 
     try {
 
+        // // // Lot of work not done now (USE this api as admin api ) ------->
 
 
-        console.log(req.body)
+        // console.log(req.body)
 
         // // // Check body (body can't be empty)
 
@@ -30,7 +31,7 @@ async function createNewProduct(req, res) {
 
         let newProduct = await productModel.create(req.body)
 
-        console.log(newProduct)
+        // console.log(newProduct)
 
         res.status(201).send({ status: true, message: "Product created", data: newProduct })
 

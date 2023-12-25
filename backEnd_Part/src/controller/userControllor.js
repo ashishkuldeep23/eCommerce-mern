@@ -2,21 +2,7 @@ const bcrypt = require("bcrypt")
 const userModel = require("../model/userModel")
 const jwt = require("jsonwebtoken")
 const { transport, sendMailWithNodemailerFormate, makeHtmlMailForVerifyEmail } = require("../../lib/nodemailer")
-
-const cloudinary = require("cloudinary").v2
-
-// cloudinary.config({
-//     cloud_name: "dlvq8n2ca",
-//     api_key: "867966181995229",
-//     api_secret: "mDLwbTVA1oMMOVn6_rO5M2CevT0"
-// });
-
-cloudinary.config({
-    cloud_name: `${process.env.CLOUD_NAME}`,
-    api_key: `${process.env.API_KEY}`,
-    api_secret: `${process.env.API_SECRET}`
-});
-
+const { uploadImageOnCloudinary } = require("../../lib/cloudinary")
 
 
 //------------------------*** Improtant Regex ***----------------//
@@ -114,7 +100,9 @@ async function creteUserControllor(req, res) {
 
             let filePathIs = req.files[0].path
 
-            let result = await cloudinary.uploader.upload(filePathIs)
+            // let result = await cloudinary.uploader.upload(filePathIs)
+
+            let result = await uploadImageOnCloudinary(filePathIs , "users_Imgs_Ecom")
 
             // console.log(result)
             pathUrl = result.url
@@ -150,6 +138,8 @@ async function creteUserControllor(req, res) {
         let data = {
             id: createNewUser.id,
             name: `${createNewUser.firstName} ${createNewUser.lastName}`,
+            firstName : createNewUser.firstName,
+            lastName : createNewUser.lastName,
             email: createNewUser.email,
             profilePic: createNewUser.profilePic,
             role: createNewUser.email,
@@ -161,7 +151,7 @@ async function creteUserControllor(req, res) {
 
         let responceObject = { status: true, data: data, message: "New user created successful" }
 
-        let mailOptions = sendMailWithNodemailerFormate(createNewUser.email, "Thank you for shopping with us. Check your order details.", makeHtmlMailForVerifyEmail(`${process.env.BACKEND_URL}/verifyMail?token=${createNewUser.verifyMailToken}&email=${createNewUser.email}`))
+        let mailOptions = sendMailWithNodemailerFormate(createNewUser.email, "Thank you for creating new account.", makeHtmlMailForVerifyEmail(`${process.env.BACKEND_URL}/verifyMail?token=${createNewUser.verifyMailToken}&email=${createNewUser.email}`))
 
         await transport.sendMail(mailOptions, function (err, info) {
 
@@ -339,7 +329,8 @@ async function updateUser(req, res) {
 
             upadtedUser = findUserData
 
-        } else if (whatUpadte === "userImg") {
+        } 
+        else if (whatUpadte === "userImg") {
 
             // console.log(req.body)
             // console.log(req.files)
@@ -351,9 +342,11 @@ async function updateUser(req, res) {
 
                 let filePathIs = req.files[0].path
 
-                let result = await cloudinary.uploader.upload(filePathIs)
+                // let result = await cloudinary.uploader.upload(filePathIs)
+                let result = await uploadImageOnCloudinary(filePathIs , "users_Imgs_Ecom")
 
-                // console.log(result)
+                // console.log(" log from user controller ",result)
+
                 pathUrl = result.url
 
             }
@@ -373,8 +366,6 @@ async function updateUser(req, res) {
             // console.log(findUserData)
 
             upadtedUser = findUserData
-
-
 
         }
         else if (whatUpadte === 'makeProfilePic') {
