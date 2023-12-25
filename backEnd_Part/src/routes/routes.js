@@ -72,8 +72,6 @@ router.post("/createUser", upload.array("file"), creteUserControllor)
 
 router.post("/userLogin", passport.authenticate("local"), logInControllor)
 
-router.get("/userLoginGoogle", passport.authenticate("google", { scope: ['profile'] }))
-
 router.get("/getUserData", isAuthorized, getUserData)
 
 router.get("/userSingout", isAuthorized, logOutControl)
@@ -100,6 +98,10 @@ router.get("/userDataByToken" , isAuthorized , userDataByTokenHandler)
 
 // })
 
+
+// // // Routes for login by Google ----->
+
+router.get("/userLoginGoogle", passport.authenticate("google", { scope: ['email' , 'profile'] }))
 
 router.get("/auth/google/callback", passport.authenticate("google", {
   // successRedirect: `${process.env.FRONTEND_URL}`,
