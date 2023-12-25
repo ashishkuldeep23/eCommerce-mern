@@ -92,15 +92,10 @@ router.post("/bugReport", bugReportHandler)
 router.get("/userDataByToken" , isAuthorized , userDataByTokenHandler)
 
 
-// router.get("/resetPasswordPage" , ( req , res)=>{
-
-//   res.sendFile( process.cwd() + "/public/resetPass.html")
-
-// })
 
 
 // // // Routes for login by Google ----->
-
+// // // Scope should given which scope of data you want to get like :- email and profile --->
 router.get("/userLoginGoogle", passport.authenticate("google", { scope: ['email' , 'profile'] }))
 
 router.get("/auth/google/callback", passport.authenticate("google", {

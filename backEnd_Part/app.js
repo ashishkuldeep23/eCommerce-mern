@@ -111,12 +111,21 @@ passport.use("local", new LocalStrategy(
 ));
 
 
+
+
+
 // // // Code for Google Stratgy ---->
 passport.use("google", new GoogleStrategy({
+
+  // // Using in production on my app --->
   clientID: `${process.env.GOOGLE_CLIENT_ID}`,
   clientSecret: `${process.env.GOOGLE_CLIENT_SECRET}`,
   callbackURL: `${process.env.BACKEND_URL}/auth/google/callback`,
-  passReqToCallback   : true
+
+  // // // Credential for laocal --->
+  // clientID: `819726192277-e43eqkajuk09d2s2dmh1sf1iitl6jveg.apps.googleusercontent.com`,
+  // clientSecret: `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`,
+  // callbackURL: `http://localhost:3000/auth/google/callback`
 },
   async function (accessToken, refreshToken, profile, done) {
     // userModel.findOrCreate({ googleId: profile.id }, function (err, user) {
@@ -124,10 +133,14 @@ passport.use("google", new GoogleStrategy({
     // });
 
 
-    console.log(profile)
+    // console.log(profile)
 
 
     const { id, photos, name } = profile
+
+    const email = profile.emails[0].value
+
+    // console.log(email)
 
     const { familyName: lastName, givenName: firstName } = name
 
@@ -139,11 +152,11 @@ passport.use("google", new GoogleStrategy({
 
     // let createOrFindUser = await userModel.
 
-    let newUserDataObj = { email: id, firstName: firstName, allImages : [photos[0].value], lastName: lastName, profilePic: photos[0].value , whenCreted : `${new Date()}`}
+    let newUserDataObj = { email: email , firstName: firstName, lastName: lastName, allImages : [photos[0].value], profilePic: photos[0].value , whenCreted : `${new Date()}`}
 
-    let userProfile = await userModel.findOneAndUpdate({ email: id }, newUserDataObj , { upsert: true }).lean()
+    let userProfile = await userModel.findOneAndUpdate({ email: email }, newUserDataObj , {new : true , upsert: true }).lean()
 
-    // console.log(userProfile)
+    console.log(userProfile)
 
 
     // // // Create JWT Token, store UUID id of user inside it.
