@@ -11,11 +11,11 @@ import { useNavigate } from 'react-router-dom'
 
 type TProductPrope = {
     product: IProduct,
-    className ?: string
+    className?: string
 }
 
 
-const SingleProduct = ({ product , className = ''}: TProductPrope) => {
+const SingleProduct = ({ product, className = '' }: TProductPrope) => {
 
 
     const themeMode = useSelector((store: RootState) => store.themeReducer.mode)
@@ -29,7 +29,7 @@ const SingleProduct = ({ product , className = ''}: TProductPrope) => {
             <a
                 key={product.id}
                 // href={"/product"}
-                className={` ${className} border ${!themeMode ? "border-slate-300" : " border-slate-600 "}  rounded-lg min-h-52 h-auto   w-72  mb-5  mx-2 hover:cursor-pointer  cursor-pointer`}
+                className={` ${className} ${!themeMode ? "border-slate-300" : " border-slate-600 "} border rounded-lg min-h-52 h-auto  w-72  mb-5  mx-2 hover:cursor-pointer  cursor-pointer`}
                 onClick={(e) => {
                     e.stopPropagation();
                     navigate(`/product/${product.id}`);

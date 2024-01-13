@@ -17,14 +17,14 @@ export interface CardDataInter extends IProduct {
 
 interface CartInter {
     cartData: CardDataInter[],
-    totalPrice : number;
+    totalPrice: number;
 }
 
 
 
 const initialState: CartInter = {
     cartData: [],
-    totalPrice : 0
+    totalPrice: 0
     // totalCartvalue : 0
 }
 
@@ -41,7 +41,7 @@ const cartSlice = createSlice({
         //     state.cartData = action.payload.data
         // },
 
-        setToTalPrice(state , action){
+        setToTalPrice(state, action) {
             state.totalPrice = action.payload
         },
 
@@ -91,7 +91,7 @@ const cartSlice = createSlice({
                 let index = cCartState.cartData.findIndex((ele) => ele.id === id && ele.verity.typeId === verity.typeId)
 
 
-                console.log("same dedected")
+                // console.log("same dedected")
 
                 let newItemObject = { ...item, quantity: item.quantity + 1 }
 
@@ -190,7 +190,7 @@ const cartSlice = createSlice({
 
         },
 
-        setClearCartData(state){
+        setClearCartData(state) {
             state.cartData = []
             state.totalPrice = 0
             localStorage.removeItem("cardData")
@@ -200,7 +200,7 @@ const cartSlice = createSlice({
     },
 
 
-    extraReducers: (builder) => [
+    extraReducers: (builder) => {
 
 
 
@@ -219,14 +219,14 @@ const cartSlice = createSlice({
 
             })
 
-    ]
+    }
 
 
 })
 
 
 
-export const { addItemInCart, removeOneItem,  onePlusQuan, oneMinusQuan , setToTalPrice , setClearCartData } = cartSlice.actions
+export const { addItemInCart, removeOneItem, onePlusQuan, oneMinusQuan, setToTalPrice, setClearCartData } = cartSlice.actions
 
 export default cartSlice.reducer
 

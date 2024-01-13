@@ -13,16 +13,32 @@ const productSchema = new mongoose.Schema({
         default: () => uuid.v4()
     },
 
+
+
+    // // // not default values (These vlaue should given during the creation of new product) -->
+
     title: {
         type: String,
         required: [true, "Title of product is required"],
         trim: true
     },
 
+
+    brand: String,
+
+    category: String,
+
     description: {
         fullName: String,
+
         aboutProduct: String,
+
         highLights: [String],
+        // // highlights is an array with some strings
+        //Samsung product
+        // Multi-tasking
+        // Budget friendly
+
         specifications: [
             {
                 // key : String
@@ -52,27 +68,38 @@ const productSchema = new mongoose.Schema({
         required: true
     },
 
+    discountPercentage: {
+        type: Number,
+        default: 0
+    },
+
+
     type: [
-        {   
+        {
             _id: false,
-            
+
             typeName: [String, String],
             // // [key , value] ex : ["color" , "white"]
             typeVerity: [String, String],
             // // [key , value] ex : ["RAM-ROM" , "4-64"]
-            typeStock: {type : Number , default : 0} ,
-            typePrice : {type : Number , default : 0},
+            typeStock: { type: Number, default: 0 },
+            typePrice: { type: Number, default: 0 },
             typeId: {
                 type: String,
                 default: () => uuid.v4()
             }
-            
+
         }
     ],
 
-    discountPercentage: Number,
+    thumbnail: String,
 
-    brand: String,
+    images: {
+        type: Array,
+    },
+
+
+    // // // Default values here ----->
 
     review: {
         type: [mongoose.Schema.Types.ObjectId],
@@ -80,42 +107,40 @@ const productSchema = new mongoose.Schema({
     },
 
     rating: {
-        totalPerson: Number,
+        totalPerson: {
+            type: Number,
+            default: 0
+        },
         avgRating: {
             type: Number,
             default: 0
         }
     },
 
-    category: String,
-
-    thumbnail: String,
-
-    images: {
-        type: Array,
-    },
     isHighlight: {
         type: Boolean,
         default: false
     },
 
-    likes : {
-        type : Number ,
-        required : true,
-        default : 0
+    likes: {
+        type: Number,
+        required: true,
+        default: 0
     },
-    dislikes : {
-        type : Number ,
-        required : true,
-        default : 0
-    },
-
-    likedUserIds : {
-        type : [String]
+    dislikes: {
+        type: Number,
+        required: true,
+        default: 0
     },
 
-    dislikedUserIds :{
-        type : [String]
+    likedUserIds: {
+        type: [String],
+        default: []
+    },
+
+    dislikedUserIds: {
+        type: [String],
+        default: []
     },
 
     isDeleted: {
@@ -124,7 +149,7 @@ const productSchema = new mongoose.Schema({
     }
 
 },
-    {  timestamps: true }
+    { timestamps: true }
 )
 
 

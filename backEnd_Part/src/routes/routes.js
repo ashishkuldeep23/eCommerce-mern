@@ -38,19 +38,28 @@ router.get('/', function (req, res) {
 
 
 // // // Product API
-router.post("/createProduct", isAuthorized, createNewProduct)
+// // // isAuth add letter
+// // // Admin API's ----------->
+router.post("/createProduct", isAuthorized ,  upload.array("file") , createNewProduct)
 
+
+
+/// // // General Api's
 router.get("/findAllProducts", isAuthorized, findAllProducts)
 
 router.get("/getCategoryAndHighlight", isAuthorized, getCategoryAndHighlight)
 
 router.get("/findOneProduct/:productId", isAuthorized, findOneProduct)
 
+router.get("/searchProduct", searchProductByKeyowrd)
+
+
+
+
 router.post("/likeProduct", isAuthorized, likeProduct)
 
 router.post("/dislikeProduct", isAuthorized, dislikeProduct)
 
-router.get("/searchProduct", searchProductByKeyowrd)
 
 
 

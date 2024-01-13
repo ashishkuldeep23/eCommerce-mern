@@ -55,7 +55,6 @@ export const createNewUser = createAsyncThunk('user/createNewUser', async ({ for
 })
 
 
-
 type LogInBody = {
 
     bodyData: {
@@ -87,9 +86,6 @@ export const logInUser = createAsyncThunk('user/logInUser', async ({ bodyData = 
     let data = await response.json();
     return data
 })
-
-
-
 
 
 
@@ -285,7 +281,7 @@ const initialState: UserDataForOder = {
         lastName: "",
         firstName: "",
         profilePic: "https://res.cloudinary.com/dlvq8n2ca/image/upload/v1700368567/ej31ylpxtamndu3trqtk.png",
-        role: "user",
+        role: "",
         email: "",
         id: "",
         address: [],

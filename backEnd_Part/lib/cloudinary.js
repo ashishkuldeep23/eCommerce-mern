@@ -7,21 +7,53 @@ cloudinary.config({
 });
 
 
-async function uploadImageOnCloudinary( filePath , whereUpload ){
+async function uploadImageOnCloudinary(filePath, whereUpload) {
 
     let result;
 
-    if(filePath){
-        result = await cloudinary.uploader.upload(filePath , { folder: `${whereUpload || "Ecommerce"}` })
+    if (filePath) {
+        result = await cloudinary.uploader.upload(filePath, { folder: `${whereUpload || "Ecommerce"}` })
     }
 
 
     // console.log(result)
 
     return result
-
-
 }
 
 
-module.exports = { uploadImageOnCloudinary }
+
+async function uploadArrOfImgOnCloud(arrOfImgs, whereUpload) {
+
+
+    // console.log(arrOfImgs , whereUpload)
+
+
+    // // // File is comming from multer comming in arr---->
+
+    let resultArr = []
+
+
+    if (arrOfImgs.length > 0) {
+
+        for (let i = 0; i < arrOfImgs.length; i++) {
+
+            const filePath = arrOfImgs[i].path
+
+            let result = await cloudinary.uploader.upload(filePath, { folder: `${whereUpload || "Ecommerce"}` })
+
+            // console.log(result)
+
+            resultArr.push(result.url)
+
+        }
+
+    }
+
+
+    return resultArr
+}
+
+
+
+module.exports = { uploadImageOnCloudinary , uploadArrOfImgOnCloud}

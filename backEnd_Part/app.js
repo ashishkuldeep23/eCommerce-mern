@@ -233,7 +233,6 @@ const calculateOrderAmount = (price) => {
 };
 
 
-
 app.post("/create-payment-intent", async (req, res) => {
   const { totalPrice } = req.body;
 

@@ -225,7 +225,7 @@ export default function LogIn() {
                         </Link>
                     </p>
 
-
+                    {/* LogIn by Google ---> */}
                     <GoogleBtnLogic />
 
                 </div>

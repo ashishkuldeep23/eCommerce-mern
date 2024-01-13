@@ -26,6 +26,7 @@ import { CategorySearchPage } from "./Screens/CategorySearchPage"
 import ForgotPassMainScreen from "./Screens/ForgotPassMainScreen"
 import { ForgotPassReqScreen } from "./Screens/ForgotPassReqScreen"
 import { FeedbackScreen } from "./Screens/FeedbackScreen"
+import AdminScreen from "./Screens/AdminScreen"
 
 // import { fetchAllProducts , fetchAllCategoryAndHighlight } from "./Slices/AllProductSlice"
 
@@ -96,6 +97,14 @@ const router = createBrowserRouter([
   // // // So this route i'll use fater gogal logIn , plan atleast -->
   { path: "/user-login/:token/:user", element: <UserSinInWithGoogle /> },
 
+
+  // // // Admin Route preset here --->
+  // // Tow protection should iven here --->
+  // 1) user should loging ---->
+  // 2) Role of user should be Admin.(Only those people will show this component)
+
+  { path: "/admin", element: (< LogInProtected > <AdminScreen /> </ LogInProtected>) },
+
   // // // Feedback section ---->
   { path: "/feedback", element: <FeedbackScreen /> },
 
@@ -123,7 +132,6 @@ const router = createBrowserRouter([
 
 function App() {
 
-
   const dispatch = useDispatch<AppDispatch>()
 
   // const allHighlightsData = useSelector((state: RootState) => state.allProductWithCatReducer.allHighlightProducts)
@@ -144,6 +152,8 @@ function App() {
 
 
     // // // If token is present in localHost then only do ---->
+
+    // // // Calling backend to get all data ---->
     if (gettingTokenInCookieAndLocalHost()) {
 
 

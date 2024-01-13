@@ -29,19 +29,20 @@ export default {
     extend: {
       height: {
         allAk: "100vh",
-        "90" : "22rem"
+        "90": "22rem"
       },
       maxWidth: {
-        allAk: "87rem" ,
-        "3/5" : "60%"
+        allAk: "87rem",
+        "3/5": "60%"
       },
-      
-      scale : {
-        '200' : "200%"
+
+      scale: {
+        '200': "200%"
       },
-      margin :{
-        "feedback" : "30%"
-      }
+      margin: {
+        "feedback": "30%"
+      },
+
     },
   },
   plugins: [

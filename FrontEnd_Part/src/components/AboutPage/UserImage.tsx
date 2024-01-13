@@ -20,7 +20,7 @@ const UserImageDiv = () => {
 
     const [showImgInput, setShowImgInput] = useState<boolean>(false)
 
-    const [userImage, setUserImage] = useState(getUserData.profilePic)
+    const [userImage, setUserImage] = useState<string>(getUserData.profilePic)
 
 
     function showModalWithValues() {
@@ -153,7 +153,7 @@ const UserImageDiv = () => {
                             className='rounded-full'
                             type="file"
                             name=""
-                            accept="image/png, image/gif, image/jpeg"
+                            accept="image/png, image/png, image/jpeg"
                             id="change_img"
                             onChange={(e) => { onChangeHandler(e) }}
                         />

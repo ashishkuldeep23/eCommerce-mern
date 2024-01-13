@@ -17,6 +17,8 @@ import orderReducer from './Slices/OrderSlice'
 
 import searchReducer from  "./Slices/ProductSearchByKey"
 
+import adminReducer from './Slices/adminSlice'
+
 
 export const store = configureStore({
     reducer: {
@@ -27,7 +29,8 @@ export const store = configureStore({
         reviewReducer,
         modalReducer ,
         orderReducer ,
-        searchReducer
+        searchReducer,
+        adminReducer
     },
 
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({

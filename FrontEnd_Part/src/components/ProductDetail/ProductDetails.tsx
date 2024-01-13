@@ -16,7 +16,6 @@ import { useParams } from 'react-router-dom';
 
 
 
-
 export type ReviewData = {
 
     "userData": {
@@ -228,7 +227,7 @@ export default function ProductDetails() {
 
 
     // // // Below code is used to show animation ---->
-    function animationCodeForLike(){
+    function animationCodeForLike() {
         setDoubleClickLike(true)
 
         setTimeout(() => {
@@ -675,19 +674,18 @@ export default function ProductDetails() {
 
                         {/* div for simmilar products  */}
 
-                        <div className="mx-auto max-w-2xl  pb-16 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-2 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8  lg:pb-24   ">
+                        <div
+                            className="mx-auto max-w-2xl  pb-16 sm:px-6  lg:max-w-7xl w-full   "
+                        >
 
 
                             <div className={`${!themeMode ? "bg-white text-gray-700" : "bg-black text-gray-100"} pr-0`} >
 
                                 <div className="mx-auto px-0  lg:px-4  lg:max-w-7xl flex flex-col ">
 
-                                    <h1 className=' text-xl  my-5 font-bold underline'>Simmilar products</h1>
+                                    <h1 className='text-xl  my-5 font-bold underline'>Simmilar products</h1>
 
-                                    <div className="h-96 flex flex-wrap flex-col overflow-y-hidden overflow-x-auto  pb-3 ">
-
-
-
+                                    <div className=" h-80 flex flex-wrap items-start flex-col overflow-y-hidden overflow-x-auto ">
 
                                         {
 

@@ -1,6 +1,8 @@
 
 const uuid = require("uuid")
 
+const { uploadArrOfImgOnCloud } = require('../../lib/cloudinary')
+
 // // // required models ---->
 
 const productModel = require("../model/productModel")
@@ -14,7 +16,8 @@ async function createNewProduct(req, res) {
         // // // Lot of work not done now (USE this api as admin api ) ------->
 
 
-        // console.log(req.body)
+        // console.log({ ...req.body })
+        // console.log("files are ---->", req.files)
 
         // // // Check body (body can't be empty)
 
@@ -23,17 +26,92 @@ async function createNewProduct(req, res) {
         }
 
 
-        let nameOfProduct = req.body.name
+        if (!req.tokenUserData || req.tokenUserData.role !== "admin") {
+            return res.status(403).send({ status: false, message: "Unauthorized to create product." })
+        }
+
+
+
+        // // // Incomming keys -->
+        let { whenCreted, imageInputBy, thumbnailIndex, type, description, category, discountPercentage, price, brand, title } = req.body
+
+
+        if (!whenCreted || !imageInputBy || !thumbnailIndex || !type || !description || !category || !discountPercentage || !price || !brand || !title) {
+            return res.status(400).send({ status: false, message: "All feilds are not given." })
+        }
+
 
 
         // // // Validation ---> 
 
 
-        let newProduct = await productModel.create(req.body)
+        // // // taking care of image (URL and Actual Images) ----->
 
+
+        let recivedBodyData = {}
+
+        for (let key of Object.keys(req.body)) {
+
+            // console.log(key)
+
+            recivedBodyData[key] = JSON.parse(req.body[key])
+
+        }
+
+
+
+        // console.log(recivedBodyData)
+
+
+        // const images = []
+
+
+
+        if (recivedBodyData.imageInputBy === "by_image") {
+
+            const allFiles = req.files
+
+            if (allFiles.length > 0) {
+
+
+                // for (let i = 0; i < allFiles.length; i++) {
+
+                //     console.log(allFiles[i])
+
+                //     let filePathIs = allFiles[i].path
+
+                //     let result = await uploadImageOnCloudinary(filePathIs, "product_Imgs_Ecom")
+
+                //     console.log(result)
+                //     images.push(result)
+
+                // }
+
+
+
+                let result = await uploadArrOfImgOnCloud(allFiles, "product_Imgs_Ecom")
+
+
+                if (result.length > 0) {
+                    recivedBodyData.images = result
+                }
+
+
+            }
+
+        }
+
+        // console.log("Thumbnail --------->" ,recivedBodyData.images[0])
+
+        recivedBodyData.thumbnail = recivedBodyData.images[thumbnailIndex]
+
+        // console.log({createdData : recivedBodyData})
+
+        let newProduct = await productModel.create(recivedBodyData)
+        // 
         // console.log(newProduct)
 
-        res.status(201).send({ status: true, message: "Product created", data: newProduct })
+        res.status(201).send({ status: true, message: "Product created successfully.", data: newProduct })
 
     } catch (err) {
         console.log(err.message)

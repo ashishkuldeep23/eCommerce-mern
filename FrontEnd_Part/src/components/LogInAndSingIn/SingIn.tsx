@@ -149,8 +149,6 @@ export default function SignIn() {
             const file = e?.target?.files[0]
 
             formData.append('file', file)
-
-
         }
 
 

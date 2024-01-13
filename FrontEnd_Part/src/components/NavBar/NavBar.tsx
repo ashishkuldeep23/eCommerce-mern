@@ -263,6 +263,11 @@ function RightCommonSection() {
 
     const getUserState = userState();
 
+    const isUserAdmin = getUserState.userData.role
+
+
+    // console.log(isUserAdmin)
+
     // const [tokenInCookie , setTokenInCookie] = useState<string>('')
 
 
@@ -281,14 +286,16 @@ function RightCommonSection() {
     if (getUserState.isLogIn) {
 
         itemsOfProfileOnHover = [
+            { tab: "Admin Page", to: "/admin" },
             { tab: "Your Profile", to: "/about" },
+            { tab: "Verify Mail", to: "/" },
             { tab: "SignOut", to: "#" },
         ]
 
     } else {
 
         itemsOfProfileOnHover = [
-            { tab: "Your Profile", to: "/about" },
+            // { tab: "Your Profile", to: "/about" },
             { tab: "SignIn", to: "/login" },
         ]
 
@@ -360,6 +367,8 @@ function RightCommonSection() {
             <div className="absolute inset-y-0 right-0 flex items-center  md:static md:inset-auto md:ml-6 md:pr-0">
 
 
+
+
                 {/* Cart btn */}
                 <button
                     className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 mx-1 hover:scale-125  transition-all"
@@ -408,7 +417,7 @@ function RightCommonSection() {
                         leaveFrom="transform opacity-100 scale-100"
                         leaveTo="transform opacity-0 scale-95"
                     >
-                        <Menu.Items className={`absolute -right-full z-50 mt-2 w-32 xsm:w-48 origin-top-right rounded-md  py-1 shadow-md ring-1 ring-opacity-5 focus:outline-none ${!themeSate ? "bg-white text-gray-900" : "bg-gray-900 text-white"} `}>
+                        <Menu.Items className={`absolute overflow-hidden -right-full z-50 mt-2 w-32 xsm:w-48 origin-top-right rounded-md  pt-1 shadow-md ring-1 ring-opacity-5 focus:outline-none ${!themeSate ? "bg-white text-gray-900" : "bg-gray-900 text-white"} `}>
 
                             {
                                 (itemsOfProfileOnHover && itemsOfProfileOnHover.length > 0)
@@ -422,7 +431,13 @@ function RightCommonSection() {
 
                                                     <Link
                                                         to={item.to}
-                                                        className={`${!themeSate ? "hover:bg-gray-300" : "hover:bg-gray-800 "} block px-4 py-2 text-md  ${item.tab === "SignOut" && "text-red-500"}  ${item.tab === "SignIn" && "text-green-500"}  `}
+                                                        className={` 
+                                                        ${(item.tab === "Admin Page" && isUserAdmin === "user") ? "hidden" : "block"}
+                                                         ${!themeSate ? "hover:bg-gray-300 hover:text-teal-500" : "hover:bg-gray-600 hover:text-yellow-500"} 
+                                                         ${item.tab === "SignOut" && "text-red-500"}  
+                                                         ${item.tab === "SignIn" && "text-green-500"}  
+                                                         block px-4 py-2 text-md  border-b border-green-300 transition-all
+                                                         `}
                                                         onClick={() => { item.tab === "SignOut" && singOutHandler() }}
                                                     >
                                                         {item.tab}
@@ -504,6 +519,7 @@ function SearchBarTabAndLess() {
         </>
     )
 }
+
 
 
 // // // This div contains Input box and search btn and suggestion div all ---> and it's neccessory thing 
@@ -774,7 +790,6 @@ function MainSearchBarWithLogics() {
 
 
 
-
 // // // Universal loader code here ---->
 function UniversalLoaderAndScroll() {
 
@@ -787,7 +802,7 @@ function UniversalLoaderAndScroll() {
 
     const [left, setLeft] = useState<number>(0)
 
-    const [windowHight , setWindowHight] = useState(0)
+    const [windowHight, setWindowHight] = useState(0)
 
 
 
@@ -886,7 +901,7 @@ function UniversalLoaderAndScroll() {
 
                     // style={{ width: width }}
                     // style={{ left: `${left}%`, width: "10%" }}
-                    style={{ left: `${left}%`, width: `${ Math.round(windowHight / 45) }%` }}
+                    style={{ left: `${left}%`, width: `${Math.round(windowHight / 45)}%` }}
                     id='scroll_percent_indi_top'
                     className=' absolute left-10 h-1.5 bg-green-300 rounded hover:scale-y-200 transition-all overflow-hidden'
                 >
