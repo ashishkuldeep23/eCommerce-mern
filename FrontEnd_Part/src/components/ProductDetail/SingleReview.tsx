@@ -113,12 +113,12 @@ const SingleReview = ({ reviewData }: PropOfSingleReview) => {
 
         }
     }
-    
+
 
     // // // this code will show like animation --->
-    function animationForLike(){
+    function animationForLike() {
         setDoubleClickLike(true)
-        
+
         setTimeout(() => {
             setDoubleClickLike(false)
         }, 1000)
@@ -208,7 +208,8 @@ const SingleReview = ({ reviewData }: PropOfSingleReview) => {
                     </div>
 
                     {/* Edit Delete btns ---> */}
-                    <div className={` mt-0.5 flex  justify-end relative  ${userDataId !== reviewData.userData.userUID ? " hidden" : "display"} `}>
+                    <div className={` mt-0.5 flex  justify-end relative  ${userDataId === reviewData.userId.id ? "display" : "hidden"} `}>
+                        {/* <div className={` mt-0.5 flex  justify-end relative  `}> */}
 
                         <div className=" absolute left-0">
 

@@ -28,17 +28,29 @@ const navigation = [
 // // // I'm main UI code for Navbar (All Functional comps present in-side me)
 export default function NavBar() {
 
+    
+    
+    
+    // const navigate = useNavigate()
 
     // const userData = userState().userData
 
+    // // // // Use Efftect to send on admin page (If user role is admin) ---->
+    // // // // If user is Admin then navigate to Admin Page -->
+
+    // useEffect(() => {
+
+    //     if (userData.firstName !== "" && userData.lastName !== "") {
+
+    //         if (userData.role === "admin") {
+    //             navigate("/admin")
+    //         }
+    //     }
+    // }, [userData])
 
 
-    // // // calling user data ------->
-    // useEffect( ()=>{
-    // } , [userData])
 
-
-
+    // /// // Main navBar code --->
     return (
 
 
