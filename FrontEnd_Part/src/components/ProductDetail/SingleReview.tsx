@@ -162,7 +162,7 @@ const SingleReview = ({ reviewData }: PropOfSingleReview) => {
                     onClick={showModalWithValues}
                 >
                     <img className=' w-6 h-6 object-cover rounded-full hover:rounded-sm hover:scale-125 transition-all' src={reviewData?.userId?.profilePic || ''} alt="" />
-                    <p className=' text-xl pl-2 font-bold border-b '>{reviewData?.userId?.firstName || '' + " " + reviewData?.userId?.lastName || ''} </p>
+                    <p className=' text-xl pl-2 font-bold border-b capitalize '>{reviewData?.userId?.firstName || '' + " " + reviewData?.userId?.lastName || ''} </p>
                 </div>
 
                 {/* Review Info Div --> */}

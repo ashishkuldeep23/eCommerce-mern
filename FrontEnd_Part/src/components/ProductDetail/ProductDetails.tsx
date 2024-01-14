@@ -44,7 +44,7 @@ export type ReviewData = {
 }
 
 
-type TypeObject = {
+export type TypeObject = {
     typeName: string[],
     typeStock: number,
     typeVerity: string[],
@@ -668,8 +668,6 @@ export default function ProductDetails() {
 
 
                         </div>
-
-
 
 
                         {/* div for simmilar products  */}

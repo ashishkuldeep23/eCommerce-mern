@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../store";
 import { toast } from "react-toastify";
 import { gettingTokenInCookieAndLocalHost } from "../App";
+import { IProduct } from "../components/ProductListing/ProductLists";
 
 
 // import type { PayloadAction } from "@reduxjs/toolkit"
@@ -29,6 +30,30 @@ export const createNewProduct = createAsyncThunk('admin/createNewProduct', async
 
 
 
+export const getAllProductAdmin = createAsyncThunk("admin/getAllProducts" ,async () => {
+
+    const option = {
+        method: 'GET',
+        headers: {
+            "token": `${gettingTokenInCookieAndLocalHost()}`,
+        },
+    }
+
+
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/getAllProductsAdmin`, option)
+    let data = await response.json();
+    return data
+})
+
+
+
+
+
+export interface IProductAdmin extends IProduct{
+
+}
+
+
 
 
 type AdminData = {
@@ -36,6 +61,8 @@ type AdminData = {
     isError: boolean;
     isFullfilled: boolean;
     errMsg: string;
+    allProduct : IProductAdmin[]
+
 }
 
 
@@ -43,7 +70,8 @@ const initialState: AdminData = {
     isLoading: false,
     isError: false,
     isFullfilled: false,
-    errMsg: ""
+    errMsg: "",
+    allProduct : [  ]
 }
 
 
@@ -123,6 +151,56 @@ const adminSlice = createSlice({
                 });
             })
 
+
+
+            .addCase(getAllProductAdmin.pending , (state)=>{
+                state.isLoading = true
+                state.isFullfilled = false
+            })
+
+            .addCase(getAllProductAdmin.fulfilled , (state , action) =>{
+                state.isLoading = false
+                state.isFullfilled = true
+
+                // console.log(action.payload)
+                // alert("Ok now")
+
+
+                if (action.payload.status === false) {
+
+                    state.isError = true
+                    toast.error(`${action.payload.message} | 400`, {
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: false,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                    })
+                }else{
+                    console.log(action.payload.data)
+                    state.allProduct = action.payload.data
+                }
+            })
+
+
+            .addCase(getAllProductAdmin.rejected , (state , action)=>{
+                state.isLoading = false
+                state.isError = true
+                state.errMsg = action?.error?.message!
+                toast.error(`${action.error.message}`, {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                });
+            })
 
     }
 })

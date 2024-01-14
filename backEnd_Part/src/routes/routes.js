@@ -7,15 +7,18 @@ const passport = require('passport');
 
 // // // Import controles -->
 
-const { createNewProduct, findAllProducts, getCategoryAndHighlight, findOneProduct, dislikeProduct, likeProduct, searchProductByKeyowrd } = require("../controller/productControllor")
-const { createNewReview, deleteReview, updateReview, likeReview, dislikeReview } = require("../controller/reviewController")
-const { creteUserControllor, logInControllor, logOutControl, getUserData, updateUser, verifyMailController, forgotReqHandler, forgotMainHandler, userWithEmail, bugReportHandler , userDataByTokenHandler } = require("../controller/userControllor")
+const { findAllProducts, getCategoryAndHighlight, findOneProduct, dislikeProduct, likeProduct, searchProductByKeyowrd } = require("../controller/productControllor")
 
+const { createNewReview, deleteReview, updateReview, likeReview, dislikeReview } = require("../controller/reviewController")
+
+const { creteUserControllor, logInControllor, logOutControl, getUserData, updateUser, verifyMailController, forgotReqHandler, forgotMainHandler, userWithEmail, bugReportHandler, userDataByTokenHandler } = require("../controller/userControllor")
 
 const { createNewOrder, updateOrder } = require("../controller/orderControllor")
 
+const { createNewProduct , getAllProductsAdmin } = require("../controller/adminControllor")
 
-const { isAuthorized } = require("../middleware/authorization")
+
+const { isAuthorized , isUserAdmin } = require("../middleware/authorization")
 
 
 
@@ -37,10 +40,12 @@ router.get('/', function (req, res) {
 
 
 
-// // // Product API
-// // // isAuth add letter
+
+
 // // // Admin API's ----------->
-router.post("/createProduct", isAuthorized ,  upload.array("file") , createNewProduct)
+router.post("/createProduct", isAuthorized , isUserAdmin , upload.array("file"), createNewProduct)
+
+router.get("/getAllProductsAdmin" , isAuthorized , isUserAdmin , getAllProductsAdmin)
 
 
 
@@ -98,14 +103,14 @@ router.get("/checkUserWithEmail/:email", userWithEmail)
 router.post("/bugReport", bugReportHandler)
 
 // // // Below api used to get data with given token
-router.get("/userDataByToken" , isAuthorized , userDataByTokenHandler)
+router.get("/userDataByToken", isAuthorized, userDataByTokenHandler)
 
 
 
 
 // // // Routes for login by Google ----->
 // // // Scope should given which scope of data you want to get like :- email and profile --->
-router.get("/userLoginGoogle", passport.authenticate("google", { scope: ['email' , 'profile'] }))
+router.get("/userLoginGoogle", passport.authenticate("google", { scope: ['email', 'profile'] }))
 
 router.get("/auth/google/callback", passport.authenticate("google", {
   // successRedirect: `${process.env.FRONTEND_URL}`,
@@ -131,7 +136,7 @@ router.get("/auth/google/callback", passport.authenticate("google", {
 
     // res.redirect(`${process.env.FRONTEND_URL}`)
 
-   // res.render("googleAuth", { check: `${req.user.token}` })
+    // res.render("googleAuth", { check: `${req.user.token}` })
 
     /*
       // // // TODO :  1) ---> redirect to user on google auth page from frontend with token as path params 
@@ -139,10 +144,10 @@ router.get("/auth/google/callback", passport.authenticate("google", {
       Hope everything will good and accordingly.
     */
 
-      let url = `${process.env.FRONTEND_URL}/user-login/${req.user.token}/newuser`
+    let url = `${process.env.FRONTEND_URL}/user-login/${req.user.token}/newuser`
 
-      res.redirect(url)
-    
+    res.redirect(url)
+
   }
   else {
     res.status(200).send({ status: false, message: "No user found." })
@@ -194,9 +199,9 @@ router.get("/login/success", (req, res) => {
       Hope everything will good and accordingly.
     */
 
-      let url = `${process.env.FRONTEND_URL}/google-user/${req.user.token}/newuser`
+    let url = `${process.env.FRONTEND_URL}/google-user/${req.user.token}/newuser`
 
-      res.redirect(url)
+    res.redirect(url)
 
   }
   else {

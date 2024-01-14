@@ -148,7 +148,7 @@ function MenuOfTabAndAbove() {
                                 {
                                     item.name !== "name"
                                         ? item.name
-                                        : `Welcome,${userData.firstName || "user"}😊`
+                                        : <span className=' capitalize'>Welcome,{userData.firstName || "user"}😊</span>
                                 }
                             </a>
                         ))}

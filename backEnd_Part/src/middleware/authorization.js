@@ -76,7 +76,7 @@ exports.isAuthorized = async function (req, res, next) {
 
             // // Set user data in req -------->
 
-            req.tokenUserData = { token : token , id: findUser._id,  firstName : findUser.firstName , lastName : findUser.lastName , profilePic: findUser.profilePic , email : findUser.email , role : findUser.role , userId : findUser._id}
+            req.tokenUserData = { token: token, id: findUser._id, firstName: findUser.firstName, lastName: findUser.lastName, profilePic: findUser.profilePic, email: findUser.email, role: findUser.role, userId: findUser._id }
 
 
             // // // Now here you can call then next route ------>
@@ -85,6 +85,24 @@ exports.isAuthorized = async function (req, res, next) {
             return res.status(401).send({ status: false, message: "Payload is empty , LogIn again" })
         }
 
+
+    } catch (err) {
+        return res.status(500).send({ status: false, message: err.message })
+    }
+
+}
+
+
+
+
+exports.isUserAdmin = async function (req, res, next) {
+    try {
+
+        if (!req.tokenUserData || req.tokenUserData.role !== "admin") {
+            return res.status(403).send({ status: false, message: "User is not Admin." })
+        }else{
+            next()
+        }
 
     } catch (err) {
         return res.status(500).send({ status: false, message: err.message })
