@@ -17,7 +17,7 @@ import orderReducer from './Slices/OrderSlice'
 
 import searchReducer from  "./Slices/ProductSearchByKey"
 
-import adminReducer from './Slices/adminSlice'
+import adminReducer from './Slices/AdminSlice'
 
 
 export const store = configureStore({

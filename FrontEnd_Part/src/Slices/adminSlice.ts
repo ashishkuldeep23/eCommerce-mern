@@ -1,5 +1,5 @@
 
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import { createAsyncThunk, createSlice , current} from "@reduxjs/toolkit"
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
 import { toast } from "react-toastify";
@@ -30,7 +30,7 @@ export const createNewProduct = createAsyncThunk('admin/createNewProduct', async
 
 
 
-export const getAllProductAdmin = createAsyncThunk("admin/getAllProducts" ,async () => {
+export const getAllProductAdmin = createAsyncThunk("admin/getAllProducts", async () => {
 
     const option = {
         method: 'GET',
@@ -46,13 +46,25 @@ export const getAllProductAdmin = createAsyncThunk("admin/getAllProducts" ,async
 })
 
 
+export const updateProductAdmin = createAsyncThunk("admin/updateProduct", async (formData: FormData) => {
+    const option = {
+        method: 'POST',
+        headers: {
+            "token": `${gettingTokenInCookieAndLocalHost()}`,
+        },
+        body: formData
+    }
+
+
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/updatePoduct`, option)
+    let data = await response.json();
+    return data
+})
 
 
 
-export interface IProductAdmin extends IProduct{
-
+export interface IProductAdmin extends IProduct {
 }
-
 
 
 
@@ -61,7 +73,7 @@ type AdminData = {
     isError: boolean;
     isFullfilled: boolean;
     errMsg: string;
-    allProduct : IProductAdmin[]
+    allProduct: IProductAdmin[]
 
 }
 
@@ -71,9 +83,8 @@ const initialState: AdminData = {
     isError: false,
     isFullfilled: false,
     errMsg: "",
-    allProduct : [  ]
+    allProduct: []
 }
-
 
 
 const adminSlice = createSlice({
@@ -86,13 +97,12 @@ const adminSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            .addCase(createNewProduct.pending , (state)=>{
+            .addCase(createNewProduct.pending, (state) => {
                 state.isLoading = true
                 state.isFullfilled = false
             })
 
-
-            .addCase(createNewProduct.fulfilled , (state , action)=>{
+            .addCase(createNewProduct.fulfilled, (state, action) => {
                 state.isLoading = false
                 state.isFullfilled = true
 
@@ -135,7 +145,7 @@ const adminSlice = createSlice({
 
             })
 
-            .addCase(createNewProduct.rejected , (state , action)=>{
+            .addCase(createNewProduct.rejected, (state, action) => {
                 state.isLoading = false
                 state.isError = true
                 state.errMsg = action?.error?.message!
@@ -153,12 +163,12 @@ const adminSlice = createSlice({
 
 
 
-            .addCase(getAllProductAdmin.pending , (state)=>{
+            .addCase(getAllProductAdmin.pending, (state) => {
                 state.isLoading = true
                 state.isFullfilled = false
             })
 
-            .addCase(getAllProductAdmin.fulfilled , (state , action) =>{
+            .addCase(getAllProductAdmin.fulfilled, (state, action) => {
                 state.isLoading = false
                 state.isFullfilled = true
 
@@ -179,14 +189,92 @@ const adminSlice = createSlice({
                         progress: undefined,
                         theme: "dark",
                     })
-                }else{
-                    console.log(action.payload.data)
+                } else {
+                    // console.log(action.payload.data)
                     state.allProduct = action.payload.data
                 }
             })
 
+            .addCase(getAllProductAdmin.rejected, (state, action) => {
+                state.isLoading = false
+                state.isError = true
+                state.errMsg = action?.error?.message!
+                toast.error(`${action.error.message}`, {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                });
+            })
 
-            .addCase(getAllProductAdmin.rejected , (state , action)=>{
+
+
+            .addCase(updateProductAdmin.pending, (state) => {
+                state.isLoading = true
+                state.isFullfilled = false
+            })
+
+            .addCase(updateProductAdmin.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isFullfilled = true
+
+                // console.log(action.payload)
+                // alert("Ok now")
+
+
+                if (action.payload.status === false) {
+
+                    state.isError = true
+                    toast.error(`${action.payload.message} | 400`, {
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: false,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                    })
+                } else {
+                    // console.log(action.payload.data)
+
+                    let productId = action.payload.data.id
+
+                    let updatedProductData = action.payload.data as IProductAdmin
+
+                    // // // Update that data only 
+
+                    // console.log(productId , updatedProductData)
+
+                    let cureentAllData = current(state.allProduct)
+
+                    
+                    let findOldDataIndex = cureentAllData.findIndex(ele=>ele.id === productId)
+
+                    // console.log(findOldDataIndex)
+
+
+                    // let newAllDataArr = [...cureentAllData].splice(findOldDataIndex , 0 , updatedProductData  )
+                    let newAllDataArr = [...cureentAllData]
+                    
+                    newAllDataArr.splice(findOldDataIndex , 1 , updatedProductData  )
+                    // let newAllDataArr = c.push( updatedProductData  )
+                    
+                    // console.log(newAllDataArr)
+
+                    // // now set the new arr --->
+                    state.allProduct = newAllDataArr
+
+
+                    // state.allProduct = action.payload.data
+                }
+            })
+
+            .addCase(updateProductAdmin.rejected, (state, action) => {
                 state.isLoading = false
                 state.isError = true
                 state.errMsg = action?.error?.message!

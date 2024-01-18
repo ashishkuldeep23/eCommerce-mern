@@ -4,7 +4,7 @@
 import { useForm, SubmitHandler } from "react-hook-form"
 import { IProduct } from "../ProductListing/ProductLists"
 import { useEffect, useState } from "react"
-import { adminDataState, createNewProduct } from "../../Slices/adminSlice"
+import { adminDataState, createNewProduct } from "../../Slices/AdminSlice"
 // import AllProducts from "./AllProducts"
 import { AppDispatch, RootState } from "../../store"
 import { useDispatch, useSelector } from "react-redux"
