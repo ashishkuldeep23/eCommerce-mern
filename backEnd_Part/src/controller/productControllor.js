@@ -428,6 +428,7 @@ async function searchProductByKeyowrd(req, res) {
                 { category: { $regex: keyword, $options: 'i' } },
                 { brand: { $regex: keyword, $options: 'i' } },
             ],
+            isDeleted : false     // // // Give not deleted products only 
         })
 
 

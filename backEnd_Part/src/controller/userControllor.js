@@ -271,7 +271,7 @@ async function updateUser(req, res) {
         const { whatUpadte, ...resBody } = req.body;
 
         if (!whatUpadte) {
-            return res.status(400).send({ status: false, message: "When upadte not given check Api Controler" })
+            return res.status(400).send({ status: false, message: "What upadte not given check Api Controller" })
         }
 
         const id = req.tokenUserData.userId

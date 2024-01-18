@@ -139,4 +139,80 @@ async function getAllProductsAdmin(req, res) {
 
 
 
-module.exports = { createNewProduct, getAllProductsAdmin }
+async function updateProdct(req, res) {
+    try {
+
+
+        const { whatUpadte, productId, ...resBody } = req.body;
+
+        if (!whatUpadte) {
+            return res.status(400).send({ status: false, message: "What upadte not given check Api Controller" })
+        }
+
+        if (!productId) return res.status(400).send({ status: false, message: "Please provide productId in body." })
+
+
+        let getProduct = await productModel.findOne({ id: productId })
+        if (!getProduct) {
+            return res.status(404).send({ status: false, message: "Product not found with given id." })
+        }
+
+        let updatedData;
+
+
+        if (whatUpadte === "highlight") {
+
+            let { isHighlight } = resBody
+
+            if( isHighlight === undefined  || isHighlight === ""){
+                return  res.status(404).send({ status: false, message: "Please provide isHighlight value." })
+            }
+
+            isHighlight = JSON.parse(isHighlight)
+
+            if (isHighlight) {
+                getProduct.isHighlight = true
+            } else {
+                getProduct.isHighlight = false
+            }
+
+        }
+        else if (whatUpadte === "makeDelete") {
+            let { isDeleted } = resBody
+
+            // console.log(isDeleted)
+
+            if( isDeleted === undefined  || isDeleted === ""){
+                return  res.status(404).send({ status: false, message: "Please provide isHighlight value." })
+            }
+
+            isDeleted = JSON.parse(isDeleted)
+
+            if(isDeleted){
+                getProduct.isDeleted = true
+            }else{
+                getProduct.isDeleted = false
+            }
+
+
+        }
+        else if(whatUpadte === "next"){
+
+        }
+
+        updatedData = await getProduct.save()
+
+        // console.log("By updated", updatedData)
+
+        res.status(200).send({ status: true, message: "Product update succesfull", data: updatedData })
+
+    }
+    catch (err) {
+        console.log(err.message)
+        res.status(500).send({ status: false, message: "Server Error" })
+    }
+}
+
+
+
+module.exports = { createNewProduct, getAllProductsAdmin, updateProdct }
