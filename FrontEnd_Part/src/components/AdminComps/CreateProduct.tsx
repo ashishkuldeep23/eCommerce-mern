@@ -453,8 +453,21 @@ function CreateNewProduct() {
         // }
 
 
-        // // Now call dispatch ---->
 
+        // // // Check data have mandatory feilds or not ------>
+
+        let { title , price   , brand , category , description , type  } =  data
+
+        let { fullName , aboutProduct , highLights , specifications ,  product_Details , dimensions} = description!
+
+
+        if(!title || !price  || !brand || !category || !type || !fullName || !aboutProduct ||  !highLights || !specifications || ! product_Details || !dimensions){
+            return alert("All mandatory feilds shoud given.")
+        }
+
+
+
+        // // Now call dispatch ---->
 
         if (!updatingProduct) {
 
