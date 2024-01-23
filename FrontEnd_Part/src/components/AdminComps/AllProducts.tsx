@@ -49,8 +49,6 @@ export default function AllProducts() {
 }
 
 
-
-
 // // // This from will store from data --->
 // const formData = new FormData()
 
@@ -61,7 +59,10 @@ function SingleUIData({ product }: { product: IProductAdmin }) {
 
     const [seeDetails, setSeeDetails] = useState(false)
 
-    const [isProductDeleted, setIsProductDeleted] = useState<boolean>(product.isDeleted)
+
+    type TValueOfOptionBased = "delete" | "live"
+
+    const [arrOfOptions, setArrOfOptions] = useState<[TValueOfOptionBased, TValueOfOptionBased]>(["delete", 'live'])
 
 
     function selectForDeleteHandler(e: React.ChangeEvent<HTMLSelectElement>) {
@@ -69,7 +70,7 @@ function SingleUIData({ product }: { product: IProductAdmin }) {
         // console.log(e.target.value)
         // alert("fsfdhgdsgsd")
 
-        let makeDeleteVaue = e.target.value === "delete" ? true : false
+        let makeDeleteVaue = (e.target.value === "delete") ? true : false
 
         const formData = new FormData()
 
@@ -78,8 +79,6 @@ function SingleUIData({ product }: { product: IProductAdmin }) {
         formData.set("isDeleted", `${makeDeleteVaue}`)
 
         dispatch(updateProductAdmin(formData))
-
-
     }
 
 
@@ -96,14 +95,23 @@ function SingleUIData({ product }: { product: IProductAdmin }) {
     }
 
 
-
-
+    // // // Here creating select value according to value of isDelete --->
     useEffect(() => {
 
-        console.log(product.isDeleted)
-        console.log("Render product -->")
+        // console.log(product.isDeleted)
+        // console.log("Render product -->")
 
-        setIsProductDeleted(product.isDeleted)
+        // let firstValueOfOptionBased: TValueOfOptionBased = product.isDeleted ? "delete" : 'live'
+        // let secondValueOfOptionBased: TValueOfOptionBased = !product.isDeleted ? "delete" : 'live'
+        // setArrOfOptions([firstValueOfOptionBased, secondValueOfOptionBased])
+
+
+        if (!product.isDeleted) {
+            setArrOfOptions(["live", "delete"])
+        } else {
+            setArrOfOptions(["delete", "live"])
+        }
+
 
     }, [product])
 
@@ -154,39 +162,27 @@ function SingleUIData({ product }: { product: IProductAdmin }) {
                                 name="" id=""
                                 className=" border rounded px-0.5 mx-1 bg-transparent"
                                 onChange={(e) => { selectForDeleteHandler(e) }}
+                                value={arrOfOptions[0]}
                             >
 
 
 
                                 {
-                                    Array.from([isProductDeleted ? "delete" : "live" , isProductDeleted ? "live" : "delete"], (ele, i) => {
+                                    arrOfOptions.map((ele, i) => {
                                         return <option
                                             key={i}
                                             onClick={() => { console.log("not remove this line", ele) }}
-                                            className=" bg-transparent text-black"
+                                            className="bg-transparent text-black"
                                             // value={isProductDeleted && i===0 ? 'delete' : 'live'}
                                             // value={(isProductDeleted === true && i === 0) ? 'delete' : (isProductDeleted === false && i === 0) ? 'live' : "delete"}
-
                                             value={ele}
                                         >
-                                            {/* {(isProductDeleted === true && i === 0) ? '🔻Deleted' : (isProductDeleted === false && i === 0) ? '🟢Live' : "🔻Deleted"} */}
-
-
-                                            {/* {
-                                                i === 0
-                                                    ? isProductDeleted === true ? '🔻Deleted' : '🟢Live'
-                                                    : isProductDeleted === false ? '🔻Deleted' : '🟢Live'
-
-                                            } */}
-
-                                          
-
 
                                             {
-                                                ele === "delete" ? '🔻Deleted' : '🟢Live'
+                                                ele === "delete"
+                                                    ? "🔻Deleted"
+                                                    : "🟢Live"
                                             }
-
-
 
                                         </option>
                                     })

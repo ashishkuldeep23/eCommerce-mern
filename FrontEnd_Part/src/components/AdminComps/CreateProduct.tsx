@@ -31,7 +31,7 @@ const formData = new FormData()
 
 // // // Omit is the key word that we can use to change the feild value type in extended interface ----> (Very improtant)
 
-interface NewProductInput extends Omit<IProduct, 'type'> {
+export interface NewProductInput extends Omit<IProduct, 'type'> {
     type: TypeObj[],
     thumbnailIndex: number,
     imageInputBy: string,
@@ -90,6 +90,8 @@ function CreateNewProduct() {
 
 
     const [thumbnailIndex, setThumbnailIndex] = useState<number>(-1)
+
+
 
 
     function categoryOnChangeHandler(e: React.ChangeEvent<HTMLSelectElement>) {
