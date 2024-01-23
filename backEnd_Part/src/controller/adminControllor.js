@@ -233,7 +233,7 @@ async function updateProdct(req, res) {
                 recivedBodyData[key] = JSON.parse(resBody[key])
             }
 
-            console.log(recivedBodyData)
+            // console.log(recivedBodyData)
 
 
             if (recivedBodyData.imageInputBy === "by_image") {
