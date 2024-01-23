@@ -1,10 +1,11 @@
 
-import { createAsyncThunk, createSlice , current} from "@reduxjs/toolkit"
+import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit"
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
 import { toast } from "react-toastify";
 import { gettingTokenInCookieAndLocalHost } from "../App";
 import { IProduct } from "../components/ProductListing/ProductLists";
+import { NewProductInput } from "../components/AdminComps/CreateProduct";
 
 
 // import type { PayloadAction } from "@reduxjs/toolkit"
@@ -73,7 +74,9 @@ type AdminData = {
     isError: boolean;
     isFullfilled: boolean;
     errMsg: string;
-    allProduct: IProductAdmin[]
+    allProduct: IProductAdmin[],
+    updatingProduct: boolean,
+    newProduct: NewProductInput
 
 }
 
@@ -83,7 +86,43 @@ const initialState: AdminData = {
     isError: false,
     isFullfilled: false,
     errMsg: "",
-    allProduct: []
+    allProduct: [],
+    updatingProduct: false,
+
+    newProduct: {
+        type: [],
+        thumbnailIndex: -1,
+        imageInputBy: "",
+        whenCreted: "",
+
+        "id": 0,
+        "title": "",
+        "description": {
+            fullName: "",
+            aboutProduct: "",
+            highLights: [],
+            specifications: [{}],
+            product_Details: [{}],
+            dimensions: [{}]
+        },
+        "price": 0,
+        "discountPercentage": 0,
+        "rating": {
+            totalPerson: 0,
+            avgRating: 0
+        },
+        "brand": '',
+        "category": '',
+        "thumbnail": '',
+        "images": [],
+        "isHighlight": false,
+        "isDeleted": false,
+        "review": [],
+        "likes": 0,
+        "dislikes": 0,
+        "likedUserIds": [],
+        "dislikedUserIds": [],
+    }
 }
 
 
@@ -91,6 +130,19 @@ const adminSlice = createSlice({
     name: "admin",
     initialState,
     reducers: {
+
+        setUpdatingProduct(state, action) {
+            state.updatingProduct = action.payload as boolean
+        },
+
+        setProductData(state, action) {
+            // console.log(action.payload)
+
+            let comingData = action.payload as NewProductInput
+
+            state.newProduct = comingData
+
+        }
 
 
 
@@ -252,23 +304,37 @@ const adminSlice = createSlice({
 
                     let cureentAllData = current(state.allProduct)
 
-                    
-                    let findOldDataIndex = cureentAllData.findIndex(ele=>ele.id === productId)
+
+                    let findOldDataIndex = cureentAllData.findIndex(ele => ele.id === productId)
 
                     // console.log(findOldDataIndex)
 
 
                     // let newAllDataArr = [...cureentAllData].splice(findOldDataIndex , 0 , updatedProductData  )
                     let newAllDataArr = [...cureentAllData]
-                    
-                    newAllDataArr.splice(findOldDataIndex , 1 , updatedProductData  )
+
+                    newAllDataArr.splice(findOldDataIndex, 1, updatedProductData)
                     // let newAllDataArr = c.push( updatedProductData  )
-                    
+
                     // console.log(newAllDataArr)
 
                     // // now set the new arr --->
                     state.allProduct = newAllDataArr
 
+                    // // // update updating value
+                    state.updatingProduct = false
+
+
+                    toast.success(`${action.payload.message}`, {
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: false,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                    })
 
                     // state.allProduct = action.payload.data
                 }
@@ -295,7 +361,7 @@ const adminSlice = createSlice({
 
 
 
-export const { } = adminSlice.actions
+export const { setUpdatingProduct, setProductData } = adminSlice.actions
 
 export const adminDataState = () => useSelector((state: RootState) => state.adminReducer)
 

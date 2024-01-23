@@ -1,0 +1,838 @@
+[
+  {
+  "_id": {
+    "$oid": "654139338635f07dcee6f06b"
+  },
+  "title": "Microsoft Surface Laptop 4",
+  "description": {
+    "fullName": "Microsoft Surface Laptop 4",
+    "aboutProduct": "Style and speed. Stand out on HD video calls backed by Studio Mics. Capture ideas on the vibrant touchscreen.",
+    "highLights": [
+      "Apple",
+      "Multi-tasking",
+      "Budget friendly"
+    ],
+    "specifications": [
+      {
+        "Designed by": "Apple"
+      },
+      {
+        "Pack of": "1,phone,1,adoptor"
+      }
+    ],
+    "product_Details": [
+      {
+        "Ideal For": "Men,Women"
+      }
+    ],
+    "dimensions": [
+      {
+        "Width": "61,mm"
+      },
+      {
+        "Height": "183,mm"
+      },
+      {
+        "Thickness": "6,mm"
+      },
+      {
+        "Diameter": "183,mm"
+      },
+      {
+        "Weight": "0.7,kg"
+      }
+    ]
+  },
+  "price": 90000,
+  "type": [
+    {
+      "typeName": [
+        "color",
+        "white"
+      ],
+      "typeVerity": [
+        "processor",
+        ""
+      ],
+      "typeStock": 100,
+      "typePrice": 90000,
+      "typeId": "5764f56b-53c7-4e1f-a2fc-890fc7237c02"
+    },
+    {
+      "typeName": [
+        "color",
+        "Black"
+      ],
+      "typeVerity": [
+        "processor",
+        ""
+      ],
+      "typeStock": 99,
+      "typePrice": 90000,
+      "typeId": "ca79457a-f625-4f53-82a5-2f3aa9375512"
+    },
+    {
+      "typeName": [
+        "color",
+        "white"
+      ],
+      "typeVerity": [
+        "processor",
+        ""
+      ],
+      "typeStock": 96,
+      "typePrice": 100000,
+      "typeId": "e325bcd2-f66c-4d7b-b073-6647dc1f3abd"
+    },
+    {
+      "typeName": [
+        "color",
+        "Black"
+      ],
+      "typeVerity": [
+        "processor",
+        ""
+      ],
+      "typeStock": 99,
+      "typePrice": 100000,
+      "typeId": "42459213-c7cc-4e8a-9022-204a8b835d84"
+    }
+  ],
+  "discountPercentage": 8,
+  "brand": "microsoft",
+  "review": [
+    {
+      "$oid": "65771c8ed05f8e4aa7cdb44e"
+    }
+  ],
+  "rating": {
+    "totalPerson": 1,
+    "avgRating": 5
+  },
+  "category": "laptops",
+  "images": [
+    "https://cdn.dummyjson.com/product-images/8/1.jpg",
+    "https://cdn.dummyjson.com/product-images/8/2.jpg",
+    "https://cdn.dummyjson.com/product-images/8/3.jpg",
+    "https://cdn.dummyjson.com/product-images/8/4.jpg",
+    "https://cdn.dummyjson.com/product-images/8/thumbnail.jpg"
+  ],
+  "isHighlight": true,
+  "isDeleted": false,
+  "id": "e2541610-7812-11ee-a78f-1b016e691bcb",
+  "createdAt": {
+    "$date": "2023-10-31T17:28:19.700Z"
+  },
+  "updatedAt": {
+    "$date": "2024-01-23T14:55:53.293Z"
+  },
+  "__v": 12,
+  "dislikedUserIds": [],
+  "dislikes": 0,
+  "likedUserIds": [
+    "d5abc0ca-2152-4592-8744-ebc79b734f56",
+    "9ce8d375-12f0-475a-84dd-319e531fb82b"
+  ],
+  "likes": 2,
+  "thumbnail": "https://cdn.dummyjson.com/product-images/8/3.jpg"
+},
+{
+  "_id": {
+    "$oid": "65413a818635f07dcee6f06f"
+  },
+  "title": "Brown Perfume",
+  "description": {
+    "fullName": "Brown Perfume",
+    "aboutProduct": "Royal_Mirage Sport Brown Perfume for Men & Women - 120ml",
+    "highLights": [
+      "Apple",
+      "Multi-tasking",
+      "Budget friendly"
+    ],
+    "specifications": [
+      {
+        "Designed by": "Apple"
+      },
+      {
+        "Pack of": "1,phone,1,adoptor"
+      }
+    ],
+    "product_Details": [
+      {
+        "Ideal For": "Men,Women"
+      }
+    ],
+    "dimensions": [
+      {
+        "Width": "61,mm"
+      },
+      {
+        "Height": "183,mm"
+      },
+      {
+        "Thickness": "6,mm"
+      },
+      {
+        "Diameter": "183,mm"
+      },
+      {
+        "Weight": "0.7,kg"
+      }
+    ]
+  },
+  "price": 700,
+  "type": [
+    {
+      "typeName": [
+        "color",
+        "white"
+      ],
+      "typeVerity": [
+        "RAM-ROM",
+        "4-64"
+      ],
+      "typeStock": 99,
+      "typePrice": 60000,
+      "typeId": "ded75abb-f889-493a-a7c8-6c5140423a3b"
+    },
+    {
+      "typeName": [
+        "color",
+        "Black"
+      ],
+      "typeVerity": [
+        "RAM-ROM",
+        "4-64"
+      ],
+      "typeStock": 98,
+      "typePrice": 70000,
+      "typeId": "37da1d59-df91-4426-bea5-414c4bba963e"
+    }
+  ],
+  "discountPercentage": 5,
+  "brand": "Royal_Mirage",
+  "review": [
+    {
+      "$oid": "6557a6ae212bd8eb585eb9b3"
+    },
+    {
+      "$oid": "655e01020f9010f1fa9f6c94"
+    },
+    {
+      "$oid": "6563928f2220b91c7e9d7c81"
+    },
+    {
+      "$oid": "656e0295f44053cf936f4d81"
+    }
+  ],
+  "rating": {
+    "totalPerson": 4,
+    "avgRating": 13
+  },
+  "category": "fragrances",
+  "images": [
+    "https://i.dummyjson.com/data/products/1/1.jpg",
+    "https://i.dummyjson.com/data/products/1/3.jpg",
+    "https://i.dummyjson.com/data/products/1/4.jpg"
+  ],
+  "isHighlight": true,
+  "isDeleted": false,
+  "id": "a91aed50-7813-11ee-a78f-1b016e691bcb",
+  "createdAt": {
+    "$date": "2023-10-31T17:33:53.189Z"
+  },
+  "updatedAt": {
+    "$date": "2024-01-23T13:04:30.191Z"
+  },
+  "__v": 11,
+  "thumbnail": "https://i.dummyjson.com/data/products/1/1.jpg",
+  "dislikedUserIds": [],
+  "dislikes": 0,
+  "likedUserIds": [
+    "9ce8d375-12f0-475a-84dd-319e531fb82b",
+    "ccd5733b-df53-4445-aed8-0945af1ad577"
+  ],
+  "likes": 2
+},
+{
+  "_id": {
+    "$oid": "65413b5d8635f07dcee6f071"
+  },
+  "title": "Eau De Perfume Spray",
+  "description": {
+    "fullName": "Eau De Perfume Spray",
+    "aboutProduct": "Genuine  Al-Rehab spray perfume from UAE/Saudi Arabia/Yemen High Quality",
+    "highLights": [
+      "Smell best and unique"
+    ],
+    "specifications": [
+      {
+        "Designed by": "Lord,-,Al-Rehab"
+      },
+      {
+        "Pack of": "1,perfume"
+      }
+    ],
+    "product_Details": [
+      {
+        "Ideal For": "Men,Women"
+      }
+    ],
+    "dimensions": [
+      {
+        "Width": "91,mm"
+      },
+      {
+        "Height": "230,mm"
+      },
+      {
+        "Thickness": "12,mm"
+      },
+      {
+        "Diameter": "183,mm"
+      },
+      {
+        "Weight": "0.5,kg"
+      }
+    ]
+  },
+  "price": 700,
+  "type": [
+    {
+      "typeName": [
+        "color",
+        "yellow"
+      ],
+      "typeVerity": [
+        "",
+        ""
+      ],
+      "typeStock": 68,
+      "typePrice": 700,
+      "typeId": "2b2fa77d-6746-4421-b5da-62ef72e2008f"
+    },
+    {
+      "typeName": [
+        "color",
+        "white"
+      ],
+      "typeVerity": [
+        "",
+        ""
+      ],
+      "typeStock": 87,
+      "typePrice": 750,
+      "typeId": "69a23f26-d0c4-415d-95d0-5fb83f1aa351"
+    }
+  ],
+  "discountPercentage": 10,
+  "brand": "Lord_Al_Rehab",
+  "review": [
+    {
+      "$oid": "65788a0774f0f0b964cba4a4"
+    }
+  ],
+  "rating": {
+    "totalPerson": 1,
+    "avgRating": 5
+  },
+  "category": "fragrances",
+  "thumbnail": "https://i.dummyjson.com/data/products/15/4.jpg",
+  "images": [
+    "https://i.dummyjson.com/data/products/15/3.jpg",
+    "https://i.dummyjson.com/data/products/15/4.jpg"
+  ],
+  "isHighlight": false,
+  "isDeleted": false,
+  "id": "2c5b6410-7814-11ee-a78f-1b016e691bcb",
+  "createdAt": {
+    "$date": "2023-10-31T17:37:33.394Z"
+  },
+  "updatedAt": {
+    "$date": "2024-01-23T13:07:02.623Z"
+  },
+  "__v": 6,
+  "dislikedUserIds": [],
+  "dislikes": 0,
+  "likedUserIds": [
+    "d5abc0ca-2152-4592-8744-ebc79b734f56",
+    "9ce8d375-12f0-475a-84dd-319e531fb82b"
+  ],
+  "likes": 2
+},
+{
+  "_id": {
+    "$oid": "65413c298635f07dcee6f073"
+  },
+  "title": "Daal Masoor",
+  "description": {
+    "fullName": " Daal Masoor 500 grams",
+    "aboutProduct": "Fine quality Branded Product Keep in a cool and dry place",
+    "highLights": [
+      "quality Product"
+    ],
+    "specifications": [
+      {
+        "Designed by": "Dermive"
+      },
+      {
+        "Pack of": "1"
+      }
+    ],
+    "product_Details": [
+      {
+        "Ideal For": "Women"
+      }
+    ],
+    "dimensions": [
+      {
+        "Weight": "0.25"
+      }
+    ]
+  },
+  "price": 450,
+  "type": [
+    {
+      "typeName": [
+        "color",
+        "white"
+      ],
+      "typeVerity": [
+        "",
+        ""
+      ],
+      "typeStock": 70,
+      "typePrice": 700,
+      "typeId": "dd86df1d-9e29-4bd8-8abd-013f7cb667f3"
+    },
+    {
+      "typeName": [
+        "color",
+        "blue"
+      ],
+      "typeVerity": [
+        "",
+        ""
+      ],
+      "typeStock": 90,
+      "typePrice": 720,
+      "typeId": "3847b72c-f76c-4853-a390-a4e1fb4b3892"
+    }
+  ],
+  "discountPercentage": 5,
+  "brand": "Saaf_Khaas",
+  "review": [],
+  "rating": {
+    "totalPerson": 0,
+    "avgRating": 0
+  },
+  "category": "groceries",
+  "thumbnail": "https://i.dummyjson.com/data/products/18/1.jpg",
+  "images": [
+    "https://i.dummyjson.com/data/products/18/1.jpg",
+    "https://i.dummyjson.com/data/products/18/3.jpg",
+    "https://i.dummyjson.com/data/products/18/4.jpg"
+  ],
+  "isHighlight": false,
+  "isDeleted": false,
+  "id": "a61d6f50-7814-11ee-a78f-1b016e691bcb",
+  "createdAt": {
+    "$date": "2023-10-31T17:40:57.670Z"
+  },
+  "updatedAt": {
+    "$date": "2024-01-23T13:38:38.702Z"
+  },
+  "__v": 2,
+  "dislikedUserIds": [],
+  "dislikes": 0,
+  "likedUserIds": [],
+  "likes": 0
+},
+{
+  "_id": {
+    "$oid": "65413c998635f07dcee6f075"
+  },
+  "title": "Orange Essence Food Flavou",
+  "description": {
+    "fullName": " Orange Essence Food Flavou ",
+    "aboutProduct": "Specifications of Orange Essence Food Flavour For Cakes and Baking Food Item",
+    "highLights": [
+      "quality Product"
+    ],
+    "specifications": [
+      {
+        "Designed by": "Saaf,&,Khaas"
+      },
+      {
+        "Pack of": "1,pack"
+      }
+    ],
+    "product_Details": [
+      {
+        "Ideal For": "Cooking"
+      }
+    ],
+    "dimensions": [
+      {
+        "Weight": "2,kg"
+      }
+    ]
+  },
+  "price": 450,
+  "type": [
+    {
+      "typeName": [
+        "color",
+        "yellow"
+      ],
+      "typeVerity": [
+        "",
+        ""
+      ],
+      "typeStock": 70,
+      "typePrice": 450,
+      "typeId": "45e9d54f-7062-4c6a-8a21-edf76641b4bf"
+    },
+    {
+      "typeName": [
+        "color",
+        "dark-yellow"
+      ],
+      "typeVerity": [
+        "",
+        ""
+      ],
+      "typeStock": 90,
+      "typePrice": 470,
+      "typeId": "e26bf80f-08e8-4b84-8287-9653daca0158"
+    }
+  ],
+  "discountPercentage": 5,
+  "brand": "food",
+  "review": [
+    {
+      "$oid": "657f26a5d7357ab892d0e599"
+    }
+  ],
+  "rating": {
+    "totalPerson": 1,
+    "avgRating": 5
+  },
+  "category": "groceries",
+  "thumbnail": "https://i.dummyjson.com/data/products/21/2.jpg",
+  "images": [
+    "https://i.dummyjson.com/data/products/21/1.png",
+    "https://i.dummyjson.com/data/products/21/2.jpg",
+    "https://i.dummyjson.com/data/products/21/3.jpg"
+  ],
+  "isHighlight": false,
+  "isDeleted": false,
+  "id": "e8a3ec00-7814-11ee-a78f-1b016e691bcb",
+  "createdAt": {
+    "$date": "2023-10-31T17:42:49.281Z"
+  },
+  "updatedAt": {
+    "$date": "2024-01-23T13:34:47.788Z"
+  },
+  "__v": 12,
+  "dislikedUserIds": [],
+  "dislikes": 0,
+  "likedUserIds": [
+    "9ce8d375-12f0-475a-84dd-319e531fb82b",
+    "d5abc0ca-2152-4592-8744-ebc79b734f56"
+  ],
+  "likes": 2
+},
+{
+  "_id": {
+    "$oid": "65413ec18635f07dcee6f077"
+  },
+  "title": "Skin Beauty Serum.",
+  "description": {
+    "fullName": " Skin Beauty Serum.",
+    "aboutProduct": "Product name: rorec collagen hyaluronic acid white face serum riceNet weight: 15 m",
+    "highLights": [
+      "quality Product"
+    ],
+    "specifications": [
+      {
+        "Designed by": "ROREC,White,Rice"
+      },
+      {
+        "Pack of": "1,pack,bottle"
+      }
+    ],
+    "product_Details": [
+      {
+        "Ideal For": "Women"
+      }
+    ],
+    "dimensions": [
+      {
+        "Weight": "0.2,kg"
+      }
+    ]
+  },
+  "price": 450,
+  "type": [
+    {
+      "typeName": [
+        "color",
+        "white"
+      ],
+      "typeVerity": [
+        "",
+        ""
+      ],
+      "typeStock": 49,
+      "typePrice": 450,
+      "typeId": "3c24258c-677b-4371-8dee-d29112523c92"
+    },
+    {
+      "typeName": [
+        "color",
+        "yellow"
+      ],
+      "typeVerity": [
+        "",
+        ""
+      ],
+      "typeStock": 83,
+      "typePrice": 470,
+      "typeId": "44564859-293e-4b88-a4a9-4ececaaa5aa6"
+    }
+  ],
+  "discountPercentage": 5,
+  "brand": "rorec",
+  "review": [
+    {
+      "$oid": "6599998435fcf281601c29d3"
+    },
+    {
+      "$oid": "659999a735fcf281601c29f4"
+    },
+    {
+      "$oid": "659999b835fcf281601c29fd"
+    }
+  ],
+  "rating": {
+    "totalPerson": 3,
+    "avgRating": 13
+  },
+  "category": "skincare",
+  "thumbnail": "https://i.dummyjson.com/data/products/19/3.png",
+  "images": [
+    "https://i.dummyjson.com/data/products/19/1.jpg",
+    "https://i.dummyjson.com/data/products/19/2.jpg",
+    "https://i.dummyjson.com/data/products/19/3.png"
+  ],
+  "isHighlight": false,
+  "isDeleted": false,
+  "id": "31fafcd0-7816-11ee-a78f-1b016e691bcb",
+  "createdAt": {
+    "$date": "2023-10-31T17:52:01.824Z"
+  },
+  "updatedAt": {
+    "$date": "2024-01-23T13:36:21.955Z"
+  },
+  "__v": 31,
+  "dislikedUserIds": [],
+  "dislikes": 0,
+  "likedUserIds": [
+    "9ce8d375-12f0-475a-84dd-319e531fb82b",
+    "2d38ef6b-a2e0-499b-a781-45461e88d547"
+  ],
+  "likes": 2
+},
+{
+  "_id": {
+    "$oid": "654332a1d45d397701a3b858"
+  },
+  "title": "Oil Free Moisturizer 100ml",
+  "description": {
+    "fullName": "Oil Free Moisturizer 100ml",
+    "aboutProduct": "Dermive Oil Free Moisturizer with SPF 20 is specifically formulated with ceramides, hyaluronic acid & sunscreen.",
+    "highLights": [
+      "quality Product"
+    ],
+    "specifications": [
+      {
+        "Designed by": "Dermive"
+      },
+      {
+        "Pack of": "1,pack,tube"
+      }
+    ],
+    "product_Details": [
+      {
+        "Ideal For": "Women"
+      }
+    ],
+    "dimensions": [
+      {
+        "Weight": "0.25,kg"
+      }
+    ]
+  },
+  "price": 700,
+  "type": [
+    {
+      "typeName": [
+        "color",
+        "white"
+      ],
+      "typeVerity": [
+        "",
+        ""
+      ],
+      "typeStock": 70,
+      "typePrice": 700,
+      "typeId": "e933389d-af60-4230-b798-2b44d4d05e1c"
+    },
+    {
+      "typeName": [
+        "color",
+        "blue"
+      ],
+      "typeVerity": [
+        "",
+        ""
+      ],
+      "typeStock": 90,
+      "typePrice": 720,
+      "typeId": "5b8a007e-1a37-4b91-ac2c-fbb980415e9b"
+    }
+  ],
+  "discountPercentage": 5,
+  "brand": "dermive",
+  "review": [
+    {
+      "$oid": "65733fed1d887a7405eab648"
+    }
+  ],
+  "rating": {
+    "totalPerson": 1,
+    "avgRating": 4
+  },
+  "category": "skincare",
+  "thumbnail": "https://i.dummyjson.com/data/products/18/3.jpg",
+  "images": [
+    "https://i.dummyjson.com/data/products/18/1.jpg",
+    "https://i.dummyjson.com/data/products/18/3.jpg",
+    "https://i.dummyjson.com/data/products/18/4.jpg"
+  ],
+  "isHighlight": false,
+  "isDeleted": false,
+  "id": "ae52eda9-4521-44a9-b1ca-fea1d01c8163",
+  "createdAt": {
+    "$date": "2023-11-02T05:24:49.080Z"
+  },
+  "updatedAt": {
+    "$date": "2024-01-23T13:33:23.873Z"
+  },
+  "__v": 2,
+  "dislikedUserIds": [],
+  "dislikes": 0,
+  "likedUserIds": [
+    "9ce8d375-12f0-475a-84dd-319e531fb82b"
+  ],
+  "likes": 1
+},
+{
+  "_id": {
+    "$oid": "659eb31dc49d9a744ac7c2dd"
+  },
+  "title": "Huawei P30",
+  "brand": "Huawei",
+  "category": "smartphones",
+  "description": {
+    "fullName": "Huawei P30",
+    "aboutProduct": "Huawei’s re-badged P30 Pro New Edition was officially unveiled yesterday in Germany and now the device has made its way to the UK.",
+    "highLights": [
+      "Value for money",
+      "Segment first features"
+    ],
+    "specifications": [
+      {
+        "Pack of": "1"
+      },
+      {
+        "In box": "Handset,Charger,USB_Cable"
+      }
+    ],
+    "product_Details": [
+      {
+        "Ideal for": "Men,Women"
+      }
+    ],
+    "dimensions": [
+      {
+        "Width": "4inch"
+      },
+      {
+        "height": "6.6inch"
+      }
+    ]
+  },
+  "price": 40000,
+  "discountPercentage": 2.5,
+  "type": [
+    {
+      "typeName": [
+        "color",
+        "White"
+      ],
+      "typeVerity": [
+        "Processor",
+        "Snapdragon750"
+      ],
+      "typeStock": 90,
+      "typePrice": 40000,
+      "typeId": "694c33aa-bdeb-4b88-b440-0e221c23d416"
+    },
+    {
+      "typeName": [
+        "color",
+        "Black"
+      ],
+      "typeVerity": [
+        "Processor",
+        "Snapdragon750"
+      ],
+      "typeStock": 90,
+      "typePrice": 45000,
+      "typeId": "a3326904-f8f1-41b3-a8db-0f7f64c9212f"
+    }
+  ],
+  "thumbnail": "https://cdn.dummyjson.com/product-images/5/3.jpg",
+  "images": [
+    "https://cdn.dummyjson.com/product-images/5/3.jpg",
+    "https://cdn.dummyjson.com/product-images/5/2.jpg",
+    "https://cdn.dummyjson.com/product-images/5/1.jpg"
+  ],
+  "review": [
+    {
+      "$oid": "65a92c59341d27b00ae4a5ce"
+    }
+  ],
+  "rating": {
+    "totalPerson": 1,
+    "avgRating": 5
+  },
+  "isHighlight": true,
+  "likes": 1,
+  "dislikes": 0,
+  "likedUserIds": [
+    "d5abc0ca-2152-4592-8744-ebc79b734f56"
+  ],
+  "dislikedUserIds": [],
+  "isDeleted": false,
+  "id": "8088e6d6-92eb-4e3e-9d07-6b6d1630c9a9",
+  "createdAt": {
+    "$date": "2024-01-10T15:09:17.726Z"
+  },
+  "updatedAt": {
+    "$date": "2024-01-23T13:07:24.222Z"
+  },
+  "__v": 1
+}]

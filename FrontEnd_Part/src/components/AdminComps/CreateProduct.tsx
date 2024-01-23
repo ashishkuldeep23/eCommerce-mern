@@ -4,7 +4,7 @@
 import { useForm, SubmitHandler } from "react-hook-form"
 import { IProduct } from "../ProductListing/ProductLists"
 import { useEffect, useState } from "react"
-import { adminDataState, createNewProduct } from "../../Slices/AdminSlice"
+import { adminDataState, createNewProduct, updateProductAdmin } from "../../Slices/AdminSlice"
 // import AllProducts from "./AllProducts"
 import { AppDispatch, RootState } from "../../store"
 import { useDispatch, useSelector } from "react-redux"
@@ -48,7 +48,13 @@ function CreateNewProduct() {
 
     const themeMode = useSelector((state: RootState) => state.themeReducer.mode)
 
-    const { register, handleSubmit, formState: { errors }, setValue, getValues, setError } = useForm<NewProductInput>()
+    // // // Update product states --->
+
+    const { updatingProduct, newProduct } = adminDataState()
+
+
+    // // // From state var --->
+    const { register, handleSubmit, formState: { errors }, setValue, getValues, setError, reset } = useForm<NewProductInput>()
 
     const allCategories = useSelector((state: RootState) => state.allProductWithCatReducer.filterAllCateory)
 
@@ -315,7 +321,6 @@ function CreateNewProduct() {
     }
 
 
-
     // // // Input type change handler --->
     function imageTyepChangehandler(set: "by_url" | "by_image") {
 
@@ -330,7 +335,7 @@ function CreateNewProduct() {
     }
 
 
-
+    // // // Below fn is used to handle create and update product ---->
     const onSubmit: SubmitHandler<NewProductInput> = (data) => {
 
 
@@ -383,7 +388,7 @@ function CreateNewProduct() {
         // // Set thumbnail index ---->
         if (thumbnailIndex === -1) {
 
-            setValue("thumbnailIndex", 0)
+            setValue("thumbnailIndex", -1)
 
         } else {
 
@@ -408,18 +413,9 @@ function CreateNewProduct() {
 
 
 
-
-        // // Now all input done ------->
-        if (Object.keys(errors).keys.length > 0) {
-            alert("An error in input.")
-        }
-
-
-
         // // // Check the cateory value comming in data (Catch and check category value.) ---->
         if (data.category === "plus") {
             // alert("Do .........")
-
 
             if (!plusCategoryInput.added) {
                 alert("If you want to add new category then give name of new category and then press add btn.")
@@ -430,6 +426,14 @@ function CreateNewProduct() {
         }
 
 
+
+        // // Now all input done ------->
+        if (Object.keys(errors).keys.length > 0) {
+            alert("An error in input.")
+        }
+
+
+
         // console.log(data)
 
         // return
@@ -437,12 +441,7 @@ function CreateNewProduct() {
 
         for (let key of Object.keys(data)) {
 
-
-            // console.log(key)
-
-
             formData.set(`${[key]}`, `${JSON.stringify(data[key as keyof NewProductInput])}`)
-
 
         }
 
@@ -456,9 +455,181 @@ function CreateNewProduct() {
 
         // // Now call dispatch ---->
 
-        dispatch(createNewProduct(formData))
+
+        if (!updatingProduct) {
+
+            dispatch(createNewProduct(formData))
+        } else {
+
+            // console.log(data)
+
+            formData.set("whatUpadte", 'allUpdate')
+            formData.set("productId", `${data.id}`)
+
+            dispatch(updateProductAdmin(formData))
+        }
+
 
     }
+
+
+
+    // // // This formate will convert from arr[objct] to str for input --->
+    function makeStrValFromCatSpecs(arr: object[]): string {
+
+        // console.log(arr)
+        // width;5mm,height;5mm,length;5mm
+        let strFormate = ""
+
+        for (let item of arr) {
+            // console.log( Object.entries(item))
+
+            let key = Object.entries(item)[0] ? Object.entries(item)[0][0].trim() : "null"
+
+            let value = Object.entries(item)[0] ? Object.entries(item)[0][1].trim().replaceAll(",", " ") : "null"
+
+
+            strFormate += `${key};${value},`
+        }
+
+        // console.log(strFormate)
+
+        return strFormate
+
+    }
+
+
+    // // // making options in str formate ---->
+    function makeOptionFromate(arr: TypeObj[]): string {
+
+        // typeName;color white|typeVerity;processor i3|typeStock;90|typePrice;100, 
+
+        // console.log(arr)
+
+        let strFormate = ""
+
+        for (let item of arr) {
+
+            // console.log(item)
+            // console.log(item.typeName)
+            // console.log(item.typeVerity)
+            // console.log(item.typePrice)
+            // console.log(item.typeStock)
+
+            strFormate += `typeName;${item.typeName[0]} ${item.typeName[1]}|typeVerity;${item.typeVerity[0]} ${item.typeVerity[1]}|typeStock;${item.typeStock}|typePrice;${item.typePrice},`
+
+        }
+
+
+        // console.log(strFormate)
+
+        return strFormate
+
+    }
+
+
+
+
+
+    // // // // Update product here ------->
+    useEffect(() => {
+
+
+        console.log(newProduct)
+
+
+        if (updatingProduct) {
+
+            setValue("brand", newProduct.brand)
+            setValue("title", newProduct.title)
+            setValue("price", newProduct.price)
+            setValue("discountPercentage", newProduct.discountPercentage)
+            setValue("category", newProduct.category)
+            setValue("description.fullName", newProduct?.description?.fullName!)
+            setValue("description.aboutProduct", newProduct?.description?.aboutProduct!)
+            setValue("id", newProduct.id)
+
+
+            // // // set hightLight in fromate ---->
+
+
+            let highlightFormate = newProduct.description?.highLights!.reduce((acc, cur) => `${acc},${cur}`)
+
+            setProductHighlight(highlightFormate!)
+
+
+            // console.log(newProduct.description?.highLights)
+            // console.log(highlightFormate)
+
+
+            // // In actual formate (Category , specification , dimentions) ---->
+
+            setProductSpecs(makeStrValFromCatSpecs(newProduct?.description?.specifications!))
+
+            setProductDimen(makeStrValFromCatSpecs(newProduct?.description?.dimensions!))
+
+            setProductDetailOfDes(makeStrValFromCatSpecs(newProduct?.description?.product_Details!))
+
+
+            // // // making options in str formate ---->
+            setProductOption(makeOptionFromate(newProduct.type))
+
+
+            // // // Now set the images and ThumNail------------>
+
+            setImageInputBy("by_url")
+
+            let allUrlsOfImage = newProduct.images.reduce((acc, cur) => `${acc},${cur}`)
+
+            setAllImgUrls(allUrlsOfImage!)
+
+
+            // console.log(newProduct)
+        }
+
+
+        // else {
+        //     // // //Back to normal all form feilds ----->
+        //     // reset();
+        //     // setProductHighlight("")
+        //     // setProductSpecs('')
+        //     // setProductDimen('')
+        //     // setProductDetailOfDes('')
+        //     // setProductOption('')
+        //     // setImageInputBy("by_url")
+        //     // setAllImgUrls('')
+        //     // setAllInputImagesUrl([])
+        //     // setThumbnailIndex(-1)
+        // }
+
+    }, [newProduct])
+
+
+
+
+    // // // Reset the forms --------->
+    useEffect(() => {
+
+        if (!updatingProduct) {
+
+            // // // scroll to top --->
+            window.scroll(0, 0)
+
+            reset();
+            setProductHighlight("")
+            setProductSpecs('')
+            setProductDimen('')
+            setProductDetailOfDes('')
+            setProductOption('')
+            setImageInputBy("by_url")
+            setAllImgUrls('')
+            setAllInputImagesUrl([])
+            setThumbnailIndex(-1)
+        }
+
+    }, [updatingProduct])
+
+
 
 
     console.log(errors)
@@ -605,6 +776,7 @@ function CreateNewProduct() {
                                 // {...register("category", { required: "Category is Required" })}
                                 className=" text-black font-bold rounded capitalize py-1"
                                 name="" id="category_product"
+                                value={newProduct.category && newProduct.category}
                             >
 
                                 {
@@ -792,7 +964,7 @@ function CreateNewProduct() {
 
                             </div>
 
-                            <ul className=" list-disc list-inside marker:text-sky-400 flex flex-wrap justify-center">
+                            <ul className=" list-disc list-inside marker:text-sky-400 ">
                                 {
                                     productHighlight.split(",").length > 0
                                     &&
@@ -1308,7 +1480,13 @@ function CreateNewProduct() {
                             type="submit"
                             className="flex w-full justify-center rounded-md bg-green-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
                         >
-                            Create new product
+
+                            {
+                                updatingProduct
+                                    ? `Update, ${newProduct.title}`
+                                    : "Create new product"
+                            }
+
                         </button>
                     </div>
                 </form>

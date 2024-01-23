@@ -97,7 +97,11 @@ async function createNewProduct(req, res) {
 
         // console.log("Thumbnail --------->" ,recivedBodyData.images[0])
 
-        recivedBodyData.thumbnail = recivedBodyData.images[thumbnailIndex]
+        if (thumbnailIndex === -1) {
+            recivedBodyData.thumbnail = recivedBodyData.images[0]
+        } else {
+            recivedBodyData.thumbnail = recivedBodyData.images[thumbnailIndex]
+        }
 
         // console.log({createdData : recivedBodyData})
 
@@ -157,6 +161,11 @@ async function updateProdct(req, res) {
             return res.status(404).send({ status: false, message: "Product not found with given id." })
         }
 
+        // console.log(productId)
+        // console.log(getProduct)
+
+
+        // // // This var should store mongoose object inside It (after proceessing ) ---->
         let updatedData;
 
 
@@ -164,8 +173,8 @@ async function updateProdct(req, res) {
 
             let { isHighlight } = resBody
 
-            if( isHighlight === undefined  || isHighlight === ""){
-                return  res.status(404).send({ status: false, message: "Please provide isHighlight value." })
+            if (isHighlight === undefined || isHighlight === "") {
+                return res.status(404).send({ status: false, message: "Please provide isHighlight value." })
             }
 
             isHighlight = JSON.parse(isHighlight)
@@ -182,21 +191,121 @@ async function updateProdct(req, res) {
 
             // console.log(isDeleted)
 
-            if( isDeleted === undefined  || isDeleted === ""){
-                return  res.status(404).send({ status: false, message: "Please provide isHighlight value." })
+            if (isDeleted === undefined || isDeleted === "") {
+                return res.status(404).send({ status: false, message: "Please provide isHighlight value." })
             }
 
             isDeleted = JSON.parse(isDeleted)
 
-            if(isDeleted){
+            if (isDeleted) {
                 getProduct.isDeleted = true
-            }else{
+            } else {
                 getProduct.isDeleted = false
             }
 
 
         }
-        else if(whatUpadte === "next"){
+        else if (whatUpadte === "allUpdate") {
+
+
+            // console.log("Updating product now , Can be complicated")
+
+            if (Object.keys(resBody).length <= 0) {
+                return res.status(400).send({ status: false, message: "Body can't be empty" })
+            }
+
+
+            let { whenCreted, imageInputBy, thumbnailIndex, type, description, category, discountPercentage, price, brand, title } = resBody
+
+
+            // console.log(whenCreted, imageInputBy, thumbnailIndex, type, description, category, discountPercentage, price, brand, title)
+
+
+            if (!whenCreted || !imageInputBy || !thumbnailIndex || !type || !description || !category || !discountPercentage || !price || !brand || !title) {
+                return res.status(400).send({ status: false, message: "All feilds are not given." })
+            }
+
+
+            let recivedBodyData = {}
+
+            for (let key of Object.keys(resBody)) {
+                // console.log(key)
+                recivedBodyData[key] = JSON.parse(resBody[key])
+            }
+
+            console.log(recivedBodyData)
+
+
+            if (recivedBodyData.imageInputBy === "by_image") {
+
+                const allFiles = req.files
+
+                if (allFiles.length > 0) {
+
+                    let result = await uploadArrOfImgOnCloud(allFiles, "product_Imgs_Ecom")
+
+                    if (result.length > 0) {
+                        recivedBodyData.images = result
+                    }
+
+
+                }
+
+            }
+
+            // console.log("Thumbnail --------->" ,recivedBodyData.images[0])
+
+            // console.log(thumbnailIndex)
+
+            if (thumbnailIndex === -1) {
+                recivedBodyData.thumbnail = recivedBodyData.images[0]
+            } else {
+                recivedBodyData.thumbnail = recivedBodyData.images[thumbnailIndex]
+            }
+
+
+
+            // updatedData = await productModel.findOne({ id : productId })
+
+
+            // console.log(  "Got this for update ---------------> " , getProduct )
+
+            // // // Now update fields mainually one by one --->
+
+
+            // console.log(recivedBodyData)
+
+
+            // // Basic info upadte --->
+            getProduct.title = recivedBodyData.title
+            getProduct.brand = recivedBodyData.brand
+            getProduct.price = recivedBodyData.price
+            getProduct.discountPercentage = recivedBodyData.discountPercentage
+            getProduct.category = recivedBodyData.category
+
+
+            // // // Discription update ---->
+
+            let { specifications, product_Details, highLights, dimensions, aboutProduct, fullName } = recivedBodyData.description
+
+            if(!specifications || !product_Details || !highLights || !dimensions || !aboutProduct || !fullName) return res.status(400).send({ status: false, message: "Try again, Description all keys are not coming." })
+
+            getProduct.description.specifications = specifications
+            getProduct.description.product_Details = product_Details
+            getProduct.description.highLights = highLights
+            getProduct.description.dimensions = dimensions
+            getProduct.description.aboutProduct = aboutProduct
+            getProduct.description.fullName = fullName
+
+            // // // type or options update ---->
+            getProduct.type = [...recivedBodyData.type]
+
+            // // // Images and ThumbNail upadte ---->
+            getProduct.images = recivedBodyData.images
+            getProduct.thumbnail = recivedBodyData.thumbnail
+
+        }
+        else if (whatUpadte === "next") {
 
         }
 
@@ -204,7 +313,7 @@ async function updateProdct(req, res) {
 
         // console.log("By updated", updatedData)
 
-        res.status(200).send({ status: true, message: "Product update succesfull", data: updatedData })
+        res.status(200).send({ status: true, message: `${updatedData.title}, updated succesfully.`, data: updatedData })
 
     }
     catch (err) {

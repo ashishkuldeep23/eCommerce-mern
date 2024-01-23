@@ -1,7 +1,9 @@
 import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch, RootState } from "../../store"
 import { useEffect, useState } from "react"
-import { IProductAdmin, adminDataState, getAllProductAdmin, updateProductAdmin } from "../../Slices/AdminSlice"
+import { IProductAdmin, adminDataState, getAllProductAdmin, setProductData, setUpdatingProduct, updateProductAdmin } from "../../Slices/AdminSlice"
+import { useNavigate } from "react-router-dom"
+import { fetchOneProductByID, setSingleProductData } from "../../Slices/AllProductSlice"
 
 
 
@@ -54,6 +56,8 @@ export default function AllProducts() {
 
 
 function SingleUIData({ product }: { product: IProductAdmin }) {
+
+    const navigate = useNavigate()
 
     const dispatch = useDispatch<AppDispatch>()
 
@@ -126,7 +130,17 @@ function SingleUIData({ product }: { product: IProductAdmin }) {
 
                 <div className=" w-full flex flex-wrap justify-end xsm:justify-between">
 
-                    <div className=" smm:flex items-center justify-between smm:w-1/2">
+                    <div
+                        className="smm:flex items-center justify-between smm:w-1/2"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            navigate(`/product/${product.id}`);
+                            dispatch(setSingleProductData({ id: product.id }));
+                            dispatch(fetchOneProductByID({ productId: product.id }));
+                            // dispatch(setSingleOProductId({ id: product.id })); 
+                            window.scroll(0, 0);
+                        }}
+                    >
 
 
                         <div className="flex min-w-0 gap-x-4">
@@ -144,7 +158,7 @@ function SingleUIData({ product }: { product: IProductAdmin }) {
                         <div className=" mt-2 flex flex-col justify-end items-center">
                             <button
                                 className=" border px-0.5 rounded"
-                                onClick={() => { setSeeDetails(!seeDetails) }}
+                                onClick={(e) => { e.stopPropagation(); setSeeDetails(!seeDetails) }}
                             >  See details</button>
                         </div>
 
@@ -152,9 +166,14 @@ function SingleUIData({ product }: { product: IProductAdmin }) {
 
 
                     <div className=" flex flex-col justify-between items-end ml-auto">
-                        <p>  Price : ₹{(Math.round(product.price - ((product.discountPercentage * product.price) / 100)))}</p>
 
-                        <p>{JSON.stringify(product.isDeleted)}</p>
+                        <div className=" flex">
+
+                            <p>Discount : {product.discountPercentage}% | </p>
+                            <p>Price : ₹{(Math.round(product.price - ((product.discountPercentage * product.price) / 100)))}</p>
+                        </div>
+
+                        {/* <p>{JSON.stringify(product.isDeleted)}</p> */}
                         <div className=" flex items-center flex-wrap justify-end ">
 
 
@@ -196,7 +215,13 @@ function SingleUIData({ product }: { product: IProductAdmin }) {
                                 onClick={() => { upadteHighLioghtHandler() }}
                             >{product.isHighlight ? <span><i className="ri-star-fill text-yellow-400"></i></span> : <span><i className="ri-star-line"></i></span>}</p>
 
-                            <p className=" w-6 border rounded px-0.5 mx-1 hover:cursor-pointer"><i className="ri-pencil-fill"></i></p>
+                            <p
+                                className=" w-6 border rounded px-0.5 mx-1 hover:cursor-pointer"
+                                onClick={() => {
+                                    dispatch(setProductData(product));
+                                    dispatch(setUpdatingProduct(true))
+                                }}
+                            ><i className="ri-pencil-fill"></i></p>
 
                         </div>
 

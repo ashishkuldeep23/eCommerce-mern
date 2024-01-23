@@ -13,6 +13,7 @@ import { setChildrenModal, setOpenMoadl } from '../../Slices/ModalSlice'
 import { userState } from '../../Slices/UserSlice'
 import { LikeBtnDoubleClick } from './LikeBtnDoubleClick'
 import { useParams } from 'react-router-dom';
+import { setProductData, setUpdatingProduct } from '../../Slices/AdminSlice'
 
 
 
@@ -78,6 +79,7 @@ export default function ProductDetails() {
 
     // const reiewRef = useRef<HTMLElement>(null)
 
+    const { userData } = userState()
 
     const singleProductData = useSelector((store: RootState) => store.allProductWithCatReducer.singleProductData)
 
@@ -299,6 +301,25 @@ export default function ProductDetails() {
                 className={`${!themeMode ? "bg-white text-gray-700" : "bg-black text-gray-100"} w-full relative`}
 
             >
+
+
+                {
+                    userData.role === "admin"
+                    &&
+                    <span
+                        className={`z-10 sticky top-16  left-full px-2 py-1 border border-green-400 m-2 rounded  ${!themeMode ? "bg-white " : "bg-black "}`}
+                        onClick={() => {
+                            navigate("/admin")
+                            dispatch(setProductData(singleProductData));
+                            dispatch(setUpdatingProduct(true));
+                        }}
+                    >
+                        <span className=' font-semibold'>Edit</span> <i className="ri-pencil-line"></i>
+                    </span>
+                }
+
+
+
 
                 <div className="mx-auto max-w-full  lg:max-w-allAk px-1  lg:px-8">
                     <div className="pt-6 ">
@@ -547,7 +568,7 @@ export default function ProductDetails() {
                         <div className="mx-auto max-w-2xl px-4 pt-10 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-2 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8  lg:pt-16  " >
 
                             <div className="lg:col-span-2 lg:pr-8 ">
-                                <h1 className="text-2xl font-bold tracking-tight sm:text-3xl capitalize underline">{singleProductData && singleProductData.title}</h1>
+                                <h1 className="text-2xl font-bold tracking-tight sm:text-3xl capitalize underline">{singleProductData && singleProductData.description?.fullName}</h1>
                             </div>
 
 
@@ -572,11 +593,22 @@ export default function ProductDetails() {
 
                                         <div className="mt-4">
                                             <ul role="list" className="list-disc space-y-2 pl-4 text-sm">
-                                                {singleProductData && singleProductData.description?.highLights.map((highlight, i) => (
-                                                    <li key={i}>
-                                                        <span>{highlight}</span>
-                                                    </li>
-                                                ))}
+                                                {
+                                                    singleProductData && singleProductData.description?.highLights.length
+                                                        ?
+
+                                                        singleProductData && singleProductData.description?.highLights.map((highlight, i) => (
+                                                            <li key={i}>
+                                                                <span>{highlight}</span>
+                                                            </li>
+                                                        ))
+
+                                                        : <>
+                                                            <li >
+                                                                <span>{"Not Found"}</span>
+                                                            </li>
+                                                        </>
+                                                }
                                             </ul>
                                         </div>
                                     </div>
