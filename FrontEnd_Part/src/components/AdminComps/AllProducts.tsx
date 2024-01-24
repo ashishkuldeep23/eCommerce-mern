@@ -1,10 +1,11 @@
 import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch, RootState } from "../../store"
 import { useEffect, useState } from "react"
-import { adminDataState, getAllProductAdmin, setProductData, setUpdatingProduct, updateProductAdmin } from "../../Slices/AdminSlice"
+// import { adminDataState, getAllProductAdmin, setProductData, setUpdatingProduct, updateProductAdmin } from "../../Slices/AdminSlice"
 import { useNavigate } from "react-router-dom"
 import { fetchOneProductByID, setSingleProductData } from "../../Slices/AllProductSlice"
 import { IProduct } from "../ProductListing/ProductLists"
+import { adminDataState, getAllProductAdmin, setProductData, setUpdatingProduct, updateProductAdmin } from "../../Slices/AdminSliceFile.ts"
 
 
 

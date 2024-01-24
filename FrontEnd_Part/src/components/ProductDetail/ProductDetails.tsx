@@ -13,7 +13,7 @@ import { setChildrenModal, setOpenMoadl } from '../../Slices/ModalSlice'
 import { userState } from '../../Slices/UserSlice'
 import { LikeBtnDoubleClick } from './LikeBtnDoubleClick'
 import { useParams } from 'react-router-dom';
-import { setProductData, setUpdatingProduct } from '../../Slices/AdminSlice'
+import { setProductData, setUpdatingProduct } from '../../Slices/AdminSliceFile'
 
 
 
