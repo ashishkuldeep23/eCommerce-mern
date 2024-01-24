@@ -4,7 +4,7 @@
 import { useForm, SubmitHandler } from "react-hook-form"
 import { IProduct } from "../ProductListing/ProductLists"
 import { useEffect, useState } from "react"
-import { adminDataState, createNewProduct, updateProductAdmin } from "../../Slices/AdminSliceFile"
+import { adminDataState, createNewProduct, setUpdatingProduct, updateProductAdmin } from "../../Slices/AdminSliceFile"
 // import AllProducts from "./AllProducts"
 import { AppDispatch, RootState } from "../../store"
 import { useDispatch, useSelector } from "react-redux"
@@ -54,7 +54,7 @@ function CreateNewProduct() {
 
 
     // // // From state var --->
-    const { register, handleSubmit, formState: { errors }, setValue, getValues, setError, reset } = useForm<NewProductInput>()
+    const { register, handleSubmit, formState: { errors }, setValue, getValues, setError, reset, setFocus } = useForm<NewProductInput>()
 
     const allCategories = useSelector((state: RootState) => state.allProductWithCatReducer.filterAllCateory)
 
@@ -456,12 +456,12 @@ function CreateNewProduct() {
 
         // // // Check data have mandatory feilds or not ------>
 
-        let { title , price   , brand , category , description , type  } =  data
+        let { title, price, brand, category, description, type } = data
 
-        let { fullName , aboutProduct , highLights , specifications ,  product_Details , dimensions} = description!
+        let { fullName, aboutProduct, highLights, specifications, product_Details, dimensions } = description!
 
 
-        if(!title || !price  || !brand || !category || !type || !fullName || !aboutProduct ||  !highLights || !specifications || ! product_Details || !dimensions){
+        if (!title || !price || !brand || !category || !type || !fullName || !aboutProduct || !highLights || !specifications || !product_Details || !dimensions) {
             return alert("All mandatory feilds shoud given.")
         }
 
@@ -548,32 +548,59 @@ function CreateNewProduct() {
     useEffect(() => {
 
 
-        console.log(newProduct)
-
+        // console.log("use effect ", newProduct)
 
         if (updatingProduct) {
 
-            setValue("brand", newProduct.brand)
-            setValue("title", newProduct.title)
-            setValue("price", newProduct.price)
-            setValue("discountPercentage", newProduct.discountPercentage)
-            setValue("category", newProduct.category)
-            setValue("description.fullName", newProduct?.description?.fullName!)
-            setValue("description.aboutProduct", newProduct?.description?.aboutProduct!)
-            setValue("id", newProduct.id)
+            // // // Focus the title input when update product clicked
+            setFocus("title", { shouldSelect: true })
 
 
+
+            // // // You should provide some optional value during the setting value inside input feilds ----->
+            // // Values are { shouldValidate: true, shouldDirty: true } as third parameter of setValue.
+
+            setValue("brand", newProduct.brand, {
+                shouldValidate: true,
+                shouldDirty: true
+            })
+            setValue("title", newProduct.title, {
+                shouldValidate: true,
+                shouldDirty: true
+            })
+            setValue("price", newProduct.price, {
+                shouldValidate: true,
+                shouldDirty: true
+            })
+            setValue("discountPercentage", newProduct.discountPercentage, {
+                shouldValidate: true,
+                shouldDirty: true
+            })
+            setValue("category", newProduct.category, {
+                shouldValidate: true,
+                shouldDirty: true
+            })
+            setValue("description.fullName", newProduct?.description?.fullName!, {
+                shouldValidate: true,
+                shouldDirty: true
+            })
+            setValue("description.aboutProduct", newProduct?.description?.aboutProduct!, {
+                shouldValidate: true,
+                shouldDirty: true
+            })
+            setValue("id", newProduct.id, {
+                shouldValidate: true,
+                shouldDirty: true
+            })
+
+
+
+            // // // Some state values update now --------------->
             // // // set hightLight in fromate ---->
-
 
             let highlightFormate = newProduct.description?.highLights!.reduce((acc, cur) => `${acc},${cur}`)
 
             setProductHighlight(highlightFormate!)
-
-
-            // console.log(newProduct.description?.highLights)
-            // console.log(highlightFormate)
-
 
             // // In actual formate (Category , specification , dimentions) ---->
 
@@ -583,10 +610,8 @@ function CreateNewProduct() {
 
             setProductDetailOfDes(makeStrValFromCatSpecs(newProduct?.description?.product_Details!))
 
-
             // // // making options in str formate ---->
             setProductOption(makeOptionFromate(newProduct.type))
-
 
             // // // Now set the images and ThumNail------------>
 
@@ -620,6 +645,23 @@ function CreateNewProduct() {
 
 
 
+    function resetFromAllFeilds() {
+
+        reset();   // // Reset the feilds 
+        dispatch(setUpdatingProduct(false))   // // updatng product should be false
+
+        setProductHighlight("")
+        setProductSpecs('')
+        setProductDimen('')
+        setProductDetailOfDes('')
+        setProductOption('')
+        setImageInputBy("by_url")
+        setAllImgUrls('')
+        setAllInputImagesUrl([])
+        setThumbnailIndex(-1)
+    }
+
+
     // // // Reset the forms --------->
     useEffect(() => {
 
@@ -627,17 +669,8 @@ function CreateNewProduct() {
 
             // // // scroll to top --->
             window.scroll(0, 0)
+            resetFromAllFeilds()
 
-            reset();
-            setProductHighlight("")
-            setProductSpecs('')
-            setProductDimen('')
-            setProductDetailOfDes('')
-            setProductOption('')
-            setImageInputBy("by_url")
-            setAllImgUrls('')
-            setAllInputImagesUrl([])
-            setThumbnailIndex(-1)
         }
 
     }, [updatingProduct])
@@ -658,7 +691,7 @@ function CreateNewProduct() {
         <>
 
             {/* Loading ----> */}
-            <div className=" fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-100">
+            <div className=" fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-100 ">
                 {
                     isLoading
                     &&
@@ -671,9 +704,34 @@ function CreateNewProduct() {
                 }
             </div>
 
-            <div className={` w-full smm:w-10/12 sm:w-3/4 md:w-3/5 my-5 py-2 px-1.5 rounded border ${themeMode ? "bg-fuchsia-950 border-white" : "bg-fuchsia-200 border-black"}`}>
+            <div className={` relative w-full smm:w-10/12 sm:w-3/4 md:w-3/5 my-5 py-2 px-1.5 rounded border 
+            ${themeMode
+                    ? ` ${!updatingProduct ? "bg-fuchsia-950" : " bg-rose-950"}  border-white `
+                    : ` ${!updatingProduct ? "bg-fuchsia-200" : "bg-rose-200"}  border-black `
+                }`
+            }>
 
-                <p className=" text-center my-1 text-lg underline ">Create new product</p>
+                <p className=" font-semibold mt-1 mb-4 underline text-3xl text-center ">
+                    {
+                        !updatingProduct
+                            ? "Create new product"
+                            : `Updating, ${newProduct.title}`
+                    }
+
+                </p>
+
+
+                {/* Reset btn If pdating  */}
+
+                {
+                    updatingProduct
+                    &&
+
+                    <span
+                        className=" absolute right-2 top-2 z-10 bg-red-500 px-3 py-0.5 rounded-full font-bold font-mono text-white hover:bg-red-400 hover:cursor-pointer"
+                        onClick={resetFromAllFeilds}
+                    >Reset</span>
+                }
 
 
                 <form noValidate={true} className="space-y-6" onSubmit={handleSubmit(onSubmit)}>

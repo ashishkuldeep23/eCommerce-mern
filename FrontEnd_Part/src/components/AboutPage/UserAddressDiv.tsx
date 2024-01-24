@@ -83,10 +83,22 @@ const UserAddressDiv = () => {
             // console.log(location)
             // console.log(formated)
 
-            setValue("street", street)
-            setValue("city", city)
-            setValue("country", country)
-            setValue("pincode", pincode)
+            setValue("street", street, {
+                shouldValidate: true,
+                shouldDirty: true
+            })
+            setValue("city", city, {
+                shouldValidate: true,
+                shouldDirty: true
+            })
+            setValue("country", country, {
+                shouldValidate: true,
+                shouldDirty: true
+            })
+            setValue("pincode", pincode, {
+                shouldValidate: true,
+                shouldDirty: true
+            })
 
 
         }
@@ -173,11 +185,26 @@ const UserAddressDiv = () => {
 
         setPostAdOpen(true)
 
-        setValue("street", data.street)
-        setValue("city", data.city)
-        setValue("country", data.country)
-        setValue("pincode", data.pincode)
-        setValue("id", data.id)
+        setValue("street", data.street, {
+            shouldValidate: true,
+            shouldDirty: true
+        })
+        setValue("city", data.city, {
+            shouldValidate: true,
+            shouldDirty: true
+        })
+        setValue("country", data.country, {
+            shouldValidate: true,
+            shouldDirty: true
+        })
+        setValue("pincode", data.pincode, {
+            shouldValidate: true,
+            shouldDirty: true
+        })
+        setValue("id", data.id, {
+            shouldValidate: true,
+            shouldDirty: true
+        })
 
         setUpadteAd(true)
 
@@ -206,10 +233,22 @@ const UserAddressDiv = () => {
         // // // back to normal all things ---->
         if (isFullfiled) {
 
-            setValue("street", "")
-            setValue("city", "")
-            setValue("country", "")
-            setValue("pincode", "")
+            setValue("street", "", {
+                shouldValidate: true,
+                shouldDirty: true
+            })
+            setValue("city", "", {
+                shouldValidate: true,
+                shouldDirty: true
+            })
+            setValue("country", "", {
+                shouldValidate: true,
+                shouldDirty: true
+            })
+            setValue("pincode", "", {
+                shouldValidate: true,
+                shouldDirty: true
+            })
 
             setPostAdOpen(false)
             setUpadteAd(false)
@@ -250,7 +289,7 @@ const UserAddressDiv = () => {
 
                 // &&
 
-                getUserData.address.map((ele , i) => {
+                getUserData.address.map((ele, i) => {
                     return (
 
 

@@ -20,7 +20,12 @@ export default function AllProducts() {
 
 
     useEffect(() => {
-        dispatch(getAllProductAdmin())
+
+        if(allProduct.length === 0){
+
+            dispatch(getAllProductAdmin())
+        }
+
     }, [])
 
     return (
@@ -28,7 +33,7 @@ export default function AllProducts() {
             <div className={` w-full smm:w-10/12 sm:w-3/4  md:w-3/4 my-5 py-2 px-1.5 rounded border ${themeMode ? "bg-lime-950  border-white " : "bg-lime-100 border-black"}`}>
 
                 <div>
-                    <h1 className=" text-3xl text-center">All product data</h1>
+                    <h1 className=" underline font-semibold text-3xl text-center">All product data</h1>
                 </div>
 
 

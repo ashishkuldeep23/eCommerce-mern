@@ -2,8 +2,8 @@
 
 // import React from 'react'
 
-import {  useSelector } from "react-redux"
-import {  RootState } from "../../store"
+import { useSelector } from "react-redux"
+import { RootState } from "../../store"
 import { userState } from "../../Slices/UserSlice"
 // import { useEffect } from "react"
 import { Navigate } from "react-router-dom"
@@ -41,11 +41,13 @@ const AdminMain = () => {
                         <p className=" text-center text-5xl mb-5 underline font-bold">Admin page</p>
                     </div>
 
+                    {/* Create new product */}
+                    <CreateNewProduct />
+
                     {/* All product visiable */}
                     <AllProducts />
 
-                    {/* Create new product */}
-                    <CreateNewProduct />
+
 
 
                 </div>

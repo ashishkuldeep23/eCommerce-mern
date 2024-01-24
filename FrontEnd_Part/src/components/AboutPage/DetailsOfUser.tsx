@@ -183,8 +183,14 @@ function UserNameAndUpadte() {
         if (isFullfiled) {
 
 
-            setValue("firstName", "")
-            setValue("lastName", "")
+            setValue("firstName", "", {
+                shouldValidate: true,
+                shouldDirty: true
+            })
+            setValue("lastName", "", {
+                shouldValidate: true,
+                shouldDirty: true
+            })
 
             setUpadteName(false)
 

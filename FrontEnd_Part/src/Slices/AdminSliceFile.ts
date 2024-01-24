@@ -128,6 +128,9 @@ const adminSlice = createSlice({
     reducers: {
 
         setUpdatingProduct(state, action) {
+
+            // console.log(action.payload)
+
             state.updatingProduct = action.payload as boolean
         },
 
