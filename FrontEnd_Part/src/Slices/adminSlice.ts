@@ -11,7 +11,7 @@ import { NewProductInput } from "../components/AdminComps/CreateProduct";
 // import type { PayloadAction } from "@reduxjs/toolkit"
 // // // Above will use in action object , see the docs.
 
-
+     
 
 export const createNewProduct = createAsyncThunk('admin/createNewProduct', async (formData: FormData) => {
 
