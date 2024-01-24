@@ -1,9 +1,11 @@
 import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch, RootState } from "../../store"
 import { useEffect, useState } from "react"
-import { IProductAdmin, adminDataState, getAllProductAdmin, setProductData, setUpdatingProduct, updateProductAdmin } from "../../Slices/AdminSlice"
+import { adminDataState, getAllProductAdmin, setProductData, setUpdatingProduct, updateProductAdmin } from "../../Slices/AdminSlice"
 import { useNavigate } from "react-router-dom"
 import { fetchOneProductByID, setSingleProductData } from "../../Slices/AllProductSlice"
+import { IProduct } from "../ProductListing/ProductLists"
+
 
 
 
@@ -55,7 +57,7 @@ export default function AllProducts() {
 // const formData = new FormData()
 
 
-function SingleUIData({ product }: { product: IProductAdmin }) {
+function SingleUIData({ product }: { product: IProduct }) {
 
     const navigate = useNavigate()
 

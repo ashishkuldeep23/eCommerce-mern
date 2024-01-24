@@ -64,17 +64,13 @@ export const updateProductAdmin = createAsyncThunk("admin/updateProduct", async 
 
 
 
-export interface IProductAdmin extends IProduct {
-}
-
-
 
 type AdminData = {
     isLoading: boolean;
     isError: boolean;
     isFullfilled: boolean;
     errMsg: string;
-    allProduct: IProductAdmin[],
+    allProduct: IProduct[],
     updatingProduct: boolean,
     newProduct: NewProductInput
 
@@ -143,8 +139,6 @@ const adminSlice = createSlice({
             state.newProduct = comingData
 
         }
-
-
 
     },
     extraReducers: (builder) => {
@@ -296,7 +290,7 @@ const adminSlice = createSlice({
 
                     let productId = action.payload.data.id
 
-                    let updatedProductData = action.payload.data as IProductAdmin
+                    let updatedProductData = action.payload.data as IProduct
 
                     // // // Update that data only 
 
