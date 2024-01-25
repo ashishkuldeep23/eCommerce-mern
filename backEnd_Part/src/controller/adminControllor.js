@@ -288,7 +288,7 @@ async function updateProdct(req, res) {
 
             let { specifications, product_Details, highLights, dimensions, aboutProduct, fullName } = recivedBodyData.description
 
-            if(!specifications || !product_Details || !highLights || !dimensions || !aboutProduct || !fullName) return res.status(400).send({ status: false, message: "Try again, Description all keys are not coming." })
+            if (!specifications || !product_Details || !highLights || !dimensions || !aboutProduct || !fullName) return res.status(400).send({ status: false, message: "Try again, Description all keys are not coming." })
 
             getProduct.description.specifications = specifications
             getProduct.description.product_Details = product_Details
@@ -324,4 +324,76 @@ async function updateProdct(req, res) {
 
 
 
-module.exports = { createNewProduct, getAllProductsAdmin, updateProdct }
+let orderModel = require("./../model/orderModel")
+
+async function getAllOrdersAdmin(req, res) {
+    try {
+
+
+        // // // .sort({createdAt : "-1"}) 
+
+
+        // // -1 === Latest 
+        // // 1 === Oldest
+
+
+        let sortBy = {
+            createdAt: "-1"
+        }
+
+        const sort = req.query.sort
+
+        if (sort && sort === '1') {
+            sortBy.createdAt = '1'
+        }
+
+
+        let getAllOrders = await orderModel.find().sort(sortBy).select({
+            "_id" : false,
+            'createdAt': false,
+            'updatedAt': false,
+            '__v': false,
+            'cartData.review': false,
+            'cartData.dislikedUserIds': false,
+            'cartData.likedUserIds': false,
+            'cartData.likes': false,
+            'cartData.dislikes': false,
+            'cartData.__v': false,
+        })
+
+        // console.log(getAllOrders)
+
+        if (getAllOrders.length <= 0) {
+            return res.status(404).send({ status: false, message: "No order found for now." })
+        }
+
+        // console.log(getAllOrders[0].cartData[0].category)
+        // console.log(getAllOrders[0].cartData[0].brand)
+
+
+        // // // Do this of frontEnd ----->
+
+
+        // console.log(sortByCategoryObj)
+        // console.log(sortByBrandObj)
+
+
+        
+
+        res.status(200).send({
+            status: true,
+            message: "Getting all orders for admin.",
+            dataLen: getAllOrders.length,
+            data: getAllOrders,
+            sortBy : sortBy.createdAt,
+        })
+
+    }
+    catch (err) {
+        console.log(err.message)
+        res.status(500).send({ status: false, message: "Server Error" })
+    }
+}
+
+
+module.exports = { createNewProduct, getAllProductsAdmin, updateProdct, getAllOrdersAdmin }

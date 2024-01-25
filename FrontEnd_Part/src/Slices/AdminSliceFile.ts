@@ -1,17 +1,19 @@
 
-import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit"
+import { PayloadAction, createAsyncThunk, createSlice, current } from "@reduxjs/toolkit"
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
 import { toast } from "react-toastify";
 import { gettingTokenInCookieAndLocalHost } from "../App";
 import { IProduct } from "../components/ProductListing/ProductLists";
 import { NewProductInput } from "../components/AdminComps/CreateProduct";
+import { OrderData } from "../components/Payment/PaymentComp";
+import { CardDataInter } from "./CartSlice";
 
 
 // import type { PayloadAction } from "@reduxjs/toolkit"
 // // // Above will use in action object , see the docs.
 
-     
+
 
 export const createNewProduct = createAsyncThunk('admin/createNewProduct', async (formData: FormData) => {
 
@@ -28,7 +30,6 @@ export const createNewProduct = createAsyncThunk('admin/createNewProduct', async
     return data
 
 })
-
 
 
 export const getAllProductAdmin = createAsyncThunk("admin/getAllProducts", async () => {
@@ -65,12 +66,52 @@ export const updateProductAdmin = createAsyncThunk("admin/updateProduct", async 
 
 
 
+export const getAllOrdersAdmin = createAsyncThunk("admin/getAllOrders", async (sort?: string) => {
+    const option: RequestInit = {
+        credentials: 'include',
+        headers: {
+            "token": `${gettingTokenInCookieAndLocalHost()}`,
+        },
+    }
+
+    // // // Only -1 and 1 is accepted by Mongoose thatswhy only two values.
+    let sortBy = sort === "1" ? "1" : '-1'
+
+    // console.log(sortBy)
+
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/getAllOrdersAdmin?sort=${sortBy}`, option)
+    let data = await response.json();
+    return data
+
+})
+
+
+
+export interface AdminAllOrders extends OrderData {
+    id: string
+}
+
+
+
+
+export type GroupedByData = {
+    [key: string]: CardDataInter[]
+}
+
+
+
 type AdminData = {
     isLoading: boolean;
     isError: boolean;
     isFullfilled: boolean;
     errMsg: string;
     allProduct: IProduct[],
+    allOrders: AdminAllOrders[],
+    searchAllOrders: {
+        sortBy: "1" | "-1"
+    },
+    groupedByCategoryObj: GroupedByData,
+    groupedByBrandObj: GroupedByData,
     updatingProduct: boolean,
     newProduct: NewProductInput
 
@@ -83,8 +124,13 @@ const initialState: AdminData = {
     isFullfilled: false,
     errMsg: "",
     allProduct: [],
+    allOrders: [],
+    searchAllOrders: {
+        sortBy: "-1"
+    },
+    groupedByCategoryObj: {},
+    groupedByBrandObj: {},
     updatingProduct: false,
-
     newProduct: {
         type: [],
         thumbnailIndex: -1,
@@ -119,6 +165,7 @@ const initialState: AdminData = {
         "likedUserIds": [],
         "dislikedUserIds": [],
     }
+
 }
 
 
@@ -352,6 +399,146 @@ const adminSlice = createSlice({
                     theme: "dark",
                 });
             })
+
+
+
+            .addCase(getAllOrdersAdmin.pending, (state) => {
+                state.isLoading = true
+                state.isFullfilled = false
+            })
+
+            .addCase(getAllOrdersAdmin.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isFullfilled = true
+
+                // console.log(action.payload)
+                // alert("Ok now")
+
+
+                if (action.payload.status === false) {
+
+                    state.isError = true
+                    toast.error(`${action.payload.message} | 400`, {
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: false,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                    })
+                } else {
+                    // console.log(action.payload.sortBy)
+
+                    state.allOrders = action.payload.data
+
+                    state.searchAllOrders.sortBy = action.payload.sortBy
+
+                    // // // Some Proccessing you can do here --------->
+
+
+                    let getAllOrders = action.payload.data as AdminAllOrders[]
+
+
+
+                    let groupedByCategoryObj: GroupedByData = {}
+                    let groupedByBrandObj: GroupedByData = {}
+
+                    for (let order of getAllOrders) {
+
+                        for (let item of order.cartData) {
+
+                            // console.log(item.review)
+
+                            // // // Grouping category ------->
+                            if (!groupedByCategoryObj[item.category]) {
+                                // console.log("dasdaasdfsaf" , item)
+                                groupedByCategoryObj[item.category] = [item]
+                            }
+                            else {
+                                groupedByCategoryObj[item.category].push(item)
+                            }
+
+
+                            // // // Grouping brand -------->
+                            if (!groupedByBrandObj[item.brand]) {
+                                // console.log("dasdaasdfsaf" , item)
+                                groupedByBrandObj[item.brand] = [item]
+                            }
+                            else {
+                                groupedByBrandObj[item.brand].push(item)
+                            }
+
+
+                        }
+
+                    }
+
+
+
+                    // console.log(groupedByBrandObj)
+                    // console.log(groupedByBrandObj)
+
+
+                    state.groupedByCategoryObj = groupedByCategoryObj
+                    state.groupedByBrandObj = groupedByBrandObj
+
+                }
+            })
+
+            .addCase(getAllOrdersAdmin.rejected, (state, action) => {
+                state.isLoading = false
+                state.isError = true
+                state.errMsg = action?.error?.message!
+                toast.error(`${action.error.message}`, {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                });
+            })
+
+
+
+            // // // Extra reducer to get updated order data ------>
+            .addCase("order/updateOrder/fulfilled", (state, action: PayloadAction<any, never>) => {
+
+                // console.log(action.payload.data)
+
+
+
+                if (action.payload.status) {
+
+                    let updatedOrderData = action.payload.data as AdminAllOrders
+
+                    let orderId = updatedOrderData.id
+
+
+
+                    let currentAllOrderData = current(state.allOrders)
+
+
+                    let findIndexOfUpdatedOrder = currentAllOrderData.findIndex(ele => ele.id === orderId)
+
+
+
+                    let newAllOrderArr = [...currentAllOrderData]
+
+                    newAllOrderArr.splice(findIndexOfUpdatedOrder, 1, updatedOrderData)
+
+
+                    state.allOrders = newAllOrderArr
+
+                }
+
+            })
+
+
 
     }
 })

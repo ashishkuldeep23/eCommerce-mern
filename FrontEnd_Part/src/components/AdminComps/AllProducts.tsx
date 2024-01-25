@@ -21,7 +21,7 @@ export default function AllProducts() {
 
     useEffect(() => {
 
-        if(allProduct.length === 0){
+        if (allProduct.length === 0) {
 
             dispatch(getAllProductAdmin())
         }
@@ -30,7 +30,10 @@ export default function AllProducts() {
 
     return (
         <>
-            <div className={` w-full smm:w-10/12 sm:w-3/4  md:w-3/4 my-5 py-2 px-1.5 rounded border ${themeMode ? "bg-lime-950  border-white " : "bg-lime-100 border-black"}`}>
+            <div
+                className={` my-20 w-full smm:w-10/12 sm:w-3/4  md:w-3/4 py-2 px-1.5 rounded border ${themeMode ? "bg-lime-950  border-white " : "bg-lime-200 border-black"}`}
+                id="allProductsDiv"
+            >
 
                 <div>
                     <h1 className=" underline font-semibold text-3xl text-center">All product data</h1>
@@ -198,7 +201,6 @@ function SingleUIData({ product }: { product: IProduct }) {
                                     arrOfOptions.map((ele, i) => {
                                         return <option
                                             key={i}
-                                            onClick={() => { console.log("not remove this line", ele) }}
                                             className="bg-transparent text-black"
                                             // value={isProductDeleted && i===0 ? 'delete' : 'live'}
                                             // value={(isProductDeleted === true && i === 0) ? 'delete' : (isProductDeleted === false && i === 0) ? 'live' : "delete"}

@@ -2,7 +2,7 @@
 import { Fragment, useState, useRef, useEffect } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline'
-import { Link, useNavigate } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux";
 import { toggleModeValue } from '../../Slices/ThemeSlices'
 import { AppDispatch, RootState } from '../../store'
@@ -28,9 +28,7 @@ const navigation = [
 // // // I'm main UI code for Navbar (All Functional comps present in-side me)
 export default function NavBar() {
 
-    
-    
-    
+
     // const navigate = useNavigate()
 
     // const userData = userState().userData
@@ -89,12 +87,51 @@ export default function NavBar() {
                     <UniversalLoaderAndScroll />
 
 
+                    {/* {
+                        roleOfUser === "admin"
+                        &&
+                        ""
+                    } */}
+
+                    <GoToAdminPageBtn />
+
                 </>
             )}
         </Disclosure>
 
 
 
+    )
+}
+
+
+
+// // // Below btn is used for admin only (For navigating to admin page)---->
+function GoToAdminPageBtn() {
+
+    const themeMode = useSelector((state: RootState) => state.themeReducer.mode)
+
+    const roleOfUser = userState().userData.role
+
+    const location = useLocation()
+
+    // console.log(location)
+
+
+    if (roleOfUser !== "admin" || location.pathname === "/admin") {
+        return <> </>
+    }
+
+    return (
+        <>
+            <div
+                className={` backdrop-blur-3xl rounded-full border  absolute my-2 left-2/4 -translate-x-2/4 active:bg-green-500 ${!themeMode ? "text-black border-black" : "text-white border-white"} `}
+            >
+                <Link to={"/admin"}>
+                    <button className=' px-4 capitalize font-bold text-sm sm:text-lg'>Go To Admin Page</button>
+                </Link>
+            </div>
+        </>
     )
 }
 
@@ -166,6 +203,8 @@ function MenuOfTabAndAbove() {
                     </div>
                 </div>
             </div>
+
+
         </>
     )
 }

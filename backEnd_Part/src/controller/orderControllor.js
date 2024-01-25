@@ -148,7 +148,7 @@ async function updateOrder(req, res) {
 
     try {
 
-        const { whatUpdate, orderId } = req.body
+        const { whatUpdate, orderId , ...restBoby } = req.body
 
         if (!whatUpdate) return res.status(400).send({ status: false, message: "Metion what you want to update." })
 
@@ -163,12 +163,29 @@ async function updateOrder(req, res) {
         // console.log(findOrder)
 
 
+        let upadtedData;
+
         if (whatUpdate === "status") {
             findOrder.status = "Received"
-            await findOrder.save()
+            
         }
 
-        res.status(200).send({ status: true, message: "Order updated" })
+
+        // // // Admin Can also update the status of order ---->
+
+        else if( whatUpdate === "statusAdmin"){
+
+            let {makeOrderStatus} = restBoby
+
+            findOrder.status = `${makeOrderStatus}`
+
+        }
+
+
+        upadtedData = await findOrder.save()
+
+
+        res.status(200).send({ status: true, message: "Order updated" , data : upadtedData })
     }
     catch (err) {
         console.log(err.message)

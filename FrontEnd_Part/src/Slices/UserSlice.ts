@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { toast } from "react-toastify"
 import { RootState } from "../store";
 import { gettingTokenInCookieAndLocalHost } from "../App";
-import { CardDataInter } from "./CartSlice";
+import { OrderData } from "../components/Payment/PaymentComp";
 
 
 
@@ -228,19 +228,32 @@ export type UserAddressObj = {
 }
 
 
-export type UserOrderOj = {
-    address: UserAddressObj,
-    cartData: CardDataInter[],
-    fullName: string,
-    id: string,
-    paymentMethod: string,
-    phone: string,
-    totalItems: number
-    totalPrice: string,
-    userId: string,
-    whenCreated: string;
-    status: string,
-}
+// export type UserOrderOj = {
+//     address: UserAddressObj,
+//     cartData: CardDataInter[],
+//     fullName: string,
+//     id: string,
+//     paymentMethod: string,
+//     phone: string,
+//     totalItems: number
+//     totalPrice: string,
+//     userId: string,
+//     whenCreated: string;
+//     status: string,
+// }
+
+
+// // // OR (we can do as above or as below)
+
+
+export interface UserOrderOj extends Omit<OrderData , "phone">{
+    phone : string,
+    id : string
+} 
+
+
+  
+
 
 
 

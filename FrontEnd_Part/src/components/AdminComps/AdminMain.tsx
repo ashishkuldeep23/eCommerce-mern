@@ -9,6 +9,8 @@ import { userState } from "../../Slices/UserSlice"
 import { Navigate } from "react-router-dom"
 import CreateNewProduct from "./CreateProduct"
 import AllProducts from "./AllProducts"
+import { AllOdersComp } from "./AllOdersComp"
+import DataInChartFormate from "./DataInChartFormate"
 
 const AdminMain = () => {
 
@@ -39,6 +41,15 @@ const AdminMain = () => {
 
                     <div>
                         <p className=" text-center text-5xl mb-5 underline font-bold">Admin page</p>
+
+                        <div className=" flex flex-col sm:flex-row gap-2 flex-wrap items-center border-x px-1">
+
+                            <a className="px-2 border-b my-1 text-violet-500" href="#createOrderDiv">See Create Product</a>
+                            <a className="px-2 border-b my-1 text-violet-500" href="#allProductsDiv">See All Products</a>
+                            <a className="px-2 border-b my-1 text-violet-500" href="#allOrdersDiv">See All Orders</a>
+                            <a className="px-2 border-b my-1 text-violet-500" href="#OrderDataChartDiv">See OrderChart</a>
+                        </div>
+
                     </div>
 
                     {/* Create new product */}
@@ -47,7 +58,19 @@ const AdminMain = () => {
                     {/* All product visiable */}
                     <AllProducts />
 
+                    {/* All order component  */}
+                    <AllOdersComp />
 
+                    {/* Simple chart to show all order (Improve letar) */}
+                    <DataInChartFormate />
+
+
+                    {/* <div> */}
+                    <button
+                        className=" text-sm capitalize px-4 border border-gray-400 rounded-full ml-auto mr-1"
+                        onClick={() => { window.scroll(0, 0) }}
+                    >Goto🔝</button>
+                    {/* </div> */}
 
 
                 </div>

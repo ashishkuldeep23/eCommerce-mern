@@ -15,7 +15,7 @@ const { creteUserControllor, logInControllor, logOutControl, getUserData, update
 
 const { createNewOrder, updateOrder } = require("../controller/orderControllor")
 
-const { createNewProduct , getAllProductsAdmin , updateProdct } = require("../controller/adminControllor")
+const { createNewProduct , getAllProductsAdmin , updateProdct , getAllOrdersAdmin} = require("../controller/adminControllor")
 
 
 const { isAuthorized , isUserAdmin } = require("../middleware/authorization")
@@ -48,6 +48,8 @@ router.post("/createProduct", isAuthorized , isUserAdmin , upload.array("file"),
 router.get("/getAllProductsAdmin" , isAuthorized , isUserAdmin , getAllProductsAdmin)
 
 router.post("/updatePoduct" ,  isAuthorized , isUserAdmin , upload.array("file") , updateProdct)
+
+router.get("/getAllOrdersAdmin" , isAuthorized , isUserAdmin , getAllOrdersAdmin)
 
 
 
@@ -217,7 +219,6 @@ router.get("/login/success", (req, res) => {
 
 
 // // // Order Api --------->
-
 router.post("/createOrder", isAuthorized, createNewOrder)
 
 router.put("/updateOrder", isAuthorized, updateOrder)

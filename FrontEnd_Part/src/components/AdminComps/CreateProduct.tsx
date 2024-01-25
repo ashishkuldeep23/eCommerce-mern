@@ -704,12 +704,16 @@ function CreateNewProduct() {
                 }
             </div>
 
-            <div className={` relative w-full smm:w-10/12 sm:w-3/4 md:w-3/5 my-5 py-2 px-1.5 rounded border 
+            <div
+                className={` my-20 relative w-full smm:w-10/12 sm:w-3/4 md:w-3/5 py-2 px-1.5 rounded border 
             ${themeMode
-                    ? ` ${!updatingProduct ? "bg-fuchsia-950" : " bg-rose-950"}  border-white `
-                    : ` ${!updatingProduct ? "bg-fuchsia-200" : "bg-rose-200"}  border-black `
-                }`
-            }>
+                        ? ` ${!updatingProduct ? "bg-fuchsia-950" : " bg-rose-950"}  border-white `
+                        : ` ${!updatingProduct ? "bg-fuchsia-200" : "bg-rose-200"}  border-black `
+                    }`
+                }
+
+                id="createOrderDiv"
+            >
 
                 <p className=" font-semibold mt-1 mb-4 underline text-3xl text-center ">
                     {

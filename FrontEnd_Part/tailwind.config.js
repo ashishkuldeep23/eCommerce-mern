@@ -42,6 +42,9 @@ export default {
       margin: {
         "feedback": "30%"
       },
+      rotate : {
+        "270" : "270deg"
+      }
 
     },
   },

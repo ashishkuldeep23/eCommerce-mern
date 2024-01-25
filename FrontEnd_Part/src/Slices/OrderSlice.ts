@@ -44,6 +44,7 @@ export const createOrder = createAsyncThunk("order/createOrder", async ({ body }
 type UpadteOrderBody={
     whatUpdate : string;
     orderId : string;
+    makeOrderStatus ?: string
 }
 
 export const updateOrder = createAsyncThunk("order/updateOrder", async ({body} : {body : UpadteOrderBody}) => {
