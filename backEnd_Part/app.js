@@ -153,18 +153,49 @@ passport.use("google", new GoogleStrategy({
     // let createOrFindUser = await userModel.
 
 
-
     // // // Logic Change here ---->
     // // // Cases should coverd ---->
 
-    let newUserDataObj = { email: email, firstName: firstName, lastName: lastName, allImages: [photos[0].value], profilePic: photos[0].value, whenCreted: `${new Date()}` }
+    // // Case 1st :- if user already present then send the gotted data (Do not change anythin)
+    // // Case 2nd :- Else (if not get data with email or got null) create new entry with given data 
 
-    let userProfile = await userModel.findOneAndUpdate(
-      { email: email },
-      newUserDataObj,
-      { new: true, upsert: true }
-    ).lean()
 
+    // // // This will store data -->
+    let userProfile;
+
+
+    // // // Checking user is present or not --->
+    let checkUserWithEmail = await userModel.findOne({ email: email })
+
+    if (checkUserWithEmail) {
+
+      userProfile = checkUserWithEmail
+
+    } else {
+
+      let newUserDataObj = {
+        email: email,
+        firstName: firstName,
+        lastName: lastName,
+        allImages: [photos[0].value],
+        profilePic: photos[0].value,
+        whenCreted: `${new Date()}`,
+        isEmailVerified: true     // // // Email is verified (when user use login with google)
+      }
+
+      userModel = await userModel.create(newUserDataObj)
+
+    }
+
+
+    // let userProfile = await userModel.findOneAndUpdate(
+    //   { email: email },
+    //   newUserDataObj,
+    //   { new: true, upsert: true }
+    // ).lean()
+
+
+    // // // Below object to check only ------>
     console.log(userProfile)
 
 

@@ -102,7 +102,7 @@ async function creteUserControllor(req, res) {
 
             // let result = await cloudinary.uploader.upload(filePathIs)
 
-            let result = await uploadImageOnCloudinary(filePathIs , "users_Imgs_Ecom")
+            let result = await uploadImageOnCloudinary(filePathIs, "users_Imgs_Ecom")
 
             // console.log(result)
             pathUrl = result.url
@@ -138,8 +138,8 @@ async function creteUserControllor(req, res) {
         let data = {
             id: createNewUser.id,
             name: `${createNewUser.firstName} ${createNewUser.lastName}`,
-            firstName : createNewUser.firstName,
-            lastName : createNewUser.lastName,
+            firstName: createNewUser.firstName,
+            lastName: createNewUser.lastName,
             email: createNewUser.email,
             profilePic: createNewUser.profilePic,
             role: createNewUser.email,
@@ -225,8 +225,8 @@ async function getUserData(req, res) {
 
     // console.log(findUser)
 
-    if(!findUser){
-        return res.status(400).send({status : false , message : 'No data found by userID in token check code agian.'})
+    if (!findUser) {
+        return res.status(400).send({ status: false, message: 'No data found by userID in token check code agian.' })
     }
 
     // // // Hold user order
@@ -273,6 +273,18 @@ async function updateUser(req, res) {
         if (!whatUpadte) {
             return res.status(400).send({ status: false, message: "What upadte not given check Api Controller" })
         }
+
+
+        // // // Some feature will use user when he/she is verified with mail ---->
+
+        const isEmailVerified = req.isEmailVerified
+
+        const proUserFeatures = ["updateUserName", "userImg", 'makeProfilePic']
+
+        if (!isEmailVerified && proUserFeatures.includes(whatUpadte)) {
+            return res.status(400).send({ status: false, message: " Email not Verified. You are not able to use this feature, Because your mail is not verified. First verify your mail id." })
+        }
+
 
         const id = req.tokenUserData.userId
         // let findUser = await userModel.findById(id)
@@ -329,11 +341,13 @@ async function updateUser(req, res) {
 
             upadtedUser = findUserData
 
-        } 
+        }
         else if (whatUpadte === "userImg") {
 
             // console.log(req.body)
             // console.log(req.files)
+
+            // // // User will able to send only image ---->
 
 
             let pathUrl = "https://res.cloudinary.com/dlvq8n2ca/image/upload/v1700368567/ej31ylpxtamndu3trqtk.png"
@@ -343,7 +357,7 @@ async function updateUser(req, res) {
                 let filePathIs = req.files[0].path
 
                 // let result = await cloudinary.uploader.upload(filePathIs)
-                let result = await uploadImageOnCloudinary(filePathIs , "users_Imgs_Ecom")
+                let result = await uploadImageOnCloudinary(filePathIs, "users_Imgs_Ecom")
 
                 // console.log(" log from user controller ",result)
 
@@ -379,8 +393,6 @@ async function updateUser(req, res) {
                 },
                 { new: true, upsert: true }
             )
-
-
 
             // console.log(findUserData)
 
@@ -427,7 +439,7 @@ async function verifyMailController(req, res) {
 
         const { token, email } = req.query
 
-        if (!token || !email) return res.status(400).send({ status: false, message: "Email and token gien in Query." })
+        if (!token || !email) return res.status(400).send({ status: false, message: "Email and token not given in Query." })
 
         // // Verify token here ---->
         let verifyToken;
@@ -666,11 +678,11 @@ async function bugReportHandler(req, res) {
 
         // console.log(req.body)
 
-        const {email , bugComment} = req.body
+        const { email, bugComment } = req.body
 
-        if( !email || !bugComment ) return res.status(400).send({status : false , message : "Imp. feilds not given."})
+        if (!email || !bugComment) return res.status(400).send({ status: false, message: "Imp. feilds not given." })
 
-        if (!validateEmail.test(email)) return res.status(400).send({status : false , message : "Email in not valid."})
+        if (!validateEmail.test(email)) return res.status(400).send({ status: false, message: "Email in not valid." })
 
 
         // // // Here i need to send two mails 1. for user who report from me , 2. me to me with bug
@@ -743,13 +755,13 @@ async function bugReportHandler(req, res) {
 
 
 
-function userDataByTokenHandler( req , res){
+function userDataByTokenHandler(req, res) {
 
-    try{
+    try {
 
         let userData = req.tokenUserData
 
-        res.status(200).send({status : true , data : userData})
+        res.status(200).send({ status: true, data: userData })
 
     }
     catch (err) {
@@ -760,4 +772,4 @@ function userDataByTokenHandler( req , res){
 
 
 
-module.exports = { creteUserControllor, logInControllor, logOutControl, getUserData, updateUser, verifyMailController, forgotReqHandler, forgotMainHandler, userWithEmail, bugReportHandler , userDataByTokenHandler }
+module.exports = { creteUserControllor, logInControllor, logOutControl, getUserData, updateUser, verifyMailController, forgotReqHandler, forgotMainHandler, userWithEmail, bugReportHandler, userDataByTokenHandler }

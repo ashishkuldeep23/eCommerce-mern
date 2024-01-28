@@ -23,8 +23,6 @@ exports.isAuthorized = async function (req, res, next) {
 
         // token = req.headers["token"]
 
-
-
         if (req && req.headers && req.headers["token"]) {
             token = req.headers["token"]
         } else if (req && req.cookies && req.cookies["token"]) {
@@ -76,7 +74,17 @@ exports.isAuthorized = async function (req, res, next) {
 
             // // Set user data in req -------->
 
-            req.tokenUserData = { token: token, id: findUser._id, firstName: findUser.firstName, lastName: findUser.lastName, profilePic: findUser.profilePic, email: findUser.email, role: findUser.role, userId: findUser._id }
+            req.tokenUserData = {
+                token: token,
+                id: findUser._id,
+                firstName: findUser.firstName,
+                lastName: findUser.lastName,
+                profilePic: findUser.profilePic,
+                email: findUser.email,
+                role: findUser.role,
+                userId: findUser._id ,
+                isEmailVerified : findUser.isEmailVerified
+            }
 
 
             // // // Now here you can call then next route ------>
@@ -94,13 +102,12 @@ exports.isAuthorized = async function (req, res, next) {
 
 
 
-
 exports.isUserAdmin = async function (req, res, next) {
     try {
 
         if (!req.tokenUserData || req.tokenUserData.role !== "admin") {
             return res.status(403).send({ status: false, message: "User is not Admin." })
-        }else{
+        } else {
             next()
         }
 
