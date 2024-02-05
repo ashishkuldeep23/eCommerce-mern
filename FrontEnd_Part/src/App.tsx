@@ -27,6 +27,7 @@ import ForgotPassMainScreen from "./Screens/ForgotPassMainScreen"
 import { ForgotPassReqScreen } from "./Screens/ForgotPassReqScreen"
 import { FeedbackScreen } from "./Screens/FeedbackScreen"
 import AdminScreen from "./Screens/AdminScreen"
+import { VerifyMail } from "./components/verifyMail/verifyMail"
 
 // import { fetchAllProducts , fetchAllCategoryAndHighlight } from "./Slices/AllProductSlice"
 
@@ -82,7 +83,9 @@ const router = createBrowserRouter([
 
   { path: "/forgot-pass-req", element: <ForgotPassReqScreen /> },
 
-  { path: "/forgot-pass-main/:email/:token", element: <ForgotPassMainScreen /> },
+  { path: "/forgot-pass-main/:token/:mailDomain/:mailId", element: <ForgotPassMainScreen /> },
+
+  { path: "/verify-mail/:token/:mailDomain/:mailId", element: <VerifyMail /> },
 
   { path: "/catPage", element: <CategorySearchPage /> },
 

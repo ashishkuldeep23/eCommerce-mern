@@ -6,7 +6,6 @@ const ForgotPassMainScreen = () => {
     return (
         <>
 
-
             <ForgotPassMain />
         </>
     )

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { toast } from "react-toastify"
 import { useDispatch } from "react-redux"
-import { upadteUserData, userState } from "../../Slices/UserSlice"
+import { reqVerifyMail, upadteUserData, userState } from "../../Slices/UserSlice"
 import { AppDispatch } from "../../store"
 import { setChildrenModal, setOpenMoadl } from "../../Slices/ModalSlice"
 
@@ -24,9 +24,9 @@ const UserImageDiv = () => {
 
 
     function showModalWithValues() {
-        
+
         let ChildrenOfModal = <img className=" rounded" src={userImage} alt="" />
-        
+
         dispatch(setOpenMoadl(true))
         dispatch(setChildrenModal(ChildrenOfModal))
     }
@@ -133,8 +133,8 @@ const UserImageDiv = () => {
                     >
                         {
                             !showImgInput
-                                ?  <span className='font-bold'>Upload</span>
-                                :  <span className=' text-red-100 font-bold'>Close</span>
+                                ? <span className='font-bold'>Upload</span>
+                                : <span className=' text-red-100 font-bold'>Close</span>
                         }
 
                     </button>
@@ -148,21 +148,46 @@ const UserImageDiv = () => {
                     showImgInput
                     &&
 
-                    <div className="mt-3 flex flex-col justify-start items-end">
-                        <input
-                            className='rounded-full'
-                            type="file"
-                            name=""
-                            accept="image/png, image/png, image/jpeg"
-                            id="change_img"
-                            onChange={(e) => { onChangeHandler(e) }}
-                        />
+                    <div>
+
+                        {
+
+                            getUserData.isEmailVerified
+
+                                ?
 
 
-                        <div >
-                            <label htmlFor="change_img" className='text-green-500'>After changing click submit </label>
-                            <button className="bg-green-500 px-1 rounded text-white font-bold" onClick={(e) => { e.stopPropagation(); submitNewImg(); }}>☝️Upload</button>
-                        </div>
+                                <div className="mt-3 flex flex-col justify-start items-end">
+                                    <input
+                                        className='rounded-full'
+                                        type="file"
+                                        name=""
+                                        accept="image/png, image/png, image/jpeg"
+                                        id="change_img"
+                                        onChange={(e) => { onChangeHandler(e) }}
+                                    />
+
+
+                                    <div >
+                                        <label htmlFor="change_img" className='text-green-500'>After changing click submit </label>
+                                        <button className="bg-green-500 px-1 rounded text-white font-bold" onClick={(e) => { e.stopPropagation(); submitNewImg(); }}>☝️Upload</button>
+                                    </div>
+
+                                </div>
+
+                                :
+                                <div
+                                    className="mt-3 flex flex-col justify-start items-center"
+                                >
+                                    <h1 className=' font-semibold '>Please verify your mail.</h1>
+                                    <button
+                                        className=' px-3 rounded bg-green-400 font-bold text-white my-2'
+                                        onClick={() => { dispatch(reqVerifyMail()) }}
+                                    >Verify Mail</button>
+                                </div>
+
+                        }
+
 
                     </div>
 

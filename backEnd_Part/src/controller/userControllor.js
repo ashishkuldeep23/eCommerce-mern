@@ -3,6 +3,7 @@ const userModel = require("../model/userModel")
 const jwt = require("jsonwebtoken")
 const { transport, sendMailWithNodemailerFormate, makeHtmlMailForVerifyEmail } = require("../../lib/nodemailer")
 const { uploadImageOnCloudinary } = require("../../lib/cloudinary")
+const uuid = require("uuid")
 
 
 //------------------------*** Improtant Regex ***----------------//
@@ -246,6 +247,7 @@ async function getUserData(req, res) {
         profilePic: findUser.profilePic,
         role: findUser.role,
         id: findUser.id,
+        isEmailVerified: findUser.isEmailVerified,
         allImages: findUser.allImages || [],
         orders: userOrders || []
     }
@@ -277,13 +279,20 @@ async function updateUser(req, res) {
 
         // // // Some feature will use user when he/she is verified with mail ---->
 
-        const isEmailVerified = req.isEmailVerified
+        const isEmailVerified = req.tokenUserData.isEmailVerified
 
         const proUserFeatures = ["updateUserName", "userImg", 'makeProfilePic']
 
-        if (!isEmailVerified && proUserFeatures.includes(whatUpadte)) {
+
+        // console.log(isEmailVerified)
+
+        if (proUserFeatures.includes(whatUpadte) && !isEmailVerified) {
             return res.status(400).send({ status: false, message: " Email not Verified. You are not able to use this feature, Because your mail is not verified. First verify your mail id." })
         }
+
+        // if (!proUserFeatures.includes(whatUpadte)) {
+        //     return res.status(400).send({ status: false, message: "Give what you want to update in request.(Developer mistake)" })
+        // }
 
 
         const id = req.tokenUserData.userId
@@ -402,6 +411,17 @@ async function updateUser(req, res) {
         else if (whatUpadte === "updateUserName") {
             const { firstName, lastName } = resBody
 
+
+            let oldFName = req.tokenUserData.firstName
+            let oldLName = req.tokenUserData.lastName
+
+
+            if (firstName === oldFName && lastName === oldLName) {
+                return res.status(400).send({ status: false, message: "Change you name, atleast.(Both first and last names are same as previous.)" })
+            }
+
+
+
             let findUserData = await userModel.findByIdAndUpdate(
                 id,
                 {
@@ -430,50 +450,147 @@ async function updateUser(req, res) {
 }
 
 
+async function verifyMailReq(req, res) {
+    try {
+
+        let email = req.tokenUserData.email
+
+        if (!email) return req.status(400).send({ status: false, message: "LogIn first to verify your mail id." })
+
+
+        let userFoundWithMail = await checkUserPesentWithMail(email)
+
+        // console.log(userFoundWithMail)
+
+        if (!userFoundWithMail) return res.status(404).send({ status: false, message: "No user found with this mail-id" })
+
+
+        if (userFoundWithMail.verifyMailToken) return res.status(400).send({ status: false, message: "Mail id is already verified." })
+
+
+        // // // Useing uuid.v4() fn to create token. This is good to work (bycrpt and JWT is not good to get token from url in frontend).
+        // // // Decide uuid o use.
+
+        const verifyMailToken = uuid.v4()
+
+        // console.log("Token sended ----->", verifyMailToken)
+
+        await userModel.findOneAndUpdate(
+            { email: userFoundWithMail.email },
+            { $set: { verifyMailToken: verifyMailToken, verifyMailTokenExpiree: Date.now() + 3600000 } },
+            { new: true, upsert: true }
+        )
+
+
+        // // // Sending mail proccess --->
+
+        let atIndexInEmail = email.indexOf("@")
+
+        // console.log(atIndexInEmail)
+        // console.log(email.substring(0, atIndexInEmail))
+        // console.log(email.substring(atIndexInEmail + 1))
+
+        let domailName = email.substring(atIndexInEmail + 1)
+        let mailIdName = email.substring(0, atIndexInEmail)
+
+
+        let url = `${process.env.FRONTEND_URL}/verify-mail/${verifyMailToken}/${domailName}/${mailIdName}`
+
+
+        let html = ` <p><a href='${url}'>Click here</a> to verify your mail id. OR copy paste URL in your Browser:- ${url} in-case btn is not working.</p>`
+
+
+        let mailOptions = sendMailWithNodemailerFormate(
+            email,
+            "Verify your mail id, click on given link please.(Link is valid for 1H)",
+            html
+        )
+
+
+        await transport.sendMail(mailOptions, function (err, info) {
+
+            if (err) {
+                console.log(err)
+                return res.status(400).send({ status: false, message: `${JSON.stringify(err)} AND reachout to developer.` })
+            } else {
+                console.log(info.response)
+                // return res.status(200).send({ status: true, message: 'Message sent successfully , Thankyou for sending email , Admin will respond you soon.' })
+
+                // responceObject.message = `${responceObject.message} AND  email sent successfully.`
+            }
+
+        })
+
+
+        res.status(200).send({ status: true, message: "Mail sended sucessfull, check you mail inbox now." })
+
+    }
+    catch (err) {
+        console.log(err.message)
+        return res.status(500).send({ status: false, message: `Error by server (${err.message})` })
+    }
+}
+
 // // // verifyMailController  -------> 
 async function verifyMailController(req, res) {
 
     try {
 
-        // console.log(req.query)
+        // console.log("verify mail logs ", req.query)
 
         const { token, email } = req.query
 
         if (!token || !email) return res.status(400).send({ status: false, message: "Email and token not given in Query." })
 
-        // // Verify token here ---->
-        let verifyToken;
-
-        try {
-            verifyToken = await jwt.verify(token, `${process.env.JWT_SECRET_KEY}`)
-            // console.log(verifyToken)
-        } catch (err) {
-
-            if (err.message === "jwt expired") {
-                return res.status(403).send({ status: false, message: `${err.message}` })
-            }
-
-            return res.status(403).send({ status: false, message: `Go to profile and verify your mail again | ${err.message}` })
-        }
+        let findUser = await userModel.findOne({ email: email })
 
 
-        let findUser = await userModel.findOne({ email: email, verifyMailToken: token })
+        // console.log(findUser)
+
+
 
         if (!findUser) {
             return res.status(400).send({ status: false, message: "No such user found with this Mail id" })
         }
 
-        // res.send("bye bye")
+
+        if (findUser.isEmailVerified) {
+            return res.status(400).send({ status: false, message: "Your mail is already verified." })
+        }
+
+
+
+        if (findUser.verifyMailToken !== token) {
+            return res.status(400).send({ status: false, message: "Token miss match. Check latest mail or send again." })
+        }
+
+
+
+        // console.log(findUser.verifyMailTokenExpiree, Date.now())
+        // console.log(findUser.verifyMailTokenExpiree > Date.now())
+        // console.log(findUser.verifyMailTokenExpiree === Date.now())
+        // console.log(findUser.verifyMailTokenExpiree < Date.now())
+
+        if (findUser.verifyMailTokenExpiree < Date.now()) {
+            return res.status(400).send({ status: false, message: "Your token expired. Generate token again." })
+        }
+
+
+
+
 
         findUser.isEmailVerified = true
         findUser.verifyMailToken = "null"
+        findUser.verifyMailTokenExpiree = Date.now()
 
         await findUser.save()
 
         // res.send(`${process.env.FRONTEND_URL}`)
         // //  If everyThing is good send user to front-end
 
-        res.redirect(`${process.env.FRONTEND_URL}`)
+        console.log("process done----->")
+
+        res.status(200).send({ status: true, message: "You are now verified user😉." })
 
     } catch (err) {
         console.log(err.message)
@@ -483,6 +600,9 @@ async function verifyMailController(req, res) {
 }
 
 
+
+// // // Below fn() used in forgot password --------->
+// // // This fn() is not used with any router directly.
 async function checkUserPesentWithMail(email) {
 
 
@@ -528,16 +648,17 @@ async function forgotReqHandler(req, res) {
         if (!userFoundWithMail) return res.status(404).send({ status: false, message: "No user found with this mail-id" })
 
 
-        const resetPassToken = jwt.sign({ email: email }, process.env.JWT_SECRET_KEY, { expiresIn: '1H' });
+        if (!userFoundWithMail.isEmailVerified) return res.status(404).send({ status: false, message: "Your account is not verified. First verify your mail." })
 
+
+        const resetPassToken = uuid.v4()
         // console.log(resetPassToken)
 
 
         await userModel.findOneAndUpdate(
             { email: userFoundWithMail.email },
-            { $set: { resetPasswordToken: resetPassToken } },
+            { $set: { resetPasswordToken: resetPassToken, resetPasswordTokenExpiree: Date.now() + 3600000 } },
             { new: true, upsert: true }
-
         )
 
 
@@ -546,21 +667,21 @@ async function forgotReqHandler(req, res) {
         // console.log("send mail now --->")
 
 
-        // let findAtInEmail = email.indexOf("@")
-        // let emailUserId = email.slice(0, findAtInEmail)
-        // let emailDomain = email.slice(findAtInEmail + 1)
+        let findAtInEmail = email.indexOf("@")
+        let emailUserId = email.slice(0, findAtInEmail)
+        let emailDomain = email.slice(findAtInEmail + 1)
 
 
-        // let url = `${process.env.FRONTEND_URL}/forgot-pass-main/${resetPassToken}/${emailDomain}/${emailUserId}`
+        let url = `${process.env.FRONTEND_URL}/forgot-pass-main/${resetPassToken}/${emailDomain}/${emailUserId}`
 
-        let url = `${process.env.FRONTEND_URL}/forgot-pass-main/${email}/${resetPassToken}`
+        // let url = `${process.env.FRONTEND_URL}/forgot-pass-main/${email}/${resetPassToken}`
 
-        let html = ` <p><a href='${url}'>Click here</a> to forgot password. OR URL :- ${url} incase btn is not working.</p>`
+        let html = ` <p><a href='${url}'>Click here</a> to forgot password. OR copy paste URL in your Browser :- ${url} in-case btn is not working.</p>`
 
 
         let mailOptions = sendMailWithNodemailerFormate(
             email,
-            "Forgot password, click on given link please.",
+            "Forgot password, click on given link please.(Link is valid for 1H)",
             html
         )
 
@@ -600,20 +721,6 @@ async function forgotMainHandler(req, res) {
 
 
         // // Verify token here ---->
-        let verifyToken;
-
-        try {
-            verifyToken = await jwt.verify(token, `${process.env.JWT_SECRET_KEY}`)
-            // console.log(verifyToken)
-        } catch (err) {
-
-            if (err.message === "jwt expired") {
-                return res.status(403).send({ status: false, message: `Your token is expired now, generate forget token again.` })
-            }
-
-            return res.status(403).send({ status: false, message: `Invalid token check your mail agian | ${err.message}` })
-        }
-
 
 
         let getUser = await userModel.findOne({ email: email, resetPasswordToken: token })
@@ -621,7 +728,19 @@ async function forgotMainHandler(req, res) {
         if (!getUser) return res.status(404).send({ status: false, message: "User not found, check your mail box or again generate forget token again." })
 
 
-        // // Now compare new pass with old pass
+
+        if (getUser.resetPasswordToken !== token) {
+            return res.status(400).send({ status: false, message: "Token miss match. Check latest mail or send again." })
+        }
+
+
+        if (getUser.resetPasswordTokenExpiree < Date.now()) {
+            return res.status(400).send({ status: false, message: "Your token expired. Generate token again." })
+        }
+
+
+
+        // // Now compare new pass with old pass (Becoz not want the same pass again.)
 
         let passCompare = await bcrypt.compare(password, getUser.password)
 
@@ -639,6 +758,7 @@ async function forgotMainHandler(req, res) {
 
         getUser.password = hashPassword
         getUser.resetPasswordToken = "null"
+        getUser.resetPasswordTokenExpiree = Date.now()
 
         await getUser.save()
 
@@ -772,4 +892,4 @@ function userDataByTokenHandler(req, res) {
 
 
 
-module.exports = { creteUserControllor, logInControllor, logOutControl, getUserData, updateUser, verifyMailController, forgotReqHandler, forgotMainHandler, userWithEmail, bugReportHandler, userDataByTokenHandler }
+module.exports = { creteUserControllor, logInControllor, logOutControl, getUserData, updateUser, verifyMailController, forgotReqHandler, forgotMainHandler, userWithEmail, bugReportHandler, userDataByTokenHandler, verifyMailReq }

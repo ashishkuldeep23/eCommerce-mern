@@ -8,7 +8,7 @@ import { toggleModeValue } from '../../Slices/ThemeSlices'
 import { AppDispatch, RootState } from '../../store'
 import { fetchAllCategoryAndHighlight, fetchAllProducts, fetchOneProductByID, setSingleProductData } from '../../Slices/AllProductSlice';
 import { toast } from 'react-toastify';
-import { userState } from '../../Slices/UserSlice';
+import { reqVerifyMail, userState } from '../../Slices/UserSlice';
 import { searchProduct, searchProductState, setKeyText } from '../../Slices/ProductSearchByKey';
 
 
@@ -304,6 +304,8 @@ function MenuOfMobileShowByBTN() {
 // // // {/* Here menu items will visible and show when user click ok icon */ }
 function RightCommonSection() {
 
+    const dispatch = useDispatch<AppDispatch>()
+
     const navigate = useNavigate()
 
     const themeDispatch = useDispatch()
@@ -336,12 +338,26 @@ function RightCommonSection() {
 
     if (getUserState.isLogIn) {
 
-        itemsOfProfileOnHover = [
-            { tab: "Admin Page", to: "/admin" },
-            { tab: "Your Profile", to: "/about" },
-            { tab: "Verify Mail", to: "/" },
-            { tab: "SignOut", to: "#" },
-        ]
+        if (getUserState.userData.isEmailVerified) {
+
+            itemsOfProfileOnHover = [
+                { tab: "Admin Page", to: "/admin" },
+                { tab: "Your Profile", to: "/about" },
+                { tab: "SignOut", to: "#" },
+            ]
+
+        } else {
+
+
+            itemsOfProfileOnHover = [
+                { tab: "Admin Page", to: "/admin" },
+                { tab: "Your Profile", to: "/about" },
+                { tab: "Verify Mail", to: "#" },
+                { tab: "SignOut", to: "#" },
+            ]
+
+        }
+
 
     } else {
 
@@ -396,6 +412,11 @@ function RightCommonSection() {
     }
 
 
+
+
+    function verifyMailHandler() {
+        dispatch(reqVerifyMail())
+    }
 
 
     // useEffect( ()=>{
@@ -489,7 +510,23 @@ function RightCommonSection() {
                                                          ${item.tab === "SignIn" && "text-green-500"}  
                                                          block px-4 py-2 text-md  border-b border-green-300 transition-all
                                                          `}
-                                                        onClick={() => { item.tab === "SignOut" && singOutHandler() }}
+                                                        onClick={() => {
+
+                                                            switch (item.tab) {
+                                                                case "SignOut":
+                                                                    return singOutHandler()
+
+                                                                case "Verify Mail":
+                                                                    return verifyMailHandler()
+
+
+                                                                default:
+                                                                    return;
+                                                            }
+
+                                                            // item.tab === "SignOut"
+                                                            //     && singOutHandler()
+                                                        }}
                                                     >
                                                         {item.tab}
                                                     </Link>

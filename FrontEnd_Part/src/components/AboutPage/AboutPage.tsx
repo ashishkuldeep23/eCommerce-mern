@@ -36,11 +36,10 @@ const AboutPage = () => {
                 className={`${!themeMode ? "bg-white text-gray-900" : "bg-black text-gray-200"} ${hightLightProducts.length <= 0 && "animate-pulse"} p-5`}
             >
 
-                
-                <div className="text-center mt-10 text-3xl">
-                    <p className=" underline">Welcome <span className=" font-bold ">{(getUserData.firstName || "") +" " + (getUserData.lastName || "")} 😊</span></p>
-                </div>
 
+                <div className="text-center mt-10 text-3xl">
+                    <p className=" underline">Welcome <span className=" font-bold ">{(getUserData.firstName || "") + " " + (getUserData.lastName || "")} 😊</span></p>
+                </div>
 
 
                 {/* Details of user div ----------> */}
@@ -52,7 +51,7 @@ const AboutPage = () => {
 
 
                 {/* Review on product div */}
-                <div></div>
+                {/* <div></div> */}
 
 
             </div>

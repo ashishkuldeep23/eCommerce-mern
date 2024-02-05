@@ -113,13 +113,13 @@ passport.use("local", new LocalStrategy(
 
 
 
-
 // // // Code for Google Stratgy ---->
 passport.use("google", new GoogleStrategy({
 
   // // Using in production on my app --->
-  clientID: `${process.env.GOOGLE_CLIENT_ID}`,
-  clientSecret: `${process.env.GOOGLE_CLIENT_SECRET}`,
+
+  clientID: `${process.env.LOCAL === "LOCAL" ? process.env.GOOGLE_CLIENT_ID_LOACL : process.env.GOOGLE_CLIENT_ID}`,
+  clientSecret: `${process.env.LOCAL === "LOCAL" ? process.env.GOOGLE_CLIENT_SECRET_LOCAL : process.env.GOOGLE_CLIENT_SECRET}`,
   callbackURL: `${process.env.BACKEND_URL}/auth/google/callback`,
 
   // // // Credential for laocal --->
@@ -183,7 +183,7 @@ passport.use("google", new GoogleStrategy({
         isEmailVerified: true     // // // Email is verified (when user use login with google)
       }
 
-      userModel = await userModel.create(newUserDataObj)
+      userProfile = await userModel.create(newUserDataObj)
 
     }
 
@@ -196,7 +196,7 @@ passport.use("google", new GoogleStrategy({
 
 
     // // // Below object to check only ------>
-    console.log(userProfile)
+    // console.log(userProfile)
 
 
     // // // Create JWT Token, store UUID id of user inside it.
@@ -253,7 +253,6 @@ passport.deserializeUser(function (user, cb) {
 
 
 let stripekey = `${process.env.STRIPE_KEY}`
-
 
 const stripe = require("stripe")(stripekey);
 

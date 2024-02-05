@@ -44,9 +44,6 @@ const ForgotPassMain = () => {
 
         // dispatch(logInUser({ bodyData: data }))
 
-
-
-
         const bodyObj = {
             password: data.password,
             email: userInfo.email,
@@ -60,13 +57,13 @@ const ForgotPassMain = () => {
 
     }
 
-
     useEffect(() => {
 
         // console.log("BK")
         // console.log(params)
 
-        const { token, email } = params
+        const { token, mailDomain , mailId } = params
+        let email = `${mailId}@${mailDomain}`
 
         if (email && token ) {
 
@@ -79,9 +76,7 @@ const ForgotPassMain = () => {
             alert("Required path params are not given.")
         }
 
-
     }, [])
-
 
     useEffect(()=>{
 

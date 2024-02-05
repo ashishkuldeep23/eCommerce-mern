@@ -139,6 +139,35 @@ export const userSingout = createAsyncThunk("user/singOut", async () => {
 })
 
 
+export const reqVerifyMail = createAsyncThunk("user/reqVerifyMail", async () => {
+
+    // console.log("click ------>")
+
+    const option: RequestInit = {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+            // 'Content-Type': 'application/json',
+            "token": `${gettingTokenInCookieAndLocalHost()}`
+            // 'Accept': 'application/json',
+        }
+    }
+
+
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/verifyMailReq`, option)
+    let data = await response.json();
+    return data
+})
+
+
+export const mainVerifyMail = createAsyncThunk("user/mainVerifyMail", async ({ email, token }: { email: string, token: string }) => {
+
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/verifyMail?email=${email}&token=${token}`)
+    let data = await response.json();
+    return data
+
+})
+
 export const forgotRequest = createAsyncThunk("user/forgotReq", async (email: string) => {
 
 
@@ -246,13 +275,13 @@ export type UserAddressObj = {
 // // // OR (we can do as above or as below)
 
 
-export interface UserOrderOj extends Omit<OrderData , "phone">{
-    phone : string,
-    id : string
-} 
+export interface UserOrderOj extends Omit<OrderData, "phone"> {
+    phone: string,
+    id: string
+}
 
 
-  
+
 
 
 
@@ -273,6 +302,7 @@ export type UserDataForOder = {
         role: string;
         email: string;
         id: string;
+        isEmailVerified: boolean;
         address?: UserAddressObj[];
         orders?: UserOrderOj[];
         allImages?: [];
@@ -297,6 +327,7 @@ const initialState: UserDataForOder = {
         role: "",
         email: "",
         id: "",
+        isEmailVerified: false,
         address: [],
         orders: [],
         allImages: [],
@@ -564,7 +595,7 @@ const userSlice = createSlice({
                     // let role = action.payload.data.role
                     // let email = action.payload.data.email
 
-                    let { id, name, email, profilePic, role, address } = action.payload.data
+                    let { id, name, email, profilePic, role, address, isEmailVerified } = action.payload.data
 
 
 
@@ -582,7 +613,7 @@ const userSlice = createSlice({
 
                     // // // set data in localStorage ------>
 
-                    localStorage.setItem("userData", JSON.stringify({ name, email, profilePic, role, id, address }))
+                    localStorage.setItem("userData", JSON.stringify({ name, email, profilePic, role, id, address, isEmailVerified }))
                     localStorage.setItem("isUserLogIn", JSON.stringify(true))
                 }
 
@@ -778,6 +809,139 @@ const userSlice = createSlice({
                     theme: "dark",
                 });
             })
+
+
+            // // // Verify Email req ----->
+
+            .addCase(reqVerifyMail.pending, (state) => {
+                state.isLoading = true
+                state.isFullFilled = false
+            })
+
+            .addCase(reqVerifyMail.fulfilled, (state, action) => {
+
+                if (action.payload.status === false) {
+
+                    // console.log(action.payload)
+
+                    state.isError = true
+                    state.errMsg = action.payload.message
+
+                    toast.error(`${action.payload.message} | 400`, {
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: false,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                    })
+                } else {
+
+                    toast.success(`${action.payload.message}`, {
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: false,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                    })
+
+                    state.isFullFilled = true
+                    state.errMsg = action.payload.message
+
+
+                }
+
+                state.isLoading = false
+            })
+
+            .addCase(reqVerifyMail.rejected, (newState, action) => {
+                newState.isLoading = false
+                newState.isError = true
+                newState.isFullFilled = false
+                newState.errMsg = action?.error?.message!
+                toast.error(`${action.error.message}`, {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                });
+            })
+
+            
+            // // // Verify mail Main ---->
+            .addCase(mainVerifyMail.pending, (state) => {
+                state.isLoading = true
+                state.isFullFilled = false
+            })
+
+            .addCase(mainVerifyMail.fulfilled, (state, action) => {
+
+                if (action.payload.status === false) {
+
+                    // console.log(action.payload)
+
+                    state.isError = true
+                    state.errMsg = action.payload.message
+
+                    toast.error(`${action.payload.message} | 400`, {
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: false,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                    })
+                } else {
+
+                    toast.success(`${action.payload.message}`, {
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: false,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                    })
+
+                    state.isFullFilled = true
+                    state.errMsg = action.payload.message
+
+
+                }
+
+                state.isLoading = false
+            })
+
+            .addCase(mainVerifyMail.rejected, (newState, action) => {
+                newState.isLoading = false
+                newState.isError = true
+                newState.isFullFilled = false
+                newState.errMsg = action?.error?.message!
+                toast.error(`${action.error.message}`, {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                });
+            })
+
+
 
 
             // // // Forgot req ----->

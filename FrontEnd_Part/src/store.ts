@@ -19,6 +19,7 @@ import searchReducer from  "./Slices/ProductSearchByKey"
 
 import adminReducer from './Slices/AdminSliceFile'
 
+import feedbackSliceReducer from "./Slices/FeedbackSliceFile"
 
 export const store = configureStore({
     reducer: {
@@ -30,7 +31,8 @@ export const store = configureStore({
         modalReducer ,
         orderReducer ,
         searchReducer,
-        adminReducer
+        adminReducer,
+        feedbackSliceReducer
     },
 
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({

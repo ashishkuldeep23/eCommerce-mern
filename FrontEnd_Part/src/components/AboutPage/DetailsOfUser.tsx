@@ -1,6 +1,6 @@
 // import { useSelector } from "react-redux"
 import { useDispatch, useSelector } from "react-redux"
-import { upadteUserData, userState } from "../../Slices/UserSlice"
+import { reqVerifyMail, upadteUserData, userState } from "../../Slices/UserSlice"
 import { AppDispatch, RootState } from "../../store"
 // import { setChildrenModal, setOpenMoadl } from "../../Slices/ModalSlice"
 import UserAddressDiv from "./UserAddressDiv"
@@ -31,6 +31,7 @@ const fromData = new FormData()
 
 const DetailsOfUser = () => {
 
+    const dispatch = useDispatch<AppDispatch>()
 
     // const themeMode = useSelector((store: RootState) => store.themeReducer.mode)
 
@@ -81,6 +82,46 @@ const DetailsOfUser = () => {
                     </div>
 
                 </div>
+
+
+                {/* Note for user to verify mail ---> */}
+                <div className=" flex flex-col items-center">
+
+                    {
+                        !getUserData.isEmailVerified
+                        &&
+
+                        <div className=" bg-rose-200 border flex flex-col items-center m-1 p-2 rounded relative">
+
+                            <span className="bg-rose-200 px-5 rounded-full absolute -top-3 -left-0 ">📌Note</span>
+
+                            <h4 className=" text-xl font-semibold">Please verify your accout by your given email.</h4>
+
+                            <ul className=" flex flex-col items-center mt-3">
+                                <p className=" border-b font-bold border-black">Benefits</p>
+                                <li>You will able to upload images for your profile pic.</li>
+                                <li>You will able to upload change your name.</li>
+                                <li>You will able to use forgot password feature.</li>
+                            </ul>
+
+                            <ol className=" list-decimal flex flex-col items-center mt-3">
+                                <p className=" border-b font-bold border-black">Steps</p>
+                                <li>Click the verify mail button.
+                                    <button
+                                        className=' mx-2 px-3 rounded bg-green-400 font-bold text-white my-2'
+                                        onClick={() => { dispatch(reqVerifyMail()) }}
+                                    >Verify Mail</button>
+                                </li>
+                                <li>Check your mail inbox, you will get a verify mail link.</li>
+                            </ol>
+
+
+                        </div>
+                    }
+
+
+                </div>
+
 
 
                 {

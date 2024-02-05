@@ -11,7 +11,7 @@ const { findAllProducts, getCategoryAndHighlight, findOneProduct, dislikeProduct
 
 const { createNewReview, deleteReview, updateReview, likeReview, dislikeReview } = require("../controller/reviewController")
 
-const { creteUserControllor, logInControllor, logOutControl, getUserData, updateUser, verifyMailController, forgotReqHandler, forgotMainHandler, userWithEmail, bugReportHandler, userDataByTokenHandler } = require("../controller/userControllor")
+const { creteUserControllor, logInControllor, logOutControl, getUserData, updateUser, verifyMailController, forgotReqHandler, forgotMainHandler, userWithEmail, bugReportHandler, userDataByTokenHandler , verifyMailReq } = require("../controller/userControllor")
 
 const { createNewOrder, updateOrder } = require("../controller/orderControllor")
 
@@ -62,9 +62,6 @@ router.get("/findOneProduct/:productId", isAuthorized, findOneProduct)
 
 router.get("/searchProduct", searchProductByKeyowrd)
 
-
-
-
 router.post("/likeProduct", isAuthorized, likeProduct)
 
 router.post("/dislikeProduct", isAuthorized, dislikeProduct)
@@ -95,6 +92,8 @@ router.get("/getUserData", isAuthorized, getUserData)
 router.get("/userSingout", isAuthorized, logOutControl)
 
 router.post("/updateUser", isAuthorized, upload.array("file"), updateUser)
+
+router.post("/verifyMailReq" , isAuthorized , verifyMailReq)      // // // isAuthorised needed becoz logined person can only request to verify his/her mail. 
 
 router.get("/verifyMail", verifyMailController)
 
