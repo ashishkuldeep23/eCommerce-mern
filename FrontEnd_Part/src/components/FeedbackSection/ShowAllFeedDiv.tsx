@@ -23,7 +23,10 @@ function ShowAllFeedDiv() {
 
 
     useEffect(() => {
-        dispatch(getAllFeedbacks())
+        dispatch(getAllFeedbacks());
+
+        // // // To scroll window
+        window.scroll(0, 0)
     }, [])
 
     return (
@@ -37,7 +40,7 @@ function ShowAllFeedDiv() {
 
                 <div
                     ref={parentRef}
-                    className={` flex flex-wrap item-center gap-5  relative z-10 ${allFeedbackArr.length > 5 && " justify-center"}`}
+                    className={` flex flex-wrap item-center items-center gap-5  relative z-10 ${allFeedbackArr.length > 5 && " justify-center"}`}
                 >
 
 
@@ -83,7 +86,7 @@ function SingleFeedBack({ feedback, i, refrance }: { feedback: FeedBackSingle, i
                 // dragElastic={0.1}
                 dragPropagation
 
-                className={` rounded-2xl text-center hover:cursor-grab overflow-hidden border relative border-white bg-emerald-700  ${themeMode ? "text-black" : "text-white"} `}
+                className={` w-3/5 sm:w-auto sm:max-w-[30vw] rounded-2xl text-center hover:cursor-grab overflow-hidden border relative border-white bg-emerald-700  ${themeMode ? "text-black" : "text-white"} `}
             >
                 <p className=" text-center py-2 bg-rose-600"><span className=" font-bold border-b border-black">{feedback.feedbackType}</span></p>
 
@@ -92,7 +95,7 @@ function SingleFeedBack({ feedback, i, refrance }: { feedback: FeedBackSingle, i
                 <div className="py-2 text-slate-300">
 
 
-                    <p className=" text-xl break-words">Name : <span className=" font-semibold">{feedback.feedbackName}</span></p>
+                    <p className=" text-xl break-words" style={{ lineBreak: "anywhere" }}>Name : <span className=" font-semibold">{feedback.feedbackName}</span></p>
                     <p className=" py-2 break-words">Comment : <span className=" font-semibold">{feedback.feedbackMsg}</span></p>
                     <p> Reply : {feedback.reply}</p>
                 </div>
