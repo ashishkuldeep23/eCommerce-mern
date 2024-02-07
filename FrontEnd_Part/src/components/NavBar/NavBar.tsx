@@ -442,28 +442,30 @@ function RightCommonSection() {
 
 
                 {/* Cart btn */}
-                <button
-                    className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 mx-1 hover:scale-125  transition-all"
-                    onClick={() => { navigate("/cart") }}
-                >
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
-                    </svg>
-
-                </button>
-
-
-                {/* Cart items show */}
-                {
-                    (cartData.length > 0)
-                    &&
-                    <span
-                        className={` ${!themeSate ? "bg-indigo-50 text-red-700  hover:bg-slate-200" : " bg-slate-500 text-red-500  hover:bg-slate-400 "} inline-flex items-center rounded-full  px-2 text-x font-bold ring-1 ring-inset ring-indigo-700/10 -ml-5 -mt-7 -mr-2 z-10 hover:text-red-400 hover:cursor-pointer focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 hover:scale-125 hover:z-20 transition-all `}
+                <>
+                    <button
+                        className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 mx-1 hover:scale-125  transition-all"
                         onClick={() => { navigate("/cart") }}
                     >
-                        {cartData.length}
-                    </span>
-                }
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
+                        </svg>
+
+                    </button>
+
+
+                    {/* Cart items show */}
+                    {
+                        (cartData.length > 0)
+                        &&
+                        <span
+                            className={` ${!themeSate ? "bg-indigo-50 text-red-700  hover:bg-slate-200" : " bg-slate-500 text-red-500  hover:bg-slate-400 "} inline-flex items-center rounded-full  px-2 text-x font-bold ring-1 ring-inset ring-indigo-700/10 -ml-5 -mt-7 -mr-2 z-10 hover:text-red-400 hover:cursor-pointer focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 hover:scale-125 hover:z-20 transition-all `}
+                            onClick={() => { navigate("/cart") }}
+                        >
+                            {cartData.length}
+                        </span>
+                    }
+                </>
 
 
                 {/* Profile dropdown */}
@@ -474,6 +476,14 @@ function RightCommonSection() {
                             <span className="absolute -inset-1.5" />
                             <span className="sr-only">Open user menu</span>
                             <img
+
+                                // https://res.cloudinary.com/dlvq8n2ca/image/upload/v1700368567/ej31ylpxtamndu3trqtk.png
+
+                                // // // By this way we can prevent our UI if image link will return nothing.
+                                onError={({ currentTarget }) => {
+                                    currentTarget.onerror = null; // prevents looping
+                                    currentTarget.src = "https://res.cloudinary.com/dlvq8n2ca/image/upload/v1700368567/ej31ylpxtamndu3trqtk.png";
+                                }}
                                 className="h-8 w-8 rounded-full object-cover"
                                 src={getUserState.userData.profilePic}
                                 alt=""

@@ -20,7 +20,7 @@ const OrderConfirm = () => {
 
     const getOrderData = orderState()
 
-    const afterSeconds = 5;
+    const afterSeconds = 3;
 
     const [second, setSecond] = useState<number>(afterSeconds)
 
@@ -77,17 +77,6 @@ const OrderConfirm = () => {
         // dispatch(setClearCartData())
 
 
-
-
-        // // // Timer code -->
-
-        if (second >= 0) {
-            setTimeout(() => {
-                setSecond(second - 1)
-            }, 1000)
-        }
-
-
     }, [])
 
 
@@ -107,15 +96,28 @@ const OrderConfirm = () => {
 
 
 
-    // // // UseEffect for timer -------->
+    // // // UseEffect for timer ( Counter fn() ) -------->
     useEffect(() => {
 
         // // Now got to about to show orders ---> (Or go to Orders page ---->)
         setTimeout(() => {
-            navigate("/orders")
-        }, afterSeconds * 1000)
+
+            if (second <= 1) {
+                navigate("/orders")
+            } else {
+                setSecond(second - 1)
+            }
+
+        }, 1000)
 
     }, [second])
+
+
+
+    // function updateSecond(second : number){
+
+    // }
+
 
 
 
@@ -132,7 +134,11 @@ const OrderConfirm = () => {
                     <i className={`ri-checkbox-circle-fill text-7xl ${themeMode ? "text-green-300" : "text-green-600"}`}></i>
                     <p className=" text-3xl font-bold">Thankyou for ordering with us!</p>
                     <p>Hope you liked the features of web app.</p>
-                    <p>You will redirected to order pae after <span className=" bg-red-500 text-white p-1 rounded-2xl font-bold ">{second}</span> seconds</p>
+                    <p>
+                        You will redirected to order pae after
+                        <span className=" bg-red-500 text-white p-1 rounded-2xl font-bold ">{second}</span>
+                        seconds
+                    </p>
                     <div className="my-2">
 
                         <button className="border  px-1 rounded font-bold mx-1 bg-green-500 text-white hover:bg-green-300" onClick={() => navigate("/orders")}>  View Orders</button>

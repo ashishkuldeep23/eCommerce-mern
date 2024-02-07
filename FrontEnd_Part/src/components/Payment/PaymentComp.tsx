@@ -8,7 +8,7 @@ import UserAddressDiv from "../AboutPage/UserAddressDiv"
 import { UserAddressObj, userState } from "../../Slices/UserSlice"
 import { CardDataInter } from "../../Slices/CartSlice"
 import { checkEmail } from "../AboutPage/DetailsOfUser"
-import { Fragment } from "react"
+import { Fragment, useEffect } from "react"
 import { orderState, setOrderdata } from "../../Slices/OrderSlice"
 import { toast } from "react-toastify"
 import { useNavigate } from 'react-router-dom'
@@ -141,6 +141,15 @@ const PaymentComp = () => {
     }
 
   }
+
+
+
+  useEffect(() => {
+
+    setValue("fullName", `${getUserData.firstName} ${getUserData.lastName}`)
+
+  }, [getUserData])
+
 
 
 
