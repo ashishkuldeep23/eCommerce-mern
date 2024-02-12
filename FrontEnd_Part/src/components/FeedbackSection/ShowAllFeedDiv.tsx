@@ -40,7 +40,7 @@ function ShowAllFeedDiv() {
 
                 <div
                     ref={parentRef}
-                    className={` flex flex-wrap item-center items-center gap-5  relative z-10 ${allFeedbackArr.length > 5 && " justify-center"}`}
+                    className={` flex flex-wrap justify-center items-center gap-5  relative z-10 ${allFeedbackArr.length > 5 && " justify-center"}`}
                 >
 
 
@@ -72,7 +72,6 @@ function SingleFeedBack({ feedback, i, refrance }: { feedback: FeedBackSingle, i
 
     const { allFeedbackArr } = feedbackState()
 
-
     const themeMode = useSelector((state: RootState) => state.themeReducer.mode)
 
 
@@ -86,6 +85,12 @@ function SingleFeedBack({ feedback, i, refrance }: { feedback: FeedBackSingle, i
                 // dragElastic={0.1}
                 dragPropagation
 
+                initial={{opacity : 0 , scale : 0.5}}
+                // animate={{opacity : 1 , scale : 1}}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 1 }}
+
+                
                 className={` w-3/5 sm:w-auto sm:max-w-[30vw] rounded-2xl text-center hover:cursor-grab overflow-hidden border relative border-white bg-emerald-700  ${themeMode ? "text-black" : "text-white"} `}
             >
                 <p className=" text-center py-2 bg-rose-600"><span className=" font-bold border-b border-black">{feedback.feedbackType}</span></p>
@@ -93,8 +98,6 @@ function SingleFeedBack({ feedback, i, refrance }: { feedback: FeedBackSingle, i
                 <span className=" absolute top-1 right-1 border px-1 rounded-full py-0 text-white bg-rose-900 text-sm ">{allFeedbackArr.length - i}</span>
 
                 <div className="py-2 text-slate-300">
-
-
                     <p className=" text-xl break-words" style={{ lineBreak: "anywhere" }}>Name : <span className=" font-semibold">{feedback.feedbackName}</span></p>
                     <p className=" py-2 break-words">Comment : <span className=" font-semibold">{feedback.feedbackMsg}</span></p>
                     <p> Reply : {feedback.reply}</p>
@@ -105,8 +108,6 @@ function SingleFeedBack({ feedback, i, refrance }: { feedback: FeedBackSingle, i
         </>
     )
 }
-
-
 
 
 

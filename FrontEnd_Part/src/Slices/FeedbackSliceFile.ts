@@ -21,8 +21,6 @@ type FeedBackData = {
 }
 
 
-
-
 export const createNewFeedback = createAsyncThunk("feedback/createFeedback", async ({ body }: { body: FeedBackData }) => {
 
     let option: RequestInit = {
@@ -41,15 +39,12 @@ export const createNewFeedback = createAsyncThunk("feedback/createFeedback", asy
 })
 
 
-
-
 export const getAllFeedbacks = createAsyncThunk("feedback/getAllFeedbacks", async () => {
 
     const response = await fetch(`https://feedback-hzwx.onrender.com/getFeedback/ecommerce`)
     let data = await response.json();
     return data
 })
-
 
 
 
@@ -62,14 +57,12 @@ export interface FeedBackSingle {
 }
 
 
-
 interface InitialState {
     allFeedbackArr: FeedBackSingle[],
     isLoading: boolean,
     isError: boolean,
     isFullFilled: boolean
 }
-
 
 
 
