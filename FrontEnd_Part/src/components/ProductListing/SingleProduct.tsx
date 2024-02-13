@@ -48,36 +48,39 @@ const SingleProduct = ({ product, className = '' }: TProductPrope) => {
                     />
                 </div>
 
-                <div className="flex justify-between pt-5  px-2 ">
+                <div className="flex justify-between gap-1 pt-5  px-2 ">
 
-                    <div>
+                    <div className=''>
                         <h3
                             className={` ${!themeMode ? "text-gray-700" : " text-gray-100 "} text-xl capitalize `}
                             id="headingOfProduct"
                         >{product.title}</h3>
                         {/* <h3 className={` ${!themeMode ? "text-gray-700" : " text-gray-100 "}  `}>{product.category}</h3> */}
 
-                        <div className={`flex items-center  ${(product.rating.totalPerson > 0) && "text-yellow-400"} `}>
+
+                        {
+                            product.discountPercentage
+                                ?
+                                <p className={`text-lg font-medium ${!themeMode ? "text-gray-900" : "text-gray-300"} `}> <span className=' text-sm font-thin line-through'>₹{product.price}</span> ₹{(Math.round(product.price - ((product.discountPercentage * product.price) / 100)))}</p>
+
+                                :
+                                <p className={`text-lg font-medium ${!themeMode ? "text-gray-900" : "text-gray-300"} `}> ₹{product.price} </p>
+                        }
+
+                    </div>
+
+
+                    <div className=" flex flex-col items-end justify-center">
+                        {/* <p>{product.discountPercentage}%</p> */}
+                        {/* <p className={`text-lg font-medium ${!themeMode ? "text-gray-900" : "text-gray-300"} `}> Price :</p> */}
+
+                        <div className={`flex items-center px-1 ${(product.rating.totalPerson > 0) && "text-yellow-400"} `}>
 
                             <p className="h-5 w-5">{<StarIcon />}</p>
                             {/* <p>{product.rating.avgRating }</p> */}
                             <p>{product.rating.totalPerson > 0 ? ((product.rating.avgRating / product.rating.totalPerson).toFixed(1)) : 0}</p>
                         </div>
-                    </div>
 
-
-                    <div className="flex flex-col items-end justify-center">
-                        {/* <p>{product.discountPercentage}%</p> */}
-                        {/* <p className={`text-lg font-medium ${!themeMode ? "text-gray-900" : "text-gray-300"} `}> Price :</p> */}
-
-                        {
-                            product.discountPercentage
-                                ?
-                                <p className={`text-lg text-end font-medium ${!themeMode ? "text-gray-900" : "text-gray-300"} `}> <span className=' text-sm font-thin line-through'>₹{product.price}</span> ₹{(Math.round(product.price - ((product.discountPercentage * product.price) / 100)))}</p>
-
-                                :
-                                <p className={`text-lg text-end font-medium ${!themeMode ? "text-gray-900" : "text-gray-300"} `}> ₹{product.price} </p>
-                        }
 
                     </div>
                 </div>

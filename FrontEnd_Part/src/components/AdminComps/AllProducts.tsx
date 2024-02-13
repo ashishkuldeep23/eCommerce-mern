@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch, RootState } from "../../store"
 import { useEffect, useState } from "react"
 // import { adminDataState, getAllProductAdmin, setProductData, setUpdatingProduct, updateProductAdmin } from "../../Slices/AdminSlice"
-import { useNavigate } from "react-router-dom"
+import {  useNavigate } from "react-router-dom"
 import { fetchOneProductByID, setSingleProductData } from "../../Slices/AllProductSlice"
 import { IProduct } from "../ProductListing/ProductLists"
 import { adminDataState, getAllProductAdmin, setProductData, setUpdatingProduct, updateProductAdmin } from "../../Slices/AdminSliceFile.ts"
@@ -72,7 +72,7 @@ function SingleUIData({ product }: { product: IProduct }) {
 
     const dispatch = useDispatch<AppDispatch>()
 
-    const [seeDetails, setSeeDetails] = useState(false)
+    // const [seeDetails, setSeeDetails] = useState(false)
 
 
     type TValueOfOptionBased = "delete" | "live"
@@ -166,12 +166,12 @@ function SingleUIData({ product }: { product: IProduct }) {
                         </div>
 
 
-                        <div className=" mt-2 flex flex-col justify-end items-center">
+                        {/* <div className=" mt-2 flex flex-col justify-end items-center">
                             <button
                                 className=" border px-0.5 rounded"
                                 onClick={(e) => { e.stopPropagation(); setSeeDetails(!seeDetails) }}
                             >  See details</button>
-                        </div>
+                        </div> */}
 
                     </div>
 
@@ -240,7 +240,7 @@ function SingleUIData({ product }: { product: IProduct }) {
                 </div>
 
 
-                <div
+                {/* <div
                     className={` overflow-hidden  `}
                 >
 
@@ -249,12 +249,26 @@ function SingleUIData({ product }: { product: IProduct }) {
                         seeDetails
                         &&
 
-                        <p >Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam, minima recusandae doloribus fuga alias unde quisquam eaque similique non laboriosam numquam. Veniam similique optio tenetur consequatur nisi tempore doloribus labore quod, molestiae placeat officiis hic suscipit dolorem voluptas non quis? Repudiandae, doloribus debitis! Quidem, ullam nemo. Magnam, minus in quibusdam veniam reiciendis impedit rem? Ex aliquid molestiae veritatis modi consequuntur voluptatum delectus commodi? In, modi? Qui facere fuga, assumenda aspernatur voluptatem recusandae blanditiis quam! Dicta repudiandae doloremque nisi hic harum assumenda exercitationem totam id minus, beatae ipsam dolores ab modi deleniti aut repellendus necessitatibus maxime voluptate. Nisi facilis illum commodi.</p>
+                        <div>
+                            
+                            <p>{JSON.stringify( product.id)}</p>
+                            <p>{JSON.stringify( product.title)}</p>
+                            <p>{JSON.stringify( product?.description?.fullName)}</p>
+                            <p>{JSON.stringify( product?.description?.aboutProduct)}</p>
+                            <p>{JSON.stringify( product?.description?.highLights)}</p>
+                            <p>{JSON.stringify( product?.description?.specifications)}</p>
+                            <p>{JSON.stringify( product?.description?.product_Details)}</p>
+                            <p>{JSON.stringify( product?.description?.dimensions)}</p>
+                            <p>{JSON.stringify( product.price)}</p>
+                            <p>{JSON.stringify( product.discountPercentage)}</p>
+                            <p>{JSON.stringify( product.brand)}</p>
+                            <p>{JSON.stringify( product.category)}</p>
 
+                        </div>
 
                     }
 
-                </div>
+                </div> */}
 
 
             </li>

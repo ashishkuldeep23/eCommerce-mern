@@ -2,7 +2,7 @@
 
 // import React from 'react'
 
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch, RootState } from "../../store"
 import { useNavigate } from "react-router-dom"
@@ -145,20 +145,7 @@ const Footer = () => {
             <div className="w-full  lg:w-1/2 flex flex-col transition-all">
 
               {/* Contect logos ---> */}
-              <div className="w-fit  rounded my-6 px-2 py-3 ml-auto  text-center flex flex-col items-center " >
-                <p className="text-xl font-bold border-b  border-green-600 w-fit px-5 ">Connect with me ↓ </p>
-
-                <div className=" flex flex-wrap justify-center">
-                  <a className=" text-4xl mx-2 hover:-translate-y-1.5 hover:text-green-600 active:scale-75 transition-all" href="https://github.com/Ashishkuldeep23" target="__blank" ><i className="ri-github-line"></i></a>
-                  <a className=" text-4xl mx-2 hover:-translate-y-1.5 hover:text-green-600 active:scale-75 transition-all" href="https://www.linkedin.com/in/ashish-kuldeep-09b96018b/" target="__blank" ><i className="ri-linkedin-line"></i></a>
-                  <a className=" text-4xl mx-2 hover:-translate-y-1.5 hover:text-green-600 active:scale-75 transition-all" href="https://twitter.com/web_dev_with_ak" target="__blank" ><i className="ri-twitter-x-line"></i></a>
-                  <a className=" text-4xl mx-2 hover:-translate-y-1.5 hover:text-green-600 active:scale-75 transition-all" href="https://www.youtube.com/@web_dev_with_ak" target="__blank" ><i className="ri-youtube-line"></i></a>
-                  <a className=" text-4xl mx-2 hover:-translate-y-1.5 hover:text-green-600 active:scale-75 transition-all" href="https://www.instagram.com/web_dev_with_ak/" target="__blank" ><i className="ri-instagram-line"></i></a>
-                  <a className=" text-4xl mx-2 hover:-translate-y-1.5 hover:text-green-600 active:scale-75 transition-all" href="https://mail.google.com/mail/u/0/?to=ashishkuldeep6@gmail.com&su=Just_Connect_with_you&body=Hey%20Ashish,%20I%20want%20to%20connect%20with%20you%20via%20What%27s%20App.%20I%27m,%20%3CYOURNAME_HERE%3E%20and%20I%20want%20to%20discuss%20%3CTOPIC_HERE%3E%20,%20Thank%20you.&bcc=ashishkuldeep6@gmail.com&fs=1&tf=cm" target="__blank" ><i className="ri-mail-line"></i></a>
-                </div>
-
-              </div>
-
+              <ContactLogoDiv />
               {/* Feedback section here ----> */}
               <div
                 className=" m-feedback bg-green-300 border border-black rounded my-2 px-2 py-3 mr-7 smm:mr-20 hover:cursor-pointer hover:scale-x-110 transition-all "
@@ -383,5 +370,88 @@ function BugSectionRightSide() {
     </>
   )
 }
+
+
+
+type SocialLinkStructure = { socialName: string, href: string }
+
+function ContactLogoDiv() {
+
+  // // Data for links --------->
+  let socialLinks: SocialLinkStructure[] = [
+    { socialName: "github", href: "https://github.com/Ashishkuldeep23" },
+    { socialName: "linkedin", href: "https://www.linkedin.com/in/ashish-kuldeep-09b96018b/" },
+    { socialName: "twitter-x", href: "https://twitter.com/web_dev_with_ak" },
+    { socialName: "youtube", href: "https://www.youtube.com/@web_dev_with_ak" },
+    { socialName: "instagram", href: "https://www.instagram.com/web_dev_with_ak/" },
+    { socialName: "mail", href: "https://mail.google.com/mail/u/0/?to=ashishkuldeep6@gmail.com&su=Just_Connect_with_you&body=Hey%20Ashish,%20I%20want%20to%20connect%20with%20you%20via%20What%27s%20App.%20I%27m,%20%3CYOURNAME_HERE%3E%20and%20I%20want%20to%20discuss%20%3CTOPIC_HERE%3E%20,%20Thank%20you.&bcc=ashishkuldeep6@gmail.com&fs=1&tf=cm" },
+  ]
+
+
+  return (
+    <>
+      <div className="w-fit  rounded my-6 px-2 py-3 ml-auto  text-center flex flex-col items-center " >
+        <p className="text-xl font-bold border-b  border-green-600 w-fit px-5 ">Connect with me ↓ </p>
+
+        <div className=" flex flex-wrap justify-center">
+          {
+            socialLinks.map((ele, i) => <SingleSocialLink ele={ele} key={i} />)
+          }
+        </div>
+
+      </div>
+    </>
+  )
+}
+
+import { motion } from 'framer-motion'
+
+function SingleSocialLink({ ele }: { ele: SocialLinkStructure }) {
+
+  const ref = useRef<HTMLDivElement>(null)
+
+  const [position, setPosition] = useState({ x: 0, y: 0 })
+
+
+  function mouseMove(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+    
+    setPosition({ x: 5, y: -5 })
+
+    const { clientX, clientY } = e;
+    const { width, height, top, left } = ref?.current?.getBoundingClientRect() as DOMRect
+    const x = clientX - (left + width / 2);
+    const y = clientY - (top + height / 2);
+
+
+    console.log(x , y)
+
+    setPosition({ x: 5, y: 5 })
+  }
+
+
+
+  return (
+    <motion.div
+
+      // ref={ref}
+      animate={{ x: position.x, y: position.y }}
+
+      onMouseMove={(e) => mouseMove(e)}
+
+      onMouseLeave={()=>{setPosition({x : 0 , y : 0})}}
+
+      className=" text-4xl mx-2 hover:-translate-y-1.5 hover:text-green-600 active:scale-75 transition-all"
+
+    >
+      <a
+        href={ele.href}
+        target="__blank"
+      >
+        <i className={`ri-${ele.socialName}-line`}></i>
+      </a>
+    </motion.div>
+  )
+}
+
 
 
