@@ -93,6 +93,10 @@ export interface AdminAllOrders extends OrderData {
 
 
 
+export type GroupedByProductAndSold = {
+    [key: string]: number
+}
+
 
 export type GroupedByData = {
     [key: string]: CardDataInter[]
@@ -112,6 +116,7 @@ type AdminData = {
     },
     groupedByCategoryObj: GroupedByData,
     groupedByBrandObj: GroupedByData,
+    groupedByProductAndSold: GroupedByProductAndSold,
     updatingProduct: boolean,
     newProduct: NewProductInput
 
@@ -130,6 +135,7 @@ const initialState: AdminData = {
     },
     groupedByCategoryObj: {},
     groupedByBrandObj: {},
+    groupedByProductAndSold: {},
     updatingProduct: false,
     newProduct: {
         type: [],
@@ -445,6 +451,9 @@ const adminSlice = createSlice({
                     let groupedByCategoryObj: GroupedByData = {}
                     let groupedByBrandObj: GroupedByData = {}
 
+                    let groupedByProductAndSold: GroupedByProductAndSold = {}
+
+
                     for (let order of getAllOrders) {
 
                         for (let item of order.cartData) {
@@ -470,6 +479,22 @@ const adminSlice = createSlice({
                                 groupedByBrandObj[item.brand].push(item)
                             }
 
+                            // // // grouping by poduct name and sold ---->
+
+                            // console.log(item.quantity)
+
+
+                            if (!groupedByProductAndSold[item.title]) {
+
+                                groupedByProductAndSold[item.title] = item.quantity
+
+                            }
+                            else {
+
+                                groupedByProductAndSold[item.title] += item.quantity
+
+                            }
+
 
                         }
 
@@ -479,10 +504,12 @@ const adminSlice = createSlice({
 
                     // console.log(groupedByBrandObj)
                     // console.log(groupedByBrandObj)
+                    // console.log(groupedByProductAndSold)
 
 
                     state.groupedByCategoryObj = groupedByCategoryObj
                     state.groupedByBrandObj = groupedByBrandObj
+                    state.groupedByProductAndSold = groupedByProductAndSold
 
                 }
             })
@@ -509,9 +536,6 @@ const adminSlice = createSlice({
             .addCase("order/updateOrder/fulfilled", (state, action: PayloadAction<any, never>) => {
 
                 // console.log(action.payload.data)
-
-
-
                 if (action.payload.status) {
 
                     let updatedOrderData = action.payload.data as AdminAllOrders

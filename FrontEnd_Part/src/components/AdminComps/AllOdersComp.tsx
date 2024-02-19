@@ -65,7 +65,6 @@ export const AllOdersComp = () => {
 
                 </div>
 
-
                 <ul role="list" className={`divide-y ${themeMode ? " divide-slate-100 " : "divide-slate-900"} `}>
                     {
 

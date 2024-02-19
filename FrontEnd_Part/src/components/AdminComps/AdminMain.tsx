@@ -11,6 +11,8 @@ import CreateNewProduct from "./CreateProduct"
 import AllProducts from "./AllProducts"
 import { AllOdersComp } from "./AllOdersComp"
 import DataInChartFormate from "./DataInChartFormate"
+import ChartJs2 from "./ChartJs2"
+// import { useEffect } from "react"
 
 const AdminMain = () => {
 
@@ -23,13 +25,35 @@ const AdminMain = () => {
     // console.log(isUserAdmin)
 
 
+    const navigationTabInfo = [
+        { aTagName: "See Create Product", href: "createOrderDiv" },
+        { aTagName: "See All Products", href: "allProductsDiv" },
+        { aTagName: "See All Orders", href: "allOrdersDiv" },
+        { aTagName: "See Charts", href: "OrderDataChartDiv" },
+    ]
+
+
+
+
+    // // // Pure js method used (No any react thing used) ---->
+    function clickScrollHandler(divId: string) {
+
+        let actualDiv = document.querySelector(`#${divId}`)
+
+        // console.log(actualDiv)
+        // console.log(actualDiv?.getBoundingClientRect())
+
+        let top = actualDiv?.getBoundingClientRect().top
+        let lessSrool = 100
+        top && window.scroll(0, (top - lessSrool))
+    }
+
+
 
     // // // If user in not admin then redirect on home page ------>
     if (isLoading && isUserAdmin !== "admin") {
-
         return <Navigate to="/"  ></Navigate>;
     }
-
 
 
     return (
@@ -42,12 +66,28 @@ const AdminMain = () => {
                     <div>
                         <p className=" text-center text-5xl mb-5 underline font-bold">Admin page</p>
 
-                        <div className=" flex flex-col sm:flex-row gap-2 flex-wrap items-center border-x px-1">
+                        <div className=" flex flex-col sm:flex-row gap-2 flex-wrap items-center  px-2 bg-zinc-800 rounded ">
 
-                            <a className="px-2 border-b my-1 text-violet-500" href="#createOrderDiv">See Create Product</a>
-                            <a className="px-2 border-b my-1 text-violet-500" href="#allProductsDiv">See All Products</a>
-                            <a className="px-2 border-b my-1 text-violet-500" href="#allOrdersDiv">See All Orders</a>
-                            <a className="px-2 border-b my-1 text-violet-500" href="#OrderDataChartDiv">See OrderChart</a>
+
+                            {
+                                navigationTabInfo.map((ele, i) => {
+
+                                    return (
+                                        <a
+                                            key={i}
+                                            className="px-2 border-b my-1 text-violet-500 hover:border-b-violet-300 hover:text-violet-300"
+                                            // href={`#${ele.href}`}
+
+                                            onClick={() => { clickScrollHandler(ele.href) }}
+
+                                        >{ele.aTagName}</a>
+                                    )
+
+                                })
+                            }
+
+
+
                         </div>
 
                     </div>
@@ -64,10 +104,13 @@ const AdminMain = () => {
                     {/* Simple chart to show all order (Improve letar) */}
                     <DataInChartFormate />
 
+                    {/* chat package ---> */}
+                    <ChartJs2 />
+
 
                     {/* <div> */}
                     <button
-                        className=" text-sm capitalize px-4 border border-gray-400 rounded-full ml-auto mr-1"
+                        className=" bg-zinc-900 fixed bottom-5 right-5 md:bottom-10 md:right-10 text-sm capitalize px-4 border border-gray-400 rounded-full ml-auto mr-1"
                         onClick={() => { window.scroll(0, 0) }}
                     >Goto🔝</button>
                     {/* </div> */}
