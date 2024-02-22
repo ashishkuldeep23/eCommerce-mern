@@ -16,20 +16,34 @@ import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../store';
 
 
-
-
-
 import Chart from "chart.js/auto";
-import { CategoryScale, Colors } from "chart.js";
+import { CategoryScale, Colors, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js";
 
 
-Chart.register(CategoryScale);
+// Chart.register(CategoryScale);
+
+
+
+Chart.register(
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend
+);
+
+
 
 Chart.register(Colors);
 
 
 
-type FormatedDataOfProduct = { productName: string, sold: number, id: number }[]
+type FormatedDataOfProduct = {
+    id: number
+    productName: string,
+    sold: number,
+}[]
 
 
 type CartType = "Bar" | "Pie" | "PolarArea" | 'Doughnut'
@@ -45,23 +59,20 @@ const ChartJs2 = () => {
 
     const [formatedDataOfProduct, setFormatedDataOfProduct] = useState<FormatedDataOfProduct>([])
 
-
-    const [cartType, setCartType] = useState<CartType>("Bar")
-
-
     const [productBy, setProductBy] = useState("By Product")
-
 
     const arrOfProductBy = ["By Product", 'By Categoy', 'By Brand']
 
+    const [cartType, setCartType] = useState<CartType>("Pie")
 
-    const arrOfchartTypes = ["Bar", "Pie", "PolarArea", 'Doughnut']
+    const arrOfchartTypes = ["Pie", "Bar", "PolarArea", 'Doughnut']
+
+
 
 
 
     function formateByProductInitData() {
         if (Object.keys(groupedByProductAndSold).length > 0) {
-
 
             let arr = Object.keys(groupedByProductAndSold).map((key, i) => {
                 return { productName: key, sold: groupedByProductAndSold[key], id: i + 1 }
@@ -103,15 +114,11 @@ const ChartJs2 = () => {
 
     }, [productBy])
 
-
-
-
     useEffect(() => {
 
         formateByProductInitData()
 
     }, [groupedByProductAndSold])
-
 
     useEffect(() => {
 
@@ -145,7 +152,7 @@ const ChartJs2 = () => {
                         <select
 
                             id="product_By_select"
-
+                            value={productBy}
                             onChange={(e) => { setProductBy(e.target.value) }}
                             className=' bg-black text-white rounded-xl font-bold'
                         >
@@ -166,7 +173,7 @@ const ChartJs2 = () => {
                         <select
 
                             id="chart_type_select"
-
+                            value={cartType}
                             onChange={(e) => { setCartType(e.target.value as CartType) }}
                             className=' bg-black text-white rounded-xl font-bold'
                         >
@@ -218,8 +225,7 @@ function MainChart({ Data, cartType }: { Data: FormatedDataOfProduct, cartType: 
 
     const headingText = 'Sold products till now'
 
-
-    const BgColorsForChart = [
+    const darkBgColorsForChart = [
         '#DA0C81',
         '#4477CE',
         '#03C988',
@@ -232,25 +238,34 @@ function MainChart({ Data, cartType }: { Data: FormatedDataOfProduct, cartType: 
         '#F1EBBB',
     ]
 
-
     let initialData = {
         labels: ["65", "59", "80", "81", "56", "55", "40"],
         datasets: [{
             label: 'My First Dataset',
             data: [65, 59, 80, 81, 56, 55, 40],
-            backgroundColor: BgColorsForChart,
+            backgroundColor: darkBgColorsForChart,
             // color: "#666",
             borderColor: "rgba(0, 0, 0, 0.1)",
             borderWidth: 2,
-            borderRadius : 10
+            borderRadius: 10
         }]
     };
 
     const [chartData, setChartData] = useState<ChartData>(initialData);
 
 
+    const [headingWithDateT, setHeadingWithDateT] = useState(`${headingText}`)
+
 
     useEffect(() => {
+
+
+        // // // uPDATE date --->
+        let date = new Date()
+        // let todayTime = date.toTimeString()
+        let todayDate = date.toDateString()
+        setHeadingWithDateT(`${headingText} (${todayDate})`)
+
 
         if (Data.length > 0) {
 
@@ -263,13 +278,13 @@ function MainChart({ Data, cartType }: { Data: FormatedDataOfProduct, cartType: 
                 datasets: [{
                     label: 'Sold',
                     data: purchasedArr,
-                    backgroundColor: BgColorsForChart,
-                    
+                    backgroundColor: darkBgColorsForChart,
+
                     borderColor: "#666",
                     borderWidth: 2,
 
                     borderRadius: 20,
-                   
+
 
                 }]
             })
@@ -284,79 +299,60 @@ function MainChart({ Data, cartType }: { Data: FormatedDataOfProduct, cartType: 
 
         <>
 
-
+            {/* Actual code for charts ----> */}
             {
-
-
-                cartType === "Bar"
+                cartType === "Pie"
                     ?
                     <div className="chart-container my-10  smm:h-[70vh] w-[100vw] sm:w-[70vw]  flex flex-col justify-center items-center">
                         <h2 className=' border-b' style={{ textAlign: "center" }}>{cartType} Chart</h2>
-                        <Bar
+
+                        <Pie
                             // className="h-[40vh]"
 
                             data={chartData}
 
 
                             options={{
-
-                                scales: {
-                                    y: {
-                                        beginAtZero: true
-                                    }
-                                },
                                 plugins: {
                                     title: {
                                         display: true,
-                                        text: headingText
-                                    },
-                                    legend: {
-                                        display: false,
-
-                                    },
-                                    colors: {
-                                        enabled: false
+                                        text: headingWithDateT
                                     }
                                 }
                             }}
+
                         />
                     </div>
+
                     :
 
-                    cartType === "Pie"
+                    cartType === "Bar"
                         ?
                         <div className="chart-container my-10  smm:h-[70vh] w-[100vw] sm:w-[70vw]  flex flex-col justify-center items-center">
                             <h2 className=' border-b' style={{ textAlign: "center" }}>{cartType} Chart</h2>
-
-                            <Pie
+                            <Bar
                                 // className="h-[40vh]"
 
                                 data={chartData}
-                                options={{
 
-                                    scales: {
-                                        y: {
-                                            beginAtZero: true
-                                        }
-                                    },
+
+                                options={{
                                     plugins: {
                                         title: {
                                             display: true,
-                                            text: headingText
-                                        },
-                                        legend: {
-                                            display: false
-                                        },
-                                        colors: {
-                                            enabled: false
-                                        },
-
+                                            text: headingWithDateT
+                                        }
                                     }
                                 }}
+
+
+
+
                             />
                         </div>
-
                         :
+
+
                         cartType === "PolarArea"
                             ?
 
@@ -366,26 +362,16 @@ function MainChart({ Data, cartType }: { Data: FormatedDataOfProduct, cartType: 
                                     // className="h-[40vh]"
 
                                     data={chartData}
-                                    options={{
 
-                                        scales: {
-                                            y: {
-                                                beginAtZero: true
-                                            }
-                                        },
+                                    options={{
                                         plugins: {
                                             title: {
                                                 display: true,
-                                                text: headingText
-                                            },
-                                            legend: {
-                                                display: false
-                                            },
-                                            colors: {
-                                                enabled: false
+                                                text: headingWithDateT
                                             }
                                         }
                                     }}
+
                                 />
                             </div>
 
@@ -397,26 +383,16 @@ function MainChart({ Data, cartType }: { Data: FormatedDataOfProduct, cartType: 
                                     // className="h-[40vh]"
 
                                     data={chartData}
-                                    options={{
 
-                                        scales: {
-                                            y: {
-                                                beginAtZero: true
-                                            }
-                                        },
+                                    options={{
                                         plugins: {
                                             title: {
                                                 display: true,
-                                                text: headingText
-                                            },
-                                            legend: {
-                                                display: false
-                                            },
-                                            colors: {
-                                                enabled: false
+                                                text: headingWithDateT
                                             }
                                         }
                                     }}
+
                                 />
                             </div>
 

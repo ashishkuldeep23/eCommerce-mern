@@ -135,6 +135,7 @@ const router = createBrowserRouter([
 
 function App() {
 
+
   const dispatch = useDispatch<AppDispatch>()
 
   // const allHighlightsData = useSelector((state: RootState) => state.allProductWithCatReducer.allHighlightProducts)
@@ -147,7 +148,6 @@ function App() {
 
 
   // // // This fn will call Backend to get data ------>
-
   useEffect(() => {
 
 
@@ -235,6 +235,12 @@ function App() {
     // dispatch(setChildrenModal(<>Ashish</>))
 
   }, [])
+
+
+  // // // If user is admin then navigate to adim page for fisrt time ----->
+
+
+
 
 
   return (
