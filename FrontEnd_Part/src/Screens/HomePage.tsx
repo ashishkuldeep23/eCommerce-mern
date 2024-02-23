@@ -43,7 +43,7 @@ const HomePage = () => {
 
         setTimeout(() => {
 
-          console.log(true)
+          // console.log(true)
 
           firstTimeAdminNavi = true
 

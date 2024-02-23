@@ -63,34 +63,35 @@ const AdminMain = () => {
 
                 <div className="lg:max-w-7xl lg:px-8 md:px-4 sm:px-6 mx-auto py-10 px-1.5 flex flex-col justify-center items-center ">
 
-                    <div>
-                        <p className=" text-center text-5xl mb-5 underline font-bold">Admin page</p>
-
-                        <div className=" flex flex-col sm:flex-row gap-2 flex-wrap items-center  px-2 bg-zinc-800 rounded ">
+                    <p className=" text-center text-5xl mb-5 underline font-bold">Admin page</p>
 
 
-                            {
-                                navigationTabInfo.map((ele, i) => {
-
-                                    return (
-                                        <a
-                                            key={i}
-                                            className="px-2 border-b my-1 text-violet-500 hover:border-b-violet-300 hover:text-violet-300"
-                                            // href={`#${ele.href}`}
-
-                                            onClick={() => { clickScrollHandler(ele.href) }}
-
-                                        >{ele.aTagName}</a>
-                                    )
-
-                                })
-                            }
+                    <div className=" sticky z-[10]  -top-24 sm:top-6 lg:top-12 hover:top-12 hover:sm:top-12 hover:lg:top-16  bg-green-400 text-white font-semibold flex flex-col sm:flex-row gap-2 flex-wrap items-center  px-2 rounded transition-all ">
 
 
+                        {
+                            navigationTabInfo.map((ele, i) => {
 
-                        </div>
+                                return (
+                                    <a
+                                        key={i}
+                                        className="px-2 border-b my-1 hover:border-b-violet-800 hover:text-violet-800 transition-all"
+                                        // href={`#${ele.href}`}
+
+                                        onClick={() => { clickScrollHandler(ele.href) }}
+                                    >{ele.aTagName}</a>
+                                )
+
+                            })
+                        }
+
+
 
                     </div>
+
+
+
+
 
                     {/* Create new product */}
                     <CreateNewProduct />
