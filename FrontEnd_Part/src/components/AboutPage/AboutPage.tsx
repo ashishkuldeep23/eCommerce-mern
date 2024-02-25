@@ -9,6 +9,7 @@ import { RootState } from "../../store"
 import DetailsOfUser from "./DetailsOfUser"
 import OrderOfUser from "./OrderOfUser"
 import { userState } from "../../Slices/UserSlice"
+import WishList from "./WishList"
 
 
 
@@ -44,6 +45,9 @@ const AboutPage = () => {
 
                 {/* Details of user div ----------> */}
                 <DetailsOfUser />
+
+
+                <WishList />
 
 
                 {/* Order Div ---------> */}

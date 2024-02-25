@@ -5,6 +5,7 @@ import { toast } from "react-toastify"
 import { RootState } from "../store";
 import { gettingTokenInCookieAndLocalHost } from "../App";
 import { OrderData } from "../components/Payment/PaymentComp";
+import { IProduct } from "../components/ProductListing/ProductLists";
 
 
 
@@ -248,6 +249,30 @@ export const getUserDataWithToken = createAsyncThunk("user/verifyToken", async (
 
 
 
+
+
+export const addOrRemoveWishList = createAsyncThunk("user/wishList", async (
+    body: { productId: string }
+) => {
+
+    let option: RequestInit = {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+            "token": `${gettingTokenInCookieAndLocalHost()}`,
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body)
+
+    }
+
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/addOrRemoveWishList`, option)
+    let data = await response.json();
+    return data
+})
+
+
+
 export type UserAddressObj = {
     id: string;
     city: string,
@@ -281,11 +306,6 @@ export interface UserOrderOj extends Omit<OrderData, "phone"> {
 }
 
 
-
-
-
-
-
 export type UserDataForOder = {
     isLoading: boolean;
     isError: boolean;
@@ -306,9 +326,11 @@ export type UserDataForOder = {
         address?: UserAddressObj[];
         orders?: UserOrderOj[];
         allImages?: [];
+        wishList?: IProduct[];
+        wishListIdsArr?: string[]
+
     }
 }
-
 
 
 const initialState: UserDataForOder = {
@@ -331,9 +353,10 @@ const initialState: UserDataForOder = {
         address: [],
         orders: [],
         allImages: [],
+        wishList: [],
+        wishListIdsArr: []
     }
 }
-
 
 
 const userSlice = createSlice({
@@ -607,8 +630,24 @@ const userSlice = createSlice({
                     // state.userData.role = role
                     // state.userData.id = id
 
+                    // console.log(action.payload.data)
+
 
                     state.userData = action.payload.data
+
+
+                    // // // update arr of wishlist ids data -------->
+
+                    if (action.payload.data.wishList && action.payload.data.wishList.length > 0) {
+
+                        let arr = action.payload.data.wishList.map((ele: any) => ele.id)
+
+                        // console.log(arr)
+
+                        state.userData.wishListIdsArr = arr
+
+                    }
+
 
 
                     // // // set data in localStorage ------>
@@ -876,7 +915,7 @@ const userSlice = createSlice({
                 });
             })
 
-            
+
             // // // Verify mail Main ---->
             .addCase(mainVerifyMail.pending, (state) => {
                 state.isLoading = true
@@ -1331,6 +1370,89 @@ const userSlice = createSlice({
                 state.isError = true
             })
 
+
+            // // // Add or Remove wishlist from user data ----->
+
+            .addCase(addOrRemoveWishList.pending, (state) => {
+                state.isLoading = true
+                state.isFullFilled = false
+            })
+
+            .addCase(addOrRemoveWishList.fulfilled, (state, action) => {
+
+                if (action.payload.status === false) {
+
+                    state.isError = true
+                    state.errMsg = action.payload.message
+
+                    toast.error(`${action.payload.message} | 400`, {
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: false,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                    })
+                } else {
+
+
+                    // console.log(action.payload.data)
+
+                    state.userData.wishList = action.payload.data.wishList || []
+
+                    toast.success(`${action.payload.message}`, {
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: false,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                    })
+
+                    state.isFullFilled = true
+
+
+                    // // // upadated wish list arr --->
+                    if (action.payload.data.wishList && action.payload.data.wishList.length > 0) {
+
+                        let arr = action.payload.data.wishList.map((ele: any) => ele.id)
+
+                        // console.log(arr)
+                        state.userData.wishListIdsArr = arr
+                    }
+
+                    if(action.payload.data.wishList && action.payload.data.wishList.length === 0){
+                        state.userData.wishListIdsArr = []
+                    }
+
+                }
+
+                state.isLoading = false
+
+
+            })
+
+            .addCase(addOrRemoveWishList.rejected, (state, action) => {
+
+                state.isLoading = false
+                state.isError = true
+                state.isFullFilled = false
+                state.errMsg = action?.error?.message!
+                toast.error(`${action.error.message}`, {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                });
+            })
 
 
 

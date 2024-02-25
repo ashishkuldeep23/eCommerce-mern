@@ -7,20 +7,27 @@ import { fetchOneProductByID } from '../../Slices/AllProductSlice'
 import { IProduct } from "./ProductLists"
 import { AppDispatch, RootState } from "../../store"
 import { useNavigate } from 'react-router-dom'
+import { addOrRemoveWishList } from '../../Slices/UserSlice'
 
 
 type TProductPrope = {
     product: IProduct,
-    className?: string
+    className?: string,
+    forWishList?: boolean
 }
 
 
-const SingleProduct = ({ product, className = '' }: TProductPrope) => {
+const SingleProduct = ({ product, className = '', forWishList = false }: TProductPrope) => {
 
 
     const themeMode = useSelector((store: RootState) => store.themeReducer.mode)
     const dispatch = useDispatch<AppDispatch>()
     const navigate = useNavigate()
+
+    function wishListProductRemoveHandler(e: React.MouseEvent<HTMLSpanElement, MouseEvent>) {
+        e.stopPropagation()
+        dispatch(addOrRemoveWishList({ productId: product.id.toString() }))
+    }
 
     return (
         <>
@@ -29,7 +36,7 @@ const SingleProduct = ({ product, className = '' }: TProductPrope) => {
             <a
                 key={product.id}
                 // href={"/product"}
-                className={` ${className} ${!themeMode ? "border-slate-300" : " border-slate-600 "} border rounded-lg min-h-52 h-auto  w-72  mb-5  mx-2 hover:cursor-pointer  cursor-pointer`}
+                className={` ${className} ${!themeMode ? "border-slate-300" : " border-slate-600 "} border rounded-lg min-h-52 h-auto  w-72  mb-5  mx-2 hover:cursor-pointer  cursor-pointer relative overflow-hidden`}
                 onClick={(e) => {
                     e.stopPropagation();
                     navigate(`/product/${product.id}`);
@@ -40,6 +47,16 @@ const SingleProduct = ({ product, className = '' }: TProductPrope) => {
                 }}
                 id='singleCardHolder'
             >
+                {
+                    forWishList
+                    &&
+                    <span
+                        className=' absolute right-0 top-0 bg-red-500 z-10 px-3 rounded'
+                        onClick={(e) => { wishListProductRemoveHandler(e) }}
+                    >X</span>
+                }
+
+
                 <div className=" rounded-lg overflow-hidden">
                     <img
                         src={product.thumbnail}

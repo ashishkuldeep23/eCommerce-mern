@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom'
 import { dislikeProduct, fetchOneProductByID, likeProduct } from '../../Slices/AllProductSlice'
 import ReviewDivBoth from './ReviewDivBoth'
 import { setChildrenModal, setOpenMoadl } from '../../Slices/ModalSlice'
-import { userState } from '../../Slices/UserSlice'
+import { addOrRemoveWishList, userState } from '../../Slices/UserSlice'
 import { LikeBtnDoubleClick } from './LikeBtnDoubleClick'
 import { useParams } from 'react-router-dom';
 import { setProductData, setUpdatingProduct } from '../../Slices/AdminSliceFile'
@@ -239,6 +239,21 @@ export default function ProductDetails() {
 
 
 
+    // // // Add to wish list handler
+    function addOrRemovetoWishListHandler(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+
+        event.stopPropagation()
+
+        // console.log(singleProductData)
+        // console.log(singleProductData.id)
+        // alert("Done")
+
+        dispatch(addOrRemoveWishList({ productId: `${singleProductData.id}` }))
+
+
+    }
+
+
     // const mainDivRef = useRef<HTMLDivElement>(null)  // // Generics should given outerwise it will give err.
     // // // Type is imprtant of useRef ----> (Above will remove null error)
 
@@ -296,7 +311,6 @@ export default function ProductDetails() {
 
         <>
 
-
             <div
                 className={`${!themeMode ? "bg-white text-gray-700" : "bg-black text-gray-100"} w-full relative`}
 
@@ -317,8 +331,6 @@ export default function ProductDetails() {
                         <span className=' font-semibold'>Edit</span> <i className="ri-pencil-line"></i>
                     </span>
                 }
-
-
 
 
                 <div className="mx-auto max-w-full  lg:max-w-allAk px-1  lg:px-8">
@@ -402,6 +414,7 @@ export default function ProductDetails() {
                             </div>
 
                             {/* About and Option div of product */}
+                            {/* Add to cart and add to wishlist btns present ---------> */}
                             <div className="mt-4 lg:row-span-3 flex flex-col justify-center lg:w-2/5 lg:ml-5 lg:mt-10">
                                 <h2 className="sr-only">Product information</h2>
 
@@ -540,18 +553,40 @@ export default function ProductDetails() {
 
                                     </div>
 
-
-                                    <div>
-
-                                    </div>
-
-
+                                    {/* Add to cart */}
                                     <button
                                         type="submit"
                                         className="mt-10 flex w-full items-center justify-center rounded-lg border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2  lg:w-3/4"
                                         onClick={(e) => { e.preventDefault(); e.stopPropagation(); addToCartHandler(e) }}
                                     >
                                         Add to Cart
+                                    </button>
+
+
+                                    {/* Add to wishlist */}
+                                    <button
+                                        type="submit"
+                                        className={`mt-4 flex w-full items-center justify-center rounded-lg border-2  px-8 py-3 text-base font-medium text-white focus:outline-none focus:ring-2  focus:ring-offset-2  lg:w-3/4
+
+                                         ${(userData.wishListIdsArr && userData.wishListIdsArr.length > 0 && userData?.wishListIdsArr?.includes(singleProductData.id.toString()))
+                                                ? 'border-red-600 focus:ring-red-500 hover:border-red-700'
+                                                : 'border-indigo-600 focus:ring-indigo-500 hover:border-indigo-700'
+                                            }
+                                    
+                                        `}
+                                        onClick={(e) => { e.preventDefault(); e.stopPropagation(); addOrRemovetoWishListHandler(e) }}
+                                    >
+                                        {
+                                            (userData.wishListIdsArr && userData.wishListIdsArr.length > 0 && userData?.wishListIdsArr?.includes(singleProductData.id.toString()))
+                                                ?
+                                                <span className=' mr-[0.3rem]'>-Remove from</span>
+
+                                                :
+                                                <span className=' mr-[0.3rem]'>+Add to</span>
+
+
+                                        }
+                                        <span> Wish List</span>
                                     </button>
 
                                 </div>

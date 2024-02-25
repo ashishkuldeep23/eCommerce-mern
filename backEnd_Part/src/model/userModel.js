@@ -1,4 +1,4 @@
-
+ 
 const mongoose = require("mongoose")
 const uuid = require("uuid")
 
@@ -39,6 +39,12 @@ const userSchema = new mongoose.Schema({
     orders: {
         type: [mongoose.Schema.Types.ObjectId] ,
         ref: "order"
+    },
+
+    wishList: {
+        type: [mongoose.Schema.Types.ObjectId] ,
+        ref: "product",
+        default : []
     },
 
     isEmailVerified: { type: Boolean, default: false },

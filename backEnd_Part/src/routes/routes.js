@@ -11,7 +11,7 @@ const { findAllProducts, getCategoryAndHighlight, findOneProduct, dislikeProduct
 
 const { createNewReview, deleteReview, updateReview, likeReview, dislikeReview } = require("../controller/reviewController")
 
-const { creteUserControllor, logInControllor, logOutControl, getUserData, updateUser, verifyMailController, forgotReqHandler, forgotMainHandler, userWithEmail, bugReportHandler, userDataByTokenHandler , verifyMailReq } = require("../controller/userControllor")
+const { creteUserControllor, logInControllor, logOutControl, getUserData, updateUser, verifyMailController, forgotReqHandler, forgotMainHandler, userWithEmail, bugReportHandler, userDataByTokenHandler , verifyMailReq , addOrRemoveWishList } = require("../controller/userControllor")
 
 const { createNewOrder, updateOrder } = require("../controller/orderControllor")
 
@@ -108,6 +108,9 @@ router.post("/bugReport", bugReportHandler)
 // // // Below api used to get data with given token
 router.get("/userDataByToken", isAuthorized, userDataByTokenHandler)
 
+// // // Add and remove wishlist api --->
+
+router.post("/addOrRemoveWishList", isAuthorized , addOrRemoveWishList)
 
 
 

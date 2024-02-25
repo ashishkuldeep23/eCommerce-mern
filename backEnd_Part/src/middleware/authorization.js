@@ -68,9 +68,7 @@ exports.isAuthorized = async function (req, res, next) {
                 return res.status(401).send({ status: false, message: "Data in token is bad or inomplete)" })
             }
 
-
             // console.log(findUser)
-
 
             // // Set user data in req -------->
 

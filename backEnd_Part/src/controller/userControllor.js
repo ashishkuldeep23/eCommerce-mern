@@ -222,7 +222,16 @@ async function getUserData(req, res) {
     // console.log(req.tokenUserData)
 
     const id = req.tokenUserData.userId
-    let findUser = await userModel.findById(id).populate({ path: "orders", select: "-_id -createdAt -updatedAt -__v", sort: "1" })
+    let findUser = await userModel.findById(id)
+        .populate({
+            path: "orders",
+            select: "-_id -createdAt -updatedAt -__v",
+            sort: "1"
+        })
+        .populate({
+            path: "wishList",   // // // Here we should give the feild name of data ----->
+            select: "-_id -createdAt -updatedAt -__v",
+        })
 
     // console.log(findUser)
 
@@ -249,7 +258,8 @@ async function getUserData(req, res) {
         id: findUser.id,
         isEmailVerified: findUser.isEmailVerified,
         allImages: findUser.allImages || [],
-        orders: userOrders || []
+        orders: userOrders || [],
+        wishList : findUser.wishList || []
     }
 
 
@@ -891,5 +901,93 @@ function userDataByTokenHandler(req, res) {
 }
 
 
+const productModel = require("../model/productModel")
 
-module.exports = { creteUserControllor, logInControllor, logOutControl, getUserData, updateUser, verifyMailController, forgotReqHandler, forgotMainHandler, userWithEmail, bugReportHandler, userDataByTokenHandler, verifyMailReq }
+
+async function addOrRemoveWishList(req, res) {
+    try {
+
+        // console.log(req.body)
+        // console.log(req.tokenUserData)
+
+
+        const productId = req.body.productId
+
+        if (!productId) {
+            return res.status(400).send({ status: false, message: "Product id is not given." })
+        }
+        if (!uuid.validate(productId)) {
+            return res.status(400).send({ status: false, message: "Product id is not valid." })
+        }
+
+        // console.log(uuid.validate(productId))
+
+
+        const productDataById = await productModel.findOne({ id: productId })
+
+        // console.log(productDataById)
+
+
+        const userData = await userModel.findById(req.tokenUserData.id)
+
+
+        let msgToUser = ''
+
+
+        if (!userData.wishList || userData.wishList.length === 0) {
+            userData.wishList = [productDataById._id]
+            msgToUser = "First Item add in your wishlist.✅"
+        } else {
+
+
+            // console.log(userData.wishList)
+            // console.log(productDataById._id)
+            // console.log(productDataById._id.toString())
+            // console.log(userData.wishList.includes(productDataById._id.toString()))
+
+
+            let indexOfWishList = userData.wishList.indexOf(productDataById._id.toString())
+
+
+            if (indexOfWishList !== -1) {
+
+                // console.log("Main Logic for remove ---->")
+
+                userData.wishList.splice(indexOfWishList, 1)
+                msgToUser = "One Item removed from you wishlist.❌"
+
+            } else {
+                userData.wishList.unshift(productDataById._id)
+                msgToUser = "One more Item add in your wishlist.✅"
+            }
+        }
+
+
+        let updatedUserData = await userData.save()
+
+        // console.log(updatedUserData)
+
+
+        // // // Updated User data ---->
+        const sendUserData = await userModel.findById(updatedUserData._id)
+            .populate({
+                path: "wishList",   // // // Here we should give the feild name of data ----->
+                select: "-_id -createdAt -updatedAt -__v",
+            })
+
+        // console.log(sendUserData)
+
+
+
+        return res.status(200).send({ status: true, message: `${msgToUser || "✅ Add to your wishlist."}`, data: sendUserData })
+
+    }
+    catch (err) {
+        console.log(err.message)
+        return res.status(500).send({ status: false, message: `Error by server (${err.message})` })
+    }
+}
+
+
+
+module.exports = { creteUserControllor, logInControllor, logOutControl, getUserData, updateUser, verifyMailController, forgotReqHandler, forgotMainHandler, userWithEmail, bugReportHandler, userDataByTokenHandler, verifyMailReq, addOrRemoveWishList }
