@@ -9,11 +9,12 @@ import SingleProduct from '../ProductListing/SingleProduct'
 import { useNavigate } from 'react-router-dom'
 import { dislikeProduct, fetchOneProductByID, likeProduct } from '../../Slices/AllProductSlice'
 import ReviewDivBoth from './ReviewDivBoth'
-import { setChildrenModal, setOpenMoadl } from '../../Slices/ModalSlice'
+// import { setChildrenModal, setOpenMoadl } from '../../Slices/ModalSlice'
 import { addOrRemoveWishList, userState } from '../../Slices/UserSlice'
 import { LikeBtnDoubleClick } from './LikeBtnDoubleClick'
 import { useParams } from 'react-router-dom';
 import { setProductData, setUpdatingProduct } from '../../Slices/AdminSliceFile'
+import ProductImagesDiv from './ProductImagesDiv'
 
 
 
@@ -170,19 +171,6 @@ export default function ProductDetails() {
     }
 
 
-
-    function showModalWithValues(userImage: string, productName: string) {
-
-        // // // Modal inner value (UI shown)
-        let ChildrenOfModal = <div><img className=" rounded" src={userImage} alt="" /> <p className='text-center mt-1 font-bold underline'>{productName}</p> </div>
-
-        dispatch(setOpenMoadl(true))
-        dispatch(setChildrenModal(ChildrenOfModal))
-
-    }
-
-
-
     function productLikeHandler(e: React.MouseEvent<HTMLParagraphElement, MouseEvent>) {
         e.stopPropagation();
 
@@ -197,7 +185,6 @@ export default function ProductDetails() {
         }
 
     }
-
 
 
     function productDislikeHandler(e: React.MouseEvent<HTMLParagraphElement, MouseEvent>) {
@@ -369,49 +356,8 @@ export default function ProductDetails() {
                         <div className="mx-auto max-w-2xl px-2 pt-10 sm:px-6 lg:max-w-7xl lg:grid-cols-2 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8  lg:pt-16  block lg:flex lg:items-start">
 
                             {/* Image div here */}
-                            <div className="grid  gap-1 grid-cols-2 lg:w-3/5">
 
-                                {
-                                    (singleProductData && singleProductData.images.length > 0)
-                                        ?
-
-                                        singleProductData.images.map((image, i) => {
-                                            return (
-                                                <div key={i}>
-                                                    <img
-                                                        onClick={(e) => { e.stopPropagation(); showModalWithValues(image, singleProductData.title) }}
-                                                        src={image}
-                                                        alt={singleProductData.title}
-                                                        className="h-full w-full rounded object-cover object-center hover:scale-95 transition-all"
-                                                    />
-                                                </div>
-                                            )
-
-                                        })
-
-
-
-                                        :
-                                        <>
-                                            <div className='flex flex-wrap gap-2 justify-center  col-span-4' >
-                                                <img
-                                                    className='border rounded hover:scale-95 transition-all'
-                                                    src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQe3XKEJqpEWVLFp2gWAKNHFoarWaOReT23c4b8nWb7&s' />
-                                                <img
-                                                    className='border rounded hover:scale-95 transition-all'
-                                                    src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQe3XKEJqpEWVLFp2gWAKNHFoarWaOReT23c4b8nWb7&s' />
-                                                <img className='border rounded hover:scale-95 transition-all'
-                                                    src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQe3XKEJqpEWVLFp2gWAKNHFoarWaOReT23c4b8nWb7&s' />
-                                                <img className='border rounded hover:scale-95 transition-all'
-                                                    src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQe3XKEJqpEWVLFp2gWAKNHFoarWaOReT23c4b8nWb7&s' />
-                                            </div>
-                                        </>
-
-                                }
-
-
-
-                            </div>
+                            <ProductImagesDiv />
 
                             {/* About and Option div of product */}
                             {/* Add to cart and add to wishlist btns present ---------> */}

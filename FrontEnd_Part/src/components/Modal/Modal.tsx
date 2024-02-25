@@ -27,7 +27,7 @@ export default function Modal() {
 
     return (
         <Transition.Root show={open} as={Fragment}>
-            <Dialog as="div" className="relative z-10" initialFocus={cancelButtonRef} onClose={setOpen}>
+            <Dialog as="div" className="relative z-50" initialFocus={cancelButtonRef} onClose={setOpen}>
                 <Transition.Child
                     as={Fragment}
                     enter="ease-out duration-300 "
@@ -51,11 +51,11 @@ export default function Modal() {
                             leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                         >
-                            <Dialog.Panel className="relative transform overflow-hidden rounded-lg  text-left transition-all sm:my-8 delay-150 lg:max-w-3/5 ">
+                            <Dialog.Panel className="relative transform overflow-hidden rounded-lg  text-left transition-all sm:my-8 delay-150 lg:max-w-3/5 z-10 ">
                                 {/* Widt of Modal is controled by above div ----> */}
 
                                 <div
-                                    className='py-10 bg-transparent'
+                                    className='py-10 bg-transparent z-10'
                                     onClick={() => setOpen(false)}
                                 >
 
@@ -71,7 +71,7 @@ export default function Modal() {
 
                                     {/* Below div will hold children ---> main content */}
                                     <div
-                                        className={` ${!themeMode ? "bg-white border-white" : "bg-black border-black"} rounded px-4 pb-4 pt-5 sm:p-6 sm:pb-4 border flex flex-col items-center  overflow-hidden`}
+                                        className={` ${!themeMode ? "bg-white border-white" : "bg-black border-black"} rounded px-4 pb-4 pt-5 sm:p-6 sm:pb-4 border flex flex-col items-center z-10 overflow-hidden`}
                                     >
 
                                         {
