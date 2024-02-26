@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch, RootState } from "../../store"
 import { IProduct } from "../ProductListing/ProductLists"
 import { useNavigate } from 'react-router-dom';
-import {setSingleProductData } from '../../Slices/AllProductSlice';
+import { setSingleProductData } from '../../Slices/AllProductSlice';
 import { fetchOneProductByID } from '../../Slices/AllProductSlice';
 
 
@@ -75,7 +75,7 @@ const NewCrousel = () => {
 
                             {
 
-                                crousalItems.map((item, i) => <SingleCrousel item={item} key={i} />)
+                                crousalItems.map((item, i) => <SingleCrouselForOriginalData item={item} key={i} />)
 
 
 
@@ -93,7 +93,6 @@ const NewCrousel = () => {
                         :
 
                         // // // This is Dummy crousel ( With some slides onliy  )
-
                         <div className='animate-pulse'>
 
 
@@ -133,22 +132,37 @@ const NewCrousel = () => {
                                 autoplayDirection="forward"
                             >
 
-                                <div className='  withAllImp singleCrousel   h-crH hover:cursor-pointer' style={{ background: '#ffc0cb' }}>
-                                    slide 1
+                                <div
+                                    className=' relative  withAllImp singleCrousel   h-crH hover:cursor-pointer bg-[#279898]'
+                                >   
+
+                                    <span className=' absolute top-1 border px-2 rounded-full '>1</span>
+                                    <p className=' text-5xl'>Loading...</p>
+
                                 </div>
 
-                                <div className='  withAllImp singleCrousel  h-crH hover:cursor-pointer' style={{ background: '#065535' }}>
-                                    slide 2
+                                <div
+                                    className='  withAllImp singleCrousel  h-crH hover:cursor-pointer bg-[#065535]'
+                                >
+                                     <span className=' absolute top-1 border px-2 rounded-full '>2</span>
+                                 <p className=' text-5xl'>Loading...</p>
                                 </div>
-                                <div className='  withAllImp singleCrousel   h-crH hover:cursor-pointer' style={{ background: '#000000' }}>
-                                    slide 3
+                                <div
+                                    className='  withAllImp singleCrousel   h-crH hover:cursor-pointer bg-[#000000]'
+                                >
+                                     <span className=' absolute top-1 border px-2 rounded-full '>3</span>
+                                     <p className=' text-5xl'>Loading...</p>
                                 </div>
-                                <div className=' withAllImp singleCrousel  h-crH hover:cursor-pointer' style={{ background: '#ffe4e1' }}>
-                                    slide 4
+                                <div className=' withAllImp singleCrousel  h-crH hover:cursor-pointer bg-[#893a32]'
+                                >
+                                     <span className=' absolute top-1 border px-2 rounded-full '>4</span>
+                                    <p className=' text-5xl'>Loading...</p>
                                 </div>
 
-                                <div className=' withAllImp singleCrousel   h-crH hover:cursor-pointer' style={{ background: '#ffffff' }}>
-                                    slide 5
+                                <div className=' withAllImp singleCrousel   h-crH hover:cursor-pointer bg-[#241b5d]'
+                                >
+                                     <span className=' absolute top-1 border px-2 rounded-full'>5</span>
+                                    <p className=' text-5xl'>Loading...</p>
                                 </div>
 
 
@@ -178,7 +192,7 @@ export default NewCrousel
 
 
 
-function SingleCrousel({ item }: { item: IProduct }) {
+function SingleCrouselForOriginalData({ item }: { item: IProduct }) {
 
     const navigate = useNavigate();
     const dispatch = useDispatch<AppDispatch>()
@@ -197,11 +211,11 @@ function SingleCrousel({ item }: { item: IProduct }) {
                 <div
                     style={{ backgroundImage: `url(${item.images[1]})`, ...holderDivStyle }}
                     className="carousel-item   h-full hover:cursor-pointer box-content flex justify-around  w-full  "
-                    onClick={(e : React.MouseEvent<HTMLDivElement, MouseEvent>) => { 
+                    onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
                         e.stopPropagation();
-                        navigate(`/product/${item.id}`); 
-                        dispatch(setSingleProductData({ id: item.id })); 
-                        dispatch(fetchOneProductByID({ productId: item.id })); 
+                        navigate(`/product/${item.id}`);
+                        dispatch(setSingleProductData({ id: item.id }));
+                        dispatch(fetchOneProductByID({ productId: item.id }));
                         // dispatch(setSingleOProductId({ id: item.id })) 
                         window.scroll(0, 0);
                     }}

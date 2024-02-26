@@ -91,10 +91,10 @@ const ProductImagesDiv = () => {
 
     return (
 
-        <div className="  lg:w-3/5">
+        <div className="  lg:w-3/5 flex flex-col justify-center items-center sm:flex-row-reverse">
 
 
-            <div className="grid  gap-1 grid-cols-1 grid-rows-1 place-content-center place-items-center  ">
+            <div className="grid gap-1 grid-cols-1 grid-rows-1 place-content-center place-items-center  ">
 
                 {
                     (arrOfImage.length > 0 && mainImg)
@@ -105,12 +105,14 @@ const ProductImagesDiv = () => {
                         <div className=" relative w-full flex justify-center">
 
                             <button
-                                className=" absolute text-4xl -left-1 top-1/2 -translate-y-1/2 hover:text-blue-600 focus:text-blue-600 transition-all"
-                                onClick={(e) => {  e.stopPropagation(); previous()}}
+                                className=" absolute text-4xl -left-1 top-1/2 -translate-y-1/2 text-blue-600 hover:text-blue-100 focus:text-blue-100 transition-all"
+                                onClick={(e) => { e.stopPropagation(); previous() }}
                             >{'◁'}</button>
 
 
                             <img
+                        
+
                                 className=" rounded h-56 sm:h-90 object-contain hover:cursor-pointer"
                                 src={mainImg}
                                 alt="Product Image."
@@ -123,8 +125,8 @@ const ProductImagesDiv = () => {
 
 
                             <button
-                                className=" absolute text-4xl -right-1 top-1/2 -translate-y-1/2 hover:text-blue-600 focus:text-blue-600 transition-all"
-                                onClick={(e) =>{ e.stopPropagation(); next()}}
+                                className=" absolute text-4xl -right-1 top-1/2 -translate-y-1/2 text-blue-600 hover:text-blue-100  focus:text-blue-100 transition-all"
+                                onClick={(e) => { e.stopPropagation(); next() }}
                             >{'▷'}</button>
 
                         </div>
@@ -146,22 +148,22 @@ const ProductImagesDiv = () => {
 
             </div>
 
-            <div className="h-24 my-2 rounded w-full  flex gap-1">
+            <div className="h-24 w-full my-2 rounded flex justify-center gap-1 sm:flex-col items-center sm:h-full sm:w-2/6 ">
 
                 {
                     (arrOfImage.length > 0)
                         ?
                         arrOfImage.map((image, i) => {
                             return (
-                                <div key={i} className=" w-1/4">
+                                <div key={i} className="w-3/4">
                                     <img
                                         onClick={(e) => { e.stopPropagation(); setMainImg(image) }}
                                         onError={(e) => onImageErr(e)}
                                         src={image}
                                         alt="Product Image."
-                                        className={`h-full rounded object-cover object-center hover:scale-95 transition-all w-full hover:cursor-pointer
+                                        className={`h-full rounded object-cover object-center hover:scale-90 transition-all w-full hover:cursor-pointer
                                                 ${image !== mainImg && "opacity-50"}
-                                                ${image === mainImg && "border-b-[0.5vh] border-blue-600 relative bottom-2 border transition-all"}
+                                                ${image === mainImg && "border-b-[0.5vh] border border-blue-600 relative bottom-2 left-0 sm:bottom-0 sm:left-2 transition-all"}
                                             `}
                                     />
                                 </div>
@@ -169,21 +171,21 @@ const ProductImagesDiv = () => {
 
                         })
 
-
-
                         :
                         <>
                             <div className='flex flex-wrap gap-2 justify-center  col-span-4' >
-                                <img
-                                    className='border rounded hover:scale-95 transition-all'
-                                    src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQe3XKEJqpEWVLFp2gWAKNHFoarWaOReT23c4b8nWb7&s' />
-                                <img
-                                    className='border rounded hover:scale-95 transition-all'
-                                    src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQe3XKEJqpEWVLFp2gWAKNHFoarWaOReT23c4b8nWb7&s' />
-                                <img className='border rounded hover:scale-95 transition-all'
-                                    src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQe3XKEJqpEWVLFp2gWAKNHFoarWaOReT23c4b8nWb7&s' />
-                                <img className='border rounded hover:scale-95 transition-all'
-                                    src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQe3XKEJqpEWVLFp2gWAKNHFoarWaOReT23c4b8nWb7&s' />
+
+                                {
+                                    [1].map((ele) => {
+                                        return (
+                                            <img
+                                                key={ele}
+                                                className='border rounded hover:scale-95 transition-all'
+                                                src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQe3XKEJqpEWVLFp2gWAKNHFoarWaOReT23c4b8nWb7&s'
+                                            />
+                                        )
+                                    })
+                                }
                             </div>
                         </>
                 }
