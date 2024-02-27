@@ -75,7 +75,7 @@ const AdminMain = () => {
                                 return (
                                     <a
                                         key={i}
-                                        className="px-2 border-b my-1 hover:border-b-violet-800 hover:text-violet-800 transition-all"
+                                        className="px-2 border-b my-1 hover:border-b-violet-800 hover:text-violet-800 hover:cursor-pointer transition-all"
                                         // href={`#${ele.href}`}
 
                                         onClick={() => { clickScrollHandler(ele.href) }}
@@ -88,9 +88,6 @@ const AdminMain = () => {
 
 
                     </div>
-
-
-
 
 
                     {/* Create new product */}
@@ -111,7 +108,7 @@ const AdminMain = () => {
 
                     {/* <div> */}
                     <button
-                        className=" bg-zinc-900 fixed bottom-5 right-5 md:bottom-10 md:right-10 text-sm capitalize px-4 border border-gray-400 rounded-full ml-auto mr-1"
+                        className={` ${!themeMode ? "bg-white text-zinc-900" : "bg-black text-gray-100"} font-semibold fixed bottom-5 right-5 md:bottom-10 md:right-10 text-sm capitalize px-4 border border-gray-400 rounded-full ml-auto mr-1`}
                         onClick={() => { window.scroll(0, 0) }}
                     >Goto🔝</button>
                     {/* </div> */}

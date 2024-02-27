@@ -12,8 +12,8 @@
 import { Bar, Pie, PolarArea, Doughnut } from 'react-chartjs-2';
 import { useEffect, useState } from "react"
 import { adminDataState, getAllOrdersAdmin } from "../../Slices/AdminSliceFile"
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from '../../store';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../store';
 
 
 import Chart from "chart.js/auto";
@@ -54,8 +54,9 @@ const ChartJs2 = () => {
 
     const dispatch = useDispatch<AppDispatch>()
 
-    const { allOrders, groupedByProductAndSold, groupedByBrandObj, groupedByCategoryObj } = adminDataState()
+    const themeMode = useSelector((state: RootState) => state.themeReducer.mode)
 
+    const { allOrders, groupedByProductAndSold, groupedByBrandObj, groupedByCategoryObj } = adminDataState()
 
     const [formatedDataOfProduct, setFormatedDataOfProduct] = useState<FormatedDataOfProduct>([])
 
@@ -114,11 +115,13 @@ const ChartJs2 = () => {
 
     }, [productBy])
 
+
     useEffect(() => {
 
         formateByProductInitData()
 
     }, [groupedByProductAndSold])
+
 
     useEffect(() => {
 
@@ -128,37 +131,40 @@ const ChartJs2 = () => {
 
     }, [])
 
+
     return (
         <>
 
-            <div className=" my-5 rounded py-2 px-1 md:p-2 w-full">
+            <div className=" my-5 rounded py-2 px-1 md:p-2 w-full flex  flex-col items-center">
 
 
+                <div className=' text-center'> 
                 <h1 className=' text-4xl font-bold underline text-center my-5'>Data visualization </h1>
+                    <p>All order sold chart.</p>
 
-
-                <div>
                     <p className=' text-center my-2 underline'>⁕Data selected <span className=' text-yellow-400'>{productBy}</span> in <span className=' text-yellow-400'>{cartType}</span> Chart</p>
                 </div>
 
-                <div className=' flex gap-5 justify-center'>
+
+                {/* Main sticky filter div present here ---> */}
+                <div className={` ${themeMode ? " bg-sky-950" : "bg-slate-50"} rounded sticky top-10 md:top-20 z-20 flex gap-5 justify-center`}>
 
 
                     <div className=' flex flex-col items-center justify-center'>
 
 
-                        <label htmlFor="product_By_select">Select Data by👇</label>
+                        <label htmlFor="product_By_select" className=' underline'>Select Data by👇</label>
 
                         <select
 
                             id="product_By_select"
                             value={productBy}
                             onChange={(e) => { setProductBy(e.target.value) }}
-                            className=' bg-black text-white rounded-xl font-bold'
+                            className={`  ${themeMode ? " bg-sky-950 text-white" : "bg-slate-50 text-black"}  rounded-xl font-bold`}
                         >
 
                             {
-                                arrOfProductBy.map((ele, i) => <option key={i} value={ele}>{ele}</option>)
+                                arrOfProductBy.map((ele, i) => <option key={i} className={` ${themeMode ? " bg-sky-950 text-white" : "bg-slate-50 text-black"} `}  value={ele}>{ele}</option>)
                             }
 
                         </select>
@@ -168,18 +174,18 @@ const ChartJs2 = () => {
                     <div className=' flex flex-col items-center justify-center'>
 
 
-                        <label htmlFor="chart_type_select">Select chart type👇</label>
+                        <label htmlFor="chart_type_select" className=' underline'>Select chart type👇</label>
 
                         <select
 
                             id="chart_type_select"
                             value={cartType}
                             onChange={(e) => { setCartType(e.target.value as CartType) }}
-                            className=' bg-black text-white rounded-xl font-bold'
+                            className={`  ${themeMode ? " bg-sky-950 text-white" : "bg-slate-50 text-black"}  rounded-xl font-bold`}
                         >
 
                             {
-                                arrOfchartTypes.map((ele, i) => <option key={i} value={ele}>{ele}</option>)
+                                arrOfchartTypes.map((ele, i) => <option key={i} className={` ${themeMode ? " bg-sky-950 text-white" : "bg-slate-50 text-black"} `}  value={ele}>{ele}</option>)
                             }
 
                         </select>

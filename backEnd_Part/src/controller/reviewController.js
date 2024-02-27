@@ -174,7 +174,7 @@ async function deleteReview(req, res) {
         )
 
 
-        // console.log(productReduce)
+        // console.log(req.tokenUserData)
 
 
         let userUidInReviw = findReview.userData.userUID
@@ -183,6 +183,7 @@ async function deleteReview(req, res) {
 
         let userUidInToken = req.tokenUserData.userUID
 
+        // console.log(userUidInReviw , userUidInToken)
         // console.log(userUidInReviw === userUidInToken)
 
         if (userUidInReviw !== userUidInToken) {

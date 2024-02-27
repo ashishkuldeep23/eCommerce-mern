@@ -81,7 +81,8 @@ exports.isAuthorized = async function (req, res, next) {
                 email: findUser.email,
                 role: findUser.role,
                 userId: findUser._id ,
-                isEmailVerified : findUser.isEmailVerified
+                isEmailVerified : findUser.isEmailVerified,
+                userUID : findUser.id
             }
 
 

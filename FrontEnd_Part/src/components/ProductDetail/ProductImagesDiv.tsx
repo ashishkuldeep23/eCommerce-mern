@@ -102,7 +102,7 @@ const ProductImagesDiv = () => {
 
                         ?
 
-                        <div className=" relative w-full flex justify-center">
+                        <div className=" relative flex justify-center w-[90vw] sm:w-[60vw] md:w-[50vw] lg:w-[35vw] border-b border-t rounded-[50%] border-blue-600">
 
                             <button
                                 className=" absolute text-4xl -left-1 top-1/2 -translate-y-1/2 text-blue-600 hover:text-blue-100 focus:text-blue-100 transition-all"
@@ -113,7 +113,7 @@ const ProductImagesDiv = () => {
                             <img
                         
 
-                                className=" rounded h-56 sm:h-90 object-contain hover:cursor-pointer"
+                                className=" h-56 sm:h-90 w-full rounded object-contain hover:cursor-pointer"
                                 src={mainImg}
                                 alt="Product Image."
                                 onClick={(e) => { e.stopPropagation(); showModalWithValues(mainImg, singleProductData.title) }}
@@ -141,11 +141,6 @@ const ProductImagesDiv = () => {
 
                 }
 
-
-
-
-
-
             </div>
 
             <div className="h-24 w-full my-2 rounded flex justify-center gap-1 sm:flex-col items-center sm:h-full sm:w-2/6 ">
@@ -155,15 +150,15 @@ const ProductImagesDiv = () => {
                         ?
                         arrOfImage.map((image, i) => {
                             return (
-                                <div key={i} className="w-3/4">
+                                <div key={i} className="w-[130px] h-[70px] sm:h-[100px] relative">
                                     <img
                                         onClick={(e) => { e.stopPropagation(); setMainImg(image) }}
                                         onError={(e) => onImageErr(e)}
                                         src={image}
                                         alt="Product Image."
-                                        className={`h-full rounded object-cover object-center hover:scale-90 transition-all w-full hover:cursor-pointer
-                                                ${image !== mainImg && "opacity-50"}
-                                                ${image === mainImg && "border-b-[0.5vh] border border-blue-600 relative bottom-2 left-0 sm:bottom-0 sm:left-2 transition-all"}
+                                        className={`h-full w-full rounded object-cover object-center hover:scale-90 transition-all  hover:cursor-pointer
+                                                ${image !== mainImg && " "}
+                                                ${image === mainImg && "opacity-50 blur-[1px] border-b-[0.5vh] border border-blue-600 relative bottom-2 left-0 sm:bottom-0 sm:left-2 transition-all"}
                                             `}
                                     />
                                 </div>

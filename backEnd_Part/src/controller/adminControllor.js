@@ -97,7 +97,7 @@ async function createNewProduct(req, res) {
 
         // console.log("Thumbnail --------->" ,recivedBodyData.images[0])
 
-        if (thumbnailIndex === -1) {
+        if (thumbnailIndex === "-1") {
             recivedBodyData.thumbnail = recivedBodyData.images[0]
         } else {
             recivedBodyData.thumbnail = recivedBodyData.images[thumbnailIndex]
@@ -257,7 +257,8 @@ async function updateProdct(req, res) {
 
             // console.log(thumbnailIndex)
 
-            if (thumbnailIndex === -1) {
+            if (!thumbnailIndex || thumbnailIndex === "-1") {
+                // console.log("Yes")
                 recivedBodyData.thumbnail = recivedBodyData.images[0]
             } else {
                 recivedBodyData.thumbnail = recivedBodyData.images[thumbnailIndex]

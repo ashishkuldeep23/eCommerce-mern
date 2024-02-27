@@ -662,6 +662,15 @@ function CreateNewProduct() {
     }
 
 
+    function resetFormByBtnClick(){
+
+        let ask = confirm("Do you really want to reset Data??")
+
+        if(!ask) return
+        else resetFromAllFeilds()
+    }
+
+
     // // // Reset the forms --------->
     useEffect(() => {
 
@@ -733,7 +742,7 @@ function CreateNewProduct() {
 
                     <span
                         className=" absolute right-2 top-2 z-10 bg-red-500 px-3 py-0.5 rounded-full font-bold font-mono text-white hover:bg-red-400 hover:cursor-pointer"
-                        onClick={resetFromAllFeilds}
+                        onClick={()=>{resetFormByBtnClick()}}
                     >Reset</span>
                 }
 

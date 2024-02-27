@@ -280,7 +280,7 @@ function SingleOrderData({ order }: { order: CardDataInter }) {
             {/* <div className=" w-full sm:w-72  h-56 sm:h-72 bg-slate-300 rounded md:max-w-sm"></div> */}
 
             <p className={` ${!themeMode ? "bg-slate-300" : "bg-slate-700"} h-6 w-full rounded my-0.5 px-1 mt-4 z-10`}>{order.title}</p>
-            <p className={`${!themeMode ? "bg-slate-300" : "bg-slate-700"} h-6 w-full rounded my-0.5 px-1 font-bold z-10`}>₹{makeMoreRaedablePrice(order.price)}</p>
+            <p className={`${!themeMode ? "bg-slate-300" : "bg-slate-700"} h-6 w-full rounded my-0.5 px-1 font-bold z-10`}>₹{makeMoreRaedablePrice(order.price)} X {order.quantity}</p>
             {
                 order.type
                 &&
@@ -299,19 +299,42 @@ function SingleOrderData({ order }: { order: CardDataInter }) {
 function OrderFilterSection({ allOrdersOfUser, setAllOrdersOfUser }: { allOrdersOfUser: UserOrderOj[], setAllOrdersOfUser: React.Dispatch<React.SetStateAction<UserOrderOj[]>> }) {
 
 
-    function filterOrders(whichOneClicked: string) {
+    type TypeArrOfFilterOption = "Oldest" | "Newest" | "Min Price" | "Max Price" | "Category" | "Status"
 
-        alert("Now working on it --->")
+    const arrOfFilterOption: TypeArrOfFilterOption[] = ["Oldest", "Newest", "Min Price", "Max Price", "Category", "Status"]
+
+
+
+
+
+
+    function filterOrders(whichOneClicked: TypeArrOfFilterOption) {
+
 
         switch (whichOneClicked) {
-            case "oldest":
-                setAllOrdersOfUser([...allOrdersOfUser].reverse())
-                break;
 
-            case "minprice":
 
-            
-                setAllOrdersOfUser([...allOrdersOfUser].reverse())
+            // case 'Oldest':
+            // case 'Newest':
+            // case 'Min Price':
+            // case 'Max Price':
+            // case 'Category':
+            // case 'Status':
+
+
+            case 'Status':
+                // console.log(allOrdersOfUser[0].totalPrice)
+                let arr1 = allOrdersOfUser.sort((a, b) => {
+                    if (a.status < b.status) {
+                        return -1
+                    } else {
+                        return 1
+                    }
+                })
+
+                // console.log(arr)
+
+                setAllOrdersOfUser([...arr1])
                 break;
 
             default:
@@ -334,12 +357,51 @@ function OrderFilterSection({ allOrdersOfUser, setAllOrdersOfUser }: { allOrders
                     <div className='flex justify-center items-center'>
                         <h1 className='mx-2 font-bold rounded border px-2 py-1'>Filter By ➡️</h1>
                         <ul className='flex flex-wrap justify-center gap-3 px-2 py-1 rounded '>
-                            <li className='border font-bold rounded px-2 hover:-translate-y-1 hover:cursor-pointer hover:opacity-50 transition-all' onClick={(e) => { e.stopPropagation(); filterOrders("oldest") }} >Oldest</li>
-                            <li className='border font-bold  rounded px-2 hover:-translate-y-1 hover:cursor-pointer hover:opacity-50 transition-all' onClick={(e) => { e.stopPropagation(); filterOrders('newest') }}   >Newest</li>
-                            <li className='border font-bold rounded px-2 hover:-translate-y-1 hover:cursor-pointer hover:opacity-50 transition-all' onClick={(e) => { e.stopPropagation(); filterOrders('minprice') }} >Min Price</li>
-                            <li className='border font-bold rounded px-2 hover:-translate-y-1 hover:cursor-pointer hover:opacity-50 transition-all' onClick={(e) => { e.stopPropagation(); filterOrders('maxprice') }} >Max Price</li>
-                            <li className='border font-bold rounded px-2 hover:-translate-y-1 hover:cursor-pointer hover:opacity-50 transition-all' onClick={(e) => { e.stopPropagation(); filterOrders('category') }} >Category</li>
-                            <li className='border font-bold rounded px-2 hover:-translate-y-1 hover:cursor-pointer hover:opacity-50 transition-all' onClick={(e) => { e.stopPropagation(); filterOrders('status') }} >Status</li>
+
+                            {
+                                arrOfFilterOption.map((ele, i) => {
+
+                                    return (
+                                        // <>
+                                        <li
+                                            key={i}
+                                            className='border font-bold rounded px-2 hover:-translate-y-1 hover:cursor-pointer hover:opacity-50 transition-all'
+                                            onClick={(e) => { e.stopPropagation(); filterOrders(ele) }}
+                                        >{ele}</li>
+
+                                        // </>
+                                    )
+                                })
+                            }
+
+
+
+                            {/* <li
+                                className='border font-bold rounded px-2 hover:-translate-y-1 hover:cursor-pointer hover:opacity-50 transition-all'
+                                onClick={(e) => { e.stopPropagation(); filterOrders("oldest") }}
+                            >Oldest</li>
+                            <li
+                                className='border font-bold  rounded px-2 hover:-translate-y-1 hover:cursor-pointer hover:opacity-50 transition-all'
+                                onClick={(e) => { e.stopPropagation(); filterOrders('newest') }}
+                            >Newest</li>
+                            <li
+                                className='border font-bold rounded px-2 hover:-translate-y-1 hover:cursor-pointer hover:opacity-50 transition-all'
+                                onClick={(e) => { e.stopPropagation(); filterOrders('minprice') }}
+                            >Min Price</li>
+                            <li
+                                className='border font-bold rounded px-2 hover:-translate-y-1 hover:cursor-pointer hover:opacity-50 transition-all'
+                                onClick={(e) => { e.stopPropagation(); filterOrders('maxprice') }}
+                            >Max Price</li>
+                            <li
+                                className='border font-bold rounded px-2 hover:-translate-y-1 hover:cursor-pointer hover:opacity-50 transition-all'
+                                onClick={(e) => { e.stopPropagation(); filterOrders('category') }}
+                            >Category</li>
+                            <li
+                                className='border font-bold rounded px-2 hover:-translate-y-1 hover:cursor-pointer hover:opacity-50 transition-all'
+                                onClick={(e) => { e.stopPropagation(); filterOrders('status') }}
+                            >Status</li> */}
+
+
                         </ul>
                     </div>
 
