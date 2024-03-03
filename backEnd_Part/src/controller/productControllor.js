@@ -415,22 +415,28 @@ async function searchProductByKeyowrd(req, res) {
 
     try {
 
-        const { keyword } = req.query
+        let { keyword } = req.query
 
         if (!keyword) return res.status(400).send({ status: false, message: "Search by keyword.See your backend code." })
+
+        keyword = keyword.toLowerCase()
 
 
         // let getProductFromDB = await productModel.find(filterPoducts)
 
+        let option = 'i'          // // // This option used in regex to find data
+
         let getProductFromDB = await productModel.find({
             $or: [
-                { title: { $regex: keyword, $options: 'i' } }, // case-insensitive
-                { category: { $regex: keyword, $options: 'i' } },
-                { brand: { $regex: keyword, $options: 'i' } },
+                { title: { $regex: keyword, $options: option } }, // case-insensitive
+                { category: { $regex: keyword, $options: option } },
+                { brand: { $regex: keyword, $options: option } },
             ],
             isDeleted : false     // // // Give not deleted products only 
         })
 
+
+        // console.log(getProductFromDB)
 
         if (getProductFromDB.length <= 0) return res.status(404).send({ status: false, message: `No data found with this keyword :(${keyword})` })
 

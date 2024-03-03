@@ -10,6 +10,7 @@ import { fetchAllCategoryAndHighlight, fetchAllProducts, fetchOneProductByID, se
 import { toast } from 'react-toastify';
 import { reqVerifyMail, userState } from '../../Slices/UserSlice';
 import { searchProduct, searchProductState, setKeyText } from '../../Slices/ProductSearchByKey';
+import { IProduct } from '../ProductListing/ProductLists';
 
 
 
@@ -628,18 +629,6 @@ function MainSearchBarWithLogics() {
     const dispatch = useDispatch<AppDispatch>();
 
     const themeSate = useSelector((store: RootState) => store.themeReducer.mode)
-
-
-
-
-    const [showSuggestion, setShowSuggestion] = useState(false)
-    const inputRef = useRef<HTMLInputElement | null>(null);
-
-    // const [text, setText] = useState("")
-    // // // Text var is used as search Text --->
-
-    const text = searchProductState().keyText
-    const setText = (text: string) => dispatch(setKeyText(text));
     const allProduct = searchProductState().productSuggetionArr
     const isLoading = searchProductState().isLoading
     const isFullfilled = searchProductState().isFullFilled
@@ -647,14 +636,24 @@ function MainSearchBarWithLogics() {
     const errorMessage = searchProductState().errMsg
 
 
+    const inputRef = useRef<HTMLInputElement | null>(null);
+    const [showSuggestion, setShowSuggestion] = useState(false)
+    const [isUserStopTyping, setIsUserStopTyping] = useState<boolean>(false)
+
+    const [searchHistory, setSearchHistory] = useState<IProduct[]>([])
+
+    // const [text, setText] = useState("")
+    // // // Text var is used as search Text --->
+
+    const text = searchProductState().keyText
+    const setText = (text: string) => dispatch(setKeyText(text));
+
+
     // // // Input onchange handler --->
 
 
 
     // let isUserStopTyping = false
-
-
-    const [isUserStopTyping, setIsUserStopTyping] = useState<boolean>(false)
 
     // // // This type we can use in set timeout -->
     type Timer = ReturnType<typeof setTimeout>
@@ -671,8 +670,6 @@ function MainSearchBarWithLogics() {
             setIsUserStopTyping(true)
         }, 500)
     }
-
-
 
 
 
@@ -734,6 +731,47 @@ function MainSearchBarWithLogics() {
 
 
 
+    const handleHistoryClick = (product: IProduct) => {
+        // e.stopPropagation()
+        // setText(product.title)
+        // setIsUserStopTyping(true)
+
+        itemSuggestionClickHandle(product)
+    }
+
+
+
+    const addOneKeywordFromHistory = (product: IProduct) => {
+        let newHistoryArr = [product, ...searchHistory];
+        newHistoryArr = [...new Set(newHistoryArr)]
+        setSearchHistory(newHistoryArr)
+    }
+
+
+    const removeOneKeywordFromHistory = (product: IProduct) => {
+
+        // console.log(searchHistory[i])
+        // let newHistoryArr = [...searchHistory].splice(i, 1)
+        let newHistoryArr = searchHistory.filter((item) => item.title != product.title)
+
+        // console.log(newHistoryArr)
+
+        setSearchHistory(newHistoryArr)
+    }
+
+
+
+    const itemSuggestionClickHandle = (product: IProduct) => {
+        navigate(`/product/${product.id}`);
+        dispatch(setSingleProductData({ id: product.id }));
+        dispatch(fetchOneProductByID({ productId: product.id }));
+
+        addOneKeywordFromHistory(product)
+        // dispatch(setSingleOProductId({ id: product.id }));
+        window.scroll(0, 0);
+        setText("")
+    }
+
 
 
     useEffect(() => {
@@ -760,13 +798,34 @@ function MainSearchBarWithLogics() {
 
 
 
-
     useEffect(() => {
+
+        let getSearchHistory = localStorage.getItem("SearchHistory")
+
+        // console.log(getSearchHistory)
+        if (getSearchHistory) {
+            let parsedArr = JSON.parse(getSearchHistory)
+            setSearchHistory([...parsedArr])
+        }
+
+
         document.addEventListener('click', handleOutsideClick);
         return () => {
             document.removeEventListener('click', handleOutsideClick);
         };
     }, []);
+
+
+
+    // // // search history and setting in localhost ---------->
+    useEffect(() => {
+
+        // if (searchHistory.length > 0) {
+        localStorage.setItem("SearchHistory", JSON.stringify(searchHistory))
+        // }
+
+    }, [searchHistory])
+
 
 
 
@@ -792,7 +851,12 @@ function MainSearchBarWithLogics() {
 
             />
 
-            <button className='border text-white rounded text-md p-1 font-medium  hover:bg-gray-700 hover:text-white'>
+            <button
+                className='border text-white rounded text-md p-1 font-medium  hover:bg-gray-700 hover:text-white'
+                onClick={() => {
+                    // if (allProduct.length > 0) { addOneKeywordFromHistory(text) }
+                }}
+            >
                 <MagnifyingGlassIcon className="h-6 w-6 text-gray-200" />
             </button>
 
@@ -804,7 +868,7 @@ function MainSearchBarWithLogics() {
                 <div className={` ${!themeSate ? "bg-white text-black" : " bg-gray-900 text-white"} w-full absolute top-full mt-0.5  rounded-b-md py-2 px-1 z-20 `}>
 
 
-                    <ul className=' max-h-96 overflow-y-scroll border rounded border-green-300'>
+                    <ul className='px-1 pb-1 max-h-96 overflow-y-scroll border rounded border-green-300'>
 
                         {/* <li>1 productOne ---</li>
                         <li>1 productOne ---</li>
@@ -840,7 +904,7 @@ function MainSearchBarWithLogics() {
                                 (text === "")
                                 ?
 
-                                <h1 className='my-5 mx-1 text-center text-danger fw-bold'>Search product by it's <strong>Name</strong> or <strong>Category</strong> or <strong>Brand name</strong>.</h1>
+                                <h1 className='my-5 text-center text-danger fw-bold'>Search product by it's <strong>Name</strong> or <strong>Category</strong> or <strong>Brand name</strong>.</h1>
 
                                 :
 
@@ -854,12 +918,7 @@ function MainSearchBarWithLogics() {
                                                 onClick={(e) => {
                                                     // e.stopPropagation();
                                                     e.preventDefault();
-                                                    navigate(`/product/${product.id}`);
-                                                    dispatch(setSingleProductData({ id: product.id }));
-                                                    dispatch(fetchOneProductByID({ productId: product.id }));
-                                                    // dispatch(setSingleOProductId({ id: product.id }));
-                                                    window.scroll(0, 0);
-                                                    setText("")
+                                                    itemSuggestionClickHandle(product);
                                                 }}
                                             >
                                                 <img className=' w-12 mr-1 ' src={product.thumbnail} alt="" />
@@ -868,8 +927,55 @@ function MainSearchBarWithLogics() {
                                         )
                                     })
                                     :
-                                    <h1 className='my-5 mx-1 text-center text-danger fw-bold'>{errorMessage}</h1>
+                                    <h1 className='my-5 text-center text-danger fw-bold'>{errorMessage}</h1>
                         }
+
+
+
+                        {
+
+                            searchHistory.length > 0
+                            &&
+
+                            <div className=' px-1'>
+                                <div className='border-1 border-b border-violet-600 font-bold flex justify-between text-sm'>
+
+                                    <h5>History</h5>
+                                    <span
+                                        className='mb-2 text-red-500 border-red-500 border px-1.5 rounded-md font-bold hover:bg-red-500 hover:text-white hover:cursor-pointer transition-all'
+                                        onClick={() => { setSearchHistory([]) }}
+                                    >X</span>
+                                </div>
+
+                                {
+                                    searchHistory.map((ele, i) => {
+                                        return (
+                                            <div
+                                                key={i}
+                                                className={` ${themeSate ? "text-violet-300 " : "text-violet-800 "} first-line:pl-2 rounded-l-md flex justify-between items-end border-1 border-b border-violet-600`}
+                                            >
+                                                <ol
+                                                    className=' w-full hover:cursor-pointer capitalize'
+
+                                                    onClick={() => { handleHistoryClick(ele); }}
+
+                                                >{ele.title}</ol>
+                                                <span
+                                                    className='my-1 text-xs text-red-500 px-1.5 rounded-md font-bold hover:bg-red-500 hover:text-white hover:cursor-pointer transition-all'
+
+                                                    onClick={(e) => { e.stopPropagation(); removeOneKeywordFromHistory(ele) }}
+
+                                                >X</span>
+                                            </div>
+                                        )
+                                    })
+                                }
+
+                            </div>
+
+                        }
+
+
 
 
 
