@@ -79,19 +79,84 @@ const FeedbackSection = () => {
 
             {/* Goto home BTN */}
             {/* <div> */}
-                <button 
-                className=" fixed top-1.5 left-1.5 border rounded"
-                onClick={()=>{navigate("/")}}
-                >🏠</button>
+            <button
+                className=" fixed top-1.5 left-1.5 border rounded text-xl"
+                onClick={() => { navigate("/") }}
+            >🏠</button>
             {/* </div> */}
 
 
             <div>
 
-                <div className=" py-10 sm:py-24 flex flex-col sm:flex-row justify-center items-center bg-emerald-900  ">
+                <div className=" pt-10 sm:pt-24 flex flex-col sm:flex-row justify-center items-center bg-emerald-900  ">
 
-                    <div className=" h-90 overflow-hidden border  w-11/12 sm:w-2/5 p-1 py-3 rounded m-0.5">
-                        Inro --
+                    <div className="bg-black text-white h-90 overflow-hidden border  w-11/12 sm:w-2/5 p-1 py-3 rounded m-0.5 flex flex-col justify-center items-center">
+
+                        <a
+                            href="https://ashish-kuldeep-portfolio.vercel.app/"
+                            rel="noreferrer" target={"_blank"}
+                        >
+                            <img
+                                src="https://res.cloudinary.com/dlvq8n2ca/image/upload/v1701708322/jual47jntd2lpkgx8mfx.png"
+                                alt=""
+                                className=" w-32  sm:w-44 hover:scale-110 transition-all hover:cursor-pointer"
+                            />
+                        </a>
+                        <a
+                            href="https://ashish-kuldeep-portfolio.vercel.app/"
+                            className=" text-violet-300 text-xl font-semibold underline mb-2"
+                            rel="noreferrer" target={"_blank"}
+                        >Ashish Kuldeep</a>
+
+
+                        <p>Aspiring full-stack developer.</p>
+                        <p>ReactJs, NodeJs, NextJs, TypeScript.</p>
+                        <p>Social media links 👇</p>
+
+                        <div className=" flex gap-2 mt-2 ">
+                            <a
+                                className=" hover:scale-125 focus:scale-75 transition-all"
+                                href="https://www.linkedin.com/in/ashish-kuldeep-09b96018b"
+                                rel="noreferrer" target={"_blank"}
+                            ><img
+                                    className=" w-8 bg-white rounded-md"
+                                    src="https://cdn1.iconfinder.com/data/icons/social-media-rounded-corners/512/Rounded_Linkedin2_svg-512.png"
+                                    alt="Linkedin" />
+                            </a>
+
+                            <a
+                                className=" hover:scale-125 focus:scale-75 transition-all"
+                                href="https://github.com/Ashishkuldeep23" rel="noreferrer" target={"_blank"}
+                            ><img
+                                    src="https://cdn3.iconfinder.com/data/icons/social-media-2253/25/Group-512.png"
+                                    className=" w-8 bg-white rounded-md"
+                                    alt="Github"
+                                />
+                            </a>
+
+                            <a
+                                className=" hover:scale-125 focus:scale-75 transition-all"
+                                href="https://mobile.twitter.com/ashishkuldeep23" rel="noreferrer" target={"_blank"}
+                            ><img
+                                    src="https://cdn1.iconfinder.com/data/icons/social-media-rounded-corners/512/Rounded_Twitter5_svg-512.png"
+                                    className=" w-8 bg-white rounded-md"
+                                    alt="Tiwtter"
+
+                                />
+                            </a>
+
+                            <a
+                                className=" hover:scale-125 focus:scale-75 transition-all"
+                                href="https://www.youtube.com/@ashishkuldeep2305" rel="noreferrer" target={"_blank"}
+                            ><img
+                                    src="https://cdn1.iconfinder.com/data/icons/social-media-rounded-corners/512/Rounded_Youtube3_svg-512.png"
+                                    className=" w-8 bg-white rounded-md"
+                                    alt="Youtube"
+                                />
+                            </a>
+                        </div>
+
+
                     </div>
 
                     <div className=" h-90 overflow-hidden border w-11/12 sm:w-2/5 p-1 py-3 rounded m-0.5 bg-black text-white">

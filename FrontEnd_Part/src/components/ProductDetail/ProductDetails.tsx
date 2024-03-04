@@ -141,7 +141,10 @@ export default function ProductDetails() {
         toast.success(`${title}, added in cart.`, {
             action: {
                 label: 'Goto🛒',
-                onClick: () => navigate("/cart")
+                onClick: () => {
+                    window.scroll(0, 0)
+                    navigate("/cart");
+                }
             },
         });
 
