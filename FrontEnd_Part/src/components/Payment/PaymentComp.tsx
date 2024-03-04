@@ -10,7 +10,7 @@ import { CardDataInter } from "../../Slices/CartSlice"
 import { checkEmail } from "../AboutPage/DetailsOfUser"
 import { Fragment, useEffect } from "react"
 import { orderState, setOrderdata } from "../../Slices/OrderSlice"
-import { toast } from "react-toastify"
+import { toast } from "sonner"
 import { useNavigate } from 'react-router-dom'
 
 
@@ -84,16 +84,7 @@ const PaymentComp = () => {
 
     // // // Check requiest sended --->
     if (getOrderData.isLoading) {
-      toast.error(`Wait for one request`, {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
+      toast.error(`Wait for one request`);
       return
     }
 

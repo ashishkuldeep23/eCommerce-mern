@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch, RootState } from "../../store"
 import { useNavigate } from "react-router-dom"
 import { createOrder, orderState } from "../../Slices/OrderSlice"
-import { toast } from "react-toastify"
+import { toast } from "sonner"
 import { OrderData } from "../Payment/PaymentComp"
 import { setClearCartData } from "../../Slices/CartSlice"
 // import { OrderData } from "../Payment/PaymentComp"
@@ -47,16 +47,7 @@ const OrderConfirm = () => {
 
         } else {
 
-            toast.error(`Something went wrong with your orderdata, Please Reorder the product. And got home`, {
-                position: "top-right",
-                autoClose: 2000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: false,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-            });
+            toast.error(`Something went wrong with your orderdata, Please Reorder the product. And got home`);
 
         }
 

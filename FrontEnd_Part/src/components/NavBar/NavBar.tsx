@@ -7,7 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { toggleModeValue } from '../../Slices/ThemeSlices'
 import { AppDispatch, RootState } from '../../store'
 import { fetchAllCategoryAndHighlight, fetchAllProducts, fetchOneProductByID, setSingleProductData } from '../../Slices/AllProductSlice';
-import { toast } from 'react-toastify';
+import { toast } from 'sonner';
 import { reqVerifyMail, userState } from '../../Slices/UserSlice';
 import { searchProduct, searchProductState, setKeyText } from '../../Slices/ProductSearchByKey';
 import { IProduct } from '../ProductListing/ProductLists';
@@ -393,16 +393,7 @@ function RightCommonSection() {
 
 
 
-        toast.success("SingOut Done ✅", {
-            position: "top-right",
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: true,
-            progress: undefined,
-            theme: "dark",
-        })
+        toast.success("SingOut Done ✅")
 
 
 
@@ -762,11 +753,13 @@ function MainSearchBarWithLogics() {
 
 
     const itemSuggestionClickHandle = (product: IProduct) => {
+
+        // // // Add click into search history ---> 
+        addOneKeywordFromHistory(product)
+
         navigate(`/product/${product.id}`);
         dispatch(setSingleProductData({ id: product.id }));
         dispatch(fetchOneProductByID({ productId: product.id }));
-
-        addOneKeywordFromHistory(product)
         // dispatch(setSingleOProductId({ id: product.id }));
         window.scroll(0, 0);
         setText("")
@@ -952,7 +945,10 @@ function MainSearchBarWithLogics() {
                                         return (
                                             <div
                                                 key={i}
-                                                className={` ${themeSate ? "text-violet-300 " : "text-violet-800 "} first-line:pl-2 rounded-l-md flex justify-between items-end border-1 border-b border-violet-600`}
+                                                className={`
+                                                    ${themeSate ? "text-violet-300 " : "text-violet-800 "} 
+                                                    pl-1 rounded-l-md flex justify-between items-end border-1 border-b border-violet-600
+                                                 `}
                                             >
                                                 <ol
                                                     className=' w-full hover:cursor-pointer capitalize'
@@ -982,7 +978,6 @@ function MainSearchBarWithLogics() {
                     </ul>
 
                 </div>
-
 
             }
 

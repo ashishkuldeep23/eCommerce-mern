@@ -3,7 +3,7 @@ import { useState } from "react"
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../../store'
 import { fetchAllProducts } from '../../Slices/AllProductSlice'
-import { toast } from "react-toastify"
+import { toast } from "sonner"
 
 
 
@@ -41,30 +41,12 @@ export default function Pagination() {
 
 
         if (page < 1) {
-            toast.error(`Page ${page} is not possiable for search | 400 (Bad Request)`, {
-                position: "top-right",
-                autoClose: 2000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: false,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-            });
+            toast.error(`Page ${page} is not possiable for search | 400 (Bad Request)`);
             return
         }
 
         if (page > totalPageShow) {
-            toast.error(`Page ${page} is not possiable for search | 400 (Bad Request)`, {
-                position: "top-right",
-                autoClose: 2000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: false,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-            });
+            toast.error(`Page ${page} is not possiable for search | 400 (Bad Request)`);
             return
         }
 

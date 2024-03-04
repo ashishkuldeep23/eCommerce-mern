@@ -2,7 +2,7 @@ import { StarIcon } from "@heroicons/react/24/solid"
 import { useDispatch, useSelector } from "react-redux"
 import { createNewReview, reviewState, updateReview } from "../../Slices/ReviewSlice"
 import { AppDispatch, RootState } from "../../store"
-import { toast } from "react-toastify"
+import { toast } from "sonner"
 import { setReviewData } from "../../Slices/ReviewSlice"
 
 
@@ -30,16 +30,7 @@ const PostReview = () => {
 
         if (inputReviewData.stars === 0 || inputReviewData.comment === "") {
 
-            toast.error(`Give comment and stars, both should given.`, {
-                position: "top-right",
-                autoClose: 2000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: false,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-            });
+            toast.error(`Give comment and stars, both should given.`);
 
             return
         }
@@ -60,16 +51,7 @@ const PostReview = () => {
     function updateReviewHandler() {
         if (inputReviewData.comment === "") {
 
-            toast.error(`Comment can't empty for update.`, {
-                position: "top-right",
-                autoClose: 2000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: false,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-            });
+            toast.error(`Comment can't empty for update.`);
 
             return
         }

@@ -1,7 +1,7 @@
 
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { useSelector } from "react-redux";
-import { toast } from "react-toastify"
+import { toast } from "sonner"
 import { RootState } from "../store";
 import { gettingTokenInCookieAndLocalHost } from "../App";
 
@@ -265,30 +265,12 @@ const reviewSlice = createSlice({
                 if (action.payload.status === false) {
 
                     state.isError = true
-                    toast.error(`${action.payload.message} | 400`, {
-                        position: "top-right",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: false,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "dark",
-                    })
+                    toast.error(`${action.payload.message} | 400`)
                 } else {
 
                     // // // True case written here ------->
 
-                    toast.success(`${action.payload.message}`, {
-                        position: "top-right",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: false,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "dark",
-                    })
+                    toast.success(`${action.payload.message}`)
 
                     state.isReview = true
 
@@ -308,16 +290,7 @@ const reviewSlice = createSlice({
                 state.isLoading = false
                 state.isError = true
                 state.isFullfilled = false
-                toast.error(`${action.error.message}`, {
-                    position: "top-right",
-                    autoClose: 2000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: false,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "dark",
-                });
+                toast.error(`${action.error.message}`);
             })
 
 
@@ -336,28 +309,10 @@ const reviewSlice = createSlice({
 
                     state.isError = true
                     state.isFullfilled = false
-                    toast.error(`${action.payload.message} | 400`, {
-                        position: "top-right",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: false,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "dark",
-                    })
+                    toast.error(`${action.payload.message} | 400`)
                 } else {
 
-                    toast.success(`${action.payload.message}`, {
-                        position: "top-right",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: false,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "dark",
-                    })
+                    toast.success(`${action.payload.message}`)
 
                     // // reload loaction ----->
                     // location.reload()
@@ -375,16 +330,7 @@ const reviewSlice = createSlice({
                 state.isLoading = false
                 state.isError = true
                 state.isFullfilled = false
-                toast.error(`${action.error.message}`, {
-                    position: "top-right",
-                    autoClose: 2000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: false,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "dark",
-                });
+                toast.error(`${action.error.message}`);
             })
 
 
@@ -404,28 +350,10 @@ const reviewSlice = createSlice({
 
                     state.isError = true
                     state.isFullfilled = false
-                    toast.error(`${action.payload.message} | 400`, {
-                        position: "top-right",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: false,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "dark",
-                    })
+                    toast.error(`${action.payload.message} | 400`)
                 } else {
 
-                    toast.success(`${action.payload.message}`, {
-                        position: "top-right",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: false,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "dark",
-                    })
+                    toast.success(`${action.payload.message}`)
 
                     // // reload loaction ----->
                     // location.reload()
@@ -445,16 +373,7 @@ const reviewSlice = createSlice({
                 state.isLoading = false
                 state.isError = true
                 state.isFullfilled = false
-                toast.error(`${action.error.message}`, {
-                    position: "top-right",
-                    autoClose: 2000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: false,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "dark",
-                });
+                toast.error(`${action.error.message}`);
             })
 
 
@@ -474,28 +393,10 @@ const reviewSlice = createSlice({
 
                     state.isError = true
                     state.isFullfilled = false
-                    toast.error(`${action.payload.message} | 400`, {
-                        position: "top-right",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: false,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "dark",
-                    })
+                    toast.error(`${action.payload.message} | 400`)
                 } else {
 
-                    toast.success(`${action.payload.message}`, {
-                        position: "top-right",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: false,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "dark",
-                    })
+                    toast.success(`${action.payload.message}`)
 
                     // // reload loaction ----->
                     // location.reload()
@@ -513,16 +414,7 @@ const reviewSlice = createSlice({
                 state.isLoading = false
                 state.isError = true
                 state.isFullfilled = false
-                toast.error(`${action.error.message}`, {
-                    position: "top-right",
-                    autoClose: 2000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: false,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "dark",
-                });
+                toast.error(`${action.error.message}`);
             })
 
 
@@ -541,28 +433,10 @@ const reviewSlice = createSlice({
 
                     state.isError = true
                     state.isFullfilled = false
-                    toast.error(`${action.payload.message} | 400`, {
-                        position: "top-right",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: false,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "dark",
-                    })
+                    toast.error(`${action.payload.message} | 400`)
                 } else {
 
-                    toast.success(`${action.payload.message}`, {
-                        position: "top-right",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: false,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "dark",
-                    })
+                    toast.success(`${action.payload.message}`)
 
                     // // reload loaction ----->
                     // location.reload()
@@ -580,16 +454,7 @@ const reviewSlice = createSlice({
                 state.isLoading = false
                 state.isError = true
                 state.isFullfilled = false
-                toast.error(`${action.error.message}`, {
-                    position: "top-right",
-                    autoClose: 2000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: false,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "dark",
-                });
+                toast.error(`${action.error.message}`);
             })
 
 

@@ -138,8 +138,8 @@ const ChartJs2 = () => {
             <div className=" my-5 rounded py-2 px-1 md:p-2 w-full flex  flex-col items-center">
 
 
-                <div className=' text-center'> 
-                <h1 className=' text-4xl font-bold underline text-center my-5'>Data visualization </h1>
+                <div className=' text-center'>
+                    <h1 className=' text-4xl font-bold underline text-center my-5'>Data visualization </h1>
                     <p>All order sold chart.</p>
 
                     <p className=' text-center my-2 underline'>⁕Data selected <span className=' text-yellow-400'>{productBy}</span> in <span className=' text-yellow-400'>{cartType}</span> Chart</p>
@@ -164,7 +164,7 @@ const ChartJs2 = () => {
                         >
 
                             {
-                                arrOfProductBy.map((ele, i) => <option key={i} className={` ${themeMode ? " bg-sky-950 text-white" : "bg-slate-50 text-black"} `}  value={ele}>{ele}</option>)
+                                arrOfProductBy.map((ele, i) => <option key={i} className={` ${themeMode ? " bg-sky-950 text-white" : "bg-slate-50 text-black"} `} value={ele}>{ele}</option>)
                             }
 
                         </select>
@@ -185,7 +185,7 @@ const ChartJs2 = () => {
                         >
 
                             {
-                                arrOfchartTypes.map((ele, i) => <option key={i} className={` ${themeMode ? " bg-sky-950 text-white" : "bg-slate-50 text-black"} `}  value={ele}>{ele}</option>)
+                                arrOfchartTypes.map((ele, i) => <option key={i} className={` ${themeMode ? " bg-sky-950 text-white" : "bg-slate-50 text-black"} `} value={ele}>{ele}</option>)
                             }
 
                         </select>
@@ -300,12 +300,62 @@ function MainChart({ Data, cartType }: { Data: FormatedDataOfProduct, cartType: 
     }, [Data])
 
 
+    // console.log(cartType)
 
+
+
+    const ComponentHashMap = {
+
+        "Pie": Pie,
+        "Bar": Bar,
+        "PolarArea": PolarArea,
+        "Doughnut": Doughnut
+
+    }
+
+    // // // This will act as like dynamic component ---->
+    const Component = ComponentHashMap[cartType] || Pie;
+
+
+    return (
+        <>
+
+            <div className="chart-container my-10  smm:h-[70vh] w-[100vw] sm:w-[70vw]  flex flex-col justify-center items-center">
+                <h2 className=' border-b' style={{ textAlign: "center" }}>{cartType} Chart</h2>
+
+                <Component
+                    // className="h-[40vh]"
+
+                    data={chartData}
+
+
+                    options={{
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: headingWithDateT
+                            }
+                        }
+                    }}
+
+                />
+            </div>
+
+        </>
+    )
+
+
+
+
+
+    // // // // Previously doing this (Above is better) ------>
+    /**
+     *  
     return (
 
         <>
 
-            {/* Actual code for charts ----> */}
+          
             {
                 cartType === "Pie"
                     ?
@@ -417,6 +467,9 @@ function MainChart({ Data, cartType }: { Data: FormatedDataOfProduct, cartType: 
         </>
 
     );
+    */
+
+
 }
 
 

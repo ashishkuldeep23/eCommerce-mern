@@ -1,7 +1,7 @@
 
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { useSelector } from "react-redux";
-import { toast } from "react-toastify"
+import { toast } from "sonner"
 import { RootState } from "../store";
 import { gettingTokenInCookieAndLocalHost } from "../App";
 import { OrderData } from "../components/Payment/PaymentComp";
@@ -391,28 +391,10 @@ const userSlice = createSlice({
 
                     state.isError = true
 
-                    toast.error(`${action.payload.message} | 400`, {
-                        position: "top-right",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: false,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "dark",
-                    })
+                    toast.error(`${action.payload.message} | 400`)
                 } else {
 
-                    toast.success(`${action.payload.message}`, {
-                        position: "top-right",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: false,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "dark",
-                    })
+                    toast.success(`${action.payload.message}`)
 
 
                     state.isSingIn = true
@@ -431,16 +413,7 @@ const userSlice = createSlice({
 
                 state.isLoading = false
                 state.isError = true
-                toast.error(`${action.error.message} | Check your Network | Refresh the page`, {
-                    position: "top-right",
-                    autoClose: 2000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: false,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "dark",
-                });
+                toast.error(`${action.error.message} | Check your Network | Refresh the page`);
             })
 
 
@@ -459,28 +432,10 @@ const userSlice = createSlice({
 
                     state.isError = true
 
-                    toast.error(`${action.payload.message} | 400`, {
-                        position: "top-right",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: false,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "dark",
-                    })
+                    toast.error(`${action.payload.message} | 400`)
                 } else {
 
-                    toast.success(`${action.payload.message}`, {
-                        position: "top-right",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: false,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "dark",
-                    })
+                    toast.success(`${action.payload.message}`)
 
 
 
@@ -538,29 +493,11 @@ const userSlice = createSlice({
 
                 if (action.error.message && errorArray?.length === 2 && errorArray[1].includes('"Unauthorized"')) {
 
-                    toast.error(`Given Email or Password is not valid.Please check your Email and Password.`, {
-                        position: "top-right",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: false,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "dark",
-                    });
+                    toast.error(`Given Email or Password is not valid.Please check your Email and Password.`);
 
                 } else {
 
-                    toast.error(`${action.error.message} | Check your Network | Refresh the page`, {
-                        position: "top-right",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: false,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "dark",
-                    });
+                    toast.error(`${action.error.message} | Check your Network | Refresh the page`);
 
                 }
 
@@ -583,16 +520,7 @@ const userSlice = createSlice({
 
                     state.isError = true
 
-                    toast.error(`${action.payload.message} | 400`, {
-                        position: "top-right",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: false,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "dark",
-                    })
+                    toast.error(`${action.payload.message} | 400`)
                 } else {
 
                     // toast.success(`${action.payload.message}`, {
@@ -674,29 +602,11 @@ const userSlice = createSlice({
 
                 if (action.error.message && errorArray?.length === 2 && errorArray[1].includes('"Unauthorized"')) {
 
-                    toast.error(`Given Email or Password is not valid.Please check your Email and Password.`, {
-                        position: "top-right",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: false,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "dark",
-                    });
+                    toast.error(`Given Email or Password is not valid.Please check your Email and Password.`);
 
                 } else {
 
-                    toast.error(`${action.error.message} | Check your Network | Refresh the page`, {
-                        position: "top-right",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: false,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "dark",
-                    });
+                    toast.error(`${action.error.message} | Check your Network | Refresh the page`);
 
                 }
 
@@ -716,28 +626,10 @@ const userSlice = createSlice({
 
                     state.isError = true
 
-                    toast.error(`${action.payload.message} | 400`, {
-                        position: "top-right",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: false,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "dark",
-                    })
+                    toast.error(`${action.payload.message} | 400`)
                 } else {
 
-                    toast.success(`${action.payload.message} | SingOut Done ✅ from Backend`, {
-                        position: "top-right",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: false,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "dark",
-                    })
+                    toast.success(`${action.payload.message} | SingOut Done ✅ from Backend`)
 
                 }
 
@@ -749,16 +641,7 @@ const userSlice = createSlice({
                 // console.log(action)
 
 
-                toast.error(`${action.error.message} | Refresh the page`, {
-                    position: "top-right",
-                    autoClose: 2000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: false,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "dark",
-                });
+                toast.error(`${action.error.message} | Refresh the page`);
 
 
 
@@ -780,28 +663,10 @@ const userSlice = createSlice({
 
                     state.isError = true
 
-                    toast.error(`${action.payload.message} | 400`, {
-                        position: "top-right",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: false,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "dark",
-                    })
+                    toast.error(`${action.payload.message} | 400`)
                 } else {
 
-                    toast.success(`${action.payload.message} | SingOut Done ✅ from Backend`, {
-                        position: "top-right",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: false,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "dark",
-                    })
+                    toast.success(`${action.payload.message} | SingOut Done ✅ from Backend`)
 
                     state.isFullFilled = true
 
@@ -837,16 +702,7 @@ const userSlice = createSlice({
                 newState.isLoading = false
                 newState.isError = true
                 newState.isFullFilled = false
-                toast.error(`${action.error.message}`, {
-                    position: "top-right",
-                    autoClose: 2000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: false,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "dark",
-                });
+                toast.error(`${action.error.message}`);
             })
 
 
@@ -866,28 +722,10 @@ const userSlice = createSlice({
                     state.isError = true
                     state.errMsg = action.payload.message
 
-                    toast.error(`${action.payload.message} | 400`, {
-                        position: "top-right",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: false,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "dark",
-                    })
+                    toast.error(`${action.payload.message} | 400`)
                 } else {
 
-                    toast.success(`${action.payload.message}`, {
-                        position: "top-right",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: false,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "dark",
-                    })
+                    toast.success(`${action.payload.message}`)
 
                     state.isFullFilled = true
                     state.errMsg = action.payload.message
@@ -903,16 +741,7 @@ const userSlice = createSlice({
                 newState.isError = true
                 newState.isFullFilled = false
                 newState.errMsg = action?.error?.message!
-                toast.error(`${action.error.message}`, {
-                    position: "top-right",
-                    autoClose: 2000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: false,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "dark",
-                });
+                toast.error(`${action.error.message}`);
             })
 
 
@@ -931,28 +760,10 @@ const userSlice = createSlice({
                     state.isError = true
                     state.errMsg = action.payload.message
 
-                    toast.error(`${action.payload.message} | 400`, {
-                        position: "top-right",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: false,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "dark",
-                    })
+                    toast.error(`${action.payload.message} | 400`)
                 } else {
 
-                    toast.success(`${action.payload.message}`, {
-                        position: "top-right",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: false,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "dark",
-                    })
+                    toast.success(`${action.payload.message}`)
 
                     state.isFullFilled = true
                     state.errMsg = action.payload.message
@@ -968,16 +779,7 @@ const userSlice = createSlice({
                 newState.isError = true
                 newState.isFullFilled = false
                 newState.errMsg = action?.error?.message!
-                toast.error(`${action.error.message}`, {
-                    position: "top-right",
-                    autoClose: 2000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: false,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "dark",
-                });
+                toast.error(`${action.error.message}`);
             })
 
 
@@ -997,28 +799,10 @@ const userSlice = createSlice({
                     state.isError = true
                     state.errMsg = action.payload.message
 
-                    toast.error(`${action.payload.message} | 400`, {
-                        position: "top-right",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: false,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "dark",
-                    })
+                    toast.error(`${action.payload.message} | 400`)
                 } else {
 
-                    toast.success(`${action.payload.message}`, {
-                        position: "top-right",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: false,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "dark",
-                    })
+                    toast.success(`${action.payload.message}`)
 
                     state.isFullFilled = true
                     state.errMsg = action.payload.message
@@ -1034,16 +818,7 @@ const userSlice = createSlice({
                 newState.isError = true
                 newState.isFullFilled = false
                 newState.errMsg = action?.error?.message!
-                toast.error(`${action.error.message}`, {
-                    position: "top-right",
-                    autoClose: 2000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: false,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "dark",
-                });
+                toast.error(`${action.error.message}`);
             })
 
 
@@ -1061,28 +836,10 @@ const userSlice = createSlice({
                     state.isError = true
                     state.errMsg = action.payload.message
 
-                    toast.error(`${action.payload.message} | 400`, {
-                        position: "top-right",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: false,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "dark",
-                    })
+                    toast.error(`${action.payload.message} | 400`)
                 } else {
 
-                    toast.success(`${action.payload.message} | Forgot Password Done ✅`, {
-                        position: "top-right",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: false,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "dark",
-                    })
+                    toast.success(`${action.payload.message} | Forgot Password Done ✅`)
 
                     state.isFullFilled = true
 
@@ -1102,16 +859,7 @@ const userSlice = createSlice({
                 newState.isError = true
                 newState.isFullFilled = false
                 newState.errMsg = action?.error?.message!
-                toast.error(`${action.error.message}`, {
-                    position: "top-right",
-                    autoClose: 2000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: false,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "dark",
-                });
+                toast.error(`${action.error.message}`);
             })
 
 
@@ -1129,28 +877,10 @@ const userSlice = createSlice({
                     state.isError = true
                     state.errMsg = action.payload.message
 
-                    toast.error(`${action.payload.message} | 400`, {
-                        position: "top-right",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: false,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "dark",
-                    })
+                    toast.error(`${action.payload.message} | 400`)
                 } else {
 
-                    toast.success(`${action.payload.message}`, {
-                        position: "top-right",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: false,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "dark",
-                    })
+                    toast.success(`${action.payload.message}`)
 
                     state.isFullFilled = true
 
@@ -1164,16 +894,7 @@ const userSlice = createSlice({
                 newState.isError = true
                 newState.isFullFilled = false
                 newState.errMsg = action?.error?.message!
-                toast.error(`${action.error.message}`, {
-                    position: "top-right",
-                    autoClose: 2000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: false,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "dark",
-                });
+                toast.error(`${action.error.message}`);
             })
 
 
@@ -1192,28 +913,10 @@ const userSlice = createSlice({
                     state.isError = true
                     state.errMsg = action.payload.message
 
-                    toast.error(`${action.payload.message} | 400`, {
-                        position: "top-right",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: false,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "dark",
-                    })
+                    toast.error(`${action.payload.message} | 400`)
                 } else {
 
-                    toast.success(`${action.payload.message}`, {
-                        position: "top-right",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: false,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "dark",
-                    })
+                    toast.success(`${action.payload.message}`)
 
                     state.isFullFilled = true
 
@@ -1227,16 +930,7 @@ const userSlice = createSlice({
                 newState.isError = true
                 newState.isFullFilled = false
                 newState.errMsg = action?.error?.message!
-                toast.error(`${action.error.message}`, {
-                    position: "top-right",
-                    autoClose: 2000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: false,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "dark",
-                });
+                toast.error(`${action.error.message}`);
             })
 
 
@@ -1258,16 +952,7 @@ const userSlice = createSlice({
 
                     state.isError = true
 
-                    toast.error(`${action.payload.message} | 400`, {
-                        position: "top-right",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: false,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "dark",
-                    })
+                    toast.error(`${action.payload.message} | 400`)
                 } else {
 
                     // toast.success(`${action.payload.message}`, {
@@ -1339,29 +1024,11 @@ const userSlice = createSlice({
 
                 if (action.error.message && errorArray?.length === 2 && errorArray[1].includes('"Unauthorized"')) {
 
-                    toast.error(`Given Email or Password is not valid.Please check your Email and Password.`, {
-                        position: "top-right",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: false,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "dark",
-                    });
+                    toast.error(`Given Email or Password is not valid.Please check your Email and Password.`);
 
                 } else {
 
-                    toast.error(`${action.error.message} | Refresh the page | Relogin`, {
-                        position: "top-right",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: false,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "dark",
-                    });
+                    toast.error(`${action.error.message} | Refresh the page | Relogin`);
 
                 }
 
@@ -1385,16 +1052,7 @@ const userSlice = createSlice({
                     state.isError = true
                     state.errMsg = action.payload.message
 
-                    toast.error(`${action.payload.message} | 400`, {
-                        position: "top-right",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: false,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "dark",
-                    })
+                    toast.error(`${action.payload.message} | 400`)
                 } else {
 
 
@@ -1402,16 +1060,7 @@ const userSlice = createSlice({
 
                     state.userData.wishList = action.payload.data.wishList || []
 
-                    toast.success(`${action.payload.message}`, {
-                        position: "top-right",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: false,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "dark",
-                    })
+                    toast.success(`${action.payload.message}`)
 
                     state.isFullFilled = true
 
@@ -1442,16 +1091,7 @@ const userSlice = createSlice({
                 state.isError = true
                 state.isFullFilled = false
                 state.errMsg = action?.error?.message!
-                toast.error(`${action.error.message}`, {
-                    position: "top-right",
-                    autoClose: 2000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: false,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "dark",
-                });
+                toast.error(`${action.error.message}`);
             })
 
 

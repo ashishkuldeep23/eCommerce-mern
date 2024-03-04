@@ -5,7 +5,7 @@ import { createAsyncThunk, createSlice, current, PayloadAction } from "@reduxjs/
 
 import { IProduct } from "../components/ProductListing/ProductLists"
 
-import { toast } from "react-toastify"
+import { toast } from 'sonner'
 import { gettingTokenInCookieAndLocalHost } from "../App"
 
 
@@ -338,16 +338,7 @@ const allProductsCatSlice = createSlice({
             .addCase(fetchAllProducts.fulfilled, (state, action) => {
 
                 if (action.payload.totaldata === 0) {
-                    toast.error(`Data Not Found for your query | 404`, {
-                        position: "top-right",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: false,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "dark",
-                    });
+                    toast.error(`Data Not Found for your query | 404`);
                 }
 
                 state.isLoading = false;
@@ -371,16 +362,7 @@ const allProductsCatSlice = createSlice({
 
                 console.log(action.error)
 
-                toast.error(`${action.error.message} | Check your Network | Refresh the page`, {
-                    position: "top-right",
-                    autoClose: 2000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: false,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "dark",
-                });
+                toast.error(`${action.error.message} | Check your Network | Refresh the page`);
             })
 
 
@@ -420,16 +402,7 @@ const allProductsCatSlice = createSlice({
                     }
 
 
-                    toast.error(`${action.payload.message}`, {
-                        position: "top-right",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: false,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "dark",
-                    });
+                    toast.error(`${action.payload.message}`);
                 }
 
             })
@@ -441,16 +414,7 @@ const allProductsCatSlice = createSlice({
                 // console.log(action)
 
                 state.isError = true
-                toast.error(`${action.error.message} | Check your Network | Refresh the page`, {
-                    position: "top-right",
-                    autoClose: 2000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: false,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "dark",
-                });
+                toast.error(`${action.error.message} | Check your Network | Refresh the page`);
             })
 
 
@@ -471,16 +435,7 @@ const allProductsCatSlice = createSlice({
             .addCase(fetchOneProductByID.rejected, (state, action) => {
 
                 state.isError = true
-                toast.error(`${action.error.message} | Check your Network | Refresh the page`, {
-                    position: "top-right",
-                    autoClose: 2000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: false,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "dark",
-                });
+                toast.error(`${action.error.message} | Check your Network | Refresh the page`);
             })
 
 
@@ -497,28 +452,10 @@ const allProductsCatSlice = createSlice({
                 if (action.payload.status === false) {
 
                     state.isError = true
-                    toast.error(`${action.payload.message} | 400`, {
-                        position: "top-right",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: false,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "dark",
-                    })
+                    toast.error(`${action.payload.message} | 400`)
                 } else {
 
-                    toast.success(`${action.payload.message}`, {
-                        position: "top-right",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: false,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "dark",
-                    })
+                    toast.success(`${action.payload.message}`)
 
                     // // reload loaction ----->
                     // location.reload()
@@ -534,16 +471,7 @@ const allProductsCatSlice = createSlice({
             .addCase(likeProduct.rejected, (state, action) => {
                 state.isLoading = false
                 state.isError = true
-                toast.error(`${action.error.message} | Check your Network | Refresh the page`, {
-                    position: "top-right",
-                    autoClose: 2000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: false,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "dark",
-                });
+                toast.error(`${action.error.message} | Check your Network | Refresh the page`);
             })
 
 
@@ -560,28 +488,10 @@ const allProductsCatSlice = createSlice({
                 if (action.payload.status === false) {
 
                     state.isError = true
-                    toast.error(`${action.payload.message} | 400`, {
-                        position: "top-right",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: false,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "dark",
-                    })
+                    toast.error(`${action.payload.message} | 400`)
                 } else {
 
-                    toast.success(`${action.payload.message}`, {
-                        position: "top-right",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: false,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "dark",
-                    })
+                    toast.success(`${action.payload.message}`)
 
                     // // reload loaction ----->
                     // location.reload()
@@ -597,16 +507,7 @@ const allProductsCatSlice = createSlice({
             .addCase(dislikeProduct.rejected, (state, action) => {
                 state.isLoading = false
                 state.isError = true
-                toast.error(`${action.error.message} | Check your Network | Refresh the page`, {
-                    position: "top-right",
-                    autoClose: 2000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: false,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "dark",
-                });
+                toast.error(`${action.error.message} | Check your Network | Refresh the page`);
             })
 
 

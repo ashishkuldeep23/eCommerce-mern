@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { toast } from "react-toastify"
+import { toast } from "sonner"
 import { useDispatch } from "react-redux"
 import { reqVerifyMail, upadteUserData, userState } from "../../Slices/UserSlice"
 import { AppDispatch } from "../../store"
@@ -64,16 +64,7 @@ const UserImageDiv = () => {
         // console.log(checkImge)
 
         if (!checkImge) {
-            toast.error(`Change image by input please.`, {
-                position: "top-right",
-                autoClose: 2000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: false,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-            });
+            toast.error(`Change image by input please.`);
             return
         }
 

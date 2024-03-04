@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom"
 import { useForm, SubmitHandler } from "react-hook-form"
 import { useDispatch } from "react-redux"
 import { createNewUser, userState } from "../../Slices/UserSlice"
-import { toast } from "react-toastify"
+import { toast } from "sonner"
 
 
 type SingFormInputs = {
@@ -110,16 +110,7 @@ export default function SignIn() {
         }
         else {
 
-            toast.error(`Error,Please try again. Or Write manually`, {
-                position: "top-right",
-                autoClose: 2000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: false,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-            });
+            toast.error(`Error,Please try again. Or Write manually`);
 
         }
 

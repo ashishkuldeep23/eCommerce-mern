@@ -6,7 +6,8 @@ import UserDetails from "./Screens/UserDetails"
 import CartScreen from "./Screens/CartScreen"
 import PaymentScreen from "./Screens/PaymentScreen"
 import { useEffect } from "react"
-import { ToastContainer } from "react-toastify"
+import { Toaster } from 'sonner'
+
 
 import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch, RootState } from "./store"
@@ -253,7 +254,12 @@ function App() {
 
       <RouterProvider router={router} />
 
-      <ToastContainer />
+      <Toaster
+        position="top-right"
+        expand={false} 
+        richColors 
+        closeButton 
+      />
 
     </>
   )

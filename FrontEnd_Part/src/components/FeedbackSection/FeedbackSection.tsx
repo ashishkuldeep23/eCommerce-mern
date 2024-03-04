@@ -7,6 +7,7 @@ import { SubmitHandler, useForm } from "react-hook-form"
 import { LoaderCircle } from "../LoaderCircle/LoaderCircle"
 import { createNewFeedback, feedbackState } from "../../Slices/FeedbackSliceFile"
 import { useEffect } from "react"
+import { useNavigate } from "react-router-dom"
 
 
 type FormInputs = {
@@ -19,6 +20,8 @@ type FormInputs = {
 const FeedbackSection = () => {
 
     const dispatch = useDispatch<AppDispatch>()
+
+    const navigate = useNavigate()
 
     const themeMode = useSelector((state: RootState) => state.themeReducer.mode)
 
@@ -74,6 +77,13 @@ const FeedbackSection = () => {
 
             <LoaderCircle isLoading={isLoading} />
 
+            {/* Goto home BTN */}
+            {/* <div> */}
+                <button 
+                className=" fixed top-1.5 left-1.5 border rounded"
+                onClick={()=>{navigate("/")}}
+                >🏠</button>
+            {/* </div> */}
 
 
             <div>
@@ -176,7 +186,6 @@ const FeedbackSection = () => {
 
 
                 </div>
-
 
 
                 <div className=" pb-10 p-3 flex flex-col sm:flex-row justify-center items-center bg-emerald-900  ">

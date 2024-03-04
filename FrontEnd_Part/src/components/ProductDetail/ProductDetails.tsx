@@ -3,8 +3,7 @@ import { StarIcon } from '@heroicons/react/20/solid'
 import { useSelector, useDispatch } from 'react-redux'
 import { AppDispatch, RootState } from '../../store'
 import { addItemInCart } from '../../Slices/CartSlice'
-import { toast } from "react-toastify"
-import 'react-toastify/ReactToastify.css';
+import { toast } from "sonner"
 import SingleProduct from '../ProductListing/SingleProduct'
 import { useNavigate } from 'react-router-dom'
 import { dislikeProduct, fetchOneProductByID, likeProduct } from '../../Slices/AllProductSlice'
@@ -106,16 +105,7 @@ export default function ProductDetails() {
         if (!id && !title && !price) {
             console.log("Page is Empty , go to home and try again");
 
-            toast.error(`Page is Empty , go to home and try again , GoTo Home`, {
-                position: "top-right",
-                autoClose: 2000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: false,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-            });
+            toast.error(`Page is Empty , go to home and try again , GoTo Home`);
 
             return
 
@@ -128,16 +118,7 @@ export default function ProductDetails() {
         if (!type.isChanged) {
             console.log("Option not changed.");
 
-            toast.error(`Please choose one in available option.`, {
-                position: "top-right",
-                autoClose: 2000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: false,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-            });
+            toast.error(`Please choose one in available option.`);
 
             return
         }
@@ -156,15 +137,12 @@ export default function ProductDetails() {
         // localStorage.setItem("cardData", JSON.stringify([...cardData , addaleCartItem ]))
 
         // // Sending Alert
-        toast.success(`${title}, added in cart`, {
-            position: "top-right",
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: true,
-            progress: undefined,
-            theme: "dark",
+        // toast.success(`${title}, added in cart`);
+        toast.success(`${title}, added in cart.`, {
+            action: {
+                label: 'Goto🛒',
+                onClick: () => navigate("/cart")
+            },
         });
 
 

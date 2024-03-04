@@ -1,6 +1,5 @@
 import { createSlice, current } from "@reduxjs/toolkit"
 
-
 import { IProduct } from "../components/ProductListing/ProductLists"
 
 import { SingleTypeObject } from "../components/ProductListing/ProductLists";

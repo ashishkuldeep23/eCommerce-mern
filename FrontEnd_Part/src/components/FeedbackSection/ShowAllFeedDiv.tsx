@@ -85,12 +85,12 @@ function SingleFeedBack({ feedback, i, refrance }: { feedback: FeedBackSingle, i
                 // dragElastic={0.1}
                 dragPropagation
 
-                initial={{opacity : 0 , scale : 0.5}}
+                initial={{ opacity: 0, scale: 0.5 }}
                 // animate={{opacity : 1 , scale : 1}}
                 whileInView={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 1 }}
 
-                
+
                 className={` w-3/5 sm:w-auto sm:max-w-[30vw] rounded-2xl text-center hover:cursor-grab overflow-hidden border relative border-white bg-emerald-700  ${themeMode ? "text-black" : "text-white"} `}
             >
                 <p className=" text-center py-2 bg-rose-600"><span className=" font-bold border-b border-black">{feedback.feedbackType}</span></p>
@@ -123,6 +123,7 @@ function BackGroundDiv() {
                     className=" text-7xl sm:text-9xl font-mono text-emerald-700 font-bold"
                 >Feedback</h1>
                 <p className=" text-center">All feedbacks about this web app is visiable here.</p>
+                <p className=" sm:hidden text-center">For best visual open this in a <span className=" font-bold underline">Laptop</span> or <span className=" font-bold underline">Desktop</span>.</p>
             </div>
 
         </>

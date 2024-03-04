@@ -2,7 +2,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { useSelector } from "react-redux"
 import { RootState } from "../store"
-import { toast } from "react-toastify"
+import { toast } from "sonner"
 
 
 // import type { PayloadAction } from "@reduxjs/toolkit"
@@ -105,29 +105,11 @@ const feedbackSlice = createSlice({
                     state.isError = true
                     state.isFullFilled = false
 
-                    toast.error(`${action.payload.message} | 400`, {
-                        position: "top-right",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: false,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "dark",
-                    })
+                    toast.error(`${action.payload.message} | 400`)
                 } else {
 
                     state.isFullFilled = true
-                    toast.success(`${action.payload.message}`, {
-                        position: "top-right",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: false,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "dark",
-                    })
+                    toast.success(`${action.payload.message}`)
 
 
                     // // // Update data --->
@@ -149,16 +131,7 @@ const feedbackSlice = createSlice({
 
                 // console.log(action)
 
-                toast.error(`${action.error.message} | Check your Network | Refresh the page`, {
-                    position: "top-right",
-                    autoClose: 2000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: false,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "dark",
-                });
+                toast.error(`${action.error.message} | Check your Network | Refresh the page`);
 
 
                 state.isLoading = false
@@ -185,29 +158,11 @@ const feedbackSlice = createSlice({
                     state.isError = true
                     state.isFullFilled = false
 
-                    toast.error(`${action.payload.message} | 400`, {
-                        position: "top-right",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: false,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "dark",
-                    })
+                    toast.error(`${action.payload.message} | 400`)
                 } else {
 
                     state.isFullFilled = true
-                    toast.success(`${action.payload.message}`, {
-                        position: "top-right",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: false,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "dark",
-                    })
+                    toast.success(`${action.payload.message}`)
 
                     state.allFeedbackArr = action.payload.data
 
@@ -224,16 +179,7 @@ const feedbackSlice = createSlice({
 
                 // console.log(action)
 
-                toast.error(`${action.error.message} | Check your Network | Refresh the page`, {
-                    position: "top-right",
-                    autoClose: 2000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: false,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "dark",
-                });
+                toast.error(`${action.error.message} | Check your Network | Refresh the page`);
 
 
                 state.isLoading = false

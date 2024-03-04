@@ -5,7 +5,9 @@ import { Fragment, useEffect, useState } from 'react'
 
 
 import { useForm, SubmitHandler } from "react-hook-form"
-import { toast } from "react-toastify"
+
+
+import { toast } from "sonner"
 
 
 
@@ -104,17 +106,7 @@ const UserAddressDiv = () => {
         }
         else {
 
-            toast.error(`Error,Please try again. Or Write manually`, {
-                position: "top-right",
-                autoClose: 2000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: false,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-            });
-
+            toast.error(`Error,Please try again. Or Write manually`);
         }
 
 
@@ -404,6 +396,8 @@ const UserAddressDiv = () => {
                                 <input
 
                                     type="number"
+                                    maxLength={6}
+                                    max={6}
                                     placeholder="PIN Code"
                                     {...register("pincode", { required: "PIN Code is Required ", pattern: { value: /^[1-9][0-9]{5}$/, message: "Matches exactly one digit from 1 to 9 and Matches exactly five digits in the inclusive range 0-9" } })}
                                     className={`block  rounded-md border-0 py-1.5  shadow-sm ring-1 ring-inset ring-gray-300  focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ${!themeMode ? " bg-white text-gray-900 " : "bg-gray-900 text-white"}`}

@@ -2,7 +2,7 @@
 import { PayloadAction, createAsyncThunk, createSlice, current } from "@reduxjs/toolkit"
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 import { gettingTokenInCookieAndLocalHost } from "../App";
 import { IProduct } from "../components/ProductListing/ProductLists";
 import { NewProductInput } from "../components/AdminComps/CreateProduct";
@@ -215,30 +215,12 @@ const adminSlice = createSlice({
                 if (action.payload.status === false) {
 
                     state.isError = true
-                    toast.error(`${action.payload.message} | 400`, {
-                        position: "top-right",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: false,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "dark",
-                    })
+                    toast.error(`${action.payload.message} | 400`)
                 } else {
 
                     // // // True case written here ------->
 
-                    toast.success(`${action.payload.message}`, {
-                        position: "top-right",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: false,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "dark",
-                    })
+                    toast.success(`${action.payload.message}`)
 
                     // // // Add data in State variables -->
 
@@ -251,16 +233,7 @@ const adminSlice = createSlice({
                 state.isLoading = false
                 state.isError = true
                 state.errMsg = action?.error?.message!
-                toast.error(`${action.error.message}`, {
-                    position: "top-right",
-                    autoClose: 2000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: false,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "dark",
-                });
+                toast.error(`${action.error.message}`);
             })
 
 
@@ -281,16 +254,7 @@ const adminSlice = createSlice({
                 if (action.payload.status === false) {
 
                     state.isError = true
-                    toast.error(`${action.payload.message} | 400`, {
-                        position: "top-right",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: false,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "dark",
-                    })
+                    toast.error(`${action.payload.message} | 400`)
                 } else {
                     // console.log(action.payload.data)
                     state.allProduct = action.payload.data
@@ -301,16 +265,7 @@ const adminSlice = createSlice({
                 state.isLoading = false
                 state.isError = true
                 state.errMsg = action?.error?.message!
-                toast.error(`${action.error.message}`, {
-                    position: "top-right",
-                    autoClose: 2000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: false,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "dark",
-                });
+                toast.error(`${action.error.message}`);
             })
 
 
@@ -331,16 +286,7 @@ const adminSlice = createSlice({
                 if (action.payload.status === false) {
 
                     state.isError = true
-                    toast.error(`${action.payload.message} | 400`, {
-                        position: "top-right",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: false,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "dark",
-                    })
+                    toast.error(`${action.payload.message} | 400`)
                 } else {
                     // console.log(action.payload.data)
 
@@ -375,16 +321,7 @@ const adminSlice = createSlice({
                     state.updatingProduct = false
 
 
-                    toast.success(`${action.payload.message}`, {
-                        position: "top-right",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: false,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "dark",
-                    })
+                    toast.success(`${action.payload.message}`)
 
                     // state.allProduct = action.payload.data
                 }
@@ -394,16 +331,7 @@ const adminSlice = createSlice({
                 state.isLoading = false
                 state.isError = true
                 state.errMsg = action?.error?.message!
-                toast.error(`${action.error.message}`, {
-                    position: "top-right",
-                    autoClose: 2000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: false,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "dark",
-                });
+                toast.error(`${action.error.message}`);
             })
 
 
@@ -424,16 +352,7 @@ const adminSlice = createSlice({
                 if (action.payload.status === false) {
 
                     state.isError = true
-                    toast.error(`${action.payload.message} | 400`, {
-                        position: "top-right",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: false,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "dark",
-                    })
+                    toast.error(`${action.payload.message} | 400`)
                 } else {
                     // console.log(action.payload.sortBy)
 
@@ -518,16 +437,7 @@ const adminSlice = createSlice({
                 state.isLoading = false
                 state.isError = true
                 state.errMsg = action?.error?.message!
-                toast.error(`${action.error.message}`, {
-                    position: "top-right",
-                    autoClose: 2000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: false,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "dark",
-                });
+                toast.error(`${action.error.message}`);
             })
 
 
