@@ -229,10 +229,10 @@ export default function ProductDetails() {
 
         let url = window.location.href
 
-        console.log(url)
-
+        // console.log(url)
 
         let ChildrenOfModal = <div>
+            
 
             <div className='border bg-white px-2 rounded text-gray-600 flex gap-1 flex-wrap'>
 
