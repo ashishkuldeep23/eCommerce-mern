@@ -14,6 +14,7 @@ import { LikeBtnDoubleClick } from './LikeBtnDoubleClick'
 import { useParams } from 'react-router-dom';
 import { setProductData, setUpdatingProduct } from '../../Slices/AdminSliceFile'
 import ProductImagesDiv from './ProductImagesDiv'
+import { setChildrenModal, setOpenMoadl } from '../../Slices/ModalSlice'
 
 
 
@@ -222,6 +223,46 @@ export default function ProductDetails() {
     }
 
 
+    // // // Share product handler --->
+
+    function shareLinkOfProduct() {
+
+        let url = window.location.href
+
+        console.log(url)
+
+
+        let ChildrenOfModal = <div>
+
+            <div className='border bg-white px-2 rounded text-gray-600 flex gap-1 flex-wrap'>
+
+                <p className='text-center mt-1 font-bold '>{url}</p>
+                <button
+                    className='text-xl'
+                    onClick={async (e) => {
+                        e.stopPropagation();
+                        try {
+                            await navigator.clipboard.writeText(`${url}`);
+                            console.log('Product link copied to clipboard');
+                            /* Resolved - text copied to clipboard successfully */
+                        } catch (err) {
+                            console.error('Failed to copy: ', err);
+                            /* Rejected - text failed to copy to the clipboard */
+                        }
+                    }}
+                >
+                    <i className="ri-file-copy-2-line"></i>
+                </button>
+            </div>
+            <p className='text-center mt-1 font-bold underline'>{singleProductData.title}</p>
+        </div>
+
+        dispatch(setOpenMoadl(true))
+        dispatch(setChildrenModal(ChildrenOfModal))
+    }
+
+
+
     // const mainDivRef = useRef<HTMLDivElement>(null)  // // Generics should given outerwise it will give err.
     // // // Type is imprtant of useRef ----> (Above will remove null error)
 
@@ -375,7 +416,7 @@ export default function ProductDetails() {
 
 
                                     {/* Product like and dislike btn ----> */}
-                                    <div className='flex  w-4/5 mt-5'>
+                                    <div className='flex items-center w-4/5 mt-5'>
 
 
                                         <p
@@ -387,8 +428,6 @@ export default function ProductDetails() {
                                             ></i> {singleProductData?.likes || 0}
                                         </p>
 
-
-
                                         <p
                                             className={`border px-3 rounded text-2xl hover:cursor-pointer hover:bg-red-200 ${singleProductData?.dislikedUserIds?.includes(userDataId) && 'text-red-400'}  `}
                                             onClick={(e) => { productDislikeHandler(e) }}
@@ -397,8 +436,19 @@ export default function ProductDetails() {
                                                 className={`ri-thumb-down-fill ${singleProductData?.dislikedUserIds?.includes(userDataId) ? 'text-red-400' : "text-gray-300"} `}
                                             ></i> {singleProductData?.dislikes || 0}
                                         </p>
-                                    </div>
 
+                                        {/* Product Share div */}
+                                        <div className='ml-3'>
+
+                                            <button
+                                                className={`border px-3 rounded text-2xl hover:cursor-pointer hover:bg-teal-200 `}
+                                                onClick={() => { shareLinkOfProduct() }}
+                                            >
+                                                <i className="ri-share-forward-fill"></i>
+                                            </button>
+                                        </div>
+
+                                    </div>
                                 </div>
 
 
