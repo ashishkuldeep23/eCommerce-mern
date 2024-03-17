@@ -232,14 +232,14 @@ export default function ProductDetails() {
         // console.log(url)
 
         let ChildrenOfModal = <div>
-            
+
 
             <div className='border bg-white px-2 rounded text-gray-600 flex gap-1 flex-wrap'>
 
                 <p className='text-center mt-1 font-bold '>{url}</p>
                 <button
                     className='text-xl'
-                    onClick={async (e) => {
+                    onClick={async () => {
                         // e.stopPropagation();
                         try {
                             await navigator.clipboard.writeText(`${url}`);
