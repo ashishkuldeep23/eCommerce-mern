@@ -240,13 +240,16 @@ export default function ProductDetails() {
                 <button
                     className='text-xl'
                     onClick={async (e) => {
-                        e.stopPropagation();
+                        // e.stopPropagation();
                         try {
                             await navigator.clipboard.writeText(`${url}`);
                             console.log('Product link copied to clipboard');
+                            toast.success("URL copied successful. Paste it somewhere.")
+
                             /* Resolved - text copied to clipboard successfully */
                         } catch (err) {
                             console.error('Failed to copy: ', err);
+                            toast.error("Failed to copy.")
                             /* Rejected - text failed to copy to the clipboard */
                         }
                     }}
