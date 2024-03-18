@@ -3,6 +3,7 @@ import { createSlice, current } from "@reduxjs/toolkit"
 import { IProduct } from "../components/ProductListing/ProductLists"
 
 import { SingleTypeObject } from "../components/ProductListing/ProductLists";
+import { gettingTokenInCookieAndLocalHost } from "../App";
 
 
 // // // This is how card data look like
@@ -204,7 +205,7 @@ const cartSlice = createSlice({
 
 
         builder
-            // // //set card data after getting data from backend --->
+            // // // set card data after getting data from backend (Load cart here) --->
             .addCase("fetchAllProducts/fulfilled", (state) => {
                 // console.log("From Cart")
 
@@ -212,7 +213,7 @@ const cartSlice = createSlice({
 
                 let getCartLocal = localStorage.getItem("cardData")
 
-                if (getCartLocal) {
+                if (gettingTokenInCookieAndLocalHost() && getCartLocal) {
                     state.cartData = JSON.parse(getCartLocal)
                 }
 

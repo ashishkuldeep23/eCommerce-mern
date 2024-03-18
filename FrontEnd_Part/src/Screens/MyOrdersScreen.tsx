@@ -9,10 +9,9 @@ import NavBar from '../components/NavBar/NavBar'
 const OrdersScreen = () => {
   return (
     <>
-
-    <NavBar />
-    <OrderOfUser />
-    <Footer />
+      <NavBar />
+      <OrderOfUser />
+      <Footer />
     </>
   )
 }

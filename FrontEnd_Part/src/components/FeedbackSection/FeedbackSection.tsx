@@ -8,6 +8,7 @@ import { LoaderCircle } from "../LoaderCircle/LoaderCircle"
 import { createNewFeedback, feedbackState } from "../../Slices/FeedbackSliceFile"
 import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
+import { ThemeToggelBtnLightAndDark } from "../NavBar/NavBar"
 
 
 type FormInputs = {
@@ -73,6 +74,11 @@ const FeedbackSection = () => {
             className={`${!themeMode ? "bg-white text-gray-700" : "bg-black text-gray-100"} w-full min-h-screen relative`}
         >
             {/* <div className=" border h-allAk mx-auto max-w-full lg:max-w-allAk px-1 lg:px-8 flex flex-col items-center justify-center"></div> */}
+
+            <div className=" w-full absolute flex justify-end">
+                <ThemeToggelBtnLightAndDark />
+
+            </div>
 
 
             <LoaderCircle isLoading={isLoading} />

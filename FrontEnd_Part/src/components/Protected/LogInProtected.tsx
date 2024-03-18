@@ -24,8 +24,7 @@ function LogInProtected({ children }: { children: React.ReactNode }) {
     }
 
 
-
-
+    // return <>{children}</>;
     return children;
 }
 

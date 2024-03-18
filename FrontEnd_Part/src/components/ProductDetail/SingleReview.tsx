@@ -7,6 +7,9 @@ import { deleteReview, dislikeReview, likeReview, setReviewData, setReviewUpadte
 import { setChildrenModal, setOpenMoadl } from "../../Slices/ModalSlice"
 import { useState } from "react"
 import { LikeBtnDoubleClick } from "./LikeBtnDoubleClick"
+import { gettingTokenInCookieAndLocalHost } from "../../App"
+import { toast } from "sonner"
+import { useNavigate } from "react-router-dom"
 
 
 
@@ -24,6 +27,32 @@ const SingleReview = ({ reviewData }: PropOfSingleReview) => {
     const userDataId = userState().userData.id
 
     const dispatch = useDispatch<AppDispatch>()
+
+    const navigate = useNavigate()
+
+
+
+    function checkUserIsLogInEd(): boolean {
+
+        let logined = true
+
+        // // // Check user is logIn or not --->
+        if (!gettingTokenInCookieAndLocalHost()) {
+            toast.error(`Can't do this, you are not logged in person.`, {
+                action: {
+                    label: 'LogIn',
+                    onClick: () => {
+                        window.scroll(0, 0)
+                        navigate("/login");
+                    }
+                },
+            });
+            logined = false
+        }
+
+        return logined
+    }
+
 
 
 
@@ -68,6 +97,11 @@ const SingleReview = ({ reviewData }: PropOfSingleReview) => {
         e.preventDefault();
 
 
+
+        // // // FN calling to check Login ---->
+        if (!checkUserIsLogInEd()) return
+
+
         // alert("ok")
 
         if (!reviewData.likedUserIds.includes(userDataId)) {
@@ -90,6 +124,10 @@ const SingleReview = ({ reviewData }: PropOfSingleReview) => {
 
         e.stopPropagation();
         e.preventDefault();
+
+
+        // // // FN calling to check Login ---->
+        if (!checkUserIsLogInEd()) return
 
 
         // alert("ok")
@@ -131,6 +169,10 @@ const SingleReview = ({ reviewData }: PropOfSingleReview) => {
         // e.stopPropagation();
 
         // alert()
+
+
+        // // // FN calling to check Login ---->
+        if (!checkUserIsLogInEd()) return
 
 
         dispatch(setOpenMoadl(true))

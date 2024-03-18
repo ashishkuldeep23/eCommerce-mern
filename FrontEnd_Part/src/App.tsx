@@ -67,16 +67,22 @@ export const gettingTokenInCookieAndLocalHost = () => {
 
 const router = createBrowserRouter([
 
-  { path: "/", element: (<LogInProtected> <HomePage /> </LogInProtected>) },
+  // { path: "/", element: (<LogInProtected> <HomePage /> </LogInProtected>) },
 
-  { path: "/about", element: (<LogInProtected> <UserDetails /> </LogInProtected>) },
+  { path: "/", element: (<> <HomePage /> </>) },
 
-  { path: "/orders", element: (<LogInProtected> <OrdersScreen /> </LogInProtected>) },
 
   // { path: "/product", element: (<LogInProtected> <DetailOfSingleProduct /> </LogInProtected>) },
 
   // { path: "/product/:id", element: (<DetailOfSingleProduct /> ) },
-  { path: "/product/:id", element: (<LogInProtected> <DetailOfSingleProduct /> </LogInProtected>) },
+
+  // { path: "/product/:id", element: (<LogInProtected> <DetailOfSingleProduct /> </LogInProtected>) },
+
+  { path: "/product/:id", element: (<> <DetailOfSingleProduct /> </>) },
+
+  { path: "/about", element: (<LogInProtected> <UserDetails /> </LogInProtected>) },
+
+  { path: "/orders", element: (<LogInProtected> <OrdersScreen /> </LogInProtected>) },
 
   { path: "/login", element: <LogInScreen /> },
 
@@ -157,14 +163,18 @@ function App() {
 
     // // // If token is present in localHost then only do ---->
 
+
+    dispatch(fetchAllCategoryAndHighlight())
+    dispatch(fetchAllProducts({ brand: "", category: '', price: "-1", limit: `${limitValue}` }))
+
     // // // Calling backend to get all data ---->
     if (gettingTokenInCookieAndLocalHost()) {
 
 
       // // // Now call Data from home page of useEffect now (When user successfull login then also this will call backend main reason is that ) --->
 
-      dispatch(fetchAllCategoryAndHighlight())
-      dispatch(fetchAllProducts({ brand: "", category: '', price: "-1", limit: `${limitValue}` }))
+      // dispatch(fetchAllCategoryAndHighlight())
+      // dispatch(fetchAllProducts({ brand: "", category: '', price: "-1", limit: `${limitValue}` }))
       //  // // // Limit value is 4 set (Change in useEffect of pagination.jsx and here)
 
 
@@ -238,7 +248,7 @@ function App() {
   }, [])
 
 
-  // // // If user is admin then navigate to adim page for fisrt time ----->
+  // // // If user is admin then navigate to adim page for fisrt time (This thing done in homeScreenPage ) ----->
 
 
 
@@ -256,9 +266,9 @@ function App() {
 
       <Toaster
         position="top-right"
-        expand={false} 
-        richColors 
-        closeButton 
+        expand={false}
+        richColors
+        closeButton
       />
 
     </>

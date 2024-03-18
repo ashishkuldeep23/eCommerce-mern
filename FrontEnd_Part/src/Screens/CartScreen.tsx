@@ -11,12 +11,9 @@ const CartScreen = () => {
   return (
     <>
 
-        <NavBar />
-
-        <CartComponent />
-
-        <Footer />
-        
+      <NavBar />
+      <CartComponent />
+      <Footer />
 
     </>
   )

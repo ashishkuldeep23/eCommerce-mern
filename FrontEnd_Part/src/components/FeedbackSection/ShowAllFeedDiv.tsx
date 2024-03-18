@@ -32,7 +32,7 @@ function ShowAllFeedDiv() {
     return (
         <>
             <div
-                className={` flex flex-col items-center justify-center min-h-[80vh] p-2 relative overflow-hidden w-full  sm:w-10/12 rounded-xl ${!themeMode ? "bg-white text-gray-700" : "bg-black text-gray-100"}`}
+                className={` flex flex-col items-center justify-center min-h-[80vh] p-2 relative overflow-hidden w-full  sm:w-10/12 rounded-xl ${!themeMode ? "text-gray-700" : "text-gray-100"} bg-black`}
             >
 
                 <BackGroundDiv />

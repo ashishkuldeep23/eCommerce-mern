@@ -54,11 +54,13 @@ router.get("/getAllOrdersAdmin" , isAuthorized , isUserAdmin , getAllOrdersAdmin
 
 
 /// // // General Api's
-router.get("/findAllProducts", isAuthorized, findAllProducts)
+router.get("/findAllProducts",  findAllProducts)
 
-router.get("/getCategoryAndHighlight", isAuthorized, getCategoryAndHighlight)
+router.get("/getCategoryAndHighlight",  getCategoryAndHighlight)
 
-router.get("/findOneProduct/:productId", isAuthorized, findOneProduct)
+router.get("/findOneProduct/:productId",  findOneProduct)
+
+
 
 router.get("/searchProduct", searchProductByKeyowrd)
 

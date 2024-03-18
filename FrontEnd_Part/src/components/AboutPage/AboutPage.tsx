@@ -19,15 +19,10 @@ const AboutPage = () => {
 
     const themeMode = useSelector((store: RootState) => store.themeReducer.mode)
 
-
     // // // Or give the user profile dependancy for animation of loading ----> (Below is used in animation of loading)
     const hightLightProducts = useSelector((store: RootState) => store.allProductWithCatReducer.allHighlightProducts)
 
-
     const getUserData = userState().userData
-
-
-
 
 
     return (

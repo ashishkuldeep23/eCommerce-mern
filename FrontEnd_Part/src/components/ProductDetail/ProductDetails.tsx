@@ -15,6 +15,7 @@ import { useParams } from 'react-router-dom';
 import { setProductData, setUpdatingProduct } from '../../Slices/AdminSliceFile'
 import ProductImagesDiv from './ProductImagesDiv'
 import { setChildrenModal, setOpenMoadl } from '../../Slices/ModalSlice'
+import { gettingTokenInCookieAndLocalHost } from '../../App'
 
 
 
@@ -90,6 +91,31 @@ export default function ProductDetails() {
 
     const reviewRef = useRef<HTMLDivElement>(null)
 
+
+
+    function checkUserIsLogInEd(): boolean {
+
+        let logined = true
+
+        // // // Check user is logIn or not --->
+        if (!gettingTokenInCookieAndLocalHost()) {
+            toast.error(`Can't do this, you are not logged in person.`, {
+                action: {
+                    label: 'LogIn',
+                    onClick: () => {
+                        window.scroll(0, 0)
+                        navigate("/login");
+                    }
+                },
+            });
+            logined = false
+        }
+
+        return logined
+    }
+
+
+
     // // // // Add to cart fn --->
     function addToCartHandler(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
 
@@ -100,6 +126,10 @@ export default function ProductDetails() {
 
         e.stopPropagation();
         // e.preventDefault();
+
+        // // // FN calling to check Login ---->
+        if (!checkUserIsLogInEd()) return
+
 
         const { id, title, price } = singleProductData
 
@@ -156,6 +186,10 @@ export default function ProductDetails() {
     function productLikeHandler(e: React.MouseEvent<HTMLParagraphElement, MouseEvent>) {
         e.stopPropagation();
 
+
+        // // // FN calling to check Login ---->
+        if (!checkUserIsLogInEd()) return
+
         if (!singleProductData?.likedUserIds?.includes(userDataId)) {
 
             dispatch(likeProduct({ productId: singleProductData.id, isLiking: true, userId: userDataId }))
@@ -172,6 +206,9 @@ export default function ProductDetails() {
     function productDislikeHandler(e: React.MouseEvent<HTMLParagraphElement, MouseEvent>) {
         e.stopPropagation();
 
+
+        // // // FN calling to check Login ---->
+        if (!checkUserIsLogInEd()) return
 
         if (!singleProductData?.dislikedUserIds?.includes(userDataId)) {
 
@@ -213,6 +250,10 @@ export default function ProductDetails() {
 
         event.stopPropagation()
 
+
+        // // // FN calling to check Login ---->
+        if (!checkUserIsLogInEd()) return
+
         // console.log(singleProductData)
         // console.log(singleProductData.id)
         // alert("Done")
@@ -234,11 +275,11 @@ export default function ProductDetails() {
         let ChildrenOfModal = <div>
 
 
-            <div className='border bg-white px-2 rounded text-gray-600 flex gap-1 flex-wrap'>
+            <div className='border bg-white px-2 rounded text-gray-600 flex gap-1 flex-wrap items-center'>
 
                 <p className='text-center mt-1 font-bold '>{url}</p>
                 <button
-                    className='text-xl ml-auto'
+                    className='text-xl ml-auto border border-gray-400 rounded my-1 px-0.5'
                     onClick={async () => {
                         // e.stopPropagation();
                         try {
@@ -418,7 +459,7 @@ export default function ProductDetails() {
                                     </div>
 
 
-                                    {/* Product like and dislike btn ----> */}
+                                    {/* Product like and dislike btn and share btn ----> */}
                                     <div className='flex items-center w-4/5 mt-5'>
 
 
@@ -499,7 +540,7 @@ export default function ProductDetails() {
 
 
 
-                                {/* Available types div and add to cart btn ---> */}
+                                {/* Available types div and add to cart btn and wishlist btn ---> */}
                                 <div className="mt-5">
 
                                     <div>
@@ -546,7 +587,7 @@ export default function ProductDetails() {
                                     {/* Add to wishlist */}
                                     <button
                                         type="submit"
-                                        className={`mt-4 flex w-full items-center justify-center rounded-lg border-2  px-8 py-3 text-base font-medium text-white focus:outline-none focus:ring-2  focus:ring-offset-2  lg:w-3/4
+                                        className={` ${!themeMode ? "text-black" : "text-white"} mt-4 flex w-full items-center justify-center rounded-lg border-2  px-8 py-3 text-base font-medium  focus:outline-none focus:ring-2  focus:ring-offset-2  lg:w-3/4
 
                                          ${(userData.wishListIdsArr && userData.wishListIdsArr.length > 0 && userData?.wishListIdsArr?.includes(singleProductData.id.toString()))
                                                 ? 'border-red-600 focus:ring-red-500 hover:border-red-700'

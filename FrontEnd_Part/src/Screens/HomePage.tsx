@@ -17,7 +17,6 @@ import { useNavigate } from "react-router-dom"
 let firstTimeAdminNavi = false
 
 
-
 const HomePage = () => {
 
   // const [cartOpen, setCartOpen] = useState<boolean>(false)

@@ -65,7 +65,6 @@ export const updateProductAdmin = createAsyncThunk("admin/updateProduct", async 
 
 
 
-
 export const getAllOrdersAdmin = createAsyncThunk("admin/getAllOrders", async (sort?: string) => {
     const option: RequestInit = {
         credentials: 'include',

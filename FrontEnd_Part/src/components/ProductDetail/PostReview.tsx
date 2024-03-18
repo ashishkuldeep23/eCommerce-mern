@@ -4,6 +4,8 @@ import { createNewReview, reviewState, updateReview } from "../../Slices/ReviewS
 import { AppDispatch, RootState } from "../../store"
 import { toast } from "sonner"
 import { setReviewData } from "../../Slices/ReviewSlice"
+import { gettingTokenInCookieAndLocalHost } from "../../App"
+import { useNavigate } from "react-router-dom"
 
 
 const PostReview = () => {
@@ -24,6 +26,30 @@ const PostReview = () => {
 
     const updateReviewId = reviewState().inputReviewData.id
 
+    const navigate = useNavigate()
+
+
+    function checkUserIsLogInEd(): boolean {
+
+        let logined = true
+
+        // // // Check user is logIn or not --->
+        if (!gettingTokenInCookieAndLocalHost()) {
+            toast.error(`Can't do this, you are not logged in person.`, {
+                action: {
+                    label: 'LogIn',
+                    onClick: () => {
+                        window.scroll(0, 0)
+                        navigate("/login");
+                    }
+                },
+            });
+            logined = false
+        }
+
+        return logined
+    }
+
 
 
     function postReviewHandler() {
@@ -35,6 +61,9 @@ const PostReview = () => {
             return
         }
 
+
+        // // // FN calling to check Login ---->
+        if (!checkUserIsLogInEd()) return
 
 
         // // // check is user logIn or not ----------->
@@ -49,12 +78,17 @@ const PostReview = () => {
 
 
     function updateReviewHandler() {
+
         if (inputReviewData.comment === "") {
 
             toast.error(`Comment can't empty for update.`);
 
             return
         }
+
+
+        // // // FN calling to check Login ---->
+        if (!checkUserIsLogInEd()) return
 
 
         // // // check is user logIn or not ----------->
@@ -64,7 +98,6 @@ const PostReview = () => {
         dispatch(updateReview({ comment: inputReviewData.comment, stars: inputReviewData.stars, reviewId: updateReviewId }))
 
     }
-
 
 
 
@@ -133,8 +166,8 @@ const PostReview = () => {
                         >
                             {
                                 !reviewUpdateState
-                                ? "Give new review"
-                                : "Update old review"
+                                    ? "Give new review"
+                                    : "Update old review"
 
                             }
                         </label>
@@ -162,7 +195,7 @@ const PostReview = () => {
                             <p className=" opacity-80 hover:cursor-pointer hover:bg-blue-400" onClick={(e) => { submitEmoji(e, "✅") }} >✅</p>
                         </div>
 
-                            {/* Stars input ---> */}
+                        {/* Stars input ---> */}
                         <div className='flex justify-between items-center'>
                             <div className='flex items-center '>
 

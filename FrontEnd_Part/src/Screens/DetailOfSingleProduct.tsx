@@ -9,10 +9,10 @@ const DetailOfSingleProduct = () => {
   return (
     <>
 
-    <NavBar />
-    <ProductDetails />
-    <Footer />
-    
+      <NavBar />
+      <ProductDetails />
+      <Footer />
+
     </>
   )
 }

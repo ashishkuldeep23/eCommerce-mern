@@ -52,6 +52,10 @@ export default function CartComponent({ mainCartComp = true }: CartCompProp) {
 
 
 
+  useEffect(()=>{
+    window.scroll(0 , 0)
+  } , [])
+
 
   useEffect(() => {
 
