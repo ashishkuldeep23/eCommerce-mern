@@ -238,7 +238,7 @@ export default function ProductDetails() {
 
                 <p className='text-center mt-1 font-bold '>{url}</p>
                 <button
-                    className='text-xl'
+                    className='text-xl ml-auto'
                     onClick={async () => {
                         // e.stopPropagation();
                         try {
