@@ -223,12 +223,13 @@ const FeedbackSection = () => {
 
                             <div className=" w-full">
 
-                                <label className="block text-sm font-medium leading-6 " htmlFor="comment">Your Comment👇</label>
+                                <label className="block text-sm font-medium leading-6 " htmlFor="comment">Your Comment*👇</label>
 
                                 <textarea
                                     // name=""
                                     id="comment"
                                     // className=" w-full"
+                                    placeholder="Give your valueable feedback about this web app."
 
                                     className={`block w-full rounded-md border-0 py-1.5  shadow-sm ring-1 ring-inset ring-gray-300  focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ${!themeMode ? " bg-white text-gray-900 " : "bg-gray-900 text-white"}`}
                                     rows={3}

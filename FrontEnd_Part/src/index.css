@@ -216,6 +216,14 @@ input::-webkit-inner-spin-button {
 
 
 
+/* social links for footeer hover code */
+
+#social_logo:Hover{
+    filter: drop-shadow(2px 2px 1px yellow);
+}
+
+
+
 /* Scroll  percent showing at top --> */
 
 

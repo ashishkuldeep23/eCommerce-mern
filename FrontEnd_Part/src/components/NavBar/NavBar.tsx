@@ -158,8 +158,8 @@ function MenuOfTabAndAbove() {
                 <div className=" hidden md:flex flex-shrink-0 items-center hover:cursor-pointer  "  >
                     <img
                         className="h-8 w-auto hover:scale-125 hover:z-20 transition-all"
-                        src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                        alt="Your Company"
+                        src={'/logo.png'}
+                        alt="AKart"
                         onClick={() => {
                             navigate("/");
                             dispatch(fetchAllCategoryAndHighlight())
@@ -240,8 +240,8 @@ function MobileUICodeLeftSection({ open }: { open: boolean }) {
                 <div className="flex flex-shrink-0 items-center ">
                     <img
                         className="h-8 w-auto hover:scale-125 hover:z-20 transition-all"
-                        src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                        alt="Your Company"
+                        src={'/logo.png'}
+                        alt="AKart"
                         onClick={() => {
                             navigate("/");
 

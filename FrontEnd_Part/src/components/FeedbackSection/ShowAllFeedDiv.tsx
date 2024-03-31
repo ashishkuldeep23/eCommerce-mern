@@ -95,10 +95,10 @@ function SingleFeedBack({ feedback, i, refrance }: { feedback: FeedBackSingle, i
             >
                 <p className=" text-center py-2 border-b "><span className=" text-white font-bold border-b border-black">{feedback.feedbackType}</span></p>
 
-                <span className=" absolute top-1 right-1 border px-1 rounded-full py-0 text-white bg-rose-900 text-sm ">{allFeedbackArr.length - i}</span>
+                <span className=" absolute top-1 left-1 border px-1 rounded-full py-0 text-white bg-rose-900 text-sm ">{allFeedbackArr.length - i}</span>
 
                 <div className="py-2 text-slate-300">
-                    <p className=" text-xl break-words" style={{ lineBreak: "anywhere" }}>Name : <span className=" font-semibold">{feedback.feedbackName}</span></p>
+                    <p className=" text-xl break-words" style={{ lineBreak: "anywhere" }}>Name : <span className=" font-bold">{feedback.feedbackName}</span></p>
                     <p className=" py-2 break-words">Comment : <span className=" font-semibold">{feedback.feedbackMsg}</span></p>
                     <p> Reply : {feedback.reply}</p>
                 </div>

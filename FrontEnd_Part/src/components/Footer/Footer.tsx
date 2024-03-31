@@ -442,6 +442,8 @@ function SingleSocialLink({ ele }: { ele: SocialLinkStructure }) {
 
       className=" text-4xl mx-2 hover:-translate-y-1.5 hover:text-green-600 active:scale-75 transition-all"
 
+      id="social_logo"
+
     >
       <a
         href={ele.href}
