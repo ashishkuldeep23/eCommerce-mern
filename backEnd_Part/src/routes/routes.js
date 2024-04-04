@@ -11,14 +11,14 @@ const { findAllProducts, getCategoryAndHighlight, findOneProduct, dislikeProduct
 
 const { createNewReview, deleteReview, updateReview, likeReview, dislikeReview } = require("../controller/reviewController")
 
-const { creteUserControllor, logInControllor, logOutControl, getUserData, updateUser, verifyMailController, forgotReqHandler, forgotMainHandler, userWithEmail, bugReportHandler, userDataByTokenHandler , verifyMailReq , addOrRemoveWishList } = require("../controller/userControllor")
+const { creteUserControllor, logInControllor, logOutControl, getUserData, updateUser, verifyMailController, forgotReqHandler, forgotMainHandler, userWithEmail, bugReportHandler, userDataByTokenHandler, verifyMailReq, addOrRemoveWishList } = require("../controller/userControllor")
 
 const { createNewOrder, updateOrder } = require("../controller/orderControllor")
 
-const { createNewProduct , getAllProductsAdmin , updateProdct , getAllOrdersAdmin} = require("../controller/adminControllor")
+const { createNewProduct, getAllProductsAdmin, updateProdct, getAllOrdersAdmin } = require("../controller/adminControllor")
 
 
-const { isAuthorized , isUserAdmin } = require("../middleware/authorization")
+const { isAuthorized, isUserAdmin } = require("../middleware/authorization")
 
 
 
@@ -43,22 +43,22 @@ router.get('/', function (req, res) {
 
 
 // // // Admin API's ----------->
-router.post("/createProduct", isAuthorized , isUserAdmin , upload.array("file"), createNewProduct)
+router.post("/createProduct", isAuthorized, isUserAdmin, upload.array("file"), createNewProduct)
 
-router.get("/getAllProductsAdmin" , isAuthorized , isUserAdmin , getAllProductsAdmin)
+router.get("/getAllProductsAdmin", isAuthorized, isUserAdmin, getAllProductsAdmin)
 
-router.post("/updatePoduct" ,  isAuthorized , isUserAdmin , upload.array("file") , updateProdct)
+router.post("/updatePoduct", isAuthorized, isUserAdmin, upload.array("file"), updateProdct)
 
-router.get("/getAllOrdersAdmin" , isAuthorized , isUserAdmin , getAllOrdersAdmin)
+router.get("/getAllOrdersAdmin", isAuthorized, isUserAdmin, getAllOrdersAdmin)
 
 
 
 /// // // General Api's
-router.get("/findAllProducts",  findAllProducts)
+router.get("/findAllProducts", findAllProducts)
 
-router.get("/getCategoryAndHighlight",  getCategoryAndHighlight)
+router.get("/getCategoryAndHighlight", getCategoryAndHighlight)
 
-router.get("/findOneProduct/:productId",  findOneProduct)
+router.get("/findOneProduct/:productId", findOneProduct)
 
 
 
@@ -95,7 +95,7 @@ router.get("/userSingout", isAuthorized, logOutControl)
 
 router.post("/updateUser", isAuthorized, upload.array("file"), updateUser)
 
-router.post("/verifyMailReq" , isAuthorized , verifyMailReq)      // // // isAuthorised needed becoz logined person can only request to verify his/her mail. 
+router.post("/verifyMailReq", isAuthorized, verifyMailReq)      // // // isAuthorised needed becoz logined person can only request to verify his/her mail. 
 
 router.get("/verifyMail", verifyMailController)
 
@@ -112,7 +112,7 @@ router.get("/userDataByToken", isAuthorized, userDataByTokenHandler)
 
 // // // Add and remove wishlist api --->
 
-router.post("/addOrRemoveWishList", isAuthorized , addOrRemoveWishList)
+router.post("/addOrRemoveWishList", isAuthorized, addOrRemoveWishList)
 
 
 
