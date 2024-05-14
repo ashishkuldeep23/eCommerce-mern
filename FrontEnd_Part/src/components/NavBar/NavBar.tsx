@@ -173,7 +173,10 @@ function MenuOfTabAndAbove() {
                         src={LOGO_PATH_HERE}
                         alt="AKart"
                     />
-                    <p className=' text-xs text-center -mt-0.5'>AKart</p>
+                    <p
+                        style={{ fontFamily: "cursive" }}
+                        className=' text-xs text-center -mt-0.5 font-semibold'
+                    >AKart</p>
                 </div>
 
 
@@ -247,7 +250,10 @@ function MobileUICodeLeftSection({ open }: { open: boolean }) {
                         alt="AKart"
                     />
 
-                    <p className=' text-xs text-center -mt-0.5'>AKart</p>
+                    <p
+                        style={{ fontFamily: "cursive" }}
+                        className=' text-xs text-center -mt-0.5 font-semibold'
+                    >AKart</p>
                 </div>
 
                 {/* Mobile menu button*/}
