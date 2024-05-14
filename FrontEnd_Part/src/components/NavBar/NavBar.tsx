@@ -25,6 +25,10 @@ const navigation = [
 ]
 
 
+const LOGO_PATH_HERE = '/logo3.png'
+
+const LOGO_CLASSES_HERE = "h-7 w-auto hover:scale-125 hover:z-20 transition-all"
+
 
 // // // I'm main UI code for Navbar (All Functional comps present in-side me)
 export default function NavBar() {
@@ -155,18 +159,21 @@ function MenuOfTabAndAbove() {
             <div className="flex flex-1 items-center justify-center md:items-stretch md:justify-start">
 
 
-                <div className=" hidden md:flex flex-shrink-0 items-center hover:cursor-pointer  "  >
+                <div
+                    className=" hidden md:flex flex-col items-center hover:cursor-pointer  hover:scale-125 hover:z-20 transition-all  "
+                    onClick={() => {
+                        navigate("/");
+                        dispatch(fetchAllCategoryAndHighlight())
+                        dispatch(fetchAllProducts({ brand: "", category: '', price: "-1", limit: `${limitValue}` }))
+                        window.scroll(0, 500);
+                    }}
+                >
                     <img
-                        className="h-8 w-auto hover:scale-125 hover:z-20 transition-all"
-                        src={'/logo.png'}
+                        className={LOGO_CLASSES_HERE}
+                        src={LOGO_PATH_HERE}
                         alt="AKart"
-                        onClick={() => {
-                            navigate("/");
-                            dispatch(fetchAllCategoryAndHighlight())
-                            dispatch(fetchAllProducts({ brand: "", category: '', price: "-1", limit: `${limitValue}` }))
-                            window.scroll(0, 500);
-                        }}
                     />
+                    <p className=' text-xs text-center -mt-0.5'>AKart</p>
                 </div>
 
 
@@ -224,8 +231,27 @@ function MobileUICodeLeftSection({ open }: { open: boolean }) {
 
             <div className="absolute inset-y-0 left-0 flex items-center md:hidden ">
 
+                {/* Barnd ICon */}
+                <div
+                    className="flex flex-col ml-0.5 items-center "
+                    onClick={() => {
+                        navigate("/");
+                        dispatch(fetchAllCategoryAndHighlight())
+                        dispatch(fetchAllProducts({ brand: "", category: '', price: "-1", limit: `${limitValue}` }))
+                        window.scroll(0, 500);
+                    }}
+                >
+                    <img
+                        className={LOGO_CLASSES_HERE}
+                        src={LOGO_PATH_HERE}
+                        alt="AKart"
+                    />
+
+                    <p className=' text-xs text-center -mt-0.5'>AKart</p>
+                </div>
+
                 {/* Mobile menu button*/}
-                <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+                <Disclosure.Button className="ml-1 relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
                     <span className="absolute -inset-0.5" />
                     <span className="sr-only">Open main menu</span>
                     {open ? (
@@ -234,25 +260,6 @@ function MobileUICodeLeftSection({ open }: { open: boolean }) {
                         <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
                     )}
                 </Disclosure.Button>
-
-
-                {/* Barnd ICon */}
-                <div className="flex flex-shrink-0 items-center ">
-                    <img
-                        className="h-8 w-auto hover:scale-125 hover:z-20 transition-all"
-                        src={'/logo.png'}
-                        alt="AKart"
-                        onClick={() => {
-                            navigate("/");
-
-                            dispatch(fetchAllCategoryAndHighlight())
-                            dispatch(fetchAllProducts({ brand: "", category: '', price: "-1", limit: `${limitValue}` }))
-                            window.scroll(0, 500);
-
-
-                        }}
-                    />
-                </div>
 
             </div>
 

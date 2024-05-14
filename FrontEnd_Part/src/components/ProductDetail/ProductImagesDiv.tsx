@@ -38,7 +38,15 @@ const ProductImagesDiv = () => {
     function showModalWithValues(userImage: string, productName: string) {
 
         // // // Modal inner value (UI shown)
-        let ChildrenOfModal = <div><img className=" rounded" src={userImage} alt="" /> <p className='text-center mt-1 font-bold underline'>{productName}</p> </div>
+        let ChildrenOfModal = <div>
+            <img
+                className=" rounded"
+                src={userImage}
+                alt="Product"
+                onError={(e) => onImageErr(e)}
+            />
+            <p className='text-center mt-1 font-bold underline'>{productName}</p>
+        </div>
 
         dispatch(setOpenMoadl(true))
         dispatch(setChildrenModal(ChildrenOfModal))
@@ -88,7 +96,6 @@ const ProductImagesDiv = () => {
 
 
 
-
     return (
 
         <div className="  lg:w-3/5 flex flex-col justify-center items-center sm:flex-row-reverse">
@@ -111,7 +118,7 @@ const ProductImagesDiv = () => {
 
 
                             <img
-                        
+
 
                                 className=" h-56 sm:h-90 w-full rounded object-contain hover:cursor-pointer"
                                 src={mainImg}

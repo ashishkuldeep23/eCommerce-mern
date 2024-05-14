@@ -96,7 +96,7 @@ const FeedbackSection = () => {
 
                 <div className=" pt-10 sm:pt-24 flex flex-col sm:flex-row justify-center items-center bg-emerald-900  ">
 
-                    <div className="bg-black text-white h-90 overflow-hidden border  w-11/12 sm:w-2/5 p-1 py-3 rounded m-0.5 flex flex-col justify-center items-center">
+                    <div className="bg-black text-white h-90 overflow-hidden border  w-11/12 sm:w-2/5 p-1 py-3 rounded m-0.5 flex flex-col lg:flex-row justify-center items-center">
 
                         <a
                             href="https://ashish-kuldeep-portfolio.vercel.app/"
@@ -108,58 +108,63 @@ const FeedbackSection = () => {
                                 className=" w-32  sm:w-44 hover:scale-110 transition-all hover:cursor-pointer"
                             />
                         </a>
-                        <a
-                            href="https://ashish-kuldeep-portfolio.vercel.app/"
-                            className=" text-violet-300 text-xl font-semibold underline mb-2"
-                            rel="noreferrer" target={"_blank"}
-                        >Ashish Kuldeep</a>
 
 
-                        <p>Aspiring full-stack developer.</p>
-                        <p>ReactJs, NodeJs, NextJs, TypeScript.</p>
-                        <p>Social media links 👇</p>
+                        <div className="flex flex-col items-center justify-center lg:items-start lg:ml-3">
 
-                        <div className=" flex gap-2 mt-2 ">
                             <a
-                                className=" hover:scale-125 focus:scale-75 transition-all"
-                                href="https://www.linkedin.com/in/ashish-kuldeep-09b96018b"
+                                href="https://ashish-kuldeep-portfolio.vercel.app/"
+                                className=" text-violet-300 text-xl font-semibold underline mb-2"
                                 rel="noreferrer" target={"_blank"}
-                            ><img
-                                    className=" w-8 bg-white rounded-md"
-                                    src="https://cdn1.iconfinder.com/data/icons/social-media-rounded-corners/512/Rounded_Linkedin2_svg-512.png"
-                                    alt="Linkedin" />
-                            </a>
+                            >Ashish Kuldeep</a>
 
-                            <a
-                                className=" hover:scale-125 focus:scale-75 transition-all"
-                                href="https://github.com/Ashishkuldeep23" rel="noreferrer" target={"_blank"}
-                            ><img
-                                    src="https://cdn3.iconfinder.com/data/icons/social-media-2253/25/Group-512.png"
-                                    className=" w-8 bg-white rounded-md"
-                                    alt="Github"
-                                />
-                            </a>
 
-                            <a
-                                className=" hover:scale-125 focus:scale-75 transition-all"
-                                href="https://mobile.twitter.com/ashishkuldeep23" rel="noreferrer" target={"_blank"}
-                            ><img
-                                    src="https://cdn1.iconfinder.com/data/icons/social-media-rounded-corners/512/Rounded_Twitter5_svg-512.png"
-                                    className=" w-8 bg-white rounded-md"
-                                    alt="Tiwtter"
+                            <p className=" font-semibold ">Aspiring full-stack developer.</p>
+                            <p className=" text-center lg:text-start">ReactJs, NodeJs, NextJs,React Natie, TypeScript.</p>
+                            <p>Social media links 👇</p>
 
-                                />
-                            </a>
+                            <div className=" flex gap-2 mt-2 ">
+                                <a
+                                    className=" hover:scale-125 focus:scale-75 transition-all"
+                                    href="https://www.linkedin.com/in/ashish-kuldeep-09b96018b"
+                                    rel="noreferrer" target={"_blank"}
+                                ><img
+                                        className=" w-8 bg-white rounded-md"
+                                        src="https://cdn1.iconfinder.com/data/icons/social-media-rounded-corners/512/Rounded_Linkedin2_svg-512.png"
+                                        alt="Linkedin" />
+                                </a>
 
-                            <a
-                                className=" hover:scale-125 focus:scale-75 transition-all"
-                                href="https://www.youtube.com/@ashishkuldeep2305" rel="noreferrer" target={"_blank"}
-                            ><img
-                                    src="https://cdn1.iconfinder.com/data/icons/social-media-rounded-corners/512/Rounded_Youtube3_svg-512.png"
-                                    className=" w-8 bg-white rounded-md"
-                                    alt="Youtube"
-                                />
-                            </a>
+                                <a
+                                    className=" hover:scale-125 focus:scale-75 transition-all"
+                                    href="https://github.com/Ashishkuldeep23" rel="noreferrer" target={"_blank"}
+                                ><img
+                                        src="https://cdn3.iconfinder.com/data/icons/social-media-2253/25/Group-512.png"
+                                        className=" w-8 bg-white rounded-md"
+                                        alt="Github"
+                                    />
+                                </a>
+
+                                <a
+                                    className=" hover:scale-125 focus:scale-75 transition-all"
+                                    href="https://mobile.twitter.com/ashishkuldeep23" rel="noreferrer" target={"_blank"}
+                                ><img
+                                        src="https://cdn1.iconfinder.com/data/icons/social-media-rounded-corners/512/Rounded_Twitter5_svg-512.png"
+                                        className=" w-8 bg-white rounded-md"
+                                        alt="Tiwtter"
+
+                                    />
+                                </a>
+
+                                <a
+                                    className=" hover:scale-125 focus:scale-75 transition-all"
+                                    href="https://www.youtube.com/@ashishkuldeep2305" rel="noreferrer" target={"_blank"}
+                                ><img
+                                        src="https://cdn1.iconfinder.com/data/icons/social-media-rounded-corners/512/Rounded_Youtube3_svg-512.png"
+                                        className=" w-8 bg-white rounded-md"
+                                        alt="Youtube"
+                                    />
+                                </a>
+                            </div>
                         </div>
 
 
