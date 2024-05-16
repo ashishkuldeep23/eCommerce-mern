@@ -41,8 +41,6 @@ let previousOrders = [
 ]
 
 
-
-
 const OrderOfUser = () => {
 
     const getUserData = userState().userData
@@ -87,8 +85,8 @@ const OrderOfUser = () => {
 
             <h2 className=" text-4xl text-center  underline text-green-300">Your previous orders </h2>
 
-
-            <div className='my-10'>
+            {/* Hide this div for now ---------> */}
+            <div className='my-10 hidden'>
                 <OrderFilterSection allOrdersOfUser={allOrdersOfUser} setAllOrdersOfUser={setAllOrdersOfUser} />
             </div>
 
@@ -247,10 +245,6 @@ const OrderOfUser = () => {
 export default OrderOfUser
 
 
-
-
-
-
 function SingleOrderData({ order }: { order: CardDataInter }) {
 
 
@@ -291,9 +285,6 @@ function SingleOrderData({ order }: { order: CardDataInter }) {
         </div>
     )
 }
-
-
-
 
 
 function OrderFilterSection({ allOrdersOfUser, setAllOrdersOfUser }: { allOrdersOfUser: UserOrderOj[], setAllOrdersOfUser: React.Dispatch<React.SetStateAction<UserOrderOj[]>> }) {
@@ -352,7 +343,6 @@ function OrderFilterSection({ allOrdersOfUser, setAllOrdersOfUser }: { allOrders
 
                 (allOrdersOfUser.length !== 0)
                     ?
-
 
                     <div className='flex justify-center items-center'>
                         <h1 className='mx-2 font-bold rounded border px-2 py-1'>Filter By ➡️</h1>

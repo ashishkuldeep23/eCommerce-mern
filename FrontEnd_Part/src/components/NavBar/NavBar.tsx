@@ -33,6 +33,24 @@ const LOGO_CLASSES_HERE = "h-7 w-auto hover:scale-125 hover:z-20 transition-all"
 // // // I'm main UI code for Navbar (All Functional comps present in-side me)
 export default function NavBar() {
 
+    const navigate = useNavigate()
+    const dispatch = useDispatch<AppDispatch>()
+    const limitValue = useSelector((state: RootState) => state.allProductWithCatReducer.onePageLimit)
+
+
+    // const { brand, category } = useSelector((state: RootState) => state.allProductWithCatReducer.searchBrandAndCate)
+    // console.log(brand, category, limitValue)
+
+
+    const gotoHomeBtnClickHandler = () => {
+
+        navigate("/");
+        dispatch(fetchAllCategoryAndHighlight())
+        dispatch(fetchAllProducts({ brand: "", category: '', price: "-1", limit: `${limitValue}` }))
+        window.scroll(0, 500);
+    }
+
+
 
     // const navigate = useNavigate()
 
@@ -65,11 +83,16 @@ export default function NavBar() {
 
 
                             {/* This div will visiable on less then md devices main div. (This div includes Icon and open & close icon) */}
-                            <MobileUICodeLeftSection open={open} />
+                            <MobileUICodeLeftSection
+                                open={open}
+                                gotoHomeBtnClickHandler={gotoHomeBtnClickHandler}
+                            />
 
 
                             {/*  All menu items that always visible more then tab screen (presented left side after icon) */}
-                            <MenuOfTabAndAbove />
+                            <MenuOfTabAndAbove
+                                gotoHomeBtnClickHandler={gotoHomeBtnClickHandler}
+                            />
 
 
                             {/* Common left section here This will visible in both screen */}
@@ -142,16 +165,11 @@ function GoToAdminPageBtn() {
 
 
 // // // All menu items that always visible more then tab screen (presented left side after icon) (This includes search bar that visible tab and above) (Icon also sho here)
-function MenuOfTabAndAbove() {
+function MenuOfTabAndAbove({ gotoHomeBtnClickHandler }: { gotoHomeBtnClickHandler: Function }) {
 
 
     const userData = userState().userData
-
     const navigate = useNavigate()
-
-    const dispatch = useDispatch<AppDispatch>()
-
-    const limitValue = useSelector((state: RootState) => state.allProductWithCatReducer.onePageLimit)
 
     return (
         <>
@@ -161,12 +179,7 @@ function MenuOfTabAndAbove() {
 
                 <div
                     className=" hidden md:flex flex-col items-center hover:cursor-pointer  hover:scale-125 hover:z-20 transition-all  "
-                    onClick={() => {
-                        navigate("/");
-                        dispatch(fetchAllCategoryAndHighlight())
-                        dispatch(fetchAllProducts({ brand: "", category: '', price: "-1", limit: `${limitValue}` }))
-                        window.scroll(0, 500);
-                    }}
+                    onClick={() => gotoHomeBtnClickHandler()}
                 >
                     <img
                         className={LOGO_CLASSES_HERE}
@@ -221,13 +234,8 @@ function MenuOfTabAndAbove() {
 
 
 // // // {/* This div will visiable on less then md devices main div. (This div includes Icon and open & close icon) */ }
-function MobileUICodeLeftSection({ open }: { open: boolean }) {
+function MobileUICodeLeftSection({ open, gotoHomeBtnClickHandler }: { open: boolean, gotoHomeBtnClickHandler: Function }) {
 
-    const navigate = useNavigate()
-
-    const dispatch = useDispatch<AppDispatch>()
-
-    const limitValue = useSelector((state: RootState) => state.allProductWithCatReducer.onePageLimit)
 
     return (
         <>
@@ -237,12 +245,7 @@ function MobileUICodeLeftSection({ open }: { open: boolean }) {
                 {/* Barnd ICon */}
                 <div
                     className="flex flex-col ml-0.5 items-center "
-                    onClick={() => {
-                        navigate("/");
-                        dispatch(fetchAllCategoryAndHighlight())
-                        dispatch(fetchAllProducts({ brand: "", category: '', price: "-1", limit: `${limitValue}` }))
-                        window.scroll(0, 500);
-                    }}
+                    onClick={() => gotoHomeBtnClickHandler()}
                 >
                     <img
                         className={LOGO_CLASSES_HERE}

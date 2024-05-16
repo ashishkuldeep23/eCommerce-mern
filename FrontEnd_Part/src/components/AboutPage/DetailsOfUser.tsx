@@ -26,7 +26,6 @@ export const checkEmail = (email: string) => {
 
 
 
-
 const fromData = new FormData()
 
 const DetailsOfUser = () => {
@@ -46,98 +45,92 @@ const DetailsOfUser = () => {
 
 
     return (
-        <>
+        <div
+            className=" mx-auto max-w-full md:max-w-allAk px-1 md:px-2 lg:px-8  p-2 pt-16"
+        >
 
-            {/* user Details div */}
-            <div
-                className=" mx-auto max-w-full md:max-w-allAk px-1 md:px-2 lg:px-8  p-2 pt-16"
-            >
-
-                <div className="flex flex-col justify-center items-center md:items-start md:flex-row">
+            <div className="flex flex-col justify-center items-center md:items-start md:flex-row">
 
 
-                    <UserImageDiv />
+                <UserImageDiv />
 
-                    <div className="ml-0 mt-5 md:mt-0 md:ml-10">
-
-
-                        <UserNameAndUpadte />
+                <div className="ml-0 mt-5 md:mt-0 md:ml-10">
 
 
-                        <p className={`  ${!themeMode ? "bg-slate-100" : "bg-slate-900"}   w-full rounded my-0.5 px-1 `} >Email : {checkEmail(getUserData.email)} </p>
+                    <UserNameAndUpadte />
 
-                        <div className={`  ${!themeMode ? "bg-slate-100" : "bg-slate-900"}   w-full rounded my-0.5 px-1 `} >
-                            <p>Address :</p>
 
-                            <div className="pl-10 pb-3 relative ">
+                    <p className={`  ${!themeMode ? "bg-slate-100" : "bg-slate-900"}   w-full rounded my-0.5 px-1 `} >Email : {checkEmail(getUserData.email)} </p>
 
-                                <UserAddressDiv />
+                    <div className={`  ${!themeMode ? "bg-slate-100" : "bg-slate-900"}   w-full rounded my-0.5 px-1 `} >
+                        <p>Address :</p>
 
-                            </div>
+                        <div className="pl-10 pb-3 relative ">
+
+                            <UserAddressDiv />
 
                         </div>
-
-                        <p className=" w-40 mt-5 text-center text-red-500 ml-5 sm:ml-10">Your profile pic and name(only) will visible to other user in review section.</p>
 
                     </div>
 
-                </div>
-
-
-                {/* Note for user to verify mail ---> */}
-                <div className=" flex flex-col items-center">
-
-                    {
-                        !getUserData.isEmailVerified
-                        &&
-
-                        <div className=" bg-rose-200 border flex flex-col items-center m-1 p-2 rounded relative">
-
-                            <span className="bg-rose-200 px-5 rounded-full absolute -top-3 -left-0 ">📌Note</span>
-
-                            <h4 className=" text-xl font-semibold">Please verify your accout by your given email.</h4>
-
-                            <ul className=" flex flex-col items-center mt-3">
-                                <p className=" border-b font-bold border-black">Benefits</p>
-                                <li>You will able to upload images for your profile pic.</li>
-                                <li>You will able to upload change your name.</li>
-                                <li>You will able to use forgot password feature.</li>
-                            </ul>
-
-                            <ol className=" list-decimal flex flex-col items-center mt-3">
-                                <p className=" border-b font-bold border-black">Steps</p>
-                                <li>Click the verify mail button.
-                                    <button
-                                        className=' mx-2 px-3 rounded bg-green-400 font-bold text-white my-2'
-                                        onClick={() => { dispatch(reqVerifyMail()) }}
-                                    >Verify Mail</button>
-                                </li>
-                                <li>Check your mail inbox, you will get a verify mail link.</li>
-                            </ol>
-
-
-                        </div>
-                    }
-
+                    <p className=" w-40 mt-5 text-center text-red-500 ml-5 sm:ml-10">Your profile pic and name(only) will visible to other user in review section.</p>
 
                 </div>
 
+            </div>
 
+
+            {/* Note for user to verify mail ---> */}
+            <div className=" flex flex-col items-center">
 
                 {
-                    (getUserData.allImages && getUserData.allImages.length > 1)
-
+                    !getUserData.isEmailVerified
                     &&
 
-                    <UserImgsMoreThenOne />
+                    <div className={`${!themeMode ? "bg-rose-100" : "bg-rose-900"} border flex flex-col items-center m-1 p-2 rounded relative`}>
 
+                        <span className={`${!themeMode ? "bg-rose-100" : "bg-rose-900"} border-t px-5 rounded-full absolute -top-3 -left-0 `}>📌Note</span>
+
+                        <h4 className=" text-xl font-semibold">Please verify your accout by your given email.</h4>
+
+                        <ul className=" flex flex-col items-center mt-3">
+                            <p className=" border-b font-bold border-black">Benefits</p>
+                            <li>You will able to upload images for your profile pic.</li>
+                            <li>You will able to upload change your name.</li>
+                            <li>You will able to use forgot password feature.</li>
+                        </ul>
+
+                        <ol className=" list-decimal flex flex-col items-center mt-3">
+                            <p className=" border-b font-bold border-black">Steps</p>
+                            <li>Click the verify mail button.
+                                <button
+                                    className=' mx-2 px-3 rounded bg-green-400 font-bold text-white my-2'
+                                    onClick={() => { dispatch(reqVerifyMail()) }}
+                                >Verify Mail</button>
+                            </li>
+                            <li>Check your mail inbox, you will get a verify mail link.</li>
+                        </ol>
+
+
+                    </div>
                 }
 
 
             </div>
 
 
-        </>
+
+            {
+                (getUserData.allImages && getUserData.allImages.length > 1)
+
+                &&
+
+                <UserImgsMoreThenOne />
+
+            }
+
+
+        </div >
     )
 }
 
@@ -273,10 +266,7 @@ function UserNameAndUpadte() {
                 updateName
                 &&
 
-
-                <form noValidate className="space-y-3 flex flex-col" onSubmit={handleSubmit(onSubmit)} >
-
-
+                <form noValidate className="space-y-3 flex flex-col max-w-[85vw] sm:max-w-[50vh] " onSubmit={handleSubmit(onSubmit)} >
 
                     <div>
                         <label htmlFor="firstName" className="block text-sm font-medium leading-6  ">
@@ -314,7 +304,7 @@ function UserNameAndUpadte() {
                                 {...register("lastName", {
                                     required: "Last Name is Required",
                                     pattern: {
-                                        value: /[a-zA-Z][a-zA-Z0-9-_ .]{3,25}/gi, message: "Must start with an alphabetic character. Can contain the following characters: a-z A-Z 0-9 - . _ and should be in between 5 to 25"
+                                        value: /[a-zA-Z][a-zA-Z0-9-_ .]{5,25}/gi, message: "Must start with an alphabetic character. Can contain the following characters: a-z A-Z 0-9 - . _ and should be in between 5 to 25"
                                     }
                                 })}
                                 className={`block w-full rounded-md border-0 py-1.5  shadow-sm ring-1 ring-inset ring-gray-300  focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ${!themeMode ? " bg-white text-gray-900 " : "bg-gray-900 text-white"}`}
@@ -341,7 +331,6 @@ function UserNameAndUpadte() {
         </>
     )
 }
-
 
 
 
@@ -462,5 +451,4 @@ function UserImgsMoreThenOne() {
     )
 
 }
-
 
