@@ -1,5 +1,5 @@
 
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { useSelector } from "react-redux";
 import { toast } from "sonner"
 import { RootState } from "../store";
@@ -250,7 +250,6 @@ export const getUserDataWithToken = createAsyncThunk("user/verifyToken", async (
 
 
 
-
 export const addOrRemoveWishList = createAsyncThunk("user/wishList", async (
     body: { productId: string }
 ) => {
@@ -329,7 +328,8 @@ export type UserDataForOder = {
         wishList?: IProduct[];
         wishListIdsArr?: string[]
 
-    }
+    },
+    tempUserEmail?: string,
 }
 
 
@@ -355,7 +355,8 @@ const initialState: UserDataForOder = {
         allImages: [],
         wishList: [],
         wishListIdsArr: []
-    }
+    },
+    tempUserEmail: ""
 }
 
 
@@ -374,6 +375,10 @@ const userSlice = createSlice({
 
         setIsLoading(state, action) {
             state.isLoading = action.payload
+        },
+
+        setTempUserEmail(state, action: PayloadAction<string>) {
+            state.tempUserEmail = action.payload
         }
 
     },
@@ -1074,7 +1079,7 @@ const userSlice = createSlice({
                         state.userData.wishListIdsArr = arr
                     }
 
-                    if(action.payload.data.wishList && action.payload.data.wishList.length === 0){
+                    if (action.payload.data.wishList && action.payload.data.wishList.length === 0) {
                         state.userData.wishListIdsArr = []
                     }
 
@@ -1101,7 +1106,7 @@ const userSlice = createSlice({
 
 
 
-export const { setUserData, setLogInStatus, setIsLoading } = userSlice.actions
+export const { setUserData, setLogInStatus, setIsLoading , setTempUserEmail } = userSlice.actions
 
 export const userState = () => useSelector((state: RootState) => state.userReducer)
 

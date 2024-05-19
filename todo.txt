@@ -2,3 +2,7 @@
 
 Implement Passport js ---> in nodejs Backend   (10-11-2023) 
 
+
+Default user feature ------> By using that any user can logIn directly to that account.
+
+

@@ -5,7 +5,7 @@ import { AppDispatch, RootState } from "../../store"
 import { Link, useNavigate } from "react-router-dom"
 import { useForm, SubmitHandler } from "react-hook-form"
 import { useDispatch } from "react-redux"
-import { createNewUser, userState } from "../../Slices/UserSlice"
+import { createNewUser, setTempUserEmail, userState } from "../../Slices/UserSlice"
 import { toast } from "sonner"
 
 
@@ -48,8 +48,7 @@ export default function SignIn() {
 
     const themeMode = useSelector((state: RootState) => state.themeReducer.mode)
 
-    const { register, handleSubmit, formState: { errors }, setValue } = useForm<SingFormInputs>()
-
+    const { register, handleSubmit, formState: { errors }, setValue, getValues } = useForm<SingFormInputs>()
 
 
 
@@ -123,8 +122,6 @@ export default function SignIn() {
 
 
 
-
-
     function handlePicUpload(e: React.ChangeEvent<HTMLInputElement>) {
         e.preventDefault();
         e.stopPropagation();
@@ -195,12 +192,17 @@ export default function SignIn() {
     console.log(errors)
 
 
-
+    // // // if user successfully signedUp ---------->
     useEffect(() => {
 
         if (isSignIn) {
 
             navigate("/login")
+
+            // // // set tempUserEmail here -------->
+            dispatch(setTempUserEmail(getValues("email")))
+
+
         }
 
     }, [isSignIn])

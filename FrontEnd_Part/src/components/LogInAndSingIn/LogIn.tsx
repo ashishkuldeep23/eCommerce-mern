@@ -4,7 +4,7 @@ import { AppDispatch, RootState } from "../../store"
 import { Link, useNavigate } from "react-router-dom"
 import { useForm, SubmitHandler } from "react-hook-form"
 import { useState, useEffect } from "react"
-import { logInUser, userState } from "../../Slices/UserSlice"
+import { logInUser, setTempUserEmail, userState } from "../../Slices/UserSlice"
 import GoogleBtnLogic from "./GoogleBtnLogic"
 import { fetchAllCategoryAndHighlight, fetchAllProducts } from "../../Slices/AllProductSlice"
 
@@ -25,6 +25,8 @@ export default function LogIn() {
 
     const isLoading = userState().isLoading
 
+    const tempUserEmail = userState().tempUserEmail
+
     const userData = userState()
 
     const limitValue = useSelector((state: RootState) => state.allProductWithCatReducer.onePageLimit)
@@ -33,14 +35,24 @@ export default function LogIn() {
 
     const navigate = useNavigate()
 
-    const { register, handleSubmit, formState: { errors }, setValue } = useForm<FormInputs>()
+    const { register, handleSubmit, formState: { errors }, setValue, getValues } = useForm<FormInputs>()
 
 
     const onSubmit: SubmitHandler<FormInputs> = (data) => {
 
-        dispatch(logInUser({ bodyData: data }))
+        dispatch(setTempUserEmail(getValues("username")))
 
+        dispatch(logInUser({ bodyData: data }))
     }
+
+
+
+    const formOnChangeHandler = () => {
+
+        dispatch(setTempUserEmail(getValues("username")))
+ 
+    }
+
 
 
 
@@ -60,13 +72,14 @@ export default function LogIn() {
 
 
         // // // Set email here if user forgot pass then only -->
-        if(userData.userData.email){
-            setValue('username' , userData.userData.email)
+        if (userData.userData.email) {
+            setValue('username', userData.userData.email)
         }
 
 
 
         // // // Now if user give login value correct
+        // // If user is logged In -------->
         if (isLogin) {
 
             // let expires = new Date()
@@ -82,13 +95,24 @@ export default function LogIn() {
             dispatch(fetchAllProducts({ brand: "", category: '', price: "-1", limit: `${limitValue}` }))
             //  // // // Limit value is 4 set (Change in useEffect of pagination.jsx and here)
 
-
-
             // // // Here moving user to home page --->
             navigate("/");
+
+            // // // Now warp tempUserEmail of user ---------->
+            dispatch(setTempUserEmail(''))
         }
 
     }, [isLogin])
+
+
+
+
+    // // // check if user have temp email in state --------->
+    useEffect(() => {
+        if (tempUserEmail) {
+            setValue('username', tempUserEmail)
+        }
+    }, [])
 
 
     // console.log(watch("email"))
@@ -139,7 +163,12 @@ export default function LogIn() {
                 </div>
 
                 <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                    <form noValidate={true} className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
+                    <form
+                        noValidate={true}
+                        className="space-y-6"
+                        onSubmit={handleSubmit(onSubmit)}
+                        onChange={() => formOnChangeHandler()}
+                    >
 
                         <div>
                             <label htmlFor="email" className="block text-sm font-medium leading-6 ">

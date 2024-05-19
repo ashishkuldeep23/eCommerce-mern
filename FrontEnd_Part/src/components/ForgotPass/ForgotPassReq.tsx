@@ -5,7 +5,7 @@
 import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch, RootState } from "../../store"
 import { useForm, SubmitHandler } from "react-hook-form"
-import { forgotRequest, userState } from "../../Slices/UserSlice"
+import { forgotRequest, setTempUserEmail, userState } from "../../Slices/UserSlice"
 import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 
@@ -27,6 +27,8 @@ const ForgotPassReq = () => {
 
     const isFullfilled = userState().isFullFilled
 
+    const tempUserEmail = userState().tempUserEmail
+
     const errMsg = userState().errMsg
 
     const navigate = useNavigate()
@@ -42,18 +44,33 @@ const ForgotPassReq = () => {
 
 
         dispatch(forgotRequest(data.email))
-
     }
 
 
-    useEffect(()=>{
+    useEffect(() => {
 
-        if(isFullfilled){
-            setValue("email" , "")
+
+        if (isFullfilled) {
+            setValue("email", "")
             navigate("/login")
+
+            // // // Set mail normal here --------->
+            dispatch(setTempUserEmail(""))
         }
 
-    } , [isFullfilled])
+    }, [isFullfilled])
+
+
+
+
+    // // // check if user have temp email in state --------->
+    useEffect(() => {
+        if (tempUserEmail) {
+            setValue('email', tempUserEmail)
+        }
+    }, [])
+
+
 
 
     return (
