@@ -44,7 +44,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // // // ---> 
 app.use(cors({
   credentials: true,
-  origin: `${process.env.FRONTEND_URL}`
+  origin: [`${process.env.FRONTEND_URL}` , 'https://amakart.vercel.app']
 }))
 
 app.use(session({
