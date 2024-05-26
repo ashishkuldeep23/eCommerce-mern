@@ -31,7 +31,7 @@ const NewCrousel = () => {
                 {
 
 
-                    (crousalItems && crousalItems.length > 0)
+                    (crousalItems && crousalItems.length < 0)
 
                         ?
 
@@ -93,7 +93,7 @@ const NewCrousel = () => {
                         :
 
                         // // // This is Dummy crousel ( With some slides onliy  )
-                        <div className='animate-pulse'>
+                        <div className=' animate-pulse'>
 
 
                             <ReactSimplyCarousel
@@ -133,36 +133,49 @@ const NewCrousel = () => {
                             >
 
                                 <div
-                                    className=' relative  withAllImp singleCrousel   h-crH hover:cursor-pointer bg-[#279898]'
-                                >   
+                                    className='relative px-2 withAllImp singleCrousel   h-crH hover:cursor-pointer bg-[#175462]'
+                                >
 
-                                    <span className=' absolute top-1 border px-2 rounded-full '>1</span>
-                                    <p className=' text-5xl'>Loading...</p>
+                                    <span className=' absolute top-1 right-3 border px-2 rounded-full '>1</span>
+                                    <p className=' text-center font-semibold text-3xl'>This is an E-commerce clone web app.</p>
+                                    <p className=' text-center text-xl font-semibold'>Made by using ReactJS, NodeJS, TypeScript, TailwindCSS,MongoDB, etc.</p>
 
                                 </div>
 
                                 <div
-                                    className='  withAllImp singleCrousel  h-crH hover:cursor-pointer bg-[#065535]'
+                                    className='relative px-2 withAllImp singleCrousel  h-crH hover:cursor-pointer bg-[#065535]'
                                 >
-                                     <span className=' absolute top-1 border px-2 rounded-full '>2</span>
-                                 <p className=' text-5xl'>Loading...</p>
+                                    <span className=' absolute top-1 right-3 border px-2 rounded-full '>2</span>
+                                    <p className=' text-center font-semibold text-3xl'>Deployed on Vercel and Render.</p>
+                                    <p className=' text-center text-xl font-semibold'>Web hosting platform.</p>
                                 </div>
                                 <div
-                                    className='  withAllImp singleCrousel   h-crH hover:cursor-pointer bg-[#000000]'
+                                    className='relative px-2  withAllImp singleCrousel h-crH hover:cursor-pointer bg-[#000000]'
                                 >
-                                     <span className=' absolute top-1 border px-2 rounded-full '>3</span>
-                                     <p className=' text-5xl'>Loading...</p>
+                                    <span className=' absolute top-1 right-3 border px-2 rounded-full '>3</span>
+                                    <p className=' text-center font-semibold text-3xl'>Developed by Ashish Kuldeep.</p>
+                                    <p className=' text-center text-xl font-semibold'>A self-made MERN developer.</p>
                                 </div>
-                                <div className=' withAllImp singleCrousel  h-crH hover:cursor-pointer bg-[#893a32]'
+                                <div className='relative px-2 withAllImp singleCrousel  h-crH hover:cursor-pointer bg-[#893a32]'
                                 >
-                                     <span className=' absolute top-1 border px-2 rounded-full '>4</span>
-                                    <p className=' text-5xl'>Loading...</p>
+                                    <span className=' absolute top-1 right-3 border px-2 rounded-full '>4</span>
+                                    <p className=' text-center font-semibold text-3xl'>I created more than 5 MERN stack projects.</p>
+                                    <p className=' text-center text-md font-semibold'>Such as food delivery, chatting app, e-commerce, social media app, Video sharing app, etc.</p>
                                 </div>
 
-                                <div className=' withAllImp singleCrousel   h-crH hover:cursor-pointer bg-[#241b5d]'
+                                <div className='relative px-2 withAllImp singleCrousel   h-crH hover:cursor-pointer bg-[#241b5d]'
                                 >
-                                     <span className=' absolute top-1 border px-2 rounded-full'>5</span>
-                                    <p className=' text-5xl'>Loading...</p>
+                                    <span className=' absolute top-1 right-3 border px-2 rounded-full'>5</span>
+                                    <p className=' text-center font-semibold text-2xl'>ReactJs, NodeJs, MongoDB, TypeScript, TailwindCSS, Redux, Redux Tool Kit, NextJs, React Native, HTML, CSS, JS.</p>
+                                    <p className=' text-center text-md font-semibold'>Main skills I have.</p>
+                                </div>
+
+
+                                <div className=' relative px-2 withAllImp singleCrousel   h-crH hover:cursor-pointer bg-[#812378]'
+                                >
+                                    <span className=' absolute top-1 right-3 border px-2 rounded-full'>6</span>
+                                    <p className=' text-center font-semibold text-3xl'>Looking for opportunities.</p>
+                                    <p className=' text-center text-xl font-semibold'>To work and gain experience.</p>
                                 </div>
 
 
