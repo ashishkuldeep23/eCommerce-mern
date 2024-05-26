@@ -19,6 +19,62 @@ const NewCrousel = () => {
     const [activeSlideIndex, setActiveSlideIndex] = useState(0);
 
 
+    type SingleCrouselConetnt = {
+        bgColor: string,
+        mainHeading: string,
+        subHeading: string,
+        mainHeadingText?: string,
+        subHeadingText?: string
+    }
+
+
+    const dummyCrouselContent: SingleCrouselConetnt[] = [
+        {
+            bgColor: "bg-[#175462]",
+            mainHeading: 'This is an E-commerce clone web app.',
+            subHeading: "Made by using ReactJS, NodeJS, TypeScript, TailwindCSS,MongoDB, etc.",
+            mainHeadingText: "text-3xl",
+            subHeadingText: "text-xl"
+        },
+        {
+            bgColor: "bg-[#065535]",
+            mainHeading: "Deployed on Vercel and Render.",
+            subHeading: "Web hosting platform.",
+            mainHeadingText: "text-3xl",
+            subHeadingText: "text-xl"
+        },
+        {
+            bgColor: "bg-[#000000]",
+            mainHeading: "Developed by Ashish Kuldeep.",
+            subHeading: "A self-made MERN developer.",
+            mainHeadingText: "text-3xl",
+            subHeadingText: "text-xl"
+        },
+        {
+            bgColor: "bg-[#893a32]",
+            mainHeading: "I created more than 5 MERN stack projects.",
+            subHeading: "Such as food delivery, chatting app, e-commerce, social media app, Video sharing app, etc.",
+            mainHeadingText: "text-3xl",
+            subHeadingText: "text-md"
+        },
+        {
+            bgColor: "bg-[#241b5d]",
+            mainHeading: "ReactJs, NodeJs, MongoDB, TypeScript, TailwindCSS, Redux, Redux Tool Kit, NextJs, React Native, HTML, CSS, JS.",
+            subHeading: "Main skills I have.",
+            mainHeadingText: "text-xl",
+            subHeadingText: "text-md"
+        },
+        {
+            bgColor: "bg-[#812378]",
+            mainHeading: "Looking for opportunities.",
+            subHeading: "To work and gain experience.",
+            mainHeadingText: "text-2xl",
+            subHeadingText: "text-lg"
+        }
+    ]
+
+
+
 
     return (
 
@@ -31,7 +87,7 @@ const NewCrousel = () => {
                 {
 
 
-                    (crousalItems && crousalItems.length < 0)
+                    (crousalItems && crousalItems.length > 0)
 
                         ?
 
@@ -132,53 +188,29 @@ const NewCrousel = () => {
                                 autoplayDirection="forward"
                             >
 
-                                <div
-                                    className='relative px-2 withAllImp singleCrousel   h-crH hover:cursor-pointer bg-[#175462]'
-                                >
 
-                                    <span className=' absolute top-1 right-3 border px-2 rounded-full '>1</span>
-                                    <p className=' text-center font-semibold text-3xl'>This is an E-commerce clone web app.</p>
-                                    <p className=' text-center text-xl font-semibold'>Made by using ReactJS, NodeJS, TypeScript, TailwindCSS,MongoDB, etc.</p>
+                                {
+                                    dummyCrouselContent.map((ele, i) => {
+                                        return (
+                                            <div
+                                                key={i}
+                                                className={`relative px-2 withAllImp singleCrousel   h-crH hover:cursor-pointer ${ele.bgColor} `}
+                                            >
+                                                <span className=' absolute top-1 right-3 lg:right-14  border px-1.5 py-[1px] text-xs rounded-full font-semibold'>{i + 1}</span>
 
-                                </div>
+                                                <p className={`text-center font-semibold ${ele.mainHeadingText || "text-3xl"} `}>{ele.mainHeading}</p>
+                                                <p className={`text-center font-semibold ${ele.subHeadingText || "text-xl"} `}>{ele.subHeading}</p>
 
-                                <div
-                                    className='relative px-2 withAllImp singleCrousel  h-crH hover:cursor-pointer bg-[#065535]'
-                                >
-                                    <span className=' absolute top-1 right-3 border px-2 rounded-full '>2</span>
-                                    <p className=' text-center font-semibold text-3xl'>Deployed on Vercel and Render.</p>
-                                    <p className=' text-center text-xl font-semibold'>Web hosting platform.</p>
-                                </div>
-                                <div
-                                    className='relative px-2  withAllImp singleCrousel h-crH hover:cursor-pointer bg-[#000000]'
-                                >
-                                    <span className=' absolute top-1 right-3 border px-2 rounded-full '>3</span>
-                                    <p className=' text-center font-semibold text-3xl'>Developed by Ashish Kuldeep.</p>
-                                    <p className=' text-center text-xl font-semibold'>A self-made MERN developer.</p>
-                                </div>
-                                <div className='relative px-2 withAllImp singleCrousel  h-crH hover:cursor-pointer bg-[#893a32]'
-                                >
-                                    <span className=' absolute top-1 right-3 border px-2 rounded-full '>4</span>
-                                    <p className=' text-center font-semibold text-3xl'>I created more than 5 MERN stack projects.</p>
-                                    <p className=' text-center text-md font-semibold'>Such as food delivery, chatting app, e-commerce, social media app, Video sharing app, etc.</p>
-                                </div>
+                                                {
+                                                    (i === dummyCrouselContent.length - 1)
+                                                    &&
+                                                    <p className=' font-semibold'>Thank you🙂</p>
+                                                }
 
-                                <div className='relative px-2 withAllImp singleCrousel   h-crH hover:cursor-pointer bg-[#241b5d]'
-                                >
-                                    <span className=' absolute top-1 right-3 border px-2 rounded-full'>5</span>
-                                    <p className=' text-center font-semibold text-2xl'>ReactJs, NodeJs, MongoDB, TypeScript, TailwindCSS, Redux, Redux Tool Kit, NextJs, React Native, HTML, CSS, JS.</p>
-                                    <p className=' text-center text-md font-semibold'>Main skills I have.</p>
-                                </div>
-
-
-                                <div className=' relative px-2 withAllImp singleCrousel   h-crH hover:cursor-pointer bg-[#812378]'
-                                >
-                                    <span className=' absolute top-1 right-3 border px-2 rounded-full'>6</span>
-                                    <p className=' text-center font-semibold text-3xl'>Looking for opportunities.</p>
-                                    <p className=' text-center text-xl font-semibold'>To work and gain experience.</p>
-                                </div>
-
-
+                                            </div>
+                                        )
+                                    })
+                                }
 
                             </ReactSimplyCarousel>
 
