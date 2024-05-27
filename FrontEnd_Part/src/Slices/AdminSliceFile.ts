@@ -179,18 +179,29 @@ const adminSlice = createSlice({
     initialState,
     reducers: {
 
-        setUpdatingProduct(state, action) {
+        setUpdatingProduct(state, action: PayloadAction<boolean>) {
 
             // console.log(action.payload)
 
-            state.updatingProduct = action.payload as boolean
+            state.updatingProduct = action.payload
         },
 
-        setProductData(state, action: PayloadAction<NewProductInput>) {
+        setProductData(state, action: PayloadAction<IProduct>) {
             // console.log(action.payload)
 
             let comingData = action.payload
-            state.newProduct = comingData
+
+
+            let makeData: NewProductInput = {
+                ...comingData,
+                // type: comingData.type!,
+                type: comingData.type || [],
+                thumbnailIndex: 0,
+                imageInputBy: 'by_url',
+                whenCreted: '',
+            }
+
+            state.newProduct = makeData
 
         }
 

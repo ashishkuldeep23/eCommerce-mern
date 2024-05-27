@@ -385,7 +385,7 @@ export default function ProductDetails() {
                 }
 
 
-                <div className="mx-auto max-w-full  lg:max-w-allAk px-1  lg:px-8">
+                <div className=" mx-auto max-w-full  lg:max-w-allAk px-1  lg:px-8">
                     <div className="pt-6 ">
 
 

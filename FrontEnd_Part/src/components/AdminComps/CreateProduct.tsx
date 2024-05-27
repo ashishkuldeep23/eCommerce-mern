@@ -55,7 +55,9 @@ function CreateNewProduct() {
 
 
     // // // From state var --->
-    const { register, handleSubmit, formState: { errors }, setValue, getValues, setError, reset, setFocus } = useForm<NewProductInput>()
+    const { register, handleSubmit, formState, setValue, getValues, setError, reset, setFocus } = useForm<NewProductInput>()
+
+    const errors = formState.errors
 
     const allCategories = useSelector((state: RootState) => state.allProductWithCatReducer.filterAllCateory)
 
@@ -97,8 +99,6 @@ function CreateNewProduct() {
 
 
     const [thumbnailIndex, setThumbnailIndex] = useState<number>(-1)
-
-
 
 
     function categoryOnChangeHandler(e: React.ChangeEvent<HTMLSelectElement>) {
@@ -175,17 +175,16 @@ function CreateNewProduct() {
 
         // // // coming text ---> "typeName;color white|typeVerity;processor i3|typeStock;90|typePrice;100,"
 
+
+        if (!text) return []
+
+
         let arrByComma = text.split(",")
 
         // console.log(arrByComma)
 
 
-
         let showThisArr: TypeObj[] = []
-
-
-
-
 
 
         for (let key1 of arrByComma) {
@@ -252,6 +251,7 @@ function CreateNewProduct() {
                             break;
 
                         default:
+                            typeObj = typeObj
                             break;
                     }
 
@@ -622,6 +622,10 @@ function CreateNewProduct() {
 
             setAllImgUrls(allUrlsOfImage!)
 
+            setImageInputBy("by_url")
+
+            setThumbnailIndex(0)
+
 
             // console.log(newProduct)
         }
@@ -815,29 +819,33 @@ function CreateNewProduct() {
                         </div>
 
                         {/* Discount ---> */}
-                        <div className=" w-full sm:w-1/2 md:w-1/3 px-0.5">
+                        <div className=" w-full sm:w-1/2 md:w-1/3 px-0.5 flex gap-1 flex-wrap sm:flex-nowrap">
+                            <div>
 
-                            <label htmlFor="discount_product" className="block text-sm font-medium leading-6 ">
-                                Discount
-                            </label>
+                                <label htmlFor="discount_product" className="block text-sm font-medium leading-6 ">
+                                    Discount
+                                </label>
 
-                            <div className="mt-2">
-                                <input
-                                    id="discount_product"
-                                    // name="email"
-                                    type="number"
-                                    placeholder="Discount on Product in persent"
-                                    // autoComplete="email"
-                                    // required={true}
-                                    // // // Not more then 100 and not less then 0
-                                    {...register("discountPercentage", { required: "Discount is Required" })}
-                                    className={`block w-full rounded-md border-0 py-1.5  shadow-sm ring-1 ring-inset ring-gray-300  focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ${!themeMode ? " bg-white text-gray-900 " : "bg-gray-900 text-white"}`}
-                                />
-                                <p className="text-sm pl-2 text-red-500 font-bold"> {errors.discountPercentage?.message} </p>
+                                <div className="mt-2">
+                                    <input
+                                        id="discount_product"
+                                        // name="email"
+                                        type="number"
+                                        placeholder="Discount on Product in persent"
+                                        // autoComplete="email"
+                                        // required={true}
+                                        // // // Not more then 100 and not less then 0
+                                        {...register("discountPercentage", { required: "Discount is Required" })}
+                                        className={`block w-full rounded-md border-0 py-1.5  shadow-sm ring-1 ring-inset ring-gray-300  focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ${!themeMode ? " bg-white text-gray-900 " : "bg-gray-900 text-white"}`}
+                                    />
+                                    <p className="text-sm pl-2 text-red-500 font-bold"> {errors.discountPercentage?.message} </p>
+
+                                </div>
 
                             </div>
 
                         </div>
+
 
                         {/* category all code ---> */}
                         <div className=" w-full md:w-1/3 px-0.5 flex flex-col items-end justify-end ml-auto">
@@ -898,7 +906,8 @@ function CreateNewProduct() {
 
                                     {/*value get this input ---> */}
                                     <input
-                                        id="category_product" type="text"
+                                        id="category_product"
+                                        type="text"
                                         placeholder="New category"
                                         className={`block rounded-md border-0 py-1.5  shadow-sm ring-1 ring-inset ring-gray-300  focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ${!themeMode ? " bg-white text-gray-900 " : "bg-gray-900 text-white"}`}
                                         value={plusCategoryInput.typing}
@@ -912,7 +921,10 @@ function CreateNewProduct() {
                                         {
                                             plusCategoryInput.added
                                             &&
-                                            <p style={{ lineBreak: "anywhere", textAlign: "center" }} className="mx-2">Fill out the rest of form, new category will be created with product creation.</p>
+                                            <p
+                                                style={{ lineBreak: "anywhere", textAlign: "center" }}
+                                                className="mx-2"
+                                            >Fill out the rest of form, new category will be created with product creation.</p>
                                         }
                                     </div>
 
@@ -921,7 +933,10 @@ function CreateNewProduct() {
                                         {
                                             plusCategoryInput.added
                                             &&
-                                            <p style={{ lineBreak: "anywhere" }} className="mx-2">New Category: <span className=" capitalize bg-green-400 font-semibold border px-0.5 rounded ">{plusCategoryInput.added}</span></p>
+                                            <p
+                                                style={{ lineBreak: "anywhere" }}
+                                                className="mx-2"
+                                            >New Category: <span className=" capitalize bg-green-400 font-semibold border px-0.5 rounded ">{plusCategoryInput.added}</span></p>
                                         }
 
                                         {
