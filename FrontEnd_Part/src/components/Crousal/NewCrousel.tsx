@@ -7,6 +7,8 @@ import { IProduct } from "../ProductListing/ProductLists"
 import { useNavigate } from 'react-router-dom';
 import { setSingleProductData } from '../../Slices/AllProductSlice';
 import { fetchOneProductByID } from '../../Slices/AllProductSlice';
+// import { userState } from '../../Slices/UserSlice';
+// import { setProductData, setUpdatingProduct } from '../../Slices/AdminSliceFile';
 
 
 const NewCrousel = () => {
@@ -75,18 +77,18 @@ const NewCrousel = () => {
 
 
 
-
     return (
 
-        <div className={`p-1 pt-10 sm:pt-10 sm:p-5  overflow-hidden flex justify-center ${!themeMode ? "bg-white" : 'bg-black'} `}>
+        <div className={`p-1 pt-10 overflow-hidden flex justify-center ${!themeMode ? "bg-white" : 'bg-black'} `}>
 
 
-            <div className={` border overflow-hidden rounded-xl sm:rounded-3xl`} id='crouselHolderDiv'>
+            <div
+                className={`overflow-hidden rounded-xl sm:rounded-3xl w-[100%]`}
+            // id='crouselHolderDiv'
+            >
 
 
                 {
-
-
                     (crousalItems && crousalItems.length > 0)
 
                         ?
@@ -122,8 +124,8 @@ const NewCrousel = () => {
                                     minWidth: 768,
                                 },
                             ]}
-                            speed={500}
-                            autoplayDelay={2000}
+                            speed={750}
+                            autoplayDelay={2500}
                             easing="linear"
                             autoplay={true}
                             autoplayDirection="forward"
@@ -131,10 +133,12 @@ const NewCrousel = () => {
 
                             {
 
-                                crousalItems.map((item, i) => <SingleCrouselForOriginalData item={item} key={i} />)
-
-
-
+                                crousalItems.map((item, i) => <SingleCrouselForOriginalData
+                                    item={item}
+                                    key={i}
+                                    activeSlideIndex={activeSlideIndex}
+                                    index={i}
+                                />)
 
                             }
 
@@ -149,9 +153,7 @@ const NewCrousel = () => {
                         :
 
                         // // // This is Dummy crousel ( With some slides onliy  )
-                        <div className=' animate-pulse'>
-
-
+                        <div className=' rounded-xl sm:rounded-3xl overflow-hidden'>
                             <ReactSimplyCarousel
 
                                 activeSlideIndex={activeSlideIndex}
@@ -181,8 +183,8 @@ const NewCrousel = () => {
                                         minWidth: 768,
                                     },
                                 ]}
-                                speed={500}
-                                autoplayDelay={2000}
+                                speed={750}
+                                autoplayDelay={2500}
                                 easing="linear"
                                 autoplay={true}
                                 autoplayDirection="forward"
@@ -194,7 +196,7 @@ const NewCrousel = () => {
                                         return (
                                             <div
                                                 key={i}
-                                                className={`relative px-2 withAllImp singleCrousel   h-crH hover:cursor-pointer ${ele.bgColor} `}
+                                                className={` !w-[97.5vw] relative px-2 withAllImp singleCrousel rounded-xl sm:rounded-3xl h-crH hover:cursor-pointer ${ele.bgColor} `}
                                             >
                                                 <span className=' absolute top-1 right-3 lg:right-14  border px-1.5 py-[1px] text-xs rounded-full font-semibold'>{i + 1}</span>
 
@@ -204,7 +206,7 @@ const NewCrousel = () => {
                                                 {
                                                     (i === dummyCrouselContent.length - 1)
                                                     &&
-                                                    <p className=' font-semibold'>Thank you🙂</p>
+                                                    <p className=' font-semibold text-lg'>Thank you🙂</p>
                                                 }
 
                                             </div>
@@ -213,16 +215,9 @@ const NewCrousel = () => {
                                 }
 
                             </ReactSimplyCarousel>
-
-
                         </div>
 
-
-
                 }
-
-
-
 
             </div>
 
@@ -235,27 +230,45 @@ export default NewCrousel
 
 
 
-
-
-function SingleCrouselForOriginalData({ item }: { item: IProduct }) {
+function SingleCrouselForOriginalData({ item, activeSlideIndex, index }: { item: IProduct, activeSlideIndex: number, index: number }) {
 
     const navigate = useNavigate();
     const dispatch = useDispatch<AppDispatch>()
+    // const themeMode = useSelector((state: RootState) => state.themeReducer.mode)
 
 
+    // const userData = userState().userData
+    // // // This style is given to every crousel slide.
     const holderDivStyle = {
         backgroundRepeat: "repeat-x",
         backgroundAttachment: "fixed",
         backgroundBlendMode: "hue(120deg)",
         backgroundSize: "contain",
     }
+
+
     return (
         <>
-            <div className='withAllImp singleCrousel  flex justify-center  h-crH hover:cursor-pointer'>
+            <div className={`!w-[97.5vw] singleCrousel  flex justify-center  h-crH rounded-xl sm:rounded-3xl overflow-hidden hover:cursor-pointer relative 
+                    ${index !== activeSlideIndex && " scale-y-75"} transition-all duration-1000`
+            }>
+
+                <div
+                    style={
+                        {
+                            backgroundImage: `url("https://thumbs.dreamstime.com/b/error-rubber-stamp-word-error-inside-illustration-109026446.jpg")`,
+                            ...holderDivStyle
+                        }
+                    }
+                    className=' h-full w-full absolute top-0 left-0 bg-red-500 -z-[1] rounded-xl sm:rounded-3xl overflow-hidden'
+                >
+
+                </div>
+
 
                 <div
                     style={{ backgroundImage: `url(${item.images[1]})`, ...holderDivStyle }}
-                    className="carousel-item   h-full hover:cursor-pointer box-content flex justify-around  w-full  "
+                    className="carousel-item h-full hover:cursor-pointer box-content flex justify-around  w-full  "
                     onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
                         e.stopPropagation();
                         navigate(`/product/${item.id}`);
@@ -278,15 +291,30 @@ function SingleCrouselForOriginalData({ item }: { item: IProduct }) {
                                 :
                                 <span className={`text-end font-medium `}> ₹{item.price} </span>
                         }
+
+
+                        {/* {
+                            userData.role === "admin"
+                            &&
+                            <span
+                                className={` ml-4 z-10 sticky top-16  left-full px-2 py-1 border border-green-400 m-2 rounded   `}
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    navigate("/admin");
+                                    dispatch(setProductData(item));
+                                    dispatch(setUpdatingProduct(true));
+                                }}
+                            >
+                                <span className=' font-semibold'>Edit</span> <i className="ri-pencil-line"></i>
+                            </span>
+                        } */}
+
+
                     </p>
 
 
 
-                    {/* <div
-            className="absolute flex justify-between transform -translate-y-1/2 left-0 right-0 top-1/2"
-            onClick={(e) => { e.stopPropagation() }}
-        >
-        </div> */}
+
 
                 </div>
 
@@ -295,7 +323,6 @@ function SingleCrouselForOriginalData({ item }: { item: IProduct }) {
         </>
     )
 }
-
 
 
 

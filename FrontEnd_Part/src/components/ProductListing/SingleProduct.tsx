@@ -8,6 +8,7 @@ import { IProduct } from "./ProductLists"
 import { AppDispatch, RootState } from "../../store"
 import { useNavigate } from 'react-router-dom'
 import { addOrRemoveWishList } from '../../Slices/UserSlice'
+// import { setProductData, setUpdatingProduct } from '../../Slices/AdminSliceFile'
 
 
 type TProductPrope = {

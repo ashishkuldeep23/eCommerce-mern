@@ -69,9 +69,9 @@ input::-webkit-inner-spin-button {
 
 
 
-.withAllImp {
+/* .withAllImp {
     width: 90vw !important;
-}
+} */
 
 .singleCrousel {
     display: flex;
@@ -329,9 +329,9 @@ input::-webkit-inner-spin-button {
 
 @media (max-width : 640px) {
 
-    .withAllImp {
+    /* .withAllImp {
         width: 100vw !important;
-    }
+    } */
 
     #crouselHolderDiv {
         width: 100%;

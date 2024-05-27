@@ -186,11 +186,10 @@ const adminSlice = createSlice({
             state.updatingProduct = action.payload as boolean
         },
 
-        setProductData(state, action) {
+        setProductData(state, action: PayloadAction<NewProductInput>) {
             // console.log(action.payload)
 
-            let comingData = action.payload as NewProductInput
-
+            let comingData = action.payload
             state.newProduct = comingData
 
         }
