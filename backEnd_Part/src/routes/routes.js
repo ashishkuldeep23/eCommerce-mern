@@ -24,7 +24,6 @@ const { isAuthorized, isUserAdmin } = require("../middleware/authorization")
 
 // // // Checking ejs only ---->
 
-
 router.get("/check", (req, res) => {
 
   res.render("check", { check: "Ashish" })
@@ -37,8 +36,6 @@ router.get("/check", (req, res) => {
 router.get('/', function (req, res) {
   res.render('index', { title: "Backend part of E-commerce  app by Ashish" });
 });
-
-
 
 
 
