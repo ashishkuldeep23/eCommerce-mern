@@ -309,25 +309,24 @@ app.use(function (err, req, res, next) {
 
 // // // // Now write logic for runing own server all time -------->>
 
-// const MAKE_UP_AND_RUNNING = process.env.MAKE_UP_AND_RUNNING || "1";
-// const OWN_SERVER_URL = process.env.BACKEND_URL || "http://localhost:3000/alive";
-// if (MAKE_UP_AND_RUNNING === "true" || MAKE_UP_AND_RUNNING === "1") {
-//   console.log("Working bypass render sleep mode.");
+const MAKE_UP_AND_RUNNING = process.env.MAKE_UP_AND_RUNNING || "1";
+const OWN_SERVER_URL = process.env.BACKEND_URL || "http://localhost:3000/alive";
+if (MAKE_UP_AND_RUNNING === "true" || MAKE_UP_AND_RUNNING === "1") {
+  console.log("Working bypass render sleep mode.");
 
-//   const url = OWN_SERVER_URL;
-//   const interval = 30000;
+  const url = OWN_SERVER_URL;
+  const interval = 30000;
 
-//   setInterval(() => {
-//     axios
-//       .get(url)
-//       .then((res) => {
-//         console.log(res.data);
-//       })
-//       .catch((err) => {
-//         console.log(err);
-//       });
-//   }, interval);
-// }
-
+  setInterval(() => {
+    axios
+      .get(url)
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, interval);
+}
 
 module.exports = app;
