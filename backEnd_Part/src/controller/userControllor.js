@@ -691,7 +691,7 @@ async function forgotReqHandler(req, res) {
 
         let mailOptions = sendMailWithNodemailerFormate(
             email,
-            "Forgot password, click on given link please.(Link is valid for 1H)",
+            "Forgot password, click on given link please.",
             html
         )
 

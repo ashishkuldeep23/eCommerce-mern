@@ -1,178 +1,206 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const upload = require("../../lib/multer")
+const upload = require("../../lib/multer");
 
-const passport = require('passport');
-
+const passport = require("passport");
 
 // // // Import controles -->
 
-const { findAllProducts, getCategoryAndHighlight, findOneProduct, dislikeProduct, likeProduct, searchProductByKeyowrd } = require("../controller/productControllor")
+const {
+  findAllProducts,
+  getCategoryAndHighlight,
+  findOneProduct,
+  dislikeProduct,
+  likeProduct,
+  searchProductByKeyowrd,
+} = require("../controller/productControllor");
 
-const { createNewReview, deleteReview, updateReview, likeReview, dislikeReview } = require("../controller/reviewController")
+const {
+  createNewReview,
+  deleteReview,
+  updateReview,
+  likeReview,
+  dislikeReview,
+} = require("../controller/reviewController");
 
-const { creteUserControllor, logInControllor, logOutControl, getUserData, updateUser, verifyMailController, forgotReqHandler, forgotMainHandler, userWithEmail, bugReportHandler, userDataByTokenHandler, verifyMailReq, addOrRemoveWishList } = require("../controller/userControllor")
+const {
+  creteUserControllor,
+  logInControllor,
+  logOutControl,
+  getUserData,
+  updateUser,
+  verifyMailController,
+  forgotReqHandler,
+  forgotMainHandler,
+  userWithEmail,
+  bugReportHandler,
+  userDataByTokenHandler,
+  verifyMailReq,
+  addOrRemoveWishList,
+} = require("../controller/userControllor");
 
-const { createNewOrder, updateOrder } = require("../controller/orderControllor")
+const {
+  createNewOrder,
+  updateOrder,
+} = require("../controller/orderControllor");
 
-const { createNewProduct, getAllProductsAdmin, updateProdct, getAllOrdersAdmin } = require("../controller/adminControllor")
+const {
+  createNewProduct,
+  getAllProductsAdmin,
+  updateProdct,
+  getAllOrdersAdmin,
+} = require("../controller/adminControllor");
 
+const { isAuthorized, isUserAdmin } = require("../middleware/authorization");
 
-const { isAuthorized, isUserAdmin } = require("../middleware/authorization")
-
-
+/* GET home page. */
+router.get("/", function (req, res) {
+  res.render("index", {
+    title: "Backend part of E-commerce app developed by Ashish kuldeep ",
+  });
+});
 
 // // // Checking ejs only ---->
 
 router.get("/check", (req, res) => {
-
-  res.render("check", { check: "Ashish" })
-
+  res.render("check", { check: "Ashish" });
   // res.send("fdfdsf")
 });
 
-
-/* GET home page. */
-router.get('/', function (req, res) {
-  res.render('index', { title: "Backend part of E-commerce  app by Ashish" });
-});
-
-
-
 // // // Admin API's ----------->
-router.post("/createProduct", isAuthorized, isUserAdmin, upload.array("file"), createNewProduct)
+router.post(
+  "/createProduct",
+  isAuthorized,
+  isUserAdmin,
+  upload.array("file"),
+  createNewProduct,
+);
 
-router.get("/getAllProductsAdmin", isAuthorized, isUserAdmin, getAllProductsAdmin)
+router.get(
+  "/getAllProductsAdmin",
+  isAuthorized,
+  isUserAdmin,
+  getAllProductsAdmin,
+);
 
-router.post("/updatePoduct", isAuthorized, isUserAdmin, upload.array("file"), updateProdct)
+router.post(
+  "/updatePoduct",
+  isAuthorized,
+  isUserAdmin,
+  upload.array("file"),
+  updateProdct,
+);
 
-router.get("/getAllOrdersAdmin", isAuthorized, isUserAdmin, getAllOrdersAdmin)
-
-
+router.get("/getAllOrdersAdmin", isAuthorized, isUserAdmin, getAllOrdersAdmin);
 
 /// // // General Api's
-router.get("/findAllProducts", findAllProducts)
+router.get("/findAllProducts", findAllProducts);
 
-router.get("/getCategoryAndHighlight", getCategoryAndHighlight)
+router.get("/getCategoryAndHighlight", getCategoryAndHighlight);
 
-router.get("/findOneProduct/:productId", findOneProduct)
+router.get("/findOneProduct/:productId", findOneProduct);
 
+router.get("/searchProduct", searchProductByKeyowrd);
 
+router.post("/likeProduct", isAuthorized, likeProduct);
 
-router.get("/searchProduct", searchProductByKeyowrd)
+router.post("/dislikeProduct", isAuthorized, dislikeProduct);
 
-router.post("/likeProduct", isAuthorized, likeProduct)
+// // // Review API
+router.post("/createReview", isAuthorized, createNewReview);
 
-router.post("/dislikeProduct", isAuthorized, dislikeProduct)
+router.delete("/deleteReview/:reviewId", isAuthorized, deleteReview);
 
+router.put("/updateReview", isAuthorized, updateReview);
 
+router.post("/likeReview", isAuthorized, likeReview);
 
-
-// // // Review API 
-router.post("/createReview", isAuthorized, createNewReview)
-
-router.delete("/deleteReview/:reviewId", isAuthorized, deleteReview)
-
-router.put("/updateReview", isAuthorized, updateReview)
-
-router.post('/likeReview', isAuthorized, likeReview)
-
-router.post('/dislikeReview', isAuthorized, dislikeReview)
-
-
+router.post("/dislikeReview", isAuthorized, dislikeReview);
 
 // // // user API (SingUp , SinIn , SingOut)
-router.post("/createUser", upload.array("file"), creteUserControllor)
+router.post("/createUser", upload.array("file"), creteUserControllor);
 
-router.post("/userLogin", passport.authenticate("local"), logInControllor)
+router.post("/userLogin", passport.authenticate("local"), logInControllor);
 
-router.get("/getUserData", isAuthorized, getUserData)
+router.get("/getUserData", isAuthorized, getUserData);
 
-router.get("/userSingout", isAuthorized, logOutControl)
+router.get("/userSingout", isAuthorized, logOutControl);
 
-router.post("/updateUser", isAuthorized, upload.array("file"), updateUser)
+router.post("/updateUser", isAuthorized, upload.array("file"), updateUser);
 
-router.post("/verifyMailReq", isAuthorized, verifyMailReq)      // // // isAuthorised needed becoz logined person can only request to verify his/her mail. 
+router.post("/verifyMailReq", isAuthorized, verifyMailReq); // // // isAuthorised needed becoz logined person can only request to verify his/her mail.
 
-router.get("/verifyMail", verifyMailController)
+router.get("/verifyMail", verifyMailController);
 
-router.post("/forgot-req", forgotReqHandler)
+router.post("/forgot-req", forgotReqHandler);
 
-router.post("/forgot-main", forgotMainHandler)
+router.post("/forgot-main", forgotMainHandler);
 
-router.get("/checkUserWithEmail/:email", userWithEmail)
+router.get("/checkUserWithEmail/:email", userWithEmail);
 
-router.post("/bugReport", bugReportHandler)
+router.post("/bugReport", bugReportHandler);
 
 // // // Below api used to get data with given token
-router.get("/userDataByToken", isAuthorized, userDataByTokenHandler)
+router.get("/userDataByToken", isAuthorized, userDataByTokenHandler);
 
 // // // Add and remove wishlist api --->
-
-router.post("/addOrRemoveWishList", isAuthorized, addOrRemoveWishList)
-
-
+router.post("/addOrRemoveWishList", isAuthorized, addOrRemoveWishList);
 
 // // // Routes for login by Google ----->
 // // // Scope should given which scope of data you want to get like :- email and profile --->
-router.get("/userLoginGoogle", passport.authenticate("google", { scope: ['email', 'profile'] }))
+router.get(
+  "/userLoginGoogle",
+  passport.authenticate("google", { scope: ["email", "profile"] }),
+);
 
-router.get("/auth/google/callback", passport.authenticate("google", {
-  // successRedirect: `${process.env.FRONTEND_URL}`,
-  // successRedirect: `/login/success`,
-  failureRedirect: "/login/failed"
-}), (req, res) => {
+router.get(
+  "/auth/google/callback",
+  passport.authenticate("google", {
+    // successRedirect: `${process.env.FRONTEND_URL}`,
+    // successRedirect: `/login/success`,
+    failureRedirect: "/login/failed",
+  }),
+  (req, res) => {
+    console.log("User logined by Google.");
 
-  console.log("User logined by Google.")
+    if (req.user) {
+      // console.log(req.user)
 
-  if (req.user) {
-
-    // console.log(req.user)
-
-    res.cookie("token", req.user.token,
-      {
+      res.cookie("token", req.user.token, {
         expires: new Date(Date.now() + 36000000),
         path: "/",
+      });
 
-      }
-    )
+      // res.status(200).send({ status: true, message: "LogIn Successfull", data: req.user })
 
-    // res.status(200).send({ status: true, message: "LogIn Successfull", data: req.user })
+      // res.redirect(`${process.env.FRONTEND_URL}`)
 
-    // res.redirect(`${process.env.FRONTEND_URL}`)
+      // res.render("googleAuth", { check: `${req.user.token}` })
 
-    // res.render("googleAuth", { check: `${req.user.token}` })
-
-    /*
+      /*
       // // // TODO :  1) ---> redirect to user on google auth page from frontend with token as path params 
       2) ---> Grave the token value in page and get user data with given token by useEffect and then if eveything is good then only show the home page of frontend.
       Hope everything will good and accordingly.
     */
 
-    let url = `${process.env.FRONTEND_URL}/user-login/${req.user.token}/newuser`
+      let url = `${process.env.FRONTEND_URL}/user-login/${req.user.token}/newuser`;
 
-    res.redirect(url)
-
-  }
-  else {
-    res.status(200).send({ status: false, message: "No user found." })
-  }
-
-
-})
-
+      res.redirect(url);
+    } else {
+      res.status(200).send({ status: false, message: "No user found." });
+    }
+  },
+);
 
 router.get("/login/failed", (req, res) => {
   // console.log(req.user)
-  console.log("Failed")
+  console.log("Failed");
 
-  res.status(401).send({ status: false, message: "LogIn Failed" })
-})
-
+  res.status(401).send({ status: false, message: "LogIn Failed" });
+});
 
 router.get("/login/success", (req, res) => {
-
-  // // // Not useing other success url 
+  // // // Not useing other success url
   // // // Working in same route (see the (/auth/google/callback) route ) -------->
 
   // console.log(req.user)
@@ -180,21 +208,15 @@ router.get("/login/success", (req, res) => {
   // console.log("Success just for checking")
 
   if (req.user) {
-
-    res.cookie("token", req.user.token,
-      {
-        expires: new Date(Date.now() + 36000000),
-        // httpOnly : true,
-        // signed: true,
-      }
-    )
+    res.cookie("token", req.user.token, {
+      expires: new Date(Date.now() + 36000000),
+      // httpOnly : true,
+      // signed: true,
+    });
 
     // res.status(200).send({ status: true, message: "LogIn Successfull", data: req.user })
 
-
     // res.redirect(`${process.env.FRONTEND_URL}`)
-
-
 
     // res.render("googleAuth", { check: `${req.user.token}` })
 
@@ -204,26 +226,17 @@ router.get("/login/success", (req, res) => {
       Hope everything will good and accordingly.
     */
 
-    let url = `${process.env.FRONTEND_URL}/google-user/${req.user.token}/newuser`
+    let url = `${process.env.FRONTEND_URL}/google-user/${req.user.token}/newuser`;
 
-    res.redirect(url)
-
+    res.redirect(url);
+  } else {
+    res.status(200).send({ status: false, message: "No user found." });
   }
-  else {
-    res.status(200).send({ status: false, message: "No user found." })
-  }
-
-
-
-})
-
-
+});
 
 // // // Order Api --------->
-router.post("/createOrder", isAuthorized, createNewOrder)
+router.post("/createOrder", isAuthorized, createNewOrder);
 
-router.put("/updateOrder", isAuthorized, updateOrder)
-
-
+router.put("/updateOrder", isAuthorized, updateOrder);
 
 module.exports = router;

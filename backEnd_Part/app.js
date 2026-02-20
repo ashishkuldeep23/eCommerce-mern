@@ -308,7 +308,6 @@ app.use(function (err, req, res, next) {
 });
 
 // // // // Now write logic for runing own server all time -------->>
-
 const MAKE_UP_AND_RUNNING = process.env.MAKE_UP_AND_RUNNING || "1";
 const OWN_SERVER_URL = process.env.BACKEND_URL || "http://localhost:3000/alive";
 if (MAKE_UP_AND_RUNNING === "true" || MAKE_UP_AND_RUNNING === "1") {

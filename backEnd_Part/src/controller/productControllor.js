@@ -36,20 +36,15 @@ async function findAllProducts(req, res) {
         if (brand) {
             // searchObject.brand = brand.toLowerCase()
             searchObject.brand = brand
-
             searchByQuery = true
         }
 
         if (category) {
             // searchObject.category = category.toLowerCase()
             searchObject.category = category
-
             searchByQuery = true
-
-            // // // To lower case not used now
+             // // // To lower case not used now
         }
-
-
 
 
         let sortByPrice = 1
@@ -59,11 +54,11 @@ async function findAllProducts(req, res) {
         }
 
 
-        let pageNo = 1
+        let pageNo = page ? (Number(page) || 1) :  1
 
-        if (page) {
-            pageNo = page
-        }
+        // if (page) {
+        //     pageNo = page
+        // }
 
 
         // let mostStarted = 1 
@@ -72,14 +67,15 @@ async function findAllProducts(req, res) {
         //     mostStarted = most_started
         // }
 
+        let limitOfProducts = limit? Number(limit) || 3 : 3
 
-        let limitOfProducts = 3
+        // if (limit) {
+        //     limitOfProducts = limit
+        // }
 
-        if (limit) {
-            limitOfProducts = limit
-        }
+        let skip = limitOfProducts * (pageNo - 1)
 
-        const findAllProducts = await productModel.find(searchObject).sort({ price: sortByPrice }).skip(limitOfProducts * (pageNo - 1 )).limit(limitOfProducts).select('-_id -updatedAt -createdAt -__v -description -type -review').populate("review")
+        const findAllProducts = await productModel.find(searchObject).sort({ price: sortByPrice }).skip(skip).limit(limitOfProducts).select('-_id -updatedAt -createdAt -__v -description -type -review').populate("review")
 
 
         // // // Create all category list here and send to frontEnd
@@ -107,31 +103,38 @@ async function findAllProducts(req, res) {
 }
 
 
+// // // TODO : Need to improve this api. 
 
 async function getCategoryAndHighlight(req, res) {
 
-    const findAllProducts = await productModel.find({ isDeleted: false }).select('-_id -updatedAt -createdAt -__v -description -type -review')
+    try{
+        const findAllProducts = await productModel.find({ isDeleted: false }).select('-_id -updatedAt -createdAt -__v -description -type -review')
 
 
-    // // // Create all category list here and send to frontEnd
-    const allCategoryOfProducts = [...new Set(findAllProducts.map(ele => ele.category))]
+        // // // Create all category list here and send to frontEnd
+        const allCategoryOfProducts = [...new Set(findAllProducts.map(ele => ele.category))]
 
 
-    // // // Create all category list here and send to frontEnd
-    const allBrandsOfProducts = [...new Set(findAllProducts.map(ele => ele.brand))]
+        // // // Create all category list here and send to frontEnd
+        const allBrandsOfProducts = [...new Set(findAllProducts.map(ele => ele.brand))]
 
-    // const allHighlights = [...findAllProducts.slice(3,8)]   // // // Upadte this by highlighted true product.
+        // const allHighlights = [...findAllProducts.slice(3,8)]   // // // Upadte this by highlighted true product.
 
-    const allHighlights = [...findAllProducts.filter((item) => {
-        if (item.isHighlight === true) { return item }
-    })]   // // // now Upadte this by highlighted true product.   
-    // // // return those items that have isHighlight true otherwise do nothing
+        const allHighlights = [...findAllProducts.filter((item) => {
+            if (item.isHighlight === true) { return item }
+        })]   // // // now Upadte this by highlighted true product.   
+        // // // return those items that have isHighlight true otherwise do nothing
 
 
-    // console.log(findAllProducts.length)
+        // console.log(findAllProducts.length)
 
-    return res.status(200).send({ status: true, allCategory: allCategoryOfProducts, allBrands: allBrandsOfProducts, allHighlights: allHighlights, totalProducts: findAllProducts.length })
+        return res.status(200).send({ status: true, allCategory: allCategoryOfProducts, allBrands: allBrandsOfProducts, allHighlights: allHighlights, totalProducts: findAllProducts.length })
 
+    }
+    catch (err) {
+        console.log(err.message)
+        res.status(500).send({ status: false, message: "Server Error" })
+    }
 }
 
 
