@@ -1,24 +1,11 @@
 import { createSlice, current } from "@reduxjs/toolkit"
 
-import { IProduct } from "../components/ProductListing/ProductLists"
-
-import { SingleTypeObject } from "../components/ProductListing/ProductLists";
+// import { IProduct } from "../components/ProductListing/ProductLists"
+// import { SingleTypeObject } from "../components/ProductListing/ProductLists";
 import { gettingTokenInCookieAndLocalHost } from "../App";
+import { CartInter } from "../Type/type";
 
 
-// // // This is how card data look like
-export interface CardDataInter extends IProduct {
-
-    quantity: number;
-    verity: SingleTypeObject;
-
-}
-
-
-interface CartInter {
-    cartData: CardDataInter[],
-    totalPrice: number;
-}
 
 
 

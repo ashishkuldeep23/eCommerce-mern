@@ -1,10 +1,11 @@
 
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
-import { OrderData } from "../components/Payment/PaymentComp"
+// import { OrderData } from "../components/Payment/PaymentComp"
 import { useSelector } from "react-redux"
 import { RootState } from "../store"
 import { gettingTokenInCookieAndLocalHost } from "../App"
 import { toast } from "sonner"
+import {  OrderData, OrderInterface } from "../Type/type"
 
 
 
@@ -69,13 +70,6 @@ export const updateOrder = createAsyncThunk("order/updateOrder", async ({body} :
 
 
 
-
-interface OrderInterface {
-    orderArr: OrderData,
-    isLoading: boolean,
-    isError: boolean,
-    isFullFilled: boolean
-}
 
 
 const intialOrderData: OrderData = {

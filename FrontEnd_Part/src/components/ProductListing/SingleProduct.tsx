@@ -4,10 +4,11 @@ import { StarIcon } from '@heroicons/react/24/outline'
 import { useSelector, useDispatch } from "react-redux"
 import { setSingleProductData } from "../../Slices/AllProductSlice"
 import { fetchOneProductByID } from '../../Slices/AllProductSlice'
-import { IProduct } from "./ProductLists"
+// import { IProduct } from "./ProductLists"
 import { AppDispatch, RootState } from "../../store"
 import { useNavigate } from 'react-router-dom'
 import { addOrRemoveWishList } from '../../Slices/UserSlice'
+import { IProduct } from '../../Type/type'
 // import { setProductData, setUpdatingProduct } from '../../Slices/AdminSliceFile'
 // import { setProductData, setUpdatingProduct } from '../../Slices/AdminSliceFile'
 

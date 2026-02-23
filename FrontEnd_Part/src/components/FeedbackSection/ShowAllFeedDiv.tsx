@@ -5,8 +5,9 @@
 import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch, RootState } from "../../store"
 import { useEffect, useRef } from "react"
-import { FeedBackSingle, feedbackState, getAllFeedbacks } from "../../Slices/FeedbackSliceFile"
+import {  feedbackState, getAllFeedbacks } from "../../Slices/FeedbackSliceFile"
 import { motion, useDragControls } from "framer-motion"
+import { FeedBackSingle } from "../../Type/type"
 
 
 function ShowAllFeedDiv() {

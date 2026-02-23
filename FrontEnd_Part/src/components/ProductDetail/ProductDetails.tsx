@@ -16,44 +16,9 @@ import { setProductData, setUpdatingProduct } from '../../Slices/AdminSliceFile'
 import ProductImagesDiv from './ProductImagesDiv'
 import { setChildrenModal, setOpenMoadl } from '../../Slices/ModalSlice'
 import { gettingTokenInCookieAndLocalHost } from '../../App'
+import { TypeObject } from '../../Type/type'
 
 
-
-export type ReviewData = {
-
-    "userData": {
-        "userName": string,
-        "userImg": string,
-        "userUID": string,
-    },
-
-    "userId": {
-        firstName: string,
-        lastName: string,
-        id: string,
-        profilePic: string
-    },
-
-    "productName": string,
-    "comment": string,
-
-    "stars": number,
-    "likes": number,
-    "dislikes": number,
-    "id": string,
-    "whenCreated": string,
-    "likedUserIds": string[],
-    "dislikedUserIds": string[]
-}
-
-
-export type TypeObject = {
-    typeName: string[],
-    typeStock: number,
-    typeVerity: string[],
-    typePrice: number
-    isChanged: boolean
-}
 
 
 export default function ProductDetails() {

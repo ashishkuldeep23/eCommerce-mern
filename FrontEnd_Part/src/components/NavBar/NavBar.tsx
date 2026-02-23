@@ -10,7 +10,8 @@ import { fetchAllCategoryAndHighlight, fetchAllProducts, fetchOneProductByID, se
 import { toast } from 'sonner';
 import { reqVerifyMail, userState } from '../../Slices/UserSlice';
 import { searchProduct, searchProductState, setKeyText } from '../../Slices/ProductSearchByKey';
-import { IProduct } from '../ProductListing/ProductLists';
+import { IProduct } from '../../Type/type';
+// import { IProduct } from '../ProductListing/ProductLists';
 
 
 

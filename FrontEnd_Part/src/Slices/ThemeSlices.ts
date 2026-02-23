@@ -1,14 +1,10 @@
 
 import { createSlice } from "@reduxjs/toolkit"
+import { ThemeInter } from "../Type/type"
 
 
 // import type { PayloadAction } from "@reduxjs/toolkit"
 // // // Above will use in action object , see the docs.
-
-
-interface ThemeInter{
-    mode : boolean ,
-}
 
 
 

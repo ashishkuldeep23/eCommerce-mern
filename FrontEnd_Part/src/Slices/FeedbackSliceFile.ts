@@ -3,6 +3,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { useSelector } from "react-redux"
 import { RootState } from "../store"
 import { toast } from "sonner"
+import { InitialState } from "../Type/type"
 
 
 // import type { PayloadAction } from "@reduxjs/toolkit"
@@ -47,22 +48,6 @@ export const getAllFeedbacks = createAsyncThunk("feedback/getAllFeedbacks", asyn
 })
 
 
-
-export interface FeedBackSingle {
-    "feedbackName": string,
-    "feedbackType": string,
-    "feedbackMsg": string,
-    "whenCreated": string,
-    "reply": string
-}
-
-
-interface InitialState {
-    allFeedbackArr: FeedBackSingle[],
-    isLoading: boolean,
-    isError: boolean,
-    isFullFilled: boolean
-}
 
 
 

@@ -4,8 +4,9 @@ import { useSelector } from "react-redux";
 import { toast } from "sonner"
 import { RootState } from "../store";
 import { gettingTokenInCookieAndLocalHost } from "../App";
-import { OrderData } from "../components/Payment/PaymentComp";
-import { IProduct } from "../components/ProductListing/ProductLists";
+// import { OrderData } from "../components/Payment/PaymentComp";
+// import { IProduct } from "../components/ProductListing/ProductLists";
+import { IProduct,  UserAddressObj,  UserOrderOj } from "../Type/type";
 
 
 
@@ -56,6 +57,12 @@ export const createNewUser = createAsyncThunk('user/createNewUser', async ({ for
 })
 
 
+
+const initialLogInData = {
+    username: "",
+    password: "",
+}
+
 type LogInBody = {
 
     bodyData: {
@@ -65,10 +72,6 @@ type LogInBody = {
 
 }
 
-const initialLogInData = {
-    username: "",
-    password: "",
-}
 
 export const logInUser = createAsyncThunk('user/logInUser', async ({ bodyData = initialLogInData }: LogInBody) => {
 
@@ -272,14 +275,6 @@ export const addOrRemoveWishList = createAsyncThunk("user/wishList", async (
 
 
 
-export type UserAddressObj = {
-    id: string;
-    city: string,
-    street: string,
-    country: string,
-    pincode: string
-}
-
 
 // export type UserOrderOj = {
 //     address: UserAddressObj,
@@ -298,11 +293,6 @@ export type UserAddressObj = {
 
 // // // OR (we can do as above or as below)
 
-
-export interface UserOrderOj extends Omit<OrderData, "phone"> {
-    phone: string,
-    id: string
-}
 
 
 export type UserDataForOder = {
@@ -1106,7 +1096,7 @@ const userSlice = createSlice({
 
 
 
-export const { setUserData, setLogInStatus, setIsLoading , setTempUserEmail } = userSlice.actions
+export const { setUserData, setLogInStatus, setIsLoading, setTempUserEmail } = userSlice.actions
 
 export const userState = () => useSelector((state: RootState) => state.userReducer)
 

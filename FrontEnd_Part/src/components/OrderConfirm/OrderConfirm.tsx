@@ -6,8 +6,9 @@ import { AppDispatch, RootState } from "../../store"
 import { useNavigate } from "react-router-dom"
 import { createOrder, orderState } from "../../Slices/OrderSlice"
 import { toast } from "sonner"
-import { OrderData } from "../Payment/PaymentComp"
+// import { OrderData } from "../Payment/PaymentComp"
 import { setClearCartData } from "../../Slices/CartSlice"
+import { OrderData } from "../../Type/type"
 // import { OrderData } from "../Payment/PaymentComp"
 
 const OrderConfirm = () => {

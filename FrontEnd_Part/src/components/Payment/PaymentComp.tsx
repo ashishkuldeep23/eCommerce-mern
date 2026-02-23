@@ -5,27 +5,16 @@ import { AppDispatch, RootState } from "../../store"
 import { useForm, SubmitHandler } from "react-hook-form"
 import CartComponent, { makeMoreRaedablePrice } from "../CartComp/CartComponent"
 import UserAddressDiv from "../AboutPage/UserAddressDiv"
-import { UserAddressObj, userState } from "../../Slices/UserSlice"
-import { CardDataInter } from "../../Slices/CartSlice"
+import { userState } from "../../Slices/UserSlice"
+// import { CardDataInter } from "../../Slices/CartSlice"
 import { checkEmail } from "../AboutPage/DetailsOfUser"
 import { Fragment, useEffect } from "react"
 import { orderState, setOrderdata } from "../../Slices/OrderSlice"
 import { toast } from "sonner"
 import { useNavigate } from 'react-router-dom'
+import { OrderData, UserAddressObj } from "../../Type/type"
 
 
-export type OrderData = {
-  fullName: string,
-  phone: number,
-  address: UserAddressObj,
-  paymentMethod: string,
-  cartData: CardDataInter[],
-  userId: string,
-  whenCreated: string,
-  totalItems: number,
-  totalPrice: string,
-  status: string,
-}
 
 
 

@@ -1,14 +1,15 @@
 
 import { Fragment, useEffect, useState } from 'react'
-import { UserOrderOj, fetchUser, userState } from "../../Slices/UserSlice"
+import {  fetchUser, userState } from "../../Slices/UserSlice"
 import { makeMoreRaedablePrice } from '../CartComp/CartComponent'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../../store'
 import { useNavigate } from 'react-router-dom'
 import { fetchOneProductByID, setSingleProductData } from '../../Slices/AllProductSlice'
-import { CardDataInter } from '../../Slices/CartSlice'
+// import { CardDataInter } from '../../Slices/CartSlice'
 import { gettingTokenInCookieAndLocalHost } from '../../App'
 import { orderState, updateOrder } from '../../Slices/OrderSlice'
+import { CardDataInter, UserOrderOj } from '../../Type/type'
 
 
 

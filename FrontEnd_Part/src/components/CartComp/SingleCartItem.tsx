@@ -3,11 +3,12 @@
 
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { CardDataInter } from "../../Slices/CartSlice";
+// import { CardDataInter } from "../../Slices/CartSlice";
 import { fetchOneProductByID, setSingleProductData } from "../../Slices/AllProductSlice";
 import { removeOneItem, onePlusQuan, oneMinusQuan } from "../../Slices/CartSlice";
 import { makeMoreRaedablePrice } from "./CartComponent";
 import { AppDispatch } from "../../store";
+import { CardDataInter } from "../../Type/type";
 
 
 const SingleCartItem = ({ product, mainCartComp }: { product: CardDataInter, mainCartComp: boolean }) => {

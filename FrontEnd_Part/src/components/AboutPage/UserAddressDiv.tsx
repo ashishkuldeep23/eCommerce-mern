@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux"
-import { UserAddressObj, setIsLoading, upadteUserData, userState } from "../../Slices/UserSlice"
+import {  setIsLoading, upadteUserData, userState } from "../../Slices/UserSlice"
 import { AppDispatch, RootState } from "../../store"
 import { Fragment, useEffect, useState } from 'react'
 
@@ -8,6 +8,7 @@ import { useForm, SubmitHandler } from "react-hook-form"
 
 
 import { toast } from "sonner"
+import { UserAddressObj } from "../../Type/type"
 
 
 

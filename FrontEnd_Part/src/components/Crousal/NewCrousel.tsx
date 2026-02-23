@@ -3,10 +3,11 @@ import { useState } from 'react';
 import ReactSimplyCarousel from 'react-simply-carousel';
 import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch, RootState } from "../../store"
-import { IProduct } from "../ProductListing/ProductLists"
+// import { IProduct } from "../ProductListing/ProductLists"
 import { useNavigate } from 'react-router-dom';
 import { setSingleProductData } from '../../Slices/AllProductSlice';
 import { fetchOneProductByID } from '../../Slices/AllProductSlice';
+import { IProduct } from '../../Type/type';
 // import { userState } from '../../Slices/UserSlice';
 // import { setProductData, setUpdatingProduct } from '../../Slices/AdminSliceFile';
 

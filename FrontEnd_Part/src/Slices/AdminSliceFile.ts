@@ -4,10 +4,11 @@ import { useSelector } from "react-redux";
 import { RootState } from "../store";
 import { toast } from "sonner";
 import { gettingTokenInCookieAndLocalHost } from "../App";
-import { IProduct } from "../components/ProductListing/ProductLists";
-import { NewProductInput } from "../components/AdminComps/CreateProduct";
-import { OrderData } from "../components/Payment/PaymentComp";
-import { CardDataInter } from "./CartSlice";
+// import { IProduct } from "../components/ProductListing/ProductLists";
+// import { NewProductInput } from "../components/AdminComps/CreateProduct";
+// import { OrderData } from "../components/Payment/PaymentComp";
+// import { CardDataInter } from "./CartSlice";
+import { AdminAllOrders, GroupedByData, GroupedByProductAndSold, IProduct, NewProductInput } from "../Type/type";
 
 
 // import type { PayloadAction } from "@reduxjs/toolkit"
@@ -84,22 +85,6 @@ export const getAllOrdersAdmin = createAsyncThunk("admin/getAllOrders", async (s
 
 })
 
-
-
-export interface AdminAllOrders extends OrderData {
-    id: string
-}
-
-
-
-export type GroupedByProductAndSold = {
-    [key: string]: number
-}
-
-
-export type GroupedByData = {
-    [key: string]: CardDataInter[]
-}
 
 
 

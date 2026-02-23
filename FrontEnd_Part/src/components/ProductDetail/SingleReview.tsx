@@ -1,5 +1,5 @@
 import { StarIcon } from "@heroicons/react/24/solid"
-import { ReviewData } from "./ProductDetails"
+// import { ReviewData } from "./ProductDetails"
 import { userState } from "../../Slices/UserSlice"
 import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch, RootState } from "../../store"
@@ -10,6 +10,7 @@ import { LikeBtnDoubleClick } from "./LikeBtnDoubleClick"
 import { gettingTokenInCookieAndLocalHost } from "../../App"
 import { toast } from "sonner"
 import { useNavigate } from "react-router-dom"
+import { ReviewData } from "../../Type/type"
 
 
 

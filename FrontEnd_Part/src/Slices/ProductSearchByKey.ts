@@ -1,8 +1,9 @@
 
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
-import { IProduct } from "../components/ProductListing/ProductLists"
+// import { IProduct } from "../components/ProductListing/ProductLists"
 import { useSelector } from "react-redux"
 import { RootState } from "../store"
+import { SearchProduct } from "../Type/type"
 
 
 // import type { PayloadAction } from "@reduxjs/toolkit"
@@ -32,17 +33,6 @@ export const searchProduct = createAsyncThunk("product/searchProduct", async (ke
 
 
 
-
-interface SearchProduct {
-
-    isLoading: boolean,
-    isFullFilled: boolean,
-    isError: boolean,
-    errMsg: string,
-    keyText: string,
-    productSuggetionArr: IProduct[]
-
-}
 
 
 

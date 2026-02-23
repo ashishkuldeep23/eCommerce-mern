@@ -1,29 +1,14 @@
 
+import { IAllProductsWithCat, productId, PropForLikeAndDislike, SearchObj } from "../Type/type"
 import { createAsyncThunk, createSlice, current, PayloadAction } from "@reduxjs/toolkit"
-
-// // // by using corrent i can use updated data ----> (see the setSingleProduct  funtion )
-
-import { IProduct } from "../components/ProductListing/ProductLists"
-
 import { toast } from 'sonner'
 import { gettingTokenInCookieAndLocalHost } from "../App"
 
 
 
-
-type SearchObj = {
-    brand?: string,
-    category?: string,
-    price?: string,
-    page?: string,
-    limit?: string,
-}
-
-
 export const fetchAllProducts = createAsyncThunk("fetchAllProducts", async ({ brand = '', category = '', price = '1', page = "1", limit = "10" }: SearchObj) => {
 
     // console.log(brand , category)
-
 
     let url = `${import.meta.env.VITE_BACKEND_URL}/findAllProducts`
 
@@ -112,10 +97,6 @@ export const fetchAllCategoryAndHighlight = createAsyncThunk("getCategoryAndHigh
 
 
 
-type productId = {
-    productId: string | number
-}
-
 export const fetchOneProductByID = createAsyncThunk("fetchSingleProduct/:id", async ({ productId }: productId) => {
 
     // console.log(productId)
@@ -144,14 +125,6 @@ export const fetchOneProductByID = createAsyncThunk("fetchSingleProduct/:id", as
 })
 
 
-
-
-type PropForLikeAndDislike = {
-    productId: string | number;
-    userId: string;
-    isLiking?: boolean;
-    isDisliking?: boolean
-}
 
 
 export const likeProduct = createAsyncThunk("product/like", async ({ productId, userId, isLiking }: PropForLikeAndDislike) => {
@@ -195,27 +168,6 @@ export const dislikeProduct = createAsyncThunk("product/dislike", async ({ produ
 
 
 
-
-interface IAllProductsWithCat {
-    allProducts: IProduct[],
-    allCaegory: string[],
-    filterAllBrands: string[],
-    filterAllCateory: string[],
-    allHighlightProducts: IProduct[],
-    totalProducts: number,
-    searchByQuery: boolean,
-    sortByPrice: string,
-    onePageLimit: number,
-    singleProductId: string | number,
-    singleProductData: IProduct,
-    simmilarProductWithOnePro: IProduct[],
-    searchBrandAndCate: {
-        brand: string,
-        category: string
-    }
-    isLoading: boolean,
-    isError: boolean
-}
 
 
 const initialState: IAllProductsWithCat = {

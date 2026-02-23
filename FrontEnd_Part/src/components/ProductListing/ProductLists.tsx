@@ -2,66 +2,8 @@
 import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch, RootState } from "../../store"
 import { Fragment } from "react"
-
-
 import SingleProduct from "./SingleProduct"
 import { fetchAllProducts, setSearchBrandAndCate } from "../../Slices/AllProductSlice"
-import { ReviewData } from "../ProductDetail/ProductDetails"
-
-
-
-export type SingleTypeObject = {
-  "typeName": string[],
-  "typeStock": number,
-  "typeVerity": string[],
-  "typeId": string,
-  "typePrice": number
-}
-
-
-
-export interface IProduct {
-
-
-  "id": number | string;
-  "title": string;
-  "description"?: {
-    "fullName": string;
-    "aboutProduct": string;
-    "highLights": string[],
-    "specifications": object[],
-    "product_Details": object[],
-    "dimensions": object[]
-  };
-  "price": number;
-  "discountPercentage": number;
-
-  "type"?: []
-
-  "brand": string;
-  "category": string;
-
-  "rating": {
-    "totalPerson": number;
-    "avgRating": number;
-  };
-
-  "thumbnail": string;
-  "images": string[];
-  "isHighlight": boolean;
-
-  "isDeleted": boolean;
-  "review"?: ReviewData[];
-
-  "likes": number,
-  "dislikes": number,
-
-  "likedUserIds": string[],
-
-  "dislikedUserIds": string[],
-
-}
-
 
 
 export default function ProductLists() {
