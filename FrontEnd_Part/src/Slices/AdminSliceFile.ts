@@ -8,7 +8,8 @@ import { gettingTokenInCookieAndLocalHost } from "../App";
 // import { NewProductInput } from "../components/AdminComps/CreateProduct";
 // import { OrderData } from "../components/Payment/PaymentComp";
 // import { CardDataInter } from "./CartSlice";
-import { AdminAllOrders, GroupedByData, GroupedByProductAndSold, IProduct, NewProductInput } from "../Type/type";
+import { AdminAllOrders, AdminDataInterface, Entry, GroupedByData, GroupedByProductAndSold, IProduct, NewProductInput } from "../Type/type";
+import { newEntry } from "../Helper/helper";
 
 
 // import type { PayloadAction } from "@reduxjs/toolkit"
@@ -86,28 +87,9 @@ export const getAllOrdersAdmin = createAsyncThunk("admin/getAllOrders", async (s
 })
 
 
+const entry: Entry = newEntry();
 
-
-type AdminData = {
-    isLoading: boolean;
-    isError: boolean;
-    isFullfilled: boolean;
-    errMsg: string;
-    allProduct: IProduct[],
-    allOrders: AdminAllOrders[],
-    searchAllOrders: {
-        sortBy: "1" | "-1"
-    },
-    groupedByCategoryObj: GroupedByData,
-    groupedByBrandObj: GroupedByData,
-    groupedByProductAndSold: GroupedByProductAndSold,
-    updatingProduct: boolean,
-    newProduct: NewProductInput
-
-}
-
-
-const initialState: AdminData = {
+const initialState: AdminDataInterface = {
     isLoading: false,
     isError: false,
     isFullfilled: false,
@@ -133,9 +115,9 @@ const initialState: AdminData = {
             fullName: "",
             aboutProduct: "",
             highLights: [],
-            specifications: [{}],
-            product_Details: [{}],
-            dimensions: [{}]
+            specifications: [entry],
+            product_Details: [entry],
+            dimensions: [entry]
         },
         "price": 0,
         "discountPercentage": 0,
@@ -180,7 +162,7 @@ const adminSlice = createSlice({
             let makeData: NewProductInput = {
                 ...comingData,
                 // type: comingData.type!,
-                type: comingData.type || [],
+                type: comingData?.type || [],
                 thumbnailIndex: 0,
                 imageInputBy: 'by_url',
                 whenCreted: '',

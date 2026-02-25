@@ -1,11 +1,11 @@
 
 export interface NewProductInput extends Omit<IProduct, "type"> {
-    type: TypeObj[];
+    // type: TypeObj[];
+    type: OptionInterface[];
     thumbnailIndex: number;
     imageInputBy: string;
     whenCreted: string;
 }
-
 
 export type SingleTypeObject = {
     "typeName": string[],
@@ -15,7 +15,6 @@ export type SingleTypeObject = {
     "typePrice": number
 }
 
-
 export interface IProduct {
     "id": number | string;
     "title": string;
@@ -23,9 +22,9 @@ export interface IProduct {
         "fullName": string;
         "aboutProduct": string;
         "highLights": string[],
-        "specifications": object[],
-        "product_Details": object[],
-        "dimensions": object[]
+        "specifications": Entry[],
+        "product_Details": Entry[],
+        "dimensions": Entry[]
     };
     "price": number;
     "discountPercentage": number;
@@ -56,11 +55,9 @@ export interface IProduct {
 
 }
 
-
 export interface AdminAllOrders extends OrderData {
     id: string
 }
-
 
 export type GroupedByProductAndSold = {
     [key: string]: number
@@ -69,7 +66,6 @@ export type GroupedByProductAndSold = {
 export type GroupedByData = {
     [key: string]: CardDataInter[]
 }
-
 
 export interface IAllProductsWithCat {
     allProducts: IProduct[],
@@ -92,7 +88,6 @@ export interface IAllProductsWithCat {
     isError: boolean
 }
 
-
 export type PropForLikeAndDislike = {
     productId: string | number;
     userId: string;
@@ -100,11 +95,9 @@ export type PropForLikeAndDislike = {
     isDisliking?: boolean
 }
 
-
 export type productId = {
     productId: string | number
 }
-
 
 export type SearchObj = {
     brand?: string,
@@ -114,19 +107,16 @@ export type SearchObj = {
     limit?: string,
 }
 
-
 // // // This is how card data look like
 export interface CardDataInter extends IProduct {
     quantity: number;
     verity: SingleTypeObject;
 }
 
-
 export interface CartInter {
     cartData: CardDataInter[],
     totalPrice: number;
 }
-
 
 export interface FeedBackSingle {
     "feedbackName": string,
@@ -136,14 +126,12 @@ export interface FeedBackSingle {
     "reply": string
 }
 
-
 export interface InitialState {
     allFeedbackArr: FeedBackSingle[],
     isLoading: boolean,
     isError: boolean,
     isFullFilled: boolean
 }
-
 
 // // // This is how single type look like -->
 export type TypeObj = {
@@ -153,12 +141,10 @@ export type TypeObj = {
     typePrice: number;
 };
 
-
 export interface ModalInter {
     open: boolean,
     children: React.ReactNode;
 }
-
 
 export interface OrderInterface {
     orderArr: OrderData,
@@ -167,7 +153,6 @@ export interface OrderInterface {
     isFullFilled: boolean
 }
 
-
 export interface SearchProduct {
     isLoading: boolean,
     isFullFilled: boolean,
@@ -175,20 +160,16 @@ export interface SearchProduct {
     errMsg: string,
     keyText: string,
     productSuggetionArr: IProduct[]
-
 }
-
 
 export interface ThemeInter {
     mode: boolean,
 }
 
-
 export interface UserOrderOj extends Omit<OrderData, "phone"> {
     phone: string,
     id: string
 }
-
 
 export type ReviewData = {
     "userData": {
@@ -216,7 +197,6 @@ export type ReviewData = {
     "dislikedUserIds": string[]
 }
 
-
 export type TypeObject = {
     typeName: string[],
     typeStock: number,
@@ -224,7 +204,6 @@ export type TypeObject = {
     typePrice: number
     isChanged: boolean
 }
-
 
 export type OrderData = {
     fullName: string,
@@ -239,11 +218,72 @@ export type OrderData = {
     status: string,
 }
 
-
 export type UserAddressObj = {
     id: string;
     city: string,
     street: string,
     country: string,
     pincode: string
+}
+
+export interface VerityDataItem {
+    id: string; // internal key only
+    name: string;
+    price: number | "";
+    stock: number | "";
+}
+
+export interface Verity {
+    id: string; // internal key only
+    label: string;
+    data: VerityDataItem[];
+}
+
+export interface OptionInterface {
+    id: string; // internal key only
+    name: string;
+    imgs: string[];
+    verity: Verity[];
+}
+
+export interface OptionOut {
+    name: string;
+    imgs: string[];
+    verity: VerityOut[];
+}
+
+
+export interface VerityDataItemOut {
+    name: string;
+    price: number;
+    stock: number;
+}
+
+export interface VerityOut {
+    label: string;
+    data: VerityDataItemOut[];
+}
+
+/** Internal — each entry carries a stable React key */
+export interface Entry {
+    id: string;
+    key: string;
+    value: string;
+}
+
+export interface AdminDataInterface {
+    isLoading: boolean;
+    isError: boolean;
+    isFullfilled: boolean;
+    errMsg: string;
+    allProduct: IProduct[],
+    allOrders: AdminAllOrders[],
+    searchAllOrders: {
+        sortBy: "1" | "-1"
+    },
+    groupedByCategoryObj: GroupedByData,
+    groupedByBrandObj: GroupedByData,
+    groupedByProductAndSold: GroupedByProductAndSold,
+    updatingProduct: boolean,
+    newProduct: NewProductInput
 }

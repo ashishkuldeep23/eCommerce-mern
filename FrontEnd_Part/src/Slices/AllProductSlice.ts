@@ -5,7 +5,6 @@ import { toast } from 'sonner'
 import { gettingTokenInCookieAndLocalHost } from "../App"
 
 
-
 export const fetchAllProducts = createAsyncThunk("fetchAllProducts", async ({ brand = '', category = '', price = '1', page = "1", limit = "10" }: SearchObj) => {
 
     // console.log(brand , category)
@@ -64,8 +63,6 @@ export const fetchAllProducts = createAsyncThunk("fetchAllProducts", async ({ br
 })
 
 
-
-
 export const fetchAllCategoryAndHighlight = createAsyncThunk("getCategoryAndHighlight", async () => {
 
     // console.log(gettingTokenInCookieAndLocalHost())
@@ -95,8 +92,6 @@ export const fetchAllCategoryAndHighlight = createAsyncThunk("getCategoryAndHigh
 })
 
 
-
-
 export const fetchOneProductByID = createAsyncThunk("fetchSingleProduct/:id", async ({ productId }: productId) => {
 
     // console.log(productId)
@@ -123,8 +118,6 @@ export const fetchOneProductByID = createAsyncThunk("fetchSingleProduct/:id", as
     let data = await response.json();
     return data
 })
-
-
 
 
 export const likeProduct = createAsyncThunk("product/like", async ({ productId, userId, isLiking }: PropForLikeAndDislike) => {
@@ -165,9 +158,6 @@ export const dislikeProduct = createAsyncThunk("product/dislike", async ({ produ
     let data = await response.json();
     return data
 })
-
-
-
 
 
 const initialState: IAllProductsWithCat = {
@@ -335,7 +325,6 @@ const allProductsCatSlice = createSlice({
 
                 if (action.payload.status) {
 
-
                     state.allHighlightProducts = action.payload.allHighlights
                     state.filterAllBrands = action.payload.allBrands
                     state.filterAllCateory = action.payload.allCategory
@@ -344,7 +333,6 @@ const allProductsCatSlice = createSlice({
                 } else {
 
                     // // // Some error part
-
                     // console.log(action)
 
                     // // // jwt expired remove token in localStorage -->
@@ -352,7 +340,6 @@ const allProductsCatSlice = createSlice({
                         localStorage.removeItem("userToken")
                         return
                     }
-
 
                     toast.error(`${action.payload.message}`);
                 }
@@ -391,7 +378,7 @@ const allProductsCatSlice = createSlice({
             })
 
 
-            
+
 
             .addCase(likeProduct.pending, (state) => {
                 // console.log("Getting Data from Backend. Now pending")
@@ -580,4 +567,3 @@ const allProductsCatSlice = createSlice({
 export const { loadDataIntoState, setSingleProductData, setFilterItems, setSortByPriceChange, setSearchBrandAndCate } = allProductsCatSlice.actions
 
 export default allProductsCatSlice.reducer
-
