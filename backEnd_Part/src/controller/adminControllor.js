@@ -1,400 +1,473 @@
+const uuid = require("uuid");
 
-const uuid = require("uuid")
-
-const { uploadArrOfImgOnCloud } = require('../../lib/cloudinary')
+const { uploadArrOfImgOnCloud } = require("../../lib/cloudinary");
 
 // // // required models ---->
 
-const productModel = require("../model/productModel")
+const productModel = require("../model/productModel");
 // const reviewModel = require("../model/reviewModel")
 
-
 async function createNewProduct(req, res) {
+   try {
+      // // // Lot of work not done now (USE this api as admin api ) ------->
 
-    try {
+      console.log({ ...req.body }, null, 4);
+      // console.log("files are ---->", req.files)
 
-        // // // Lot of work not done now (USE this api as admin api ) ------->
+      // // // Check body (body can't be empty)
 
+      if (Object.keys(req.body).length <= 0) {
+         return res
+            .status(400)
+            .send({ status: false, message: "Body can't be empty" });
+      }
 
-        // console.log({ ...req.body })
-        // console.log("files are ---->", req.files)
+      // // // Incomming keys -->
+      let {
+         whenCreted,
+         imageInputBy,
+         thumbnailIndex,
+         type,
+         description,
+         category,
+         discountPercentage,
+         price,
+         brand,
+         title,
+      } = req.body;
 
-        // // // Check body (body can't be empty)
+      if (
+         !whenCreted ||
+         !imageInputBy ||
+         !thumbnailIndex ||
+         !type ||
+         !description ||
+         !category ||
+         !discountPercentage ||
+         !price ||
+         !brand ||
+         !title
+      ) {
+         return res
+            .status(400)
+            .send({ status: false, message: "All feilds are not given." });
+      }
 
-        if (Object.keys(req.body).length <= 0) {
-            return res.status(400).send({ status: false, message: "Body can't be empty" })
-        }
+      // // // Validation --->
 
+      // // // taking care of image (URL and Actual Images) ----->
 
-        // // // Incomming keys -->
-        let { whenCreted, imageInputBy, thumbnailIndex, type, description, category, discountPercentage, price, brand, title } = req.body
+      // // // Here making actual data back from JSON String -------->>
 
+      let recivedBodyData = {};
 
-        if (!whenCreted || !imageInputBy || !thumbnailIndex || !type || !description || !category || !discountPercentage || !price || !brand || !title) {
-            return res.status(400).send({ status: false, message: "All feilds are not given." })
-        }
+      for (let key of Object.keys(req.body)) {
+         // console.log(key)
+         recivedBodyData[key] = JSON.parse(req.body[key]);
+      }
 
+      // console.log(recivedBodyData)
 
+      // const images = []
 
-        // // // Validation ---> 
+      if (recivedBodyData.imageInputBy === "by_image") {
+         const allFiles = req.files;
 
+         if (allFiles.length > 0) {
+            // for (let i = 0; i < allFiles.length; i++) {
 
-        // // // taking care of image (URL and Actual Images) ----->
+            //     console.log(allFiles[i])
 
+            //     let filePathIs = allFiles[i].path
 
-        let recivedBodyData = {}
+            //     let result = await uploadImageOnCloudinary(filePathIs, "product_Imgs_Ecom")
 
-        for (let key of Object.keys(req.body)) {
+            //     console.log(result)
+            //     images.push(result)
 
-            // console.log(key)
+            // }
 
-            recivedBodyData[key] = JSON.parse(req.body[key])
+            let result = await uploadArrOfImgOnCloud(
+               allFiles,
+               "product_Imgs_Ecom",
+            );
 
-        }
+            // // // TODO: Here we will store in get url ------------->>
 
-
-
-        // console.log(recivedBodyData)
-
-
-        // const images = []
-
-
-
-        if (recivedBodyData.imageInputBy === "by_image") {
-
-            const allFiles = req.files
-
-            if (allFiles.length > 0) {
-
-
-                // for (let i = 0; i < allFiles.length; i++) {
-
-                //     console.log(allFiles[i])
-
-                //     let filePathIs = allFiles[i].path
-
-                //     let result = await uploadImageOnCloudinary(filePathIs, "product_Imgs_Ecom")
-
-                //     console.log(result)
-                //     images.push(result)
-
-                // }
-
-
-
-                let result = await uploadArrOfImgOnCloud(allFiles, "product_Imgs_Ecom")
-
-
-                if (result.length > 0) {
-                    recivedBodyData.images = result
-                }
-
-
+            if (result.length > 0) {
+               recivedBodyData.images = result;
             }
+         }
+      }
 
-        }
+      // console.log("Thumbnail --------->" ,recivedBodyData.images[0])
 
-        // console.log("Thumbnail --------->" ,recivedBodyData.images[0])
+      if (thumbnailIndex === "-1") {
+         recivedBodyData.thumbnail = recivedBodyData.images[0];
+      } else {
+         recivedBodyData.thumbnail = recivedBodyData.images[thumbnailIndex];
+      }
 
-        if (thumbnailIndex === "-1") {
-            recivedBodyData.thumbnail = recivedBodyData.images[0]
-        } else {
-            recivedBodyData.thumbnail = recivedBodyData.images[thumbnailIndex]
-        }
+      if (req?.tokenUserData && req?.tokenUserData?.id) {
+         recivedBodyData.createdBy = req.tokenUserData.id;
+      }
 
-        // console.log({createdData : recivedBodyData})
+      // // // here deal with category and brand ------------>>
 
-        let newProduct = await productModel.create(recivedBodyData)
-        // 
-        // console.log(newProduct)
+      let checkCategory = await categoryModel.findOne({
+         name: { $regex: recivedBodyData.category, $options: "i" },
+      });
 
-        res.status(201).send({ status: true, message: "Product created successfully.", data: newProduct })
+      if (!checkCategory) {
+         checkCategory = await categoryModel.create({
+            name: recivedBodyData.category,
+         });
+      }
 
-    }
-    catch (err) {
-        console.log(err.message)
-        res.status(500).send({ status: false, message: "Server Error" })
-    }
+      recivedBodyData.category = checkCategory._id;
+      recivedBodyData.categoryName = checkCategory.name;
+
+      let checkBrand = await brandModel.findOne({
+         name: { $regex: recivedBodyData.brand, $options: "i" },
+      });
+
+      if (!checkBrand) {
+         checkBrand = await brandModel.create({
+            name: recivedBodyData.brand,
+         });
+      }
+
+      recivedBodyData.brand = checkBrand._id;
+      recivedBodyData.brandName = checkBrand.name;
+
+      // console.log({createdData : recivedBodyData})
+
+      // // // Here create product ------------->>
+      let newProduct = await productModel.create(recivedBodyData);
+
+      // // // now update this product in category and brand model also ----->
+      checkCategory.products.push(newProduct._id);
+      await checkCategory.save();
+
+      checkBrand.products.push(newProduct._id);
+      await checkBrand.save();
+
+      // console.log(newProduct)
+      res.status(201).send({
+         status: true,
+         message: "Product created successfully.",
+         data: newProduct,
+      });
+   } catch (err) {
+      console.log(err.message);
+      res.status(500).send({ status: false, message: "Server Error" });
+   }
 }
-
 
 async function getAllProductsAdmin(req, res) {
+   try {
+      let everyProducts = await productModel
+         .find()
+         .select("-_id -__v -updatedAt -createdAt");
 
-    try {
+      // console.log(everyProducts)
 
-        let everyProducts = await productModel.find().select("-_id -__v -updatedAt -createdAt")
+      if (everyProducts.length <= 0) {
+         return res
+            .status(404)
+            .send({ status: false, message: "No product found" });
+      }
 
-        // console.log(everyProducts)
-
-        if (everyProducts.length <= 0) {
-            return res.status(404).send({ status: false, message: "No product found" })
-        }
-
-
-        return res.status(200).send({ status: true, message: "All products fetched for admin", data: everyProducts })
-
-    }
-    catch (err) {
-        console.log(err.message)
-        res.status(500).send({ status: false, message: "Server Error" })
-    }
+      return res.status(200).send({
+         status: true,
+         message: "All products fetched for admin",
+         data: everyProducts,
+      });
+   } catch (err) {
+      console.log(err.message);
+      res.status(500).send({ status: false, message: "Server Error" });
+   }
 }
-
-
 
 async function updateProdct(req, res) {
-    try {
+   try {
+      const { whatUpadte, productId, ...resBody } = req.body;
 
+      if (!whatUpadte) {
+         return res.status(400).send({
+            status: false,
+            message: "What upadte not given check Api Controller",
+         });
+      }
 
-        const { whatUpadte, productId, ...resBody } = req.body;
+      if (!productId)
+         return res.status(400).send({
+            status: false,
+            message: "Please provide productId in body.",
+         });
 
-        if (!whatUpadte) {
-            return res.status(400).send({ status: false, message: "What upadte not given check Api Controller" })
-        }
+      let getProduct = await productModel.findOne({ id: productId });
+      if (!getProduct) {
+         return res.status(404).send({
+            status: false,
+            message: "Product not found with given id.",
+         });
+      }
 
-        if (!productId) return res.status(400).send({ status: false, message: "Please provide productId in body." })
+      // console.log(productId)
+      // console.log(getProduct)
 
+      // // // This var should store mongoose object inside It (after proceessing ) ---->
+      let updatedData;
 
-        let getProduct = await productModel.findOne({ id: productId })
-        if (!getProduct) {
-            return res.status(404).send({ status: false, message: "Product not found with given id." })
-        }
+      if (whatUpadte === "highlight") {
+         let { isHighlight } = resBody;
 
-        // console.log(productId)
-        // console.log(getProduct)
+         if (isHighlight === undefined || isHighlight === "") {
+            return res.status(404).send({
+               status: false,
+               message: "Please provide isHighlight value.",
+            });
+         }
 
+         isHighlight = JSON.parse(isHighlight);
 
-        // // // This var should store mongoose object inside It (after proceessing ) ---->
-        let updatedData;
+         if (isHighlight) {
+            getProduct.isHighlight = true;
+         } else {
+            getProduct.isHighlight = false;
+         }
+      } else if (whatUpadte === "makeDelete") {
+         let { isDeleted } = resBody;
 
+         // console.log(isDeleted)
 
-        if (whatUpadte === "highlight") {
+         if (isDeleted === undefined || isDeleted === "") {
+            return res.status(404).send({
+               status: false,
+               message: "Please provide isHighlight value.",
+            });
+         }
 
-            let { isHighlight } = resBody
+         isDeleted = JSON.parse(isDeleted);
 
-            if (isHighlight === undefined || isHighlight === "") {
-                return res.status(404).send({ status: false, message: "Please provide isHighlight value." })
+         if (isDeleted) {
+            getProduct.isDeleted = true;
+         } else {
+            getProduct.isDeleted = false;
+         }
+      } else if (whatUpadte === "allUpdate") {
+         // console.log("Updating product now , Can be complicated")
+
+         if (Object.keys(resBody).length <= 0) {
+            return res
+               .status(400)
+               .send({ status: false, message: "Body can't be empty" });
+         }
+
+         let {
+            whenCreted,
+            imageInputBy,
+            thumbnailIndex,
+            type,
+            description,
+            category,
+            discountPercentage,
+            price,
+            brand,
+            title,
+         } = resBody;
+
+         // console.log(whenCreted, imageInputBy, thumbnailIndex, type, description, category, discountPercentage, price, brand, title)
+
+         if (
+            !whenCreted ||
+            !imageInputBy ||
+            !thumbnailIndex ||
+            !type ||
+            !description ||
+            !category ||
+            !discountPercentage ||
+            !price ||
+            !brand ||
+            !title
+         ) {
+            return res
+               .status(400)
+               .send({ status: false, message: "All feilds are not given." });
+         }
+
+         let recivedBodyData = {};
+
+         for (let key of Object.keys(resBody)) {
+            // console.log(key)
+            recivedBodyData[key] = JSON.parse(resBody[key]);
+         }
+
+         // console.log(recivedBodyData)
+
+         if (recivedBodyData.imageInputBy === "by_image") {
+            const allFiles = req.files;
+
+            if (allFiles.length > 0) {
+               let result = await uploadArrOfImgOnCloud(
+                  allFiles,
+                  "product_Imgs_Ecom",
+               );
+
+               if (result.length > 0) {
+                  recivedBodyData.images = result;
+               }
             }
+         }
 
-            isHighlight = JSON.parse(isHighlight)
+         // console.log("Thumbnail --------->" ,recivedBodyData.images[0])
 
-            if (isHighlight) {
-                getProduct.isHighlight = true
-            } else {
-                getProduct.isHighlight = false
-            }
+         // console.log(thumbnailIndex)
 
-        }
-        else if (whatUpadte === "makeDelete") {
-            let { isDeleted } = resBody
+         if (!thumbnailIndex || thumbnailIndex === "-1") {
+            // console.log("Yes")
+            recivedBodyData.thumbnail = recivedBodyData.images[0];
+         } else {
+            recivedBodyData.thumbnail = recivedBodyData.images[thumbnailIndex];
+         }
 
-            // console.log(isDeleted)
+         // updatedData = await productModel.findOne({ id : productId })
 
-            if (isDeleted === undefined || isDeleted === "") {
-                return res.status(404).send({ status: false, message: "Please provide isHighlight value." })
-            }
+         // console.log(  "Got this for update ---------------> " , getProduct )
 
-            isDeleted = JSON.parse(isDeleted)
+         // // // Now update fields mainually one by one --->
 
-            if (isDeleted) {
-                getProduct.isDeleted = true
-            } else {
-                getProduct.isDeleted = false
-            }
+         // console.log(recivedBodyData)
 
+         // // Basic info upadte --->
+         getProduct.title = recivedBodyData.title;
+         getProduct.brand = recivedBodyData.brand;
+         getProduct.price = recivedBodyData.price;
+         getProduct.discountPercentage = recivedBodyData.discountPercentage;
+         getProduct.category = recivedBodyData.category;
 
-        }
-        else if (whatUpadte === "allUpdate") {
+         // // // Discription update ---->
 
+         let {
+            specifications,
+            product_Details,
+            highLights,
+            dimensions,
+            aboutProduct,
+            fullName,
+         } = recivedBodyData.description;
 
-            // console.log("Updating product now , Can be complicated")
+         if (
+            !specifications ||
+            !product_Details ||
+            !highLights ||
+            !dimensions ||
+            !aboutProduct ||
+            !fullName
+         )
+            return res.status(400).send({
+               status: false,
+               message: "Try again, Description all keys are not coming.",
+            });
 
-            if (Object.keys(resBody).length <= 0) {
-                return res.status(400).send({ status: false, message: "Body can't be empty" })
-            }
+         getProduct.description.specifications = specifications;
+         getProduct.description.product_Details = product_Details;
+         getProduct.description.highLights = highLights;
+         getProduct.description.dimensions = dimensions;
+         getProduct.description.aboutProduct = aboutProduct;
+         getProduct.description.fullName = fullName;
 
+         // // // type or options update ---->
+         getProduct.type = [...recivedBodyData.type];
 
-            let { whenCreted, imageInputBy, thumbnailIndex, type, description, category, discountPercentage, price, brand, title } = resBody
+         // // // Images and ThumbNail upadte ---->
+         getProduct.images = recivedBodyData.images;
+         getProduct.thumbnail = recivedBodyData.thumbnail;
+      } else if (whatUpadte === "next") {
+      }
 
+      updatedData = await getProduct.save();
 
-            // console.log(whenCreted, imageInputBy, thumbnailIndex, type, description, category, discountPercentage, price, brand, title)
+      // console.log("By updated", updatedData)
 
-
-            if (!whenCreted || !imageInputBy || !thumbnailIndex || !type || !description || !category || !discountPercentage || !price || !brand || !title) {
-                return res.status(400).send({ status: false, message: "All feilds are not given." })
-            }
-
-
-            let recivedBodyData = {}
-
-            for (let key of Object.keys(resBody)) {
-                // console.log(key)
-                recivedBodyData[key] = JSON.parse(resBody[key])
-            }
-
-            // console.log(recivedBodyData)
-
-
-            if (recivedBodyData.imageInputBy === "by_image") {
-
-                const allFiles = req.files
-
-                if (allFiles.length > 0) {
-
-                    let result = await uploadArrOfImgOnCloud(allFiles, "product_Imgs_Ecom")
-
-                    if (result.length > 0) {
-                        recivedBodyData.images = result
-                    }
-
-
-                }
-
-            }
-
-            // console.log("Thumbnail --------->" ,recivedBodyData.images[0])
-
-            // console.log(thumbnailIndex)
-
-            if (!thumbnailIndex || thumbnailIndex === "-1") {
-                // console.log("Yes")
-                recivedBodyData.thumbnail = recivedBodyData.images[0]
-            } else {
-                recivedBodyData.thumbnail = recivedBodyData.images[thumbnailIndex]
-            }
-
-
-
-            // updatedData = await productModel.findOne({ id : productId })
-
-
-            // console.log(  "Got this for update ---------------> " , getProduct )
-
-            // // // Now update fields mainually one by one --->
-
-
-            // console.log(recivedBodyData)
-
-
-            // // Basic info upadte --->
-            getProduct.title = recivedBodyData.title
-            getProduct.brand = recivedBodyData.brand
-            getProduct.price = recivedBodyData.price
-            getProduct.discountPercentage = recivedBodyData.discountPercentage
-            getProduct.category = recivedBodyData.category
-
-
-            // // // Discription update ---->
-
-            let { specifications, product_Details, highLights, dimensions, aboutProduct, fullName } = recivedBodyData.description
-
-            if (!specifications || !product_Details || !highLights || !dimensions || !aboutProduct || !fullName) return res.status(400).send({ status: false, message: "Try again, Description all keys are not coming." })
-
-            getProduct.description.specifications = specifications
-            getProduct.description.product_Details = product_Details
-            getProduct.description.highLights = highLights
-            getProduct.description.dimensions = dimensions
-            getProduct.description.aboutProduct = aboutProduct
-            getProduct.description.fullName = fullName
-
-            // // // type or options update ---->
-            getProduct.type = [...recivedBodyData.type]
-
-            // // // Images and ThumbNail upadte ---->
-            getProduct.images = recivedBodyData.images
-            getProduct.thumbnail = recivedBodyData.thumbnail
-
-        }
-        else if (whatUpadte === "next") {
-
-        }
-
-        updatedData = await getProduct.save()
-
-        // console.log("By updated", updatedData)
-
-        res.status(200).send({ status: true, message: `${updatedData.title}, updated succesfully.`, data: updatedData })
-
-    }
-    catch (err) {
-        console.log(err.message)
-        res.status(500).send({ status: false, message: "Server Error" })
-    }
+      res.status(200).send({
+         status: true,
+         message: `${updatedData.title}, updated succesfully.`,
+         data: updatedData,
+      });
+   } catch (err) {
+      console.log(err.message);
+      res.status(500).send({ status: false, message: "Server Error" });
+   }
 }
 
-
-
-let orderModel = require("./../model/orderModel")
+let orderModel = require("./../model/orderModel");
+const categoryModel = require("../model/categoryModel");
+const brandModel = require("../model/brandModel");
 
 async function getAllOrdersAdmin(req, res) {
-    try {
+   try {
+      // // // .sort({createdAt : "-1"})
 
+      // // -1 === Latest
+      // // 1 === Oldest
 
-        // // // .sort({createdAt : "-1"}) 
+      let sortBy = {
+         createdAt: "-1",
+      };
 
+      const sort = req.query.sort;
 
-        // // -1 === Latest 
-        // // 1 === Oldest
+      if (sort && sort === "1") {
+         sortBy.createdAt = "1";
+      }
 
+      let getAllOrders = await orderModel.find().sort(sortBy).select({
+         _id: false,
+         createdAt: false,
+         updatedAt: false,
+         __v: false,
+         "cartData.review": false,
+         "cartData.dislikedUserIds": false,
+         "cartData.likedUserIds": false,
+         "cartData.likes": false,
+         "cartData.dislikes": false,
+         "cartData.__v": false,
+      });
 
-        let sortBy = {
-            createdAt: "-1"
-        }
+      // console.log(getAllOrders)
 
-        const sort = req.query.sort
+      if (getAllOrders.length <= 0) {
+         return res
+            .status(404)
+            .send({ status: false, message: "No order found for now." });
+      }
 
-        if (sort && sort === '1') {
-            sortBy.createdAt = '1'
-        }
+      // console.log(getAllOrders[0].cartData[0].category)
+      // console.log(getAllOrders[0].cartData[0].brand)
 
+      // // // Do this of frontEnd ----->
 
-        let getAllOrders = await orderModel.find().sort(sortBy).select({
-            "_id" : false,
-            'createdAt': false,
-            'updatedAt': false,
-            '__v': false,
-            'cartData.review': false,
-            'cartData.dislikedUserIds': false,
-            'cartData.likedUserIds': false,
-            'cartData.likes': false,
-            'cartData.dislikes': false,
-            'cartData.__v': false,
-        })
+      // console.log(sortByCategoryObj)
+      // console.log(sortByBrandObj)
 
-        // console.log(getAllOrders)
-
-        if (getAllOrders.length <= 0) {
-            return res.status(404).send({ status: false, message: "No order found for now." })
-        }
-
-        // console.log(getAllOrders[0].cartData[0].category)
-        // console.log(getAllOrders[0].cartData[0].brand)
-
-
-        // // // Do this of frontEnd ----->
-
-
-        // console.log(sortByCategoryObj)
-        // console.log(sortByBrandObj)
-
-
-        
-
-        res.status(200).send({
-            status: true,
-            message: "Getting all orders for admin.",
-            dataLen: getAllOrders.length,
-            data: getAllOrders,
-            sortBy : sortBy.createdAt,
-        })
-
-    }
-    catch (err) {
-        console.log(err.message)
-        res.status(500).send({ status: false, message: "Server Error" })
-    }
+      res.status(200).send({
+         status: true,
+         message: "Getting all orders for admin.",
+         dataLen: getAllOrders.length,
+         data: getAllOrders,
+         sortBy: sortBy.createdAt,
+      });
+   } catch (err) {
+      console.log(err.message);
+      res.status(500).send({ status: false, message: "Server Error" });
+   }
 }
 
-
-module.exports = { createNewProduct, getAllProductsAdmin, updateProdct, getAllOrdersAdmin }
+module.exports = {
+   createNewProduct,
+   getAllProductsAdmin,
+   updateProdct,
+   getAllOrdersAdmin,
+};

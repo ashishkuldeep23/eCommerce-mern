@@ -7,93 +7,93 @@ const passport = require("passport");
 // // // Import controles -->
 
 const {
-  findAllProducts,
-  getCategoryAndHighlight,
-  findOneProduct,
-  dislikeProduct,
-  likeProduct,
-  searchProductByKeyowrd,
+   findAllProducts,
+   getCategoryAndHighlight,
+   findOneProduct,
+   dislikeProduct,
+   likeProduct,
+   searchProductByKeyowrd,
 } = require("../controller/productControllor");
 
 const {
-  createNewReview,
-  deleteReview,
-  updateReview,
-  likeReview,
-  dislikeReview,
+   createNewReview,
+   deleteReview,
+   updateReview,
+   likeReview,
+   dislikeReview,
 } = require("../controller/reviewController");
 
 const {
-  creteUserControllor,
-  logInControllor,
-  logOutControl,
-  getUserData,
-  updateUser,
-  verifyMailController,
-  forgotReqHandler,
-  forgotMainHandler,
-  userWithEmail,
-  bugReportHandler,
-  userDataByTokenHandler,
-  verifyMailReq,
-  addOrRemoveWishList,
+   creteUserControllor,
+   logInControllor,
+   logOutControl,
+   getUserData,
+   updateUser,
+   verifyMailController,
+   forgotReqHandler,
+   forgotMainHandler,
+   userWithEmail,
+   bugReportHandler,
+   userDataByTokenHandler,
+   verifyMailReq,
+   addOrRemoveWishList,
 } = require("../controller/userControllor");
 
 const {
-  createNewOrder,
-  updateOrder,
+   createNewOrder,
+   updateOrder,
 } = require("../controller/orderControllor");
 
 const {
-  createNewProduct,
-  getAllProductsAdmin,
-  updateProdct,
-  getAllOrdersAdmin,
+   createNewProduct,
+   getAllProductsAdmin,
+   updateProdct,
+   getAllOrdersAdmin,
 } = require("../controller/adminControllor");
 
 const { isAuthorized, isUserAdmin } = require("../middleware/authorization");
 
 /* GET home page. */
 router.get("/", function (req, res) {
-  res.render("index", {
-    title: "Backend part of E-commerce app developed by Ashish kuldeep ",
-  });
+   res.render("index", {
+      title: "Backend part of E-commerce app developed by Ashish kuldeep ",
+   });
 });
 
 // // // Checking ejs only ---->
 
 router.get("/check", (req, res) => {
-  res.render("check", { check: "Ashish" });
-  // res.send("fdfdsf")
+   res.render("check", { check: "Ashish" });
+   // res.send("fdfdsf")
 });
 
-// // // Admin API's ----------->
+// // // --------------------------- Admin API's ----------->
 router.post(
-  "/createProduct",
-  isAuthorized,
-  isUserAdmin,
-  upload.array("file"),
-  createNewProduct,
+   "/createProduct",
+   isAuthorized,
+   isUserAdmin,
+   upload.array("file"),
+   createNewProduct,
 );
 
 router.get(
-  "/getAllProductsAdmin",
-  isAuthorized,
-  isUserAdmin,
-  getAllProductsAdmin,
+   "/getAllProductsAdmin",
+   isAuthorized,
+   isUserAdmin,
+   getAllProductsAdmin,
 );
 
 router.post(
-  "/updatePoduct",
-  isAuthorized,
-  isUserAdmin,
-  upload.array("file"),
-  updateProdct,
+   "/updatePoduct",
+   isAuthorized,
+   isUserAdmin,
+   upload.array("file"),
+   updateProdct,
 );
 
 router.get("/getAllOrdersAdmin", isAuthorized, isUserAdmin, getAllOrdersAdmin);
 
-/// // // General Api's
+/// // // -------------------- General Api's -------------------->
 router.get("/findAllProducts", findAllProducts);
 
 router.get("/getCategoryAndHighlight", getCategoryAndHighlight);
@@ -106,7 +106,7 @@ router.post("/likeProduct", isAuthorized, likeProduct);
 
 router.post("/dislikeProduct", isAuthorized, dislikeProduct);
 
-// // // Review API
+// // // ------------------------- Review API ------------------------->
 router.post("/createReview", isAuthorized, createNewReview);
 
 router.delete("/deleteReview/:reviewId", isAuthorized, deleteReview);
@@ -117,7 +117,7 @@ router.post("/likeReview", isAuthorized, likeReview);
 
 router.post("/dislikeReview", isAuthorized, dislikeReview);
 
-// // // user API (SingUp , SinIn , SingOut)
+// // // -------------------------- User API (SingUp , SinIn , SingOut) ------------------------->
 router.post("/createUser", upload.array("file"), creteUserControllor);
 
 router.post("/userLogin", passport.authenticate("local"), logInControllor);
@@ -146,29 +146,72 @@ router.get("/userDataByToken", isAuthorized, userDataByTokenHandler);
 // // // Add and remove wishlist api --->
 router.post("/addOrRemoveWishList", isAuthorized, addOrRemoveWishList);
 
-// // // Routes for login by Google ----->
+// // // ------------------------- Routes for login by Google ------------------------->
 // // // Scope should given which scope of data you want to get like :- email and profile --->
 router.get(
-  "/userLoginGoogle",
-  passport.authenticate("google", { scope: ["email", "profile"] }),
+   "/userLoginGoogle",
+   passport.authenticate("google", { scope: ["email", "profile"] }),
 );
 
 router.get(
-  "/auth/google/callback",
-  passport.authenticate("google", {
-    // successRedirect: `${process.env.FRONTEND_URL}`,
-    // successRedirect: `/login/success`,
-    failureRedirect: "/login/failed",
-  }),
-  (req, res) => {
-    console.log("User logined by Google.");
+   "/auth/google/callback",
+   passport.authenticate("google", {
+      // successRedirect: `${process.env.FRONTEND_URL}`,
+      // successRedirect: `/login/success`,
+      failureRedirect: "/login/failed",
+   }),
+   (req, res) => {
+      console.log("User logined by Google.");
 
-    if (req.user) {
-      // console.log(req.user)
+      if (req.user) {
+         // console.log(req.user)
 
+         res.cookie("token", req.user.token, {
+            expires: new Date(Date.now() + 36000000),
+            path: "/",
+         });
+
+         // res.status(200).send({ status: true, message: "LogIn Successfull", data: req.user })
+
+         // res.redirect(`${process.env.FRONTEND_URL}`)
+
+         // res.render("googleAuth", { check: `${req.user.token}` })
+
+         /*
+      // // // TODO :  1) ---> redirect to user on google auth page from frontend with token as path params 
+      2) ---> Grave the token value in page and get user data with given token by useEffect and then if eveything is good then only show the home page of frontend.
+      Hope everything will good and accordingly.
+    */
+
+         let url = `${process.env.FRONTEND_URL}/user-login/${req.user.token}/newuser`;
+
+         res.redirect(url);
+      } else {
+         res.status(200).send({ status: false, message: "No user found." });
+      }
+   },
+);
+
+router.get("/login/failed", (req, res) => {
+   // console.log(req.user)
+   console.log("Failed");
+
+   res.status(401).send({ status: false, message: "LogIn Failed" });
+});
+
+router.get("/login/success", (req, res) => {
+   // // // Not useing other success url
+   // // // Working in same route (see the (/auth/google/callback) route ) -------->
+
+   // console.log(req.user)
+
+   // console.log("Success just for checking")
+
+   if (req.user) {
       res.cookie("token", req.user.token, {
-        expires: new Date(Date.now() + 36000000),
-        path: "/",
+         expires: new Date(Date.now() + 36000000),
+         // httpOnly : true,
+         // signed: true,
       });
 
       // res.status(200).send({ status: true, message: "LogIn Successfull", data: req.user })
@@ -183,58 +226,15 @@ router.get(
       Hope everything will good and accordingly.
     */
 
-      let url = `${process.env.FRONTEND_URL}/user-login/${req.user.token}/newuser`;
+      let url = `${process.env.FRONTEND_URL}/google-user/${req.user.token}/newuser`;
 
       res.redirect(url);
-    } else {
+   } else {
       res.status(200).send({ status: false, message: "No user found." });
-    }
-  },
-);
-
-router.get("/login/failed", (req, res) => {
-  // console.log(req.user)
-  console.log("Failed");
-
-  res.status(401).send({ status: false, message: "LogIn Failed" });
+   }
 });
 
-router.get("/login/success", (req, res) => {
-  // // // Not useing other success url
-  // // // Working in same route (see the (/auth/google/callback) route ) -------->
-
-  // console.log(req.user)
-
-  // console.log("Success just for checking")
-
-  if (req.user) {
-    res.cookie("token", req.user.token, {
-      expires: new Date(Date.now() + 36000000),
-      // httpOnly : true,
-      // signed: true,
-    });
-
-    // res.status(200).send({ status: true, message: "LogIn Successfull", data: req.user })
-
-    // res.redirect(`${process.env.FRONTEND_URL}`)
-
-    // res.render("googleAuth", { check: `${req.user.token}` })
-
-    /*
-      // // // TODO :  1) ---> redirect to user on google auth page from frontend with token as path params 
-      2) ---> Grave the token value in page and get user data with given token by useEffect and then if eveything is good then only show the home page of frontend.
-      Hope everything will good and accordingly.
-    */
-
-    let url = `${process.env.FRONTEND_URL}/google-user/${req.user.token}/newuser`;
-
-    res.redirect(url);
-  } else {
-    res.status(200).send({ status: false, message: "No user found." });
-  }
-});
-
-// // // Order Api --------->
+// // // ------------------------------ Order Api ----------------------->
 router.post("/createOrder", isAuthorized, createNewOrder);
 
 router.put("/updateOrder", isAuthorized, updateOrder);

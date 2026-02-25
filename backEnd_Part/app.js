@@ -19,11 +19,11 @@ const indexRouter = require("./src/routes/routes");
 
 // // // Mongo DB connection code
 mongoose
-  .connect(process.env.DB_STRING, { useNewUrlParser: true })
-  .then(() => console.log("Mongoose connected successfully"))
-  .catch((err) => {
-    console.log("An error occured :- " + err);
-  });
+   .connect(process.env.DB_STRING, { useNewUrlParser: true })
+   .then(() => console.log("Mongoose connected successfully"))
+   .catch((err) => {
+      console.log("An error occured :- " + err);
+   });
 
 const app = express();
 
@@ -41,244 +41,250 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // // // CORS Arr of allowed origins --->
 app.use(
-  cors({
-    credentials: true,
-    origin: [`${process.env.FRONTEND_URL}`, "https://amakart.vercel.app"],
-  })
+   cors({
+      credentials: true,
+      origin: [`${process.env.FRONTEND_URL}`, "https://amakart.vercel.app"],
+   }),
 );
 
 app.use(
-  session({
-    secret: "keyboard",
-    resave: false, // don't save session if unmodified
-    saveUninitialized: false, // don't create session until something stored
-  })
+   session({
+      secret: "keyboard",
+      resave: false, // don't save session if unmodified
+      saveUninitialized: false, // don't create session until something stored
+   }),
 );
 
 app.use(passport.authenticate("session"));
 
-// // // Code for local strategy --->
+// // // ------------------------ Code for local strategy -------------->
 passport.use(
-  "local",
-  new LocalStrategy(
-    // { usernameField: "email" },
+   "local",
+   new LocalStrategy(
+      // { usernameField: "email" },
 
-    async function (username, password, done) {
-      try {
-        const userProfile = await userModel.findOne({ email: username }).exec();
+      async function (username, password, done) {
+         try {
+            const userProfile = await userModel
+               .findOne({ email: username })
+               .exec();
 
-        // console.log(userProfile)
+            // console.log(userProfile)
 
-        if (!userProfile) {
-          return done(null, false, {
-            message: "No such user found with this email.",
-          });
-        }
+            if (!userProfile) {
+               return done(null, false, {
+                  message: "No such user found with this email.",
+               });
+            }
 
-        // console.log("1010")
+            // console.log("1010")
 
-        // // // Check user password here -------->
-        let passCompare = await bcrypt.compare(password, userProfile.password);
+            // // // Check user password here -------->
+            let passCompare = await bcrypt.compare(
+               password,
+               userProfile.password,
+            );
 
-        // console.log(passCompare)
-        if (!passCompare) {
-          return done(null, false, {
-            message: "Password not matched with DB password.",
-          });
-        }
+            // console.log(passCompare)
+            if (!passCompare) {
+               return done(null, false, {
+                  message: "Password not matched with DB password.",
+               });
+            }
 
-        // // // Create JWT Token, store UUID id of user inside it.
-        const token = jwt.sign(
-          { id: userProfile.id },
-          process.env.JWT_SECRET_KEY,
-          { expiresIn: "100d" }
-        );
+            // // // Create JWT Token, store UUID id of user inside it.
+            const token = jwt.sign(
+               { id: userProfile.id },
+               process.env.JWT_SECRET_KEY,
+               { expiresIn: "100d" },
+            );
 
-        let sendUserdetails = {
-          id: userProfile.id,
-          name: `${userProfile.firstName} ${userProfile.lastName}`,
-          email: userProfile.email,
-          profilePic: userProfile.profilePic,
-          role: userProfile.role,
-          token: token,
-        };
+            let sendUserdetails = {
+               id: userProfile.id,
+               name: `${userProfile.firstName} ${userProfile.lastName}`,
+               email: userProfile.email,
+               profilePic: userProfile.profilePic,
+               role: userProfile.role,
+               token: token,
+            };
 
-        return done(null, sendUserdetails); // this lines sends to serializer
-      } catch (err) {
-        console.log(err.message);
-        return done(err, false, {
-          message: `Error by server (${err.message})`,
-        });
-      }
-    }
-  )
+            return done(null, sendUserdetails); // this lines sends to serializer
+         } catch (err) {
+            console.log(err.message);
+            return done(err, false, {
+               message: `Error by server (${err.message})`,
+            });
+         }
+      },
+   ),
 );
 
-// // // Code for Google Stratgy ---->
+// // // ------------------------ Code for Google Stratgy -------------->
 passport.use(
-  "google",
-  new GoogleStrategy(
-    {
-      // // Using in production on my app --->
+   "google",
+   new GoogleStrategy(
+      {
+         // // Using in production on my app --->
 
-      clientID: `${
-        process.env.LOCAL === "LOCAL"
-          ? process.env.GOOGLE_CLIENT_ID_LOACL
-          : process.env.GOOGLE_CLIENT_ID
-      }`,
-      clientSecret: `${
-        process.env.LOCAL === "LOCAL"
-          ? process.env.GOOGLE_CLIENT_SECRET_LOCAL
-          : process.env.GOOGLE_CLIENT_SECRET
-      }`,
-      callbackURL: `${process.env.BACKEND_URL}/auth/google/callback`,
+         clientID: `${
+            process.env.LOCAL === "LOCAL"
+               ? process.env.GOOGLE_CLIENT_ID_LOACL
+               : process.env.GOOGLE_CLIENT_ID
+         }`,
+         clientSecret: `${
+            process.env.LOCAL === "LOCAL"
+               ? process.env.GOOGLE_CLIENT_SECRET_LOCAL
+               : process.env.GOOGLE_CLIENT_SECRET
+         }`,
+         callbackURL: `${process.env.BACKEND_URL}/auth/google/callback`,
 
-      // // // Credential for laocal --->
-      // clientID: `${process.env.GOOGLE_CLIENT_ID_LOACL}`,
-      // clientSecret: `${process.env.GOOGLE_CLIENT_SECRET_LOCAL}`,
-      // callbackURL: `http://localhost:3000/auth/google/callback`
-    },
-    async function (accessToken, refreshToken, profile, done) {
-      // userModel.findOrCreate({ googleId: profile.id }, function (err, user) {
-      //   return cb(err, user);
-      // });
+         // // // Credential for laocal --->
+         // clientID: `${process.env.GOOGLE_CLIENT_ID_LOACL}`,
+         // clientSecret: `${process.env.GOOGLE_CLIENT_SECRET_LOCAL}`,
+         // callbackURL: `http://localhost:3000/auth/google/callback`
+      },
+      async function (accessToken, refreshToken, profile, done) {
+         // userModel.findOrCreate({ googleId: profile.id }, function (err, user) {
+         //   return cb(err, user);
+         // });
 
-      // console.log(profile)
+         // console.log(profile)
 
-      const { photos, name } = profile;
+         const { photos, name } = profile;
 
-      const email = profile.emails[0].value;
+         const email = profile.emails[0].value;
 
-      // console.log(email)
+         // console.log(email)
 
-      const { givenName: firstName, familyName: lastName } = name;
+         const { givenName: firstName, familyName: lastName } = name;
 
-      // console.log(id)
-      // console.log(displayName)
-      // console.log(photos[0].value)
-      // console.log(firstName)
-      // console.log(lastName)
+         // console.log(id)
+         // console.log(displayName)
+         // console.log(photos[0].value)
+         // console.log(firstName)
+         // console.log(lastName)
 
-      // let createOrFindUser = await userModel.
+         // let createOrFindUser = await userModel.
 
-      // // // Logic Change here ---->
-      // // // Cases should coverd ---->
+         // // // Logic Change here ---->
+         // // // Cases should coverd ---->
 
-      // // Case 1st :- if user already present then send the gotted data (Do not change anythin)
-      // // Case 2nd :- Else (if not get data with email or got null) create new entry with given data
+         // // Case 1st :- if user already present then send the gotted data (Do not change anythin)
+         // // Case 2nd :- Else (if not get data with email or got null) create new entry with given data
 
-      // // // This will store data -->
-      let userProfile;
+         // // // This will store data -->
+         let userProfile;
 
-      // // // Checking user is present or not --->
-      let checkUserWithEmail = await userModel.findOne({ email: email });
+         // // // Checking user is present or not --->
+         let checkUserWithEmail = await userModel.findOne({ email: email });
 
-      if (checkUserWithEmail) {
-        userProfile = checkUserWithEmail;
-      } else {
-        let newUserDataObj = {
-          email: email,
-          firstName: firstName,
-          lastName: lastName,
-          allImages: [photos[0].value],
-          profilePic: photos[0].value,
-          whenCreted: `${new Date()}`,
-          isEmailVerified: true, // // // Email is verified (when user use login with google)
-        };
+         if (checkUserWithEmail) {
+            userProfile = checkUserWithEmail;
+         } else {
+            let newUserDataObj = {
+               email: email,
+               firstName: firstName,
+               lastName: lastName,
+               allImages: [photos[0].value],
+               profilePic: photos[0].value,
+               whenCreted: `${new Date()}`,
+               isEmailVerified: true, // // // Email is verified (when user use login with google)
+            };
 
-        userProfile = await userModel.create(newUserDataObj);
-      }
+            userProfile = await userModel.create(newUserDataObj);
+         }
 
-      // let userProfile = await userModel.findOneAndUpdate(
-      //   { email: email },
-      //   newUserDataObj,
-      //   { new: true, upsert: true }
-      // ).lean()
+         // let userProfile = await userModel.findOneAndUpdate(
+         //   { email: email },
+         //   newUserDataObj,
+         //   { new: true, upsert: true }
+         // ).lean()
 
-      // // // Below object to check only ------>
-      // console.log(userProfile)
+         // // // Below object to check only ------>
+         // console.log(userProfile)
 
-      // // // Create JWT Token, store UUID id of user inside it.
-      // // // Means email storing in token o user (user token will store user id) ------>
-      const token = jwt.sign(
-        { id: userProfile.id },
-        process.env.JWT_SECRET_KEY,
-        { expiresIn: "100d" }
-      );
+         // // // Create JWT Token, store UUID id of user inside it.
+         // // // Means email storing in token o user (user token will store user id) ------>
+         const token = jwt.sign(
+            { id: userProfile.id },
+            process.env.JWT_SECRET_KEY,
+            { expiresIn: "100d" },
+         );
 
-      let sendUserdetails = {
-        id: userProfile.id,
-        // name: `${userProfile.firstName} ${userProfile.lastName}`,
-        firstName: userProfile.firstName,
-        lastName: userProfile.lastName,
-        email: userProfile.email,
-        profilePic: userProfile.profilePic,
-        role: userProfile.role,
-        token: token,
-      };
+         let sendUserdetails = {
+            id: userProfile.id,
+            // name: `${userProfile.firstName} ${userProfile.lastName}`,
+            firstName: userProfile.firstName,
+            lastName: userProfile.lastName,
+            email: userProfile.email,
+            profilePic: userProfile.profilePic,
+            role: userProfile.role,
+            token: token,
+         };
 
-      // console.log(sendUserdetails)
+         // console.log(sendUserdetails)
 
-      done(null, sendUserdetails);
-    }
-  )
+         done(null, sendUserdetails);
+      },
+   ),
 );
 
 // // // This creates session variable req.user on being from callbacks -->
 passport.serializeUser(function (user, cb) {
-  process.nextTick(function () {
-    // return cb(null, {
-    //   id: user.id,
-    //   username: user.username,
-    //   picture: user.picture
-    // });
+   process.nextTick(function () {
+      // return cb(null, {
+      //   id: user.id,
+      //   username: user.username,
+      //   picture: user.picture
+      // });
 
-    return cb(null, user);
-  });
+      return cb(null, user);
+   });
 });
 
 // // // This chenges session variable req.user when called from authorized user request --->
 passport.deserializeUser(function (user, cb) {
-  process.nextTick(function () {
-    return cb(null, user);
-  });
+   process.nextTick(function () {
+      return cb(null, user);
+   });
 });
 
-// // // Stripe intgration ------------>
+// // // ------------------------------- Stripe intgration ------------>
 
 let stripekey = `${process.env.STRIPE_KEY}`;
 
 const stripe = require("stripe")(stripekey);
 
 const calculateOrderAmount = (price) => {
-  // Replace this constant with a calculation of the order's amount
-  // Calculate the order total on the server to prevent
-  // people from directly manipulating the amount on the client
+   // Replace this constant with a calculation of the order's amount
+   // Calculate the order total on the server to prevent
+   // people from directly manipulating the amount on the client
 
-  // console.log(price * 100)
+   // console.log(price * 100)
 
-  return price * 100;
+   return price * 100;
 };
 
+// // // Initialize route for create payment intent ------------------->
 app.post("/create-payment-intent", async (req, res) => {
-  const { totalPrice } = req.body;
+   const { totalPrice } = req.body;
 
-  // console.log(req.body)
+   // console.log(req.body)
 
-  // Create a PaymentIntent with the order amount and currency
-  const paymentIntent = await stripe.paymentIntents.create({
-    amount: calculateOrderAmount(totalPrice),
-    // amount: totalPrice,
-    currency: "inr",
-    // In the latest version of the API, specifying the `automatic_payment_methods` parameter is optional because Stripe enables its functionality by default.
-    automatic_payment_methods: {
-      enabled: true,
-    },
-  });
+   // Create a PaymentIntent with the order amount and currency
+   const paymentIntent = await stripe.paymentIntents.create({
+      amount: calculateOrderAmount(totalPrice),
+      // amount: totalPrice,
+      currency: "inr",
+      // In the latest version of the API, specifying the `automatic_payment_methods` parameter is optional because Stripe enables its functionality by default.
+      automatic_payment_methods: {
+         enabled: true,
+      },
+   });
 
-  res.send({
-    clientSecret: paymentIntent.client_secret,
-  });
+   res.send({
+      clientSecret: paymentIntent.client_secret,
+   });
 });
 
 // app.use( (req, res , next)=>{
@@ -293,39 +299,39 @@ app.use("/", indexRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
-  next(createError(404));
+   next(createError(404));
 });
 
 // error handler
 app.use(function (err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get("env") === "development" ? err : {};
+   // set locals, only providing error in development
+   res.locals.message = err.message;
+   res.locals.error = req.app.get("env") === "development" ? err : {};
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render("error");
+   // render the error page
+   res.status(err.status || 500);
+   res.render("error");
 });
 
 // // // // Now write logic for runing own server all time -------->>
 const MAKE_UP_AND_RUNNING = process.env.MAKE_UP_AND_RUNNING || "1";
 const OWN_SERVER_URL = process.env.BACKEND_URL || "http://localhost:3000/alive";
 if (MAKE_UP_AND_RUNNING === "true" || MAKE_UP_AND_RUNNING === "1") {
-  console.log("Working bypass render sleep mode.");
+   console.log("Working bypass render sleep mode.");
 
-  const url = OWN_SERVER_URL;
-  const interval = 30000;
+   const url = OWN_SERVER_URL;
+   const interval = 30000;
 
-  setInterval(() => {
-    axios
-      .get(url)
-      .then((res) => {
-        console.log(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, interval);
+   setInterval(() => {
+      axios
+         .get(url)
+         .then((res) => {
+            console.log(res.data);
+         })
+         .catch((err) => {
+            console.log(err);
+         });
+   }, interval);
 }
 
 module.exports = app;

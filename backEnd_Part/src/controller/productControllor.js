@@ -5,6 +5,8 @@ const uuid = require("uuid")
 // // // required models ---->
 
 const productModel = require("../model/productModel")
+const categoryModel = require("../model/categoryModel")
+const brandModel = require("../model/brandModel")
 // const reviewModel = require("../model/reviewModel")
 
 
@@ -108,27 +110,43 @@ async function findAllProducts(req, res) {
 async function getCategoryAndHighlight(req, res) {
 
     try{
-        const findAllProducts = await productModel.find({ isDeleted: false }).select('-_id -updatedAt -createdAt -__v -description -type -review')
+        // const findAllProducts = await productModel.find({ isDeleted: false }).select('-_id -updatedAt -createdAt -__v -description -type -review')
 
 
         // // // Create all category list here and send to frontEnd
-        const allCategoryOfProducts = [...new Set(findAllProducts.map(ele => ele.category))]
+        // const allCategoryOfProducts = [...new Set(findAllProducts.map(ele => ele.category))]
 
 
         // // // Create all category list here and send to frontEnd
-        const allBrandsOfProducts = [...new Set(findAllProducts.map(ele => ele.brand))]
+        // const allBrandsOfProducts = [...new Set(findAllProducts.map(ele => ele.brand))]
 
         // const allHighlights = [...findAllProducts.slice(3,8)]   // // // Upadte this by highlighted true product.
 
-        const allHighlights = [...findAllProducts.filter((item) => {
-            if (item.isHighlight === true) { return item }
-        })]   // // // now Upadte this by highlighted true product.   
-        // // // return those items that have isHighlight true otherwise do nothing
+        // const allHighlights = [...findAllProducts.filter((item) => {
+        //     if (item.isHighlight === true) { return item }
+        // })]   // // // now Upadte this by highlighted true product.   
+        // // // // return those items that have isHighlight true otherwise do nothing
 
+        const allHighlights =  await productModel.find({ isDeleted: false, isHighlight: true }).select('-_id -updatedAt -createdAt -__v -description -type -review')
+
+        const totalProducts = await productModel.countDocuments({ isDeleted: false });
+
+        const allCategory = await categoryModel.find({ isDeleted: false }).select('-_id -updatedAt -createdAt -__v').lean()
+
+        const allBrands = await brandModel.find({ isDeleted: false }).select('-_id -updatedAt -createdAt -__v').lean()
+
+
+        const allCategoryOfProducts = allCategory.map((item) => {
+            return item.name
+        })
+
+        const allBrandsOfProducts = allBrands.map((item) => {
+            return item.name
+        })
 
         // console.log(findAllProducts.length)
 
-        return res.status(200).send({ status: true, allCategory: allCategoryOfProducts, allBrands: allBrandsOfProducts, allHighlights: allHighlights, totalProducts: findAllProducts.length })
+        return res.status(200).send({ status: true, allCategory: allCategoryOfProducts, allBrands: allBrandsOfProducts, allHighlights: allHighlights, totalProducts: totalProducts })
 
     }
     catch (err) {
