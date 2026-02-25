@@ -135,7 +135,7 @@ function StrItemRow({
                onChange={(e) => onChange(e.target.value)}
                placeholder={`Item ${index + 1}`}
                aria-label={`Item ${index + 1}`}
-               className={`w-full bg-transparent text-sm placeholder:opacity-20 focus:outline-none
+               className={`w-full bg-transparent text-sm focus:outline-none
             ${isDuplicate ? "text-amber-500" : ""}`}
             />
             {isDuplicate && (

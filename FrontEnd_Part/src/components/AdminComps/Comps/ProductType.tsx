@@ -157,7 +157,7 @@ function Field({
             onChange={(e) => onChange(e.target.value)}
             placeholder={placeholder}
             required={required}
-            className="w-full bg-inherit rounded-xl border border-current/15 px-3 py-2.5 text-sm placeholder:opacity-25 focus:outline-none focus:border-current/40 focus:ring-2 focus:ring-current/10 transition-all duration-150"
+            className="w-full bg-inherit rounded-xl border border-current/15 px-3 py-2.5 text-sm focus:outline-none focus:border-current/40 focus:ring-2 focus:ring-current/10 transition-all duration-150"
          />
       </label>
    );
@@ -190,7 +190,7 @@ function ImgRow({ url, index, total, onChange, onRemove, onAdd }: ImgRowProps) {
                   value={url}
                   onChange={(e) => onChange(e.target.value)}
                   placeholder={`Image URL ${index + 1}`}
-                  className="flex-1 min-w-0  text-sm placeholder:opacity-25 focus:outline-none bg-inherit rounded-xl"
+                  className="flex-1 min-w-0  text-sm focus:outline-none bg-inherit rounded-xl"
                />
                {url && (
                   <button
@@ -382,7 +382,7 @@ function VerityGroup({
                onChange={(e) => handleLabelChange(e.target.value)}
                placeholder={`Variant label ${index + 1}  (e.g. S, M, L, XL.)`}
                required
-               className="flex-1 min-w-0 text-sm font-medium placeholder:opacity-25 focus:outline-none rounded-xl bg-inherit "
+               className="flex-1 min-w-0 text-sm font-medium focus:outline-none rounded-xl bg-inherit "
             />
 
             <div className="flex items-center gap-1 shrink-0">
@@ -674,38 +674,6 @@ export default function ProductOptionForm({
 
    return (
       <div className=" bg-inherit text-inherit font-sans">
-         {/* Sticky header */}
-         {/* <header className="sticky top-0 z-20 backdrop-blur-md bg-inherit/80 border-b border-current/10 px-4 py-3">
-        <div className="max-w-2xl mx-auto flex items-center justify-between gap-3">
-          <div className="min-w-0">
-            <h1 className="text-sm font-bold tracking-tight">Product Builder</h1>
-            <p className="text-[10px] opacity-40 mt-0.5">
-              {products.length} product{products.length !== 1 ? "s" : ""}
-            </p>
-          </div>
-          <div className="flex items-center gap-2 shrink-0">
-            <button
-              type="button"
-              onClick={() => setShowOutput((v) => !v)}
-              className="text-xs px-3 py-2 rounded-xl border border-current/20 opacity-60 hover:opacity-100 transition"
-            >
-              {showOutput ? "Hide" : "Preview"} JSON
-            </button>
-            <button
-              type="submit"
-              form="product-form"
-              className={`text-xs px-4 py-2 rounded-xl border font-semibold transition-all duration-200 ${
-                submitted
-                  ? "border-green-400 text-green-400 scale-95"
-                  : "border-current bg-current text-white shadow-sm hover:scale-105 active:scale-95"
-              }`}
-            >
-              {submitted ? "✓ Saved" : "Save All"}
-            </button>
-          </div>
-        </div>
-      </header> */}
-
          {/* <form id="product-form" ref={formRef} onSubmit={handleSubmit}> */}
          <div className="w-full mx-auto px-4 py-1 flex flex-col gap-4">
             {/* Product cards — keyed by stable uid, not array index */}

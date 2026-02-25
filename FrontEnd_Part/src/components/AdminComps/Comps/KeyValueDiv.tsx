@@ -138,7 +138,7 @@ function EntryRow({
                placeholder="Key"
                required
                aria-label={`Key ${index + 1}`}
-               className={`w-full bg-transparent text-sm font-medium placeholder:opacity-20 focus:outline-none
+               className={`w-full bg-transparent text-sm font-medium  focus:outline-none
             ${isDuplicate ? "text-amber-500" : ""}`}
             />
             {isDuplicate && (
@@ -161,7 +161,7 @@ function EntryRow({
                onChange={(e) => onChange("value", e.target.value)}
                placeholder="Value"
                aria-label={`Value ${index + 1}`}
-               className="w-full bg-transparent text-sm placeholder:opacity-20 focus:outline-none"
+               className="w-full bg-transparent text-sm  focus:outline-none"
             />
          </div>
 
