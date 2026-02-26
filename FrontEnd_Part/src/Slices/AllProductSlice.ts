@@ -2,7 +2,9 @@
 import { IAllProductsWithCat, productId, PropForLikeAndDislike, SearchObj } from "../Type/type"
 import { createAsyncThunk, createSlice, current, PayloadAction } from "@reduxjs/toolkit"
 import { toast } from 'sonner'
-import { gettingTokenInCookieAndLocalHost } from "../App"
+import { gettingTokenInCookieAndLocalHost } from "../Helper/Token"
+import { newEntry } from "../Helper/helper"
+// import { gettingTokenInCookieAndLocalHost } from "../App"
 
 
 export const fetchAllProducts = createAsyncThunk("fetchAllProducts", async ({ brand = '', category = '', price = '1', page = "1", limit = "10" }: SearchObj) => {
@@ -178,9 +180,9 @@ const initialState: IAllProductsWithCat = {
             fullName: "",
             aboutProduct: "",
             highLights: [],
-            specifications: [{}],
-            product_Details: [{}],
-            dimensions: [{}]
+            specifications: [newEntry()],
+            product_Details: [newEntry()],
+            dimensions: [newEntry()]
         },
         "price": 0,
         "discountPercentage": 0,

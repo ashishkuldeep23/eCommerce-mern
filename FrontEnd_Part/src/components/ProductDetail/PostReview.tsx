@@ -4,8 +4,9 @@ import { createNewReview, reviewState, updateReview } from "../../Slices/ReviewS
 import { AppDispatch, RootState } from "../../store"
 import { toast } from "sonner"
 import { setReviewData } from "../../Slices/ReviewSlice"
-import { gettingTokenInCookieAndLocalHost } from "../../App"
+// import { gettingTokenInCookieAndLocalHost } from "../../App"
 import { useNavigate } from "react-router-dom"
+import { gettingTokenInCookieAndLocalHost } from "../../Helper/Token"
 
 
 const PostReview = () => {

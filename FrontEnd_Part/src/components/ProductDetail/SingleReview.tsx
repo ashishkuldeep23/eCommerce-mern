@@ -7,10 +7,11 @@ import { deleteReview, dislikeReview, likeReview, setReviewData, setReviewUpadte
 import { setChildrenModal, setOpenMoadl } from "../../Slices/ModalSlice"
 import { useState } from "react"
 import { LikeBtnDoubleClick } from "./LikeBtnDoubleClick"
-import { gettingTokenInCookieAndLocalHost } from "../../App"
+// import { gettingTokenInCookieAndLocalHost } from "../../App"
 import { toast } from "sonner"
 import { useNavigate } from "react-router-dom"
 import { ReviewData } from "../../Type/type"
+import { gettingTokenInCookieAndLocalHost } from "../../Helper/Token"
 
 
 

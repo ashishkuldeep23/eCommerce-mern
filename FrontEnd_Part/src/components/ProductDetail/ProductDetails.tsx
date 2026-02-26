@@ -22,11 +22,12 @@ import {
 } from "../../Slices/AdminSliceFile";
 import ProductImagesDiv from "./ProductImagesDiv";
 import { setChildrenModal, setOpenMoadl } from "../../Slices/ModalSlice";
-import { gettingTokenInCookieAndLocalHost } from "../../App";
+// import { gettingTokenInCookieAndLocalHost } from "../../App";
 import { TypeObject } from "../../Type/type";
+import { gettingTokenInCookieAndLocalHost } from "../../Helper/Token";
 
 export default function ProductDetails() {
-   const [type, setType] = useState<TypeObject>({
+   const [type] = useState<TypeObject>({
       typeName: [""],
       typeVerity: [""],
       typePrice: 0,

@@ -1,274 +1,293 @@
-import HomePage from "./Screens/HomePage"
-import DetailOfSingleProduct from "./Screens/DetailOfSingleProduct"
-import LogInScreen from "./Screens/LogInScreen"
-import SignInScreeen from "./Screens/SignInScreen"
-import UserDetails from "./Screens/UserDetails"
-import AdminScreen from "./Screens/AdminScreen"
-import CartScreen from "./Screens/CartScreen"
-import PaymentScreen from "./Screens/PaymentScreen"
-import LogInProtected from "./components/Protected/LogInProtected"
-import Modal from "./components/Modal/Modal"
-import UserSinInWithGoogle from "./Screens/UserSinInSuccessfull"
-import OrdersScreen from "./Screens/MyOrdersScreen"
-import StripeMainPage from "./Screens/StripeMainPage"
-import { useEffect } from "react"
-import { Toaster } from 'sonner'
-import { useDispatch, useSelector } from "react-redux"
-import { AppDispatch, RootState } from "./store"
-import { setModeOnLoad } from "./Slices/ThemeSlices"
-import { setLogInStatus, setUserData, fetchUser } from "./Slices/UserSlice"
-import { fetchAllCategoryAndHighlight, fetchAllProducts } from "./Slices/AllProductSlice"
-import OrderConfirm from "./components/OrderConfirm/OrderConfirm"
-import { createBrowserRouter, RouterProvider, Link } from "react-router-dom"
-import { CategorySearchPage } from "./Screens/CategorySearchPage"
-import ForgotPassMainScreen from "./Screens/ForgotPassMainScreen"
-import { ForgotPassReqScreen } from "./Screens/ForgotPassReqScreen"
-import { FeedbackScreen } from "./Screens/FeedbackScreen"
-import { VerifyMail } from "./components/verifyMail/verifyMail"
+import HomePage from "./Screens/HomePage";
+import DetailOfSingleProduct from "./Screens/DetailOfSingleProduct";
+import LogInScreen from "./Screens/LogInScreen";
+import SignInScreeen from "./Screens/SignInScreen";
+import UserDetails from "./Screens/UserDetails";
+import AdminScreen from "./Screens/AdminScreen";
+import CartScreen from "./Screens/CartScreen";
+import PaymentScreen from "./Screens/PaymentScreen";
+import LogInProtected from "./components/Protected/LogInProtected";
+import Modal from "./components/Modal/Modal";
+import UserSinInWithGoogle from "./Screens/UserSinInSuccessfull";
+import OrdersScreen from "./Screens/MyOrdersScreen";
+import StripeMainPage from "./Screens/StripeMainPage";
+import { useEffect } from "react";
+import { Toaster } from "sonner";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "./store";
+import { setModeOnLoad } from "./Slices/ThemeSlices";
+// import { setLogInStatus, setUserData, fetchUser } from "./Slices/UserSlice";
+import {
+   fetchAllCategoryAndHighlight,
+   fetchAllProducts,
+} from "./Slices/AllProductSlice";
+import OrderConfirm from "./components/OrderConfirm/OrderConfirm";
+import { createBrowserRouter, RouterProvider, Link } from "react-router-dom";
+import { CategorySearchPage } from "./Screens/CategorySearchPage";
+import ForgotPassMainScreen from "./Screens/ForgotPassMainScreen";
+import { ForgotPassReqScreen } from "./Screens/ForgotPassReqScreen";
+import { FeedbackScreen } from "./Screens/FeedbackScreen";
+import { VerifyMail } from "./components/verifyMail/verifyMail";
+import { gettingTokenInCookieAndLocalHost } from "./Helper/Token";
+import { fetchUser } from "./Slices/UserSlice";
 
 // import { fetchAllProducts , fetchAllCategoryAndHighlight } from "./Slices/AllProductSlice"
-
-
-// // fn write to check only based on this ---> calling fetch user ---> in LocalHost also -->
-export const gettingTokenInCookieAndLocalHost = () => {
-
-
-  let token = false;
-
-
-  // let checkInCookie = document.cookie
-  // let cookieInArr = checkInCookie.split("=")
-  // let checkTokenPresent = cookieInArr.indexOf("token")
-  // if (checkTokenPresent !== -1) {
-  //   token = true;
-  // }
-
-
-
-  let checkTokenInLoaclHost = localStorage.getItem("userToken")
-
-  if (checkTokenInLoaclHost) {
-
-    token = JSON.parse(checkTokenInLoaclHost)
-
-  }
-
-
-  return token
-}
-
-
 
 // // // Now using createBrowserRouter instead of BrowserRouter component ---> ( let's see what happen in production mode)
 
 const router = createBrowserRouter([
+   // { path: "/", element: (<LogInProtected> <HomePage /> </LogInProtected>) },
 
-  // { path: "/", element: (<LogInProtected> <HomePage /> </LogInProtected>) },
+   {
+      path: "/",
+      element: (
+         <>
+            {" "}
+            <HomePage />{" "}
+         </>
+      ),
+   },
 
-  { path: "/", element: (<> <HomePage /> </>) },
+   // { path: "/product", element: (<LogInProtected> <DetailOfSingleProduct /> </LogInProtected>) },
 
+   // { path: "/product/:id", element: (<DetailOfSingleProduct /> ) },
 
-  // { path: "/product", element: (<LogInProtected> <DetailOfSingleProduct /> </LogInProtected>) },
+   // { path: "/product/:id", element: (<LogInProtected> <DetailOfSingleProduct /> </LogInProtected>) },
 
-  // { path: "/product/:id", element: (<DetailOfSingleProduct /> ) },
+   {
+      path: "/product/:id",
+      element: (
+         <>
+            {" "}
+            <DetailOfSingleProduct />{" "}
+         </>
+      ),
+   },
 
-  // { path: "/product/:id", element: (<LogInProtected> <DetailOfSingleProduct /> </LogInProtected>) },
+   {
+      path: "/about",
+      element: (
+         <LogInProtected>
+            {" "}
+            <UserDetails />{" "}
+         </LogInProtected>
+      ),
+   },
 
-  { path: "/product/:id", element: (<> <DetailOfSingleProduct /> </>) },
+   {
+      path: "/orders",
+      element: (
+         <LogInProtected>
+            {" "}
+            <OrdersScreen />{" "}
+         </LogInProtected>
+      ),
+   },
 
-  { path: "/about", element: (<LogInProtected> <UserDetails /> </LogInProtected>) },
+   { path: "/login", element: <LogInScreen /> },
 
-  { path: "/orders", element: (<LogInProtected> <OrdersScreen /> </LogInProtected>) },
+   { path: "/signin", element: <SignInScreeen /> },
 
-  { path: "/login", element: <LogInScreen /> },
+   { path: "/forgot-pass-req", element: <ForgotPassReqScreen /> },
 
-  { path: "/signin", element: <SignInScreeen /> },
+   {
+      path: "/forgot-pass-main/:token/:mailDomain/:mailId",
+      element: <ForgotPassMainScreen />,
+   },
 
-  { path: "/forgot-pass-req", element: <ForgotPassReqScreen /> },
+   { path: "/verify-mail/:token/:mailDomain/:mailId", element: <VerifyMail /> },
 
-  { path: "/forgot-pass-main/:token/:mailDomain/:mailId", element: <ForgotPassMainScreen /> },
+   { path: "/catPage", element: <CategorySearchPage /> },
 
-  { path: "/verify-mail/:token/:mailDomain/:mailId", element: <VerifyMail /> },
+   {
+      path: "/cart",
+      element: (
+         <LogInProtected>
+            {" "}
+            <CartScreen />{" "}
+         </LogInProtected>
+      ),
+   },
 
-  { path: "/catPage", element: <CategorySearchPage /> },
+   {
+      path: "/pay",
+      element: (
+         <LogInProtected>
+            {" "}
+            <PaymentScreen />{" "}
+         </LogInProtected>
+      ),
+   },
 
-  { path: "/cart", element: (<LogInProtected> <CartScreen /> </LogInProtected>) },
+   {
+      path: "/stripePay",
+      element: (
+         <LogInProtected>
+            {" "}
+            <StripeMainPage />{" "}
+         </LogInProtected>
+      ),
+   },
 
-  { path: "/pay", element: (<LogInProtected> <PaymentScreen /> </LogInProtected>) },
+   {
+      path: "/order-confirm",
+      element: (
+         <LogInProtected>
+            {" "}
+            <OrderConfirm />{" "}
+         </LogInProtected>
+      ),
+   },
 
-  { path: "/stripePay", element: (<LogInProtected>  <StripeMainPage /> </LogInProtected>) },
+   // // // So this route i'll use fater gogal logIn , plan atleast -->
+   { path: "/user-login/:token/:user", element: <UserSinInWithGoogle /> },
 
-  { path: "/order-confirm", element: (<LogInProtected>  <OrderConfirm /> </LogInProtected>) },
+   // // // Admin Route preset here --->
+   // // Tow protection should iven here --->
+   // 1) user should loging ---->
+   // 2) Role of user should be Admin.(Only those people will show this component)
 
-  // // // So this route i'll use fater gogal logIn , plan atleast -->
-  { path: "/user-login/:token/:user", element: <UserSinInWithGoogle /> },
+   {
+      path: "/admin",
+      element: (
+         <LogInProtected>
+            {" "}
+            <AdminScreen />{" "}
+         </LogInProtected>
+      ),
+   },
 
+   // // // Feedback section ---->
+   { path: "/feedback", element: <FeedbackScreen /> },
 
-  // // // Admin Route preset here --->
-  // // Tow protection should iven here --->
-  // 1) user should loging ---->
-  // 2) Role of user should be Admin.(Only those people will show this component)
-
-  { path: "/admin", element: (< LogInProtected > <AdminScreen /> </ LogInProtected>) },
-
-  // // // Feedback section ---->
-  { path: "/feedback", element: <FeedbackScreen /> },
-
-
-  // // // Page not found --->
-  {
-    path: '*',
-    // // // here write custome comp. for page not found --->
-    element:
-      <>
-        <div
-          style={{ height: "99vh" }}
-          className=" flex flex-col justify-center items-center "
-        >
-          <h1 className=" text-center text-3xl text-red-500">Page not Found, Go to Home please.</h1>
-          <Link to="/"><button className="border my-3 rounded text-white bg-green-500 px-2">GoTo Home 🏠</button></Link>
-        </div>
-      </>,
-  },
-
-
-])
-
-
+   // // // Page not found --->
+   {
+      path: "*",
+      // // // here write custome comp. for page not found --->
+      element: (
+         <>
+            <div
+               style={{ height: "99vh" }}
+               className=" flex flex-col justify-center items-center ">
+               <h1 className=" text-center text-3xl text-red-500">
+                  Page not Found, Go to Home please.
+               </h1>
+               <Link to="/">
+                  <button className="border my-3 rounded text-white bg-green-500 px-2">
+                     GoTo Home 🏠
+                  </button>
+               </Link>
+            </div>
+         </>
+      ),
+   },
+]);
 
 function App() {
+   const dispatch = useDispatch<AppDispatch>();
 
+   // const allHighlightsData = useSelector((state: RootState) => state.allProductWithCatReducer.allHighlightProducts)
 
-  const dispatch = useDispatch<AppDispatch>()
+   // const limitValue = useSelector( (state : RootState) => state.allProductWithCatReducer.onePageLimit)
 
-  // const allHighlightsData = useSelector((state: RootState) => state.allProductWithCatReducer.allHighlightProducts)
+   //  const getAllHighLights = useSelector(
+   //     (state: RootState) => state.allProductWithCatReducer.allHighlightProducts,
+   //  );
 
-  // const limitValue = useSelector( (state : RootState) => state.allProductWithCatReducer.onePageLimit)
+   const limitValue = useSelector(
+      (state: RootState) => state.allProductWithCatReducer.onePageLimit,
+   );
 
-  const getAllHighLights = useSelector((state: RootState) => state.allProductWithCatReducer.allHighlightProducts)
+   // // // This fn will call Backend to get data ------>
+   useEffect(() => {
+      // console.log(gettingTokenInCookieAndLocalHost())
 
-  const limitValue = useSelector((state: RootState) => state.allProductWithCatReducer.onePageLimit)
+      // // // If token is present in localHost then only do ---->
 
+      dispatch(fetchAllCategoryAndHighlight());
+      dispatch(
+         fetchAllProducts({
+            brand: "",
+            category: "",
+            price: "-1",
+            limit: `${limitValue}`,
+         }),
+      );
 
-  // // // This fn will call Backend to get data ------>
-  useEffect(() => {
+      // // // Calling backend to get all data ---->
+      if (gettingTokenInCookieAndLocalHost()) {
+         // // // Now call Data from home page of useEffect now (When user successfull login then also this will call backend main reason is that ) --->
 
+         // dispatch(fetchAllCategoryAndHighlight())
+         // dispatch(fetchAllProducts({ brand: "", category: '', price: "-1", limit: `${limitValue}` }))
+         //  // // // Limit value is 4 set (Change in useEffect of pagination.jsx and here)
 
-    // console.log(gettingTokenInCookieAndLocalHost())
+         // // // Here call fetch user
 
+         // console.log("Now call Fetch user dispatch()")
 
-    // // // If token is present in localHost then only do ---->
+         // // // Call server to fetch user ----->
+         dispatch(fetchUser());
 
+         // // // Load user logIn status data in state variable (Redux-Toolkit)
+         //  let logInStatus = localStorage.getItem("isUserLogIn");
+         //  if (logInStatus) {
+         //     // console.log(logInStatus)
+         //     // logInStatus = JSON.parse(logInStatus)
+         //     dispatch(setLogInStatus({ isLogIn: true }));
+         //  }
+         // // // If data come by fetch request then laod user data (that present in localhost) ---->
+         //  if (getAllHighLights.length > 0) {
+         //     // // // Load user data ----->
 
-    dispatch(fetchAllCategoryAndHighlight())
-    dispatch(fetchAllProducts({ brand: "", category: '', price: "-1", limit: `${limitValue}` }))
+         //     // // // Load user data in state variable (Redux-Toolkit)
+         //     let getUserData = localStorage.getItem("userData");
 
-    // // // Calling backend to get all data ---->
-    if (gettingTokenInCookieAndLocalHost()) {
+         //     if (getUserData) {
+         //        getUserData = JSON.parse(getUserData);
+         //        // console.log(getUserData)
 
-
-      // // // Now call Data from home page of useEffect now (When user successfull login then also this will call backend main reason is that ) --->
-
-      // dispatch(fetchAllCategoryAndHighlight())
-      // dispatch(fetchAllProducts({ brand: "", category: '', price: "-1", limit: `${limitValue}` }))
-      //  // // // Limit value is 4 set (Change in useEffect of pagination.jsx and here)
-
-
-
-      // // // Here call fetch user
-
-      // console.log("Now call Fetch user dispatch()")
-
-      // // // Call server to fetch user ----->
-      dispatch(fetchUser())
-
-
-
-      // // // Load user logIn status data in state variable (Redux-Toolkit)
-      let logInStatus = localStorage.getItem("isUserLogIn")
-
-      if (logInStatus) {
-        // console.log(logInStatus)
-
-        // logInStatus = JSON.parse(logInStatus)
-
-        dispatch(setLogInStatus({ isLogIn: true }))
+         //        if (getUserData && Object.keys(getUserData).length > 0) {
+         //           // if (allHighlightsData.length > 0) {
+         //           dispatch(setUserData({ data: getUserData })); // // // Set user data
+         //           // }
+         //        }
+         //     }
+         //  }
       }
 
-      // // // If data come by fetch request then laod user data (that present in localhost) ---->
-      if (getAllHighLights.length > 0) {
+      //  let get =  fetchAllProducts()
 
-        // // // Load user data ----->
+      // console.log(get)
 
-        // // // Load user data in state variable (Redux-Toolkit)
-        let getUserData = localStorage.getItem("userData")
+      // loadData()
 
-        if (getUserData) {
-
-          getUserData = JSON.parse(getUserData)
-          // console.log(getUserData)
-
-          if (getUserData && Object.keys(getUserData).length > 0) {
-
-            // if (allHighlightsData.length > 0) {
-            dispatch(setUserData({ data: getUserData }))     // // // Set user data
-            // }
-
-          }
-
-        }
-
+      // // // Setting theme --->
+      let mode = localStorage.getItem("ECommDark");
+      if (mode) {
+         dispatch(setModeOnLoad({ mode: JSON.parse(mode) }));
+      } else {
+         dispatch(setModeOnLoad({ mode: true })); // // // I want first time dark time
       }
 
-    }
+      // // // Just checking here ---->
+      // dispatch(setChildrenModal(<>Ashish</>))
+   }, []);
 
+   // // // If user is admin then navigate to adim page for fisrt time (This thing done in homeScreenPage ) ----->
 
-    //  let get =  fetchAllProducts()
+   return (
+      <>
+         {/* Above from routes will avilable for all pages ---> */}
+         <Modal />
 
-    // console.log(get)
+         {/* Privous code present here for routing ---> */}
 
-    // loadData()
+         <RouterProvider router={router} />
 
-    // // // Setting theme --->
-    let mode = localStorage.getItem("ECommDark")
-    if (mode) {
-      dispatch(setModeOnLoad({ mode: JSON.parse(mode) }))
-    } else {
-      dispatch(setModeOnLoad({ mode: true }))   // // // I want first time dark time
-    }
-
-
-    // // // Just checking here ---->
-    // dispatch(setChildrenModal(<>Ashish</>))
-
-  }, [])
-
-
-  // // // If user is admin then navigate to adim page for fisrt time (This thing done in homeScreenPage ) ----->
-
-
-
-
-
-  return (
-    <>
-
-      {/* Above from routes will avilable for all pages ---> */}
-      <Modal />
-
-      {/* Privous code present here for routing ---> */}
-
-      <RouterProvider router={router} />
-
-      <Toaster
-        position="top-right"
-        expand={false}
-        richColors
-        closeButton
-      />
-
-    </>
-  )
+         <Toaster position="top-right" expand={false} richColors closeButton />
+      </>
+   );
 }
 
-export default App
+export default App;

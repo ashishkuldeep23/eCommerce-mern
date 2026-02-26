@@ -2,8 +2,9 @@ import { createSlice, current } from "@reduxjs/toolkit"
 
 // import { IProduct } from "../components/ProductListing/ProductLists"
 // import { SingleTypeObject } from "../components/ProductListing/ProductLists";
-import { gettingTokenInCookieAndLocalHost } from "../App";
+// import { gettingTokenInCookieAndLocalHost } from "../App";
 import { CartInter } from "../Type/type";
+import { gettingTokenInCookieAndLocalHost } from "../Helper/Token";
 
 
 

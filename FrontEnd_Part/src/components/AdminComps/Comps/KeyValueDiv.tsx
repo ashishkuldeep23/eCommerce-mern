@@ -122,7 +122,7 @@ function EntryRow({
 
    return (
       <div
-         className={`group flex items-center gap-1 rounded-2xl border transition-all duration-150 px-2 py-2
+         className={`group flex flex-wrap items-center gap-1 rounded-2xl border transition-all duration-150 px-2 py-2
       ${isDuplicate ? "border-amber-400/50 bg-amber-400/5" : "border-current/10 bg-current/[0.02] hover:border-current/20"}`}>
          {/* Row number */}
          <span className="text-[10px] font-bold opacity-50 w-2 text-center shrink-0 select-none">
@@ -130,7 +130,7 @@ function EntryRow({
          </span>
 
          {/* Key input */}
-         <div className="flex-1 min-w-0">
+         <div className=" min-w-0">
             <input
                type="text"
                value={entry.key}
@@ -154,7 +154,7 @@ function EntryRow({
          </span>
 
          {/* Value input */}
-         <div className="flex-1 min-w-0">
+         <div className=" min-w-0">
             <input
                type="text"
                value={entry.value}
@@ -320,55 +320,7 @@ export default function KeyValueFormApp({
                   />
                ))}
             </div>
-
-            {/* Add entry row */}
-            {/* <button
-            type="button"
-            onClick={addEntry}
-            className="w-full py-3 rounded-2xl border-2 border-dashed border-current/15 text-sm font-semibold opacity-40 hover:opacity-80 hover:border-current/30 transition-all duration-200 flex items-center justify-center gap-2"
-          >
-            <Icon.Plus /> Add Entry
-          </button> */}
-
-            {/* Duplicate warning banner */}
-            {/* {hasDuplicates && (
-            <div className="rounded-2xl border border-amber-400/40 bg-amber-400/5 px-4 py-3 text-xs text-amber-500 font-medium">
-              ⚠ Duplicate keys detected — each key must be unique in this structure.
-            </div>
-          )} */}
-
-            {/* JSON preview */}
-            {/* {showOutput && <OutputPreview data={outputData} />} */}
-
-            {/* Submit */}
-            {/* <button
-            type="submit"
-            disabled={hasDuplicates}
-            className={`w-full py-3.5 rounded-3xl text-sm font-bold border transition-all duration-200
-              ${submitted
-                ? "border-green-400 text-green-400"
-                : hasDuplicates
-                ? "border-amber-400/40 text-amber-400 opacity-60 cursor-not-allowed"
-                : "border-current bg-current text-white shadow hover:scale-[1.01] active:scale-[0.99]"
-              }`}
-          >
-            {submitted
-              ? "✓ Saved!"
-              : hasDuplicates
-              ? "Fix duplicate keys to save"
-              : `Save ${entries.filter((e) => e.key.trim()).length} ${entries.filter((e) => e.key.trim()).length === 1 ? "Entry" : "Entries"}`}
-          </button> */}
          </div>
-
-         {/* </form> */}
-
-         {/* Import modal */}
-         {/* {showImport && (
-        <ImportModal
-          onImport={handleImport}
-          onClose={() => setShowImport(false)}
-        />
-      )} */}
       </div>
    );
 }

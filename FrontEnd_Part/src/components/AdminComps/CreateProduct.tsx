@@ -793,12 +793,12 @@ function CreateNewProduct() {
    }, []);
 
    return (
-      <div className=" relative flex flex-col sm:flex-row gap-2 justify-center items-center sm:items-start py-20 px-2 ">
+      <div className=" relative flex flex-col sm:flex-row gap-2 justify-center items-center sm:items-start py-20 sm:px-2 ">
          {/* Loading ----> */}
          <LoaderCircle isLoading={isLoading} />
 
          <div
-            className={`  relative w-full smm:w-10/12 sm:w-3/4 md:w-3/5 py-2 px-1.5 rounded border 
+            className={`  relative w-full py-2 px-1.5 rounded border 
             ${
                themeMode
                   ? ` ${!updatingProduct ? "bg-fuchsia-950" : " bg-rose-950"}  border-white `
@@ -1461,14 +1461,6 @@ function CreateNewProduct() {
                   </button>
                </div>
             </form>
-         </div>
-
-         <div className=" border rounded border-black py-2 p-1 w-full smm:w-10/12 sm:w-[20%] px-2">
-            <div>
-               <p className=" text-2xl font-bold text-center underline">
-                  Get urls of Imgs
-               </p>
-            </div>
          </div>
       </div>
    );

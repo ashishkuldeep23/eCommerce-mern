@@ -1,7 +1,8 @@
 // import { useSelector } from 'react-redux';
 // import { RootState } from '../../store';
 import { Navigate } from 'react-router-dom';
-import { gettingTokenInCookieAndLocalHost } from '../../App';
+import { gettingTokenInCookieAndLocalHost } from '../../Helper/Token';
+// import { gettingTokenInCookieAndLocalHost } from '../../App';
 
 
 

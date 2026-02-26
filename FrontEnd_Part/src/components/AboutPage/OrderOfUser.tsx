@@ -7,9 +7,10 @@ import { AppDispatch, RootState } from '../../store'
 import { useNavigate } from 'react-router-dom'
 import { fetchOneProductByID, setSingleProductData } from '../../Slices/AllProductSlice'
 // import { CardDataInter } from '../../Slices/CartSlice'
-import { gettingTokenInCookieAndLocalHost } from '../../App'
+// import { gettingTokenInCookieAndLocalHost } from '../../App'
 import { orderState, updateOrder } from '../../Slices/OrderSlice'
 import { CardDataInter, UserOrderOj } from '../../Type/type'
+import { gettingTokenInCookieAndLocalHost } from '../../Helper/Token'
 
 
 

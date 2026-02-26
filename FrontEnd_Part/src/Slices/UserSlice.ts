@@ -3,10 +3,11 @@ import { PayloadAction, createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { useSelector } from "react-redux";
 import { toast } from "sonner"
 import { RootState } from "../store";
-import { gettingTokenInCookieAndLocalHost } from "../App";
+// import { gettingTokenInCookieAndLocalHost } from "../App";
 // import { OrderData } from "../components/Payment/PaymentComp";
 // import { IProduct } from "../components/ProductListing/ProductLists";
-import { IProduct,  UserAddressObj,  UserOrderOj } from "../Type/type";
+import { IProduct, UserAddressObj, UserOrderOj } from "../Type/type";
+import { gettingTokenInCookieAndLocalHost, setUserTokenInCookie } from "../Helper/Token";
 
 
 
@@ -242,7 +243,6 @@ export const getUserDataWithToken = createAsyncThunk("user/verifyToken", async (
         headers: {
             "token": `${token}`
         }
-
     }
 
     const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/userDataByToken`, option)
@@ -432,16 +432,15 @@ const userSlice = createSlice({
 
                     toast.success(`${action.payload.message}`)
 
-
-
                     state.isLogIn = true
 
+                    const token = action?.payload?.data?.token;
                     // // // Set token data in cookie ------->
-                    document.cookie = `token=${action.payload.data.token}`
+                    setUserTokenInCookie(token)
+                    // document.cookie = `token=${action.payload.data.token}`
 
                     // // // And also set cookie in localStorage -------->
-
-                    localStorage.setItem("userToken", JSON.stringify(action.payload.data.token))
+                    // localStorage.setItem("userToken", JSON.stringify(action.payload.data.token))
 
 
 
@@ -465,9 +464,8 @@ const userSlice = createSlice({
 
 
                     // // // set data in localStorage ------>
-
-                    localStorage.setItem("userData", JSON.stringify({ firstName, lastName, email, profilePic, role, id }))
-                    localStorage.setItem("isUserLogIn", JSON.stringify(true))
+                    // localStorage.setItem("userData", JSON.stringify({ firstName, lastName, email, profilePic, role, id }))
+                    // localStorage.setItem("isUserLogIn", JSON.stringify(true))
 
                 }
 
@@ -530,9 +528,6 @@ const userSlice = createSlice({
                     // })
 
 
-                    // // // Set is logIn True ------->
-
-                    state.isLogIn = true
 
 
 
@@ -541,7 +536,7 @@ const userSlice = createSlice({
                     // let role = action.payload.data.role
                     // let email = action.payload.data.email
 
-                    let { id, name, email, profilePic, role, address, isEmailVerified } = action.payload.data
+                    // let { id, name, email, profilePic, role, address, isEmailVerified } = action.payload.data
 
 
 
@@ -555,13 +550,16 @@ const userSlice = createSlice({
 
                     // console.log(action.payload.data)
 
+                    // // // Set is logIn True ------->
+                    state.isLogIn = true
 
+                    // // // Set user data in state -------->
                     state.userData = action.payload.data
 
 
                     // // // update arr of wishlist ids data -------->
 
-                    if (action.payload.data.wishList && action.payload.data.wishList.length > 0) {
+                    if (action?.payload?.data?.wishList && action?.payload?.data?.wishList?.length > 0) {
 
                         let arr = action.payload.data.wishList.map((ele: any) => ele.id)
 
@@ -574,9 +572,8 @@ const userSlice = createSlice({
 
 
                     // // // set data in localStorage ------>
-
-                    localStorage.setItem("userData", JSON.stringify({ name, email, profilePic, role, id, address, isEmailVerified }))
-                    localStorage.setItem("isUserLogIn", JSON.stringify(true))
+                    // localStorage.setItem("userData", JSON.stringify({ name, email, profilePic, role, id, address, isEmailVerified }))
+                    // localStorage.setItem("isUserLogIn", JSON.stringify(true))
                 }
 
 
@@ -974,7 +971,7 @@ const userSlice = createSlice({
                     // let role = action.payload.data.role
                     // let email = action.payload.data.email
 
-                    let { id, name, email, profilePic, role, address, token } = action.payload.data
+                    // let { id, name, email, profilePic, role, address, token } = action.payload.data
 
 
 
@@ -986,19 +983,23 @@ const userSlice = createSlice({
                     // state.userData.role = role
                     // state.userData.id = id
 
-                    if (token) {
-                        localStorage.setItem("userToken", JSON.stringify(token))
-                    }
+                    // if (token) {
+                    //     localStorage.setItem("userToken", JSON.stringify(token))
+                    // }
 
 
 
                     state.userData = action.payload.data
 
+                    const token = action?.payload?.data?.token;
+                    // // // Set token data in cookie ------->
+                    setUserTokenInCookie(token)
+
 
                     // // // set data in localStorage ------>
 
-                    localStorage.setItem("userData", JSON.stringify({ name, email, profilePic, role, id, address }))
-                    localStorage.setItem("isUserLogIn", JSON.stringify(true))
+                    // localStorage.setItem("userData", JSON.stringify({ name, email, profilePic, role, id, address }))
+                    // localStorage.setItem("isUserLogIn", JSON.stringify(true))
                 }
 
 
