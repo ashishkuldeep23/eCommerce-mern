@@ -8,14 +8,14 @@ import { ThemeInter } from "../Type/type"
 
 
 
-const initialState : ThemeInter = { mode : false }
+const initialState: ThemeInter = { mode: false }
 
 
 
-const themeSlice = createSlice( {
-    name : "theme" , 
-    initialState ,
-    reducers : {
+const themeSlice = createSlice({
+    name: "theme",
+    initialState,
+    reducers: {
 
         // makeDark(state){
         //     state.mode = true;
@@ -25,23 +25,25 @@ const themeSlice = createSlice( {
         // }
 
 
-        toggleModeValue(state){
+        toggleModeValue(state) {
 
             // if(!state.mode){
             // }
 
-            if(!state.mode){
+            if (!state.mode) {
+                document.documentElement.classList.add("dark");
                 state.mode = true
-                localStorage.setItem( "ECommDark", JSON.stringify(true) )
-            }else{
+                localStorage.setItem("ECommDark", JSON.stringify(true))
+            } else {
+                document.documentElement.classList.remove("dark");
                 state.mode = false
-                localStorage.setItem( "ECommDark", JSON.stringify(false) )
+                localStorage.setItem("ECommDark", JSON.stringify(false))
             }
 
         },
 
-        setModeOnLoad(state , action){
-            let {mode} = action.payload
+        setModeOnLoad(state, action) {
+            let { mode } = action.payload
 
             state.mode = mode
 
@@ -50,11 +52,11 @@ const themeSlice = createSlice( {
 
 
     }
-} )
+})
 
 
 
-export const { toggleModeValue , setModeOnLoad } = themeSlice.actions
+export const { toggleModeValue, setModeOnLoad } = themeSlice.actions
 
 export default themeSlice.reducer
 

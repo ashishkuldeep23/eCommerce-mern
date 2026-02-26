@@ -793,7 +793,7 @@ function CreateNewProduct() {
    }, []);
 
    return (
-      <div className=" relative flex flex-col sm:flex-row gap-2 justify-center items-center sm:items-start py-20 sm:px-2 ">
+      <div className=" relative flex flex-col sm:flex-row gap-2 justify-center items-center sm:items-start py-2 sm:py-20 sm:px-2 ">
          {/* Loading ----> */}
          <LoaderCircle isLoading={isLoading} />
 
@@ -1316,12 +1316,13 @@ function CreateNewProduct() {
                            </h1>
                            <div className=" flex flex-col items-center">
                               <input
-                                 className="rounded-full my-1"
+                                 className=" border rounded-full my-1 w-[60%] "
                                  type="file"
                                  name=""
                                  accept="image/png, image/png, image/jpeg"
                                  id="change_img"
                                  multiple={true}
+                                 max={5}
                                  onChange={(e) => {
                                     imgOnChangeHandler(e);
                                  }}

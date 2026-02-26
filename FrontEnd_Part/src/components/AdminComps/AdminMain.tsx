@@ -4,12 +4,13 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { userState } from "../../Slices/UserSlice";
 // import { useEffect } from "react"
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import CreateNewProduct from "./CreateProduct";
 import AllProducts from "./AllProducts";
 import { AllOdersComp } from "./AllOdersComp";
 import DataInChartFormate from "./DataInChartFormate";
 import ChartJs2 from "./ChartJs2";
+import { GetUrlOfImgDiv } from "./Comps/GetUrlOfImgDiv";
 // import { useEffect } from "react"
 
 const AdminMain = () => {
@@ -71,7 +72,7 @@ const AdminMain = () => {
                   })}
                </div>
 
-               <Routes>
+               {/* <Routes>
                   <Route path="/createOrderDiv" element={<CreateNewProduct />} />
                   <Route path="/allProductsDiv" element={<AllProducts />} />
                   <Route path="/allOrdersDiv" element={<AllOdersComp />} />
@@ -79,19 +80,15 @@ const AdminMain = () => {
                      path="/OrderDataChartDiv"
                      element={<DataInChartFormate />}
                   />
-               </Routes>
+               </Routes> */}
 
                {/* Create new product */}
-               <div className=" flex flex-col-reverse sm:flex-row items-start">
-                  <div className=" mx-auto sm:mx-0 !w-[90%] sm:w-[60%]">
+               <div className=" flex flex-col-reverse sm:flex-row justify-center items-start gap-2 ">
+                  <div className=" mx-auto sm:mx-0 !w-[90%] sm:!w-[65%]">
                      <CreateNewProduct />
                   </div>
-                  <div className=" border rounded border-black py-2 p-1 mx-auto sm:mx-0 !w-[90%] sm:w-[40%] px-2">
-                     <div className=" bg-red-500  ">
-                        <p className=" text-2xl font-bold text-center underline">
-                           Get urls of Imgs
-                        </p>
-                     </div>
+                  <div className=" rounded mx-auto sm:mx-0 !w-[90%] sm:!w-[35%] ">
+                     <GetUrlOfImgDiv />
                   </div>
                </div>
 
