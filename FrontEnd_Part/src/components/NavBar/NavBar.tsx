@@ -23,6 +23,7 @@ import {
    setKeyText,
 } from "../../Slices/ProductSearchByKey";
 import { IProduct } from "../../Type/type";
+import { removeUserTokenInCookie } from "../../Helper/Token";
 // import { IProduct } from '../ProductListing/ProductLists';
 
 const navigation = [
@@ -353,17 +354,19 @@ function RightCommonSection() {
 
    function singOutHandler() {
       // // // Now setting token to null in singOut Fn() ---->
-      document.cookie = `token=`;
+      // document.cookie = `token=`;
 
       // // // Now using localStorage and request header (Means remove token from local storage) ------->
-      localStorage.removeItem("userToken");
+      // localStorage.removeItem("userToken");
+
+      removeUserTokenInCookie();
 
       // // // Go To home-page ---->>
       navigate("/");
 
       // // // Delete user INFO in local ---->
-      localStorage.removeItem("userData");
-      localStorage.removeItem("isUserLogIn");
+      // localStorage.removeItem("userData");
+      // localStorage.removeItem("isUserLogIn");
 
       toast.success("SingOut Done ✅");
 

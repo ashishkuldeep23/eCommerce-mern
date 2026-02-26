@@ -44,3 +44,15 @@ export const setUserTokenInCookie = (token: string) => {
 }
 
 
+
+
+
+export const removeUserTokenInCookie = () => {
+    localStorage.removeItem("userToken")
+    // // // Remove token from cookie also ---->
+    // document.cookie = "token=; path
+
+    document.cookie = "acom_token=; path=/; max-age=0; secure; samesite=strict";
+}
+
+
