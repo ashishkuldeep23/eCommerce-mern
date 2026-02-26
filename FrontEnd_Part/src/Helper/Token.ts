@@ -1,6 +1,5 @@
-
-
 // // fn write to check only based on this ---> calling fetch user ---> in LocalHost also -->
+
 export const gettingTokenInCookieAndLocalHost = () => {
 
     let token: boolean | string = false;
@@ -34,7 +33,6 @@ export const gettingTokenInCookieAndLocalHost = () => {
 }
 
 
-
 // // // set user token in cookie and localHost both ---->
 export const setUserTokenInCookie = (token: string) => {
     // localStorage.setItem("userToken", JSON.stringify(token))
@@ -44,9 +42,6 @@ export const setUserTokenInCookie = (token: string) => {
 }
 
 
-
-
-
 export const removeUserTokenInCookie = () => {
     localStorage.removeItem("userToken")
     // // // Remove token from cookie also ---->
@@ -54,5 +49,3 @@ export const removeUserTokenInCookie = () => {
 
     document.cookie = "acom_token=; path=/; max-age=0; secure; samesite=strict";
 }
-
-
