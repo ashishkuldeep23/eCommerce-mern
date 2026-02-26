@@ -52,6 +52,7 @@ const {
 } = require("../controller/adminControllor");
 
 const { isAuthorized, isUserAdmin } = require("../middleware/authorization");
+const { generateImgUrl, getAllImgUrls } = require("../controller/uploadImg");
 
 /* GET home page. */
 router.get("/", function (req, res) {
@@ -105,6 +106,16 @@ router.get("/searchProduct", searchProductByKeyowrd);
 router.post("/likeProduct", isAuthorized, likeProduct);
 
 router.post("/dislikeProduct", isAuthorized, dislikeProduct);
+
+router.post(
+   "/generate-img-url",
+   isAuthorized,
+   isUserAdmin,
+   upload.array("file"),
+   generateImgUrl,
+);
+
+router.get("/get-all-img-urls", isAuthorized, isUserAdmin, getAllImgUrls);
 
 // // // ------------------------- Review API ------------------------->
 router.post("/createReview", isAuthorized, createNewReview);
