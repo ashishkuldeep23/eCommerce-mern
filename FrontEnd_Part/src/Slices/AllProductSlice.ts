@@ -323,13 +323,14 @@ const allProductsCatSlice = createSlice({
 
             .addCase(fetchAllCategoryAndHighlight.fulfilled, (state, action) => {
 
-                // console.log(action.payload)
+                // console.log(action.payload.allCategory)
 
                 if (action.payload.status) {
 
                     state.allHighlightProducts = action.payload.allHighlights
                     state.filterAllBrands = action.payload.allBrands
                     state.filterAllCateory = action.payload.allCategory
+                    state.allCaegory = action.payload.allCategory
                     state.totalProducts = action.payload.totalProducts
 
                 } else {
