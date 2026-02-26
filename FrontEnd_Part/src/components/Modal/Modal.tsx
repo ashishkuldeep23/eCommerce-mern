@@ -12,16 +12,12 @@ export default function Modal() {
 
     const themeMode = useSelector((state: RootState) => state.themeReducer.mode)
 
-
-
     const open = modalStore().open
 
     function setOpen(data: boolean) {
-
         dispatch(setOpenMoadl(data))
 
     }
-
 
     const cancelButtonRef = useRef(null)
 

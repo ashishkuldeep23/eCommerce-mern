@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { userState } from "../../Slices/UserSlice";
 // import { useEffect } from "react"
-import { Navigate } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import CreateNewProduct from "./CreateProduct";
 import AllProducts from "./AllProducts";
 import { AllOdersComp } from "./AllOdersComp";
@@ -70,6 +70,16 @@ const AdminMain = () => {
                      );
                   })}
                </div>
+
+               <Routes>
+                  <Route path="/createOrderDiv" element={<CreateNewProduct />} />
+                  <Route path="/allProductsDiv" element={<AllProducts />} />
+                  <Route path="/allOrdersDiv" element={<AllOdersComp />} />
+                  <Route
+                     path="/OrderDataChartDiv"
+                     element={<DataInChartFormate />}
+                  />
+               </Routes>
 
                {/* Create new product */}
                <div className=" flex flex-col-reverse sm:flex-row items-start">

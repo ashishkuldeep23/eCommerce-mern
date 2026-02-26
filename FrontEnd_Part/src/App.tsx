@@ -22,14 +22,14 @@ import {
    fetchAllProducts,
 } from "./Slices/AllProductSlice";
 import OrderConfirm from "./components/OrderConfirm/OrderConfirm";
-import { createBrowserRouter, RouterProvider, Link } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Link,  } from "react-router-dom";
 import { CategorySearchPage } from "./Screens/CategorySearchPage";
 import ForgotPassMainScreen from "./Screens/ForgotPassMainScreen";
 import { ForgotPassReqScreen } from "./Screens/ForgotPassReqScreen";
 import { FeedbackScreen } from "./Screens/FeedbackScreen";
 import { VerifyMail } from "./components/verifyMail/verifyMail";
 import { gettingTokenInCookieAndLocalHost } from "./Helper/Token";
-import { fetchUser } from "./Slices/UserSlice";
+import { fetchUser,  } from "./Slices/UserSlice";
 
 // import { fetchAllProducts , fetchAllCategoryAndHighlight } from "./Slices/AllProductSlice"
 
@@ -149,6 +149,16 @@ const router = createBrowserRouter([
 
    {
       path: "/admin",
+      element: (
+         <LogInProtected>
+            {" "}
+            <AdminScreen />{" "}
+         </LogInProtected>
+      ),
+   },
+
+   {
+      path: "/admin/*",
       element: (
          <LogInProtected>
             {" "}
