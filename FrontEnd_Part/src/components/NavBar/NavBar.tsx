@@ -41,7 +41,7 @@ const LOGO_CLASSES_HERE =
    "h-7 w-auto hover:scale-125 hover:z-20 transition-all";
 
 // // // Taking a variable technique work well (so i'm not going touch) ----------->
-let firstTimeAdminNavi = false;
+// let firstTimeAdminNavi = false;
 
 // // // I'm main UI code for Navbar (All Functional comps present in-side me)
 export default function NavBar() {
@@ -50,6 +50,11 @@ export default function NavBar() {
    const limitValue = useSelector(
       (state: RootState) => state.allProductWithCatReducer.onePageLimit,
    );
+
+   // // // Move to top on fisrt render -------->>
+   useEffect(() => {
+      window.scroll(0, 0);
+   }, []);
 
    // const { brand, category } = useSelector((state: RootState) => state.allProductWithCatReducer.searchBrandAndCate)
    // console.log(brand, category, limitValue)
@@ -68,28 +73,26 @@ export default function NavBar() {
       window.scroll(0, 500);
    };
 
-   // // // Navigate to Admin page if user is admin ----->
+   // // // Navigate to Admin page if user is admin ( NOT USED ) ----->
 
-   const userData = userState().userData;
-
+   // const userData = userState().userData;
    //    const navigate = useNavigate();
+   // useEffect(() => {
+   //    if (userData.role === "admin") {
+   //       // alert("ok")
 
-   useEffect(() => {
-      if (userData.role === "admin") {
-         // alert("ok")
+   //       if (!firstTimeAdminNavi) {
+   //          // // Now navigate ---->
 
-         if (!firstTimeAdminNavi) {
-            // // Now navigate ---->
+   //          navigate("/admin");
 
-            navigate("/admin");
-
-            setTimeout(() => {
-               // console.log(true)
-               firstTimeAdminNavi = true;
-            }, 100);
-         }
-      }
-   }, [userData]);
+   //          setTimeout(() => {
+   //             // console.log(true)
+   //             firstTimeAdminNavi = true;
+   //          }, 100);
+   //       }
+   //    }
+   // }, [userData]);
 
    // /// // Main navBar code --->
    return (

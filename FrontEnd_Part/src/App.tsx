@@ -22,18 +22,19 @@ import {
    fetchAllProducts,
 } from "./Slices/AllProductSlice";
 import OrderConfirm from "./components/OrderConfirm/OrderConfirm";
-import { createBrowserRouter, RouterProvider, Link,  } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Link } from "react-router-dom";
 import { CategorySearchPage } from "./Screens/CategorySearchPage";
 import ForgotPassMainScreen from "./Screens/ForgotPassMainScreen";
 import { ForgotPassReqScreen } from "./Screens/ForgotPassReqScreen";
 import { FeedbackScreen } from "./Screens/FeedbackScreen";
 import { VerifyMail } from "./components/verifyMail/verifyMail";
 import { gettingTokenInCookieAndLocalHost } from "./Helper/Token";
-import { fetchUser,  } from "./Slices/UserSlice";
+import { fetchUser } from "./Slices/UserSlice";
 
 // import { fetchAllProducts , fetchAllCategoryAndHighlight } from "./Slices/AllProductSlice"
 
 // // // Now using createBrowserRouter instead of BrowserRouter component ---> ( let's see what happen in production mode)
+// // All routes difind here ---------->>
 
 const router = createBrowserRouter([
    // { path: "/", element: (<LogInProtected> <HomePage /> </LogInProtected>) },
@@ -151,8 +152,7 @@ const router = createBrowserRouter([
       path: "/admin",
       element: (
          <LogInProtected>
-            {" "}
-            <AdminScreen />{" "}
+            <AdminScreen />
          </LogInProtected>
       ),
    },
@@ -161,8 +161,7 @@ const router = createBrowserRouter([
       path: "/admin/*",
       element: (
          <LogInProtected>
-            {" "}
-            <AdminScreen />{" "}
+            <AdminScreen />
          </LogInProtected>
       ),
    },
@@ -214,7 +213,10 @@ function App() {
 
       // // // If token is present in localHost then only do ---->
 
+      // // // Fetch category , brands and heighlist products ------->>
       dispatch(fetchAllCategoryAndHighlight());
+
+      // // // Getting all products -------->
       dispatch(
          fetchAllProducts({
             brand: "",

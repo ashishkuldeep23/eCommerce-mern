@@ -281,6 +281,8 @@ const allProductsCatSlice = createSlice({
 
             .addCase(fetchAllProducts.fulfilled, (state, action) => {
 
+                console.log('Remove me (fetchAllProducts) ------->> ', action.payload)
+
                 if (action.payload.totaldata === 0) {
                     toast.error(`Data Not Found for your query | 404`);
                 }
@@ -317,13 +319,13 @@ const allProductsCatSlice = createSlice({
 
                 // console.log(action.payload)
 
-                console.log("Getting Data from Backend. Now pending")
+                // console.log("Getting Data from Backend. Now pending")
             })
 
 
             .addCase(fetchAllCategoryAndHighlight.fulfilled, (state, action) => {
 
-                // console.log(action.payload.allCategory)
+                console.log('Remove me (fetchAllCategoryAndHighlight) ------->> ', action.payload)
 
                 if (action.payload.status) {
 
