@@ -431,79 +431,99 @@ function RightCommonSection() {
             </>
 
             {/* Profile dropdown */}
-            <Menu
-               as="div"
-               className="relative ml-3 mx-1 hover:scale-125 hover:z-20 transition-all">
-               <div>
-                  <Menu.Button className="relative flex rounded-full bg-gray-800 text-md focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-                     <span className="absolute -inset-1.5" />
-                     <span className="sr-only">Open user menu</span>
-                     <img
-                        // https://res.cloudinary.com/dlvq8n2ca/image/upload/v1700368567/ej31ylpxtamndu3trqtk.png
 
-                        // // // By this way we can prevent our UI if image link will return nothing.
-                        onError={({ currentTarget }) => {
-                           currentTarget.onerror = null; // prevents looping
-                           currentTarget.src =
-                              "https://res.cloudinary.com/dlvq8n2ca/image/upload/v1700368567/ej31ylpxtamndu3trqtk.png";
-                        }}
-                        className="h-8 w-8 rounded-full object-cover"
-                        src={getUserState.userData.profilePic}
-                        alt=""
-                     />
-                  </Menu.Button>
-               </div>
-               <Transition
-                  as={Fragment}
-                  enter="transition ease-out duration-100"
-                  enterFrom="transform opacity-0 scale-95"
-                  enterTo="transform opacity-100 scale-100"
-                  leave="transition ease-in duration-75"
-                  leaveFrom="transform opacity-100 scale-100"
-                  leaveTo="transform opacity-0 scale-95">
-                  <Menu.Items
-                     className={`absolute overflow-hidden -right-full z-50 mt-2 w-32 xsm:w-48 origin-top-right rounded-md  pt-1 shadow-md ring-1 ring-opacity-5 focus:outline-none ${!themeSate ? "bg-white text-gray-900" : "bg-gray-900 text-white"} `}>
-                     {itemsOfProfileOnHover &&
-                        itemsOfProfileOnHover.length > 0 &&
-                        itemsOfProfileOnHover.map((item, i) => {
-                           return (
-                              <Fragment key={i}>
-                                 <Menu.Item>
-                                    {
-                                       <Link
-                                          to={item.to}
-                                          className={` 
+            {
+               !getUserState.userData.id ? (<>
+
+                  <img
+                     onClick={()=>{navigate("/login")}}
+                     onError={({ currentTarget }) => {
+                        currentTarget.onerror = null; // prevents looping
+                        currentTarget.src =
+                           "https://res.cloudinary.com/dlvq8n2ca/image/upload/v1700368567/ej31ylpxtamndu3trqtk.png";
+                     }}
+                     className="h-8 w-8 rounded-full object-cover"
+                     src={getUserState.userData.profilePic}
+                     alt=""
+                  />
+               </>) : (
+                  <Menu
+                     as="div"
+                     className="relative ml-3 mx-1 hover:scale-125 hover:z-20 transition-all">
+                     <div>
+                        <Menu.Button className="relative flex rounded-full bg-gray-800 text-md focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                           <span className="absolute -inset-1.5" />
+                           <span className="sr-only">Open user menu</span>
+                           <img
+                              // https://res.cloudinary.com/dlvq8n2ca/image/upload/v1700368567/ej31ylpxtamndu3trqtk.png
+
+                              // // // By this way we can prevent our UI if image link will return nothing.
+                              onError={({ currentTarget }) => {
+                                 currentTarget.onerror = null; // prevents looping
+                                 currentTarget.src =
+                                    "https://res.cloudinary.com/dlvq8n2ca/image/upload/v1700368567/ej31ylpxtamndu3trqtk.png";
+                              }}
+                              className="h-8 w-8 rounded-full object-cover"
+                              src={getUserState.userData.profilePic}
+                              alt=""
+                           />
+                        </Menu.Button>
+                     </div>
+                     <Transition
+                        as={Fragment}
+                        enter="transition ease-out duration-100"
+                        enterFrom="transform opacity-0 scale-95"
+                        enterTo="transform opacity-100 scale-100"
+                        leave="transition ease-in duration-75"
+                        leaveFrom="transform opacity-100 scale-100"
+                        leaveTo="transform opacity-0 scale-95">
+                        <Menu.Items
+                           className={`absolute overflow-hidden -right-full z-50 mt-2 w-32 xsm:w-48 origin-top-right rounded-md  pt-1 shadow-md ring-1 ring-opacity-5 focus:outline-none ${!themeSate ? "bg-white text-gray-900" : "bg-gray-900 text-white"} `}>
+                           {itemsOfProfileOnHover &&
+                              itemsOfProfileOnHover.length > 0 &&
+                              itemsOfProfileOnHover.map((item, i) => {
+                                 return (
+                                    <Fragment key={i}>
+                                       <Menu.Item>
+                                          {
+                                             <Link
+                                                to={item.to}
+                                                className={` 
                                                         ${item.tab === "Admin Page" && isUserAdmin === "user" ? "hidden" : "block"}
                                                          ${!themeSate ? "hover:bg-gray-300 hover:text-teal-500" : "hover:bg-gray-600 hover:text-yellow-500"} 
                                                          ${item.tab === "SignOut" && "text-red-500"}  
                                                          ${item.tab === "SignIn" && "text-green-500"}  
                                                          block px-4 py-2 text-md  border-b border-green-300 transition-all
                                                          `}
-                                          onClick={() => {
-                                             switch (item.tab) {
-                                                case "SignOut":
-                                                   return singOutHandler();
+                                                onClick={() => {
+                                                   switch (item.tab) {
+                                                      case "SignOut":
+                                                         return singOutHandler();
 
-                                                case "Verify Mail":
-                                                   return verifyMailHandler();
+                                                      case "Verify Mail":
+                                                         return verifyMailHandler();
 
-                                                default:
-                                                   return;
-                                             }
+                                                      default:
+                                                         return;
+                                                   }
 
-                                             // item.tab === "SignOut"
-                                             //     && singOutHandler()
-                                          }}>
-                                          {item.tab}
-                                       </Link>
-                                    }
-                                 </Menu.Item>
-                              </Fragment>
-                           );
-                        })}
-                  </Menu.Items>
-               </Transition>
-            </Menu>
+                                                   // item.tab === "SignOut"
+                                                   //     && singOutHandler()
+                                                }}>
+                                                {item.tab}
+                                             </Link>
+                                          }
+                                       </Menu.Item>
+                                    </Fragment>
+                                 );
+                              })}
+                        </Menu.Items>
+                     </Transition>
+                  </Menu>
+               )
+            }
+
+
 
             {/* dark btn */}
             <ThemeToggelBtnLightAndDark />
@@ -712,7 +732,7 @@ function MainSearchBarWithLogics() {
                searchOncahngeHandler(e);
             }}
 
-            // onClick={() => { alert("ok") }}
+         // onClick={() => { alert("ok") }}
          />
 
          <button

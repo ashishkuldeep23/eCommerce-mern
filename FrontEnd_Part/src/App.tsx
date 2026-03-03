@@ -30,7 +30,6 @@ import { FeedbackScreen } from "./Screens/FeedbackScreen";
 import { VerifyMail } from "./components/verifyMail/verifyMail";
 import { gettingTokenInCookieAndLocalHost } from "./Helper/Token";
 import { fetchUser } from "./Slices/UserSlice";
-
 // import { fetchAllProducts , fetchAllCategoryAndHighlight } from "./Slices/AllProductSlice"
 
 // // // Now using createBrowserRouter instead of BrowserRouter component ---> ( let's see what happen in production mode)

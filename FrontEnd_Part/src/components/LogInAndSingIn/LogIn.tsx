@@ -156,7 +156,7 @@ export default function LogIn() {
                     </Link> */}
             </div>
 
-            <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm border rounded-lg p-2 sm:p-10 ">
+            <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm border border-black dark:border-white rounded-lg p-2 sm:p-10 ">
                <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight ">
                   Sign in to your account
                </h2>
