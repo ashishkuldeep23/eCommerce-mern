@@ -2,10 +2,13 @@
 // import React from 'react'
 
 import { useSelector } from "react-redux"
-import { RootState } from "../../store"
+// import { RootState } from "../../store"
 import { useEffect, useState } from "react"
-import {  adminDataState } from "../../Slices/AdminSliceFile"
-import { GroupedByData } from "../../Type/type"
+import { RootState } from "../../../store"
+import { adminDataState } from "../../../Slices/AdminSliceFile"
+import { GroupedByData } from "../../../Type/type"
+// import {  adminDataState } from "../../Slices/AdminSliceFile"
+// import { GroupedByData } from "../../Type/type"
 
 const DataInChartFormate = () => {
 

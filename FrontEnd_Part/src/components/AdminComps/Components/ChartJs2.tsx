@@ -11,13 +11,15 @@
 
 import { Bar, Pie, PolarArea, Doughnut } from 'react-chartjs-2';
 import { useEffect, useState } from "react"
-import { adminDataState, getAllOrdersAdmin } from "../../Slices/AdminSliceFile"
+// import { adminDataState, getAllOrdersAdmin } from "../../Slices/AdminSliceFile"
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../../store';
+// import { AppDispatch, RootState } from '../../store';/
 
 
 import Chart from "chart.js/auto";
 import { CategoryScale, Colors, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js";
+import { AppDispatch, RootState } from '../../../store';
+import { adminDataState, getAllOrdersAdmin } from '../../../Slices/AdminSliceFile';
 
 
 // Chart.register(CategoryScale);

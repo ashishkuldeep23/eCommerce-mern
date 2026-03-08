@@ -1,12 +1,16 @@
 import { useDispatch, useSelector } from "react-redux"
-import { AppDispatch, RootState } from "../../store"
+// import { AppDispatch, RootState } from "../../store"
 import { useEffect, useState } from "react"
 // import { adminDataState, getAllProductAdmin, setProductData, setUpdatingProduct, updateProductAdmin } from "../../Slices/AdminSlice"
 import {  useNavigate } from "react-router-dom"
-import { fetchOneProductByID, setSingleProductData } from "../../Slices/AllProductSlice"
+import { AppDispatch, RootState } from "../../../store"
+import { adminDataState, getAllProductAdmin, setProductData, setUpdatingProduct, updateProductAdmin } from "../../../Slices/AdminSliceFile"
+import { IProduct } from "../../../Type/type"
+import { fetchOneProductByID, setSingleProductData } from "../../../Slices/AllProductSlice"
+// import { fetchOneProductByID, setSingleProductData } from "../../Slices/AllProductSlice"
 // import { IProduct } from "../ProductListing/ProductLists"
-import { adminDataState, getAllProductAdmin, setProductData, setUpdatingProduct, updateProductAdmin } from "../../Slices/AdminSliceFile.ts"
-import { IProduct } from "../../Type/type.ts"
+// import { adminDataState, getAllProductAdmin, setProductData, setUpdatingProduct, updateProductAdmin } from "../../Slices/AdminSliceFile.ts"
+// import { IProduct } from "../../Type/type.ts"
 
 
 

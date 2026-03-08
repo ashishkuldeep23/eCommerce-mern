@@ -151,7 +151,7 @@ function GoToAdminPageBtn() {
 
    // console.log(location)
 
-   if (roleOfUser !== "admin" || location.pathname === "/admin") {
+   if (roleOfUser !== "admin" || location.pathname.includes("admin") || location.pathname === "/admin") {
       return <> </>;
    }
 
@@ -436,7 +436,7 @@ function RightCommonSection() {
                !getUserState.userData.id ? (<>
 
                   <img
-                     onClick={()=>{navigate("/login")}}
+                     onClick={() => { navigate("/login") }}
                      onError={({ currentTarget }) => {
                         currentTarget.onerror = null; // prevents looping
                         currentTarget.src =

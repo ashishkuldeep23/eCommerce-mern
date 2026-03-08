@@ -2,11 +2,11 @@
 
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { AppDispatch, RootState } from "../../store"
-import {  adminDataState, getAllOrdersAdmin } from "../../Slices/AdminSliceFile"
-import { makeMoreRaedablePrice } from "../CartComp/CartComponent"
-import { updateOrder } from "../../Slices/OrderSlice"
-import { AdminAllOrders } from "../../Type/type"
+import { AppDispatch, RootState } from "../../../store"
+import {  adminDataState, getAllOrdersAdmin } from "../../../Slices/AdminSliceFile"
+import { makeMoreRaedablePrice } from "../../CartComp/CartComponent"
+import { updateOrder } from "../../../Slices/OrderSlice"
+import { AdminAllOrders } from "../../../Type/type"
 
 export const AllOdersComp = () => {
 
