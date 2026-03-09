@@ -8,6 +8,8 @@ const brandSchema = new mongoose.Schema(
 
       img: {
          type: String,
+         default:
+            "https://res.cloudinary.com/dlvq8n2ca/image/upload/v1773050762/zsemv63x5ejoshdozn1s.png",
       },
 
       products: [mongoose.Schema.Types.ObjectId],

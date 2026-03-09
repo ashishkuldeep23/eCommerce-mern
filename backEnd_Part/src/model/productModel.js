@@ -125,10 +125,17 @@ const productSchema = new mongoose.Schema(
 
       brandName: String,
 
-      thumbnail: String,
+      thumbnail: {
+         type: String,
+         default:
+            "https://res.cloudinary.com/dlvq8n2ca/image/upload/v1773050762/zsemv63x5ejoshdozn1s.png",
+      },
 
       images: {
          type: Array,
+         default: [
+            "https://res.cloudinary.com/dlvq8n2ca/image/upload/v1773050762/zsemv63x5ejoshdozn1s.png",
+         ],
       },
 
       // // // Default values here ----->
