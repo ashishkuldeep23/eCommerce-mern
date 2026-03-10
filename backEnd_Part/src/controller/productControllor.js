@@ -1,476 +1,488 @@
-
-const uuid = require("uuid")
-
+const uuid = require("uuid");
 
 // // // required models ---->
 
-const productModel = require("../model/productModel")
-const categoryModel = require("../model/categoryModel")
-const brandModel = require("../model/brandModel")
+const productModel = require("../model/productModel");
+const categoryModel = require("../model/categoryModel");
+const brandModel = require("../model/brandModel");
 // const reviewModel = require("../model/reviewModel")
 
-
-
 async function findAllProducts(req, res) {
+   // console.log(1555)
 
-    // console.log(1555)
+   // console.log(req.query)
 
+   try {
+      let searchByQuery = false;
 
-    // console.log(req.query)
+      let { brand, category, sort_by_price, page, limit } = req.query;
 
-    try {
- 
-        let searchByQuery = false
+      // console.log(brand , category , sort_by_price)
 
+      // console.log(typeof sort_by_price)
 
-        let { brand, category, sort_by_price,  page, limit } = req.query
+      let searchObject = {
+         isDeleted: false,
+      };
 
+      if (brand) {
+         // searchObject.brand = brand.toLowerCase()
+         searchObject.brand = brand;
+         searchByQuery = true;
+      }
 
+      if (category) {
+         // searchObject.category = category.toLowerCase()
+         searchObject.category = category;
+         searchByQuery = true;
+         // // // To lower case not used now
+      }
 
-        // console.log(brand , category , sort_by_price)
+      let sortByPrice = 1;
 
-        // console.log(typeof sort_by_price) 
+      if (sort_by_price && (sort_by_price === "1" || sort_by_price === "-1")) {
+         sortByPrice = sort_by_price;
+      }
 
-        let searchObject = {
-            isDeleted: false,
-        }
+      let pageNo = page ? Number(page) || 1 : 1;
 
-        if (brand) {
-            // searchObject.brand = brand.toLowerCase()
-            searchObject.brand = brand
-            searchByQuery = true
-        }
+      // if (page) {
+      //     pageNo = page
+      // }
 
-        if (category) {
-            // searchObject.category = category.toLowerCase()
-            searchObject.category = category
-            searchByQuery = true
-             // // // To lower case not used now
-        }
+      // let mostStarted = 1
 
+      // if(most_started  && (most_started === '1' || most_started === '-1') ){
+      //     mostStarted = most_started
+      // }
 
-        let sortByPrice = 1
+      let limitOfProducts = limit ? Number(limit) || 3 : 3;
 
-        if (sort_by_price && (sort_by_price === '1' || sort_by_price === '-1')) {
-            sortByPrice = sort_by_price
-        }
+      // if (limit) {
+      //     limitOfProducts = limit
+      // }
 
+      let skip = limitOfProducts * (pageNo - 1);
 
-        let pageNo = page ? (Number(page) || 1) :  1
+      const findAllProducts = await productModel
+         .find(searchObject)
+         .sort({ price: sortByPrice })
+         .skip(skip)
+         .limit(limitOfProducts)
+         .select("-_id -updatedAt -createdAt -__v -description -type -review")
+         .populate("review");
 
-        // if (page) {
-        //     pageNo = page
-        // }
+      // // // Create all category list here and send to frontEnd
+      const allCategoryOfProducts = [
+         ...new Set(findAllProducts.map((ele) => ele.category)),
+      ];
 
+      // const allHighlights = [...findAllProducts.slice(3,8)]   // // // Upadte this by highlighted true product.
 
-        // let mostStarted = 1 
+      // const allHighlights = [...findAllProducts.filter((item) => {
+      //     if (item.isHighlight === true) { return item }
+      // })]   // // // now Upadte this by highlighted true product.
+      // // // // return those items that have isHighlight true otherwise do nothing
 
-        // if(most_started  && (most_started === '1' || most_started === '-1') ){
-        //     mostStarted = most_started
-        // }
+      // // console.log( allHighlights)
 
-        let limitOfProducts = limit? Number(limit) || 3 : 3
-
-        // if (limit) {
-        //     limitOfProducts = limit
-        // }
-
-        let skip = limitOfProducts * (pageNo - 1)
-
-        const findAllProducts = await productModel.find(searchObject).sort({ price: sortByPrice }).skip(skip).limit(limitOfProducts).select('-_id -updatedAt -createdAt -__v -description -type -review').populate("review")
-
-
-        // // // Create all category list here and send to frontEnd
-        const allCategoryOfProducts = [...new Set(findAllProducts.map(ele => ele.category))]
-
-        // const allHighlights = [...findAllProducts.slice(3,8)]   // // // Upadte this by highlighted true product.
-
-
-        // const allHighlights = [...findAllProducts.filter((item) => {
-        //     if (item.isHighlight === true) { return item }
-        // })]   // // // now Upadte this by highlighted true product.   
-        // // // // return those items that have isHighlight true otherwise do nothing
-
-        // // console.log( allHighlights)
-
-
-        return res.status(200).send({ status: true, totaldata: findAllProducts.length, allProductData: findAllProducts, allCategory: allCategoryOfProducts, searchByQuery: searchByQuery })
-
-    }
-    catch (err) {
-        console.log(err.message)
-        res.status(500).send({ status: false, message: "Server Error" })
-    }
-
+      return res.status(200).send({
+         status: true,
+         totaldata: findAllProducts.length,
+         allProductData: findAllProducts,
+         allCategory: allCategoryOfProducts,
+         searchByQuery: searchByQuery,
+      });
+   } catch (err) {
+      console.log(err.message);
+      res.status(500).send({ status: false, message: "Server Error" });
+   }
 }
 
-
-// // // TODO : Need to improve this api. 
+// // // TODO : Need to improve this api.
 
 async function getCategoryAndHighlight(req, res) {
+   try {
+      // const findAllProducts = await productModel.find({ isDeleted: false }).select('-_id -updatedAt -createdAt -__v -description -type -review')
 
-    try{
-        // const findAllProducts = await productModel.find({ isDeleted: false }).select('-_id -updatedAt -createdAt -__v -description -type -review')
+      // // // Create all category list here and send to frontEnd
+      // const allCategoryOfProducts = [...new Set(findAllProducts.map(ele => ele.category))]
 
+      // // // Create all category list here and send to frontEnd
+      // const allBrandsOfProducts = [...new Set(findAllProducts.map(ele => ele.brand))]
 
-        // // // Create all category list here and send to frontEnd
-        // const allCategoryOfProducts = [...new Set(findAllProducts.map(ele => ele.category))]
+      // const allHighlights = [...findAllProducts.slice(3,8)]   // // // Upadte this by highlighted true product.
 
+      // const allHighlights = [...findAllProducts.filter((item) => {
+      //     if (item.isHighlight === true) { return item }
+      // })]   // // // now Upadte this by highlighted true product.
+      // // // // return those items that have isHighlight true otherwise do nothing
 
-        // // // Create all category list here and send to frontEnd
-        // const allBrandsOfProducts = [...new Set(findAllProducts.map(ele => ele.brand))]
+      const allHighlights = await productModel
+         .find({ isDeleted: false, isHighlight: true })
+         .select("-_id -updatedAt -createdAt -__v -description -type -review");
 
-        // const allHighlights = [...findAllProducts.slice(3,8)]   // // // Upadte this by highlighted true product.
+      const totalProducts = await productModel.countDocuments({
+         isDeleted: false,
+      });
 
-        // const allHighlights = [...findAllProducts.filter((item) => {
-        //     if (item.isHighlight === true) { return item }
-        // })]   // // // now Upadte this by highlighted true product.   
-        // // // // return those items that have isHighlight true otherwise do nothing
+      const allCategory = await categoryModel
+         .find({ isDeleted: false })
+         .select("-_id -updatedAt -createdAt -__v -products")
+         .lean();
 
-        const allHighlights =  await productModel.find({ isDeleted: false, isHighlight: true }).select('-_id -updatedAt -createdAt -__v -description -type -review')
+      const allBrands = await brandModel
+         .find({ isDeleted: false })
+         .select("-_id -updatedAt -createdAt -__v -products")
+         .lean();
 
-        const totalProducts = await productModel.countDocuments({ isDeleted: false });
+      const allCategoryFilter = allCategory.map((item) => {
+         return item.name;
+      });
 
-        const allCategory = await categoryModel.find({ isDeleted: false }).select('-_id -updatedAt -createdAt -__v').lean()
+      const allBrandFilter = allBrands.map((item) => {
+         return item.name;
+      });
 
-        const allBrands = await brandModel.find({ isDeleted: false }).select('-_id -updatedAt -createdAt -__v').lean()
+      // console.log(findAllProducts.length)
 
-
-        const allCategoryOfProducts = allCategory.map((item) => {
-            return item.name
-        })
-
-        const allBrandsOfProducts = allBrands.map((item) => {
-            return item.name
-        })
-
-        // console.log(findAllProducts.length)
-
-        return res.status(200).send({ status: true, allCategory: allCategoryOfProducts, allBrands: allBrandsOfProducts, allHighlights: allHighlights, totalProducts: totalProducts })
-
-    }
-    catch (err) {
-        console.log(err.message)
-        res.status(500).send({ status: false, message: "Server Error" })
-    }
+      return res.status(200).send({
+         status: true,
+         allHighlights: allHighlights,
+         totalProducts: totalProducts,
+         allCategory: allCategoryFilter,
+         allBrands: allBrandFilter,
+         allCategoryAllData: allCategory,
+         allBrandsAllData: allBrands,
+      });
+   } catch (err) {
+      console.log(err.message);
+      res.status(500).send({ status: false, message: "Server Error" });
+   }
 }
-
-
 
 async function findOneProduct(req, res) {
+   try {
+      const productId = req.params.productId; // // // Product id should given by frontEnd (generated by UUID)
 
-    try {
+      // console.log(productId)
 
+      if (!productId)
+         return res.status(400).send({
+            status: false,
+            message: "Product id should given in path params.",
+         });
 
-        const productId = req.params.productId     // // // Product id should given by frontEnd (generated by UUID)
+      // let product = await productModel.findOne({ id: productId , isDeleted : false }).select('-updatedAt -createdAt -__v').populate("review").select('-updatedAt -createdAt -__v -_id -userId -productID').lean()
 
-        // console.log(productId) 
+      let product = await productModel
+         .findOne({ id: productId, isDeleted: false })
+         .select("-updatedAt -createdAt -__v -_id")
+         .populate({
+            path: "review",
+            match: { isDeleted: false },
+            select:
+               "-updatedAt -createdAt -__v -_id -userId -productID -isDeleted",
+            populate: {
+               path: "userId",
+               select: "id firstName lastName profilePic -_id",
+            },
+         })
+         .lean();
 
-        if (!productId) return res.status(400).send({ status: false, message: "Product id should given in path params." })
+      if (!product)
+         return res
+            .status(404)
+            .send({ status: false, message: "Product not found by this id." });
 
-        // let product = await productModel.findOne({ id: productId , isDeleted : false }).select('-updatedAt -createdAt -__v').populate("review").select('-updatedAt -createdAt -__v -_id -userId -productID').lean()
+      // // // Now using populate of populate (product to review and review to userData).
+      // // // Now use userId that also contant some info about user (And this field will contain updated user data).
+      // // // Change frontEnd acc. to show updated data.
 
+      // console.log(product)
 
-        let product = await productModel
-            .findOne({ id: productId, isDeleted: false })
-            .select('-updatedAt -createdAt -__v -_id')
-            .populate({
-                path: "review",
-                match: { isDeleted: false },
-                select: "-updatedAt -createdAt -__v -_id -userId -productID -isDeleted",
-                populate: {
-                    path: 'userId',
-                    select: "id firstName lastName profilePic -_id"
-                }
+      // // // Latest review first ---------->
+      if (product.review && product.review.length > 0) {
+         product.review = product.review.reverse();
+      }
 
-            })
-            .lean()
+      // console.log(product)
 
+      // // // Now no need of this because successfully implemented ref and populate --------------->
 
+      // // // // Here finding all reviews about this product
+      // let findAllReview = await reviewModel.find({ productID: product._id }).sort({createdAt : "-1"}).select('-userId -productID -isDeleted -_id  -updatedAt -createdAt -__v')
+      // // console.log(findAllReview )
+      // // // //.lean() is used means we can modify the object.
+      // product.review = findAllReview      // // // storing all revies inside review key of product object.
 
-        if (!product) return res.status(404).send({ status: false, message: "Product not found by this id." })
+      // // // Show simmilar products ------------>
+      let simmilarProducts = await productModel
+         .find({ category: product.category, isDeleted: false })
+         .select("-_id -updatedAt -createdAt -__v -description -type -review");
 
+      // console.log(simmilarProducts)
 
-        // // // Now using populate of populate (product to review and review to userData).
-        // // // Now use userId that also contant some info about user (And this field will contain updated user data).
-        // // // Change frontEnd acc. to show updated data.
+      let simmilarProductExceptThis = simmilarProducts.filter(
+         (item) => item.id !== product.id,
+      );
 
+      // console.log(simmilarProductExceptThis)
 
-        // console.log(product)
+      delete product._id; // // // Deleting _id of product because i don't want to show it on frontEnd.
 
-
-        // // // Latest review first ---------->
-        if (product.review && product.review.length > 0) {
-            product.review = product.review.reverse()
-        }
-
-
-
-        // console.log(product)
-
-
-
-        // // // Now no need of this because successfully implemented ref and populate --------------->
-
-        // // // // Here finding all reviews about this product
-        // let findAllReview = await reviewModel.find({ productID: product._id }).sort({createdAt : "-1"}).select('-userId -productID -isDeleted -_id  -updatedAt -createdAt -__v')
-        // // console.log(findAllReview )
-        // // // //.lean() is used means we can modify the object.
-        // product.review = findAllReview      // // // storing all revies inside review key of product object.
-
-
-
-        // // // Show simmilar products ------------>
-        let simmilarProducts = await productModel.find({ category: product.category, isDeleted: false }).select('-_id -updatedAt -createdAt -__v -description -type -review')
-
-        // console.log(simmilarProducts)
-
-        let simmilarProductExceptThis = simmilarProducts.filter(item => item.id !== product.id)
-
-        // console.log(simmilarProductExceptThis)
-
-
-        delete product._id      // // // Deleting _id of product because i don't want to show it on frontEnd.
-
-
-        return res.status(200).send({ status: true, message: "Product with details fetched", data: product, simmilarProductExceptThis })
-    }
-    catch (err) {
-        console.log(err.message)
-        res.status(500).send({ status: false, message: "Server Error" })
-    }
+      return res.status(200).send({
+         status: true,
+         message: "Product with details fetched",
+         data: product,
+         simmilarProductExceptThis,
+      });
+   } catch (err) {
+      console.log(err.message);
+      res.status(500).send({ status: false, message: "Server Error" });
+   }
 }
-
-
 
 async function likeProduct(req, res) {
+   try {
+      let { productId, isLiking, userId } = req.body;
 
-    try {
+      // console.log(req.body)
 
-        let { productId, isLiking, userId } = req.body
+      // // Validatintion ---->
 
-        // console.log(req.body)
+      if (!productId || !uuid.validate(productId)) {
+         return res.status(400).send({
+            status: false,
+            message: "Bad object id or Product objectId is not given.",
+         });
+      }
 
-        // // Validatintion ---->
+      // let findProduct = await reviewModel.findOne({ id: reviewId })
 
+      let findProduct = await productModel
+         .findOne({ id: productId })
+         .select("-updatedAt -createdAt -__v ")
+         .populate({
+            path: "review",
+            match: { isDeleted: false },
+            select: "-updatedAt -createdAt -__v  -userId -productID -isDeleted",
+            populate: {
+               path: "userId",
+               select: "id firstName lastName profilePic ",
+            },
+         });
 
+      if (!findProduct) {
+         return res.status(404).send({
+            status: false,
+            message: "No Product found with given object id.",
+         });
+      }
 
-        if (!productId || !uuid.validate(productId)) {
-            return res.status(400).send({ status: false, message: "Bad object id or Product objectId is not given." })
-        }
+      if (findProduct.isDeleted) {
+         return res
+            .status(404)
+            .send({ status: false, message: "Product is already deleted." });
+      }
 
-        // let findProduct = await reviewModel.findOne({ id: reviewId })
+      // // // InCreaseing ----->
 
-        let findProduct = await productModel.findOne({ id: productId }).select('-updatedAt -createdAt -__v ')
-            .populate({
-                path: "review",
-                match: { isDeleted: false },
-                select: "-updatedAt -createdAt -__v  -userId -productID -isDeleted",
-                populate: {
-                    path: 'userId',
-                    select: "id firstName lastName profilePic "
-                }
+      if (isLiking) {
+         findProduct.likes = findProduct.likes + 1;
 
-            })
+         if (findProduct.dislikedUserIds.includes(userId)) {
+            let index = findProduct.dislikedUserIds.findIndex(
+               (ids) => ids === userId,
+            );
 
-        if (!findProduct) {
-            return res.status(404).send({ status: false, message: "No Product found with given object id." })
-        }
+            // console.log(index)
 
-        if (findProduct.isDeleted) {
-            return res.status(404).send({ status: false, message: "Product is already deleted." })
-        }
+            findProduct.dislikedUserIds.splice(index, 1);
 
+            findProduct.dislikes = findProduct.dislikes - 1;
+         }
 
-        // // // InCreaseing ----->
+         if (!findProduct.likedUserIds.includes(userId)) {
+            findProduct.likedUserIds.push(userId);
+         }
+      } else {
+         findProduct.likes = findProduct.likes - 1;
 
-        if (isLiking) {
-            findProduct.likes = findProduct.likes + 1
+         if (findProduct.likedUserIds.includes(userId)) {
+            let index = findProduct.likedUserIds.findIndex(
+               (ids) => ids === userId,
+            );
 
-            if (findProduct.dislikedUserIds.includes(userId)) {
+            // console.log(index)
 
+            findProduct.likedUserIds.splice(index, 1);
+         }
+      }
 
-                let index = findProduct.dislikedUserIds.findIndex((ids) => ids === userId)
+      await findProduct.save();
 
-                // console.log(index)
-
-                findProduct.dislikedUserIds.splice(index, 1)
-
-                findProduct.dislikes = findProduct.dislikes - 1
-
-
-            }
-
-
-            if (!findProduct.likedUserIds.includes(userId)) {
-                findProduct.likedUserIds.push(userId)
-            }
-
-
-
-        } else {
-            findProduct.likes = findProduct.likes - 1
-
-            if (findProduct.likedUserIds.includes(userId)) {
-
-                let index = findProduct.likedUserIds.findIndex((ids) => ids === userId)
-
-                // console.log(index)
-
-                findProduct.likedUserIds.splice(index, 1)
-            }
-        }
-
-
-
-        await findProduct.save()
-
-        res.status(200).send({ status: true, message: `${findProduct.title} Like Done✅`, data: findProduct })
-    }
-    catch (err) {
-        console.log(err.message)
-        res.status(500).send({ status: false, message: `Server Error (${err.message})` })
-    }
-
-
+      res.status(200).send({
+         status: true,
+         message: `${findProduct.title} Like Done✅`,
+         data: findProduct,
+      });
+   } catch (err) {
+      console.log(err.message);
+      res.status(500).send({
+         status: false,
+         message: `Server Error (${err.message})`,
+      });
+   }
 }
-
-
 
 async function dislikeProduct(req, res) {
+   try {
+      let { productId, isDisliking, userId } = req.body;
 
-    try {
+      // console.log(req.body)
 
-        let { productId, isDisliking, userId } = req.body
+      // // Validatintion ---->
 
-        // console.log(req.body)
+      if (!productId || !uuid.validate(productId)) {
+         return res.status(400).send({
+            status: false,
+            message: "Bad object id or Product objectId is not given.",
+         });
+      }
 
-        // // Validatintion ---->
+      let findProduct = await productModel
+         .findOne({ id: productId })
+         .select("-updatedAt -createdAt -__v ")
+         .populate({
+            path: "review",
+            match: { isDeleted: false },
+            select:
+               "-updatedAt -createdAt -__v  -userId -productID -isDeleted -_id",
+            populate: {
+               path: "userId",
+               select: "id firstName lastName profilePic -_id",
+            },
+         });
 
-        if (!productId || !uuid.validate(productId)) {
-            return res.status(400).send({ status: false, message: "Bad object id or Product objectId is not given." })
-        }
+      if (!findProduct) {
+         return res.status(404).send({
+            status: false,
+            message: "No Review found with given object id.",
+         });
+      }
 
-        let findProduct = await productModel.findOne({ id: productId })
-            .select('-updatedAt -createdAt -__v ')
-            .populate({
-                path: "review",
-                match: { isDeleted: false },
-                select: "-updatedAt -createdAt -__v  -userId -productID -isDeleted -_id",
-                populate: {
-                    path: 'userId',
-                    select: "id firstName lastName profilePic -_id"
-                }
+      if (findProduct.isDeleted) {
+         return res
+            .status(404)
+            .send({ status: false, message: "Review is already deleted." });
+      }
 
-            })
+      // // // InCreaseing ----->
 
-        if (!findProduct) {
-            return res.status(404).send({ status: false, message: "No Review found with given object id." })
-        }
+      if (isDisliking) {
+         findProduct.dislikes = findProduct.dislikes + 1;
 
-        if (findProduct.isDeleted) {
-            return res.status(404).send({ status: false, message: "Review is already deleted." })
-        }
+         if (findProduct.likedUserIds.includes(userId)) {
+            let index = findProduct.likedUserIds.findIndex(
+               (ids) => ids === userId,
+            );
 
+            // console.log(index)
 
-        // // // InCreaseing ----->
+            findProduct.likedUserIds.splice(index, 1);
 
-        if (isDisliking) {
-            findProduct.dislikes = findProduct.dislikes + 1
+            findProduct.likes = findProduct.likes - 1;
+         }
 
+         if (!findProduct.dislikedUserIds.includes(userId)) {
+            findProduct.dislikedUserIds.push(userId);
+         }
+      } else {
+         findProduct.dislikes = findProduct.dislikes - 1;
 
+         if (findProduct.dislikedUserIds.includes(userId)) {
+            let index = findProduct.dislikedUserIds.findIndex(
+               (ids) => ids === userId,
+            );
 
-            if (findProduct.likedUserIds.includes(userId)) {
+            // console.log(index)
 
-                let index = findProduct.likedUserIds.findIndex((ids) => ids === userId)
+            findProduct.dislikedUserIds.splice(index, 1);
+         }
+      }
 
-                // console.log(index)
+      await findProduct.save();
 
-                findProduct.likedUserIds.splice(index, 1)
-
-                findProduct.likes = findProduct.likes - 1
-            }
-
-
-
-
-            if (!findProduct.dislikedUserIds.includes(userId)) {
-
-                findProduct.dislikedUserIds.push(userId)
-            }
-
-
-
-
-
-        } else {
-            findProduct.dislikes = findProduct.dislikes - 1
-
-            if (findProduct.dislikedUserIds.includes(userId)) {
-
-                let index = findProduct.dislikedUserIds.findIndex((ids) => ids === userId)
-
-                // console.log(index)
-
-                findProduct.dislikedUserIds.splice(index, 1)
-            }
-        }
-
-
-
-        await findProduct.save()
-
-        res.status(200).send({ status: true, message: `${findProduct.title} Dislike Done✅`, data: findProduct })
-    }
-    catch (err) {
-        console.log(err.message)
-        res.status(500).send({ status: false, message: `Server Error (${err.message})` })
-    }
-
-
+      res.status(200).send({
+         status: true,
+         message: `${findProduct.title} Dislike Done✅`,
+         data: findProduct,
+      });
+   } catch (err) {
+      console.log(err.message);
+      res.status(500).send({
+         status: false,
+         message: `Server Error (${err.message})`,
+      });
+   }
 }
-
-
 
 async function searchProductByKeyowrd(req, res) {
+   try {
+      let { keyword } = req.query;
 
-    try {
+      if (!keyword)
+         return res.status(400).send({
+            status: false,
+            message: "Search by keyword.See your backend code.",
+         });
 
-        let { keyword } = req.query
+      keyword = keyword.toLowerCase();
 
-        if (!keyword) return res.status(400).send({ status: false, message: "Search by keyword.See your backend code." })
+      // let getProductFromDB = await productModel.find(filterPoducts)
 
-        keyword = keyword.toLowerCase()
+      let option = "i"; // // // This option used in regex to find data
 
+      let getProductFromDB = await productModel.find({
+         $or: [
+            { title: { $regex: keyword, $options: option } }, // case-insensitive
+            { category: { $regex: keyword, $options: option } },
+            { brand: { $regex: keyword, $options: option } },
+         ],
+         isDeleted: false, // // // Give not deleted products only
+      });
 
-        // let getProductFromDB = await productModel.find(filterPoducts)
+      // console.log(getProductFromDB)
 
-        let option = 'i'          // // // This option used in regex to find data
+      if (getProductFromDB.length <= 0)
+         return res.status(404).send({
+            status: false,
+            message: `No data found with this keyword :(${keyword})`,
+         });
 
-        let getProductFromDB = await productModel.find({
-            $or: [
-                { title: { $regex: keyword, $options: option } }, // case-insensitive
-                { category: { $regex: keyword, $options: option } },
-                { brand: { $regex: keyword, $options: option } },
-            ],
-            isDeleted : false     // // // Give not deleted products only 
-        })
+      // console.log(getProductFromDB)
 
-
-        // console.log(getProductFromDB)
-
-        if (getProductFromDB.length <= 0) return res.status(404).send({ status: false, message: `No data found with this keyword :(${keyword})` })
-
-        // console.log(getProductFromDB)
-
-        res.status(200).send({ status: true, totalData: getProductFromDB.length, data: getProductFromDB, message: `Data found successfull by this keyword : ${keyword}` })
-    }
-    catch (err) {
-        console.log(err.message)
-        res.status(500).send({ status: false, message: `Server Error (${err.message})` })
-    }
+      res.status(200).send({
+         status: true,
+         totalData: getProductFromDB.length,
+         data: getProductFromDB,
+         message: `Data found successfull by this keyword : ${keyword}`,
+      });
+   } catch (err) {
+      console.log(err.message);
+      res.status(500).send({
+         status: false,
+         message: `Server Error (${err.message})`,
+      });
+   }
 }
 
-
-module.exports = {  findAllProducts, getCategoryAndHighlight, findOneProduct, likeProduct, dislikeProduct, searchProductByKeyowrd }
-
+module.exports = {
+   findAllProducts,
+   getCategoryAndHighlight,
+   findOneProduct,
+   likeProduct,
+   dislikeProduct,
+   searchProductByKeyowrd,
+};

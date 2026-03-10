@@ -164,31 +164,6 @@ async function createNewProduct(req, res) {
    }
 }
 
-async function getAllProductsAdmin(req, res) {
-   try {
-      let everyProducts = await productModel
-         .find()
-         .select("-_id -__v -updatedAt -createdAt");
-
-      // console.log(everyProducts)
-
-      if (everyProducts.length <= 0) {
-         return res
-            .status(404)
-            .send({ status: false, message: "No product found" });
-      }
-
-      return res.status(200).send({
-         status: true,
-         message: "All products fetched for admin",
-         data: everyProducts,
-      });
-   } catch (err) {
-      console.log(err.message);
-      res.status(500).send({ status: false, message: "Server Error" });
-   }
-}
-
 async function updateProdct(req, res) {
    try {
       const { whatUpadte, productId, ...resBody } = req.body;
@@ -402,9 +377,35 @@ async function updateProdct(req, res) {
    }
 }
 
+async function getAllProductsAdmin(req, res) {
+   try {
+      let everyProducts = await productModel
+         .find()
+         .select("-_id -__v -updatedAt -createdAt");
+
+      // console.log(everyProducts)
+
+      if (everyProducts.length <= 0) {
+         return res
+            .status(404)
+            .send({ status: false, message: "No product found" });
+      }
+
+      return res.status(200).send({
+         status: true,
+         message: "All products fetched for admin",
+         data: everyProducts,
+      });
+   } catch (err) {
+      console.log(err.message);
+      res.status(500).send({ status: false, message: "Server Error" });
+   }
+}
+
 let orderModel = require("./../model/orderModel");
 const categoryModel = require("../model/categoryModel");
 const brandModel = require("../model/brandModel");
+const { removeSpace } = require("../helper/helper");
 
 async function getAllOrdersAdmin(req, res) {
    try {
@@ -465,9 +466,174 @@ async function getAllOrdersAdmin(req, res) {
    }
 }
 
+async function createCategoryAdmin(req, res) {
+   try {
+      // console.log(req);
+
+      const body = req.body;
+
+      // console.log(body);
+
+      if (Object.keys(body).length <= 0) {
+         return res
+            .status(400)
+            .send({ status: false, message: "Body can't be empty" });
+      }
+
+      let newCategory = new categoryModel({
+         name: removeSpace(body.name.toLowerCase()),
+         img: body.img,
+      });
+
+      let createdCategory = await newCategory.save();
+
+      res.status(200).send({
+         status: true,
+         message: "Category created successfully.",
+         data: createdCategory,
+      });
+   } catch (err) {
+      console.log(err);
+      res.status(500).send({ status: false, message: "Server Error" });
+   }
+}
+async function updateCategoryAdmin(req, res) {
+   try {
+      const categoryId = req?.params?.categoryId;
+
+      if (!categoryId) {
+         return res
+            .status(400)
+            .send({ status: false, message: "Category Id can't be empty" });
+      }
+      const body = req.body;
+
+      if (Object.keys(body).length <= 0) {
+         return res
+            .status(400)
+            .send({ status: false, message: "Body can't be empty" });
+      }
+
+      let checkCategory = await categoryModel.findOne({
+         name: { $regex: categoryId, $options: "i" },
+      });
+
+      if (!checkCategory) {
+         checkCategory = await categoryModel.findOne({ _id: categoryId });
+
+         if (!checkCategory) {
+            return res
+               .status(404)
+               .send({ status: false, message: "Brand not found" });
+         }
+      }
+
+      checkCategory.name = removeSpace(body.name.toLowerCase());
+      checkCategory.img = body.img || checkCategory.img;
+
+      checkCategory = await checkCategory.save();
+
+      // let newCategory = new categoryModel({ name: body.name, img: body.img });
+
+      // let createdCategory = await newCategory.save();
+
+      res.status(200).send({
+         status: true,
+         message: "Category updated successfully.",
+         data: checkCategory,
+      });
+   } catch (err) {
+      console.log(err);
+      res.status(500).send({ status: false, message: "Server Error" });
+   }
+}
+async function createBrandAdmin(req, res) {
+   try {
+      const body = req.body;
+
+      if (Object.keys(body).length <= 0) {
+         return res
+            .status(400)
+            .send({ status: false, message: "Body can't be empty" });
+      }
+
+      let newCategory = new brandModel({
+         name: removeSpace(body.name.toLowerCase()),
+         img: body.img,
+      });
+
+      let createdCategory = await newCategory.save();
+
+      res.status(200).send({
+         status: true,
+         message: "Brand created successfully.",
+         data: createdCategory,
+      });
+   } catch (err) {
+      console.log(err);
+      res.status(500).send({ status: false, message: "Server Error" });
+   }
+}
+async function updateBrandAdmin(req, res) {
+   try {
+      const brandId = req?.params?.brandId;
+
+      if (!brandId) {
+         return res
+            .status(400)
+            .send({ status: false, message: "Brand Id can't be empty" });
+      }
+      const body = req.body;
+
+      console.log(body);
+
+      if (Object.keys(body).length <= 0) {
+         return res
+            .status(400)
+            .send({ status: false, message: "Body can't be empty" });
+      }
+
+      let checkCategory = await brandModel.findOne({
+         name: { $regex: brandId, $options: "i" },
+      });
+
+      if (!checkCategory) {
+         checkCategory = await brandModel.findOne({ _id: categoryId });
+
+         if (!checkCategory) {
+            return res
+               .status(404)
+               .send({ status: false, message: "Brand not found" });
+         }
+      }
+
+      checkCategory.name = removeSpace(body.name.toLowerCase());
+      checkCategory.img = body.img || checkCategory.img;
+
+      checkCategory = await checkCategory.save();
+
+      // let newCategory = new categoryModel({ name: body.name, img: body.img });
+
+      // let createdCategory = await newCategory.save();
+
+      res.status(200).send({
+         status: true,
+         message: "Category updated successfully.",
+         data: checkCategory,
+      });
+   } catch (err) {
+      console.log(err);
+      res.status(500).send({ status: false, message: "Server Error" });
+   }
+}
+
 module.exports = {
    createNewProduct,
    getAllProductsAdmin,
    updateProdct,
    getAllOrdersAdmin,
+   createCategoryAdmin,
+   updateCategoryAdmin,
+   createBrandAdmin,
+   updateBrandAdmin,
 };

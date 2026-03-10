@@ -167,6 +167,8 @@ const initialState: IAllProductsWithCat = {
     allCaegory: [],
     filterAllBrands: [],
     filterAllCateory: [],
+    cateoryAllData: [],
+    brandAllData: [],
     allHighlightProducts: [],
     totalProducts: 0,
     searchByQuery: false,
@@ -221,14 +223,12 @@ const allProductsCatSlice = createSlice({
     initialState,
     reducers: {
 
-
         loadDataIntoState(state, action) {
             state.allProducts = action.payload.allProducts
             state.allCaegory = action.payload.allCaegory
             state.allHighlightProducts = action.payload.allHighlightProducts
             // state.singleProductData = action.payload.allProducts[1]
         },
-
 
         setSingleProductData(state, action) {
 
@@ -253,11 +253,9 @@ const allProductsCatSlice = createSlice({
             state.allProducts = action.payload.allProducts
         },
 
-
         setSortByPriceChange(state, action) {
             state.sortByPrice = action.payload.newPrice
         },
-
 
         setSearchBrandAndCate(state, action) {
             // console.log(action.payload)
@@ -266,10 +264,18 @@ const allProductsCatSlice = createSlice({
 
 
             state.searchBrandAndCate = { brand: action.payload.brand || "", category: action.payload.category || '' }
-        }
+        },
+
+        setAllCategories(state, action: PayloadAction<string>) {
+            state.allCaegory.push(action.payload)
+            state.filterAllCateory.push(action.payload)
+        },
+
+        setAllBrands(state, action: PayloadAction<string>) {
+            state.filterAllBrands.push(action.payload)
+        },
 
     },
-
 
     extraReducers: (builder) => {
         builder
@@ -329,11 +335,13 @@ const allProductsCatSlice = createSlice({
 
                 if (action.payload.status) {
 
-                    state.allHighlightProducts = action.payload.allHighlights
-                    state.filterAllBrands = action.payload.allBrands
-                    state.filterAllCateory = action.payload.allCategory
-                    state.allCaegory = action.payload.allCategory
-                    state.totalProducts = action.payload.totalProducts
+                    state.allHighlightProducts = action.payload.allHighlights || []
+                    state.filterAllBrands = action.payload.allBrands || []
+                    state.filterAllCateory = action.payload.allCategory || []
+                    state.allCaegory = action.payload.allCategory || []
+                    state.totalProducts = action.payload.totalProducts || 0
+                    state.cateoryAllData = action.payload.allCategoryAllData || []
+                    state.brandAllData = action.payload.allBrandsAllData || []
 
                 } else {
 
@@ -565,10 +573,9 @@ const allProductsCatSlice = createSlice({
 
 
     }
-
 })
 
 
-export const { loadDataIntoState, setSingleProductData, setFilterItems, setSortByPriceChange, setSearchBrandAndCate } = allProductsCatSlice.actions
+export const { loadDataIntoState, setSingleProductData, setFilterItems, setSortByPriceChange, setSearchBrandAndCate, setAllCategories, setAllBrands } = allProductsCatSlice.actions
 
 export default allProductsCatSlice.reducer

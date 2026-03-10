@@ -49,6 +49,10 @@ const {
    getAllProductsAdmin,
    updateProdct,
    getAllOrdersAdmin,
+   createCategoryAdmin,
+   updateCategoryAdmin,
+   updateBrandAdmin,
+   createBrandAdmin,
 } = require("../controller/adminControllor");
 
 const { isAuthorized, isUserAdmin } = require("../middleware/authorization");
@@ -90,6 +94,24 @@ router.post(
    isUserAdmin,
    upload.array("file"),
    updateProdct,
+);
+
+router.post("/createCategory", isAuthorized, isUserAdmin, createCategoryAdmin);
+
+router.put(
+   "/updateCategory/:categoryId",
+   isAuthorized,
+   isUserAdmin,
+   updateCategoryAdmin,
+);
+
+router.post("/brandCategory", isAuthorized, isUserAdmin, createBrandAdmin);
+
+router.put(
+   "/updateBarnd/:brandId",
+   isAuthorized,
+   isUserAdmin,
+   updateBrandAdmin,
 );
 
 router.get("/getAllOrdersAdmin", isAuthorized, isUserAdmin, getAllOrdersAdmin);

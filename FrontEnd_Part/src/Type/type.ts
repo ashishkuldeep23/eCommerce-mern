@@ -72,6 +72,8 @@ export interface IAllProductsWithCat {
     allCaegory: string[],
     filterAllBrands: string[],
     filterAllCateory: string[],
+    brandAllData: { name: string, img: string }[],
+    cateoryAllData: { name: string, img: string }[],
     allHighlightProducts: IProduct[],
     totalProducts: number,
     searchByQuery: boolean,
