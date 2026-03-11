@@ -59,6 +59,12 @@ const CreateCategory = () => {
             return;
          }
 
+         if (allCategories.map(c => c.name).includes(newCatData.name) && !switchCreateUpdateCat) {
+            toast.error("Category name already exist");
+            return
+         }
+
+
          // console.log(newCatData)
 
          // // // other validation ------------->>
@@ -93,7 +99,7 @@ const CreateCategory = () => {
 
             setSwitchCreateUpdateCat(false);
 
-            dispatch(setAllCategories(json.data?.name || ""));
+            dispatch(setAllCategories({ name: json.data?.name || "", img: json.data?.img || "" }));
             toast.success(json.message);
          } else {
             console.log(json);

@@ -499,6 +499,22 @@ async function createCategoryAdmin(req, res) {
             .send({ status: false, message: "Body can't be empty" });
       }
 
+      if (!body.name) {
+         return res
+            .status(400)
+            .send({ status: false, message: "Category name can't be empty" });
+      }
+
+      let checkCategory = await categoryModel.findOne({
+         name: removeSpace(body.name.toLowerCase()),
+      });
+
+      if (checkCategory) {
+         return res
+            .status(400)
+            .send({ status: false, message: "Category already exist" });
+      }
+
       let newCategory = new categoryModel({
          name: removeSpace(body.name.toLowerCase()),
          img: body.img,
@@ -531,6 +547,12 @@ async function updateCategoryAdmin(req, res) {
          return res
             .status(400)
             .send({ status: false, message: "Body can't be empty" });
+      }
+
+      if (!body.name) {
+         return res
+            .status(400)
+            .send({ status: false, message: "Category name can't be empty" });
       }
 
       let checkCategory = await categoryModel.findOne({
@@ -574,6 +596,22 @@ async function createBrandAdmin(req, res) {
          return res
             .status(400)
             .send({ status: false, message: "Body can't be empty" });
+      }
+
+      if (!body.name) {
+         return res
+            .status(400)
+            .send({ status: false, message: "Brand name can't be empty" });
+      }
+
+      let checkCategory = await brandModel.findOne({
+         name: removeSpace(body.name.toLowerCase()),
+      });
+
+      if (checkCategory) {
+         return res
+            .status(400)
+            .send({ status: false, message: "Brand already exist" });
       }
 
       let newCategory = new brandModel({

@@ -266,13 +266,15 @@ const allProductsCatSlice = createSlice({
             state.searchBrandAndCate = { brand: action.payload.brand || "", category: action.payload.category || '' }
         },
 
-        setAllCategories(state, action: PayloadAction<string>) {
-            state.allCaegory.push(action.payload)
-            state.filterAllCateory.push(action.payload)
+        setAllCategories(state, action: PayloadAction<{ name: string, img?: string }>) {
+            state.allCaegory.push(action.payload.name)
+            state.filterAllCateory.push(action.payload.name)
+            state.cateoryAllData.push({ name: action.payload.name, img: action.payload.img || '' })
         },
 
-        setAllBrands(state, action: PayloadAction<string>) {
-            state.filterAllBrands.push(action.payload)
+        setAllBrands(state, action: PayloadAction<{ name: string, img?: string }>) {
+            state.filterAllBrands.push(action.payload.name)
+            state.brandAllData.push({ name: action.payload.name, img: action.payload.img || '' })
         },
 
     },

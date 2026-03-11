@@ -53,8 +53,14 @@ const CreateBrand = () => {
             // // // chcek name and img is given or not and other ------------>>
 
             if (!newBrandData.name) {
-                toast.error("Category name is required");
+                toast.error("Brand name is required");
                 return;
+            }
+
+
+            if (allBrands.map(b => b.name).includes(newBrandData.name) && !switchCreateUpdateBrand) {
+                toast.error("Brand name already exist");
+                return
             }
 
             // console.log(newBrandData)
@@ -92,7 +98,7 @@ const CreateBrand = () => {
 
                 setSwitchCreateUpdateBrand(false)
 
-                dispatch(setAllBrands(json.data?.name || ""));
+                dispatch(setAllBrands({ name: json.data?.name || "", img: json.data?.img || "" }));
                 toast.success(json.message);
 
             } else {
