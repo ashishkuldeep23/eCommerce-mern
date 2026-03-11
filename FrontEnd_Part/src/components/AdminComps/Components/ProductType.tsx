@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
    OptionInterface,
    OptionOut,
@@ -444,6 +444,7 @@ interface ProductEntryProps {
    onRemove: () => void;
    onDuplicate: () => void;
    addProduct: () => void;
+   productPrice?: undefined | number
 }
 
 function ProductEntry({
@@ -454,6 +455,7 @@ function ProductEntry({
    onRemove,
    onDuplicate,
    addProduct,
+   // productPrice
 }: ProductEntryProps) {
    const [open, setOpen] = useState(true);
 
@@ -633,12 +635,22 @@ function ProductEntry({
 export default function ProductOptionForm({
    options,
    setOptions,
+   productPrice
    // onSubmit,
 }: {
    options: OptionInterface[];
    setOptions: React.Dispatch<React.SetStateAction<OptionInterface[]>>;
    onSubmit?: (data: OptionOut[]) => void;
+   productPrice?: undefined | number
 }) {
+
+   useEffect(() => {
+
+      if (productPrice) {
+         setOptions((prev) => prev.map((x) => ({ ...x, verity: x.verity.map((y) => ({ ...y, data: y.data.map((z) => ({ ...z, price: productPrice, })) })) })));
+      }
+   }, [productPrice])
+
    // const [products, setProducts] = useState<OptionInterface[]>([newProduct()]);
 
    // console.log(options);
@@ -687,6 +699,7 @@ export default function ProductOptionForm({
                   onRemove={() => removeProduct(i)}
                   onDuplicate={() => duplicateProduct(i)}
                   addProduct={addProduct}
+                  productPrice={productPrice}
                />
             ))}
 

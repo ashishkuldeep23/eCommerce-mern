@@ -160,7 +160,7 @@ async function createNewProduct(req, res) {
       });
    } catch (err) {
       console.log(err.message);
-      res.status(500).send({ status: false, message: "Server Error" });
+      res.status(500).send({ status: false, message: `${err}` });
    }
 }
 
@@ -317,10 +317,29 @@ async function updateProdct(req, res) {
 
          // // Basic info upadte --->
          getProduct.title = recivedBodyData.title;
-         getProduct.brand = recivedBodyData.brand;
          getProduct.price = recivedBodyData.price;
          getProduct.discountPercentage = recivedBodyData.discountPercentage;
-         getProduct.category = recivedBodyData.category;
+
+         const checkBrand = await brandModel.findOne({
+            name: recivedBodyData.brand,
+         });
+
+         if (checkBrand) {
+            getProduct.brand = checkBrand._id;
+         }
+
+         // // // // Category update ---->
+
+         const checkCategory = await categoryModel.findOne({
+            name: recivedBodyData.category,
+         });
+
+         if (checkCategory) {
+            getProduct.category = checkCategory._id;
+         }
+
+         // getProduct.category = recivedBodyData.category;
+         // getProduct.brand = recivedBodyData.brand;
 
          // // // Discription update ---->
 
@@ -372,8 +391,8 @@ async function updateProdct(req, res) {
          data: updatedData,
       });
    } catch (err) {
-      console.log(err.message);
-      res.status(500).send({ status: false, message: "Server Error" });
+      console.log(err);
+      res.status(500).send({ status: false, message: `${err}` });
    }
 }
 
@@ -398,7 +417,7 @@ async function getAllProductsAdmin(req, res) {
       });
    } catch (err) {
       console.log(err.message);
-      res.status(500).send({ status: false, message: "Server Error" });
+      res.status(500).send({ status: false, message: `${err}` });
    }
 }
 
@@ -462,7 +481,7 @@ async function getAllOrdersAdmin(req, res) {
       });
    } catch (err) {
       console.log(err.message);
-      res.status(500).send({ status: false, message: "Server Error" });
+      res.status(500).send({ status: false, message: `${err}` });
    }
 }
 
@@ -494,7 +513,7 @@ async function createCategoryAdmin(req, res) {
       });
    } catch (err) {
       console.log(err);
-      res.status(500).send({ status: false, message: "Server Error" });
+      res.status(500).send({ status: false, message: `${err}` });
    }
 }
 async function updateCategoryAdmin(req, res) {
@@ -544,7 +563,7 @@ async function updateCategoryAdmin(req, res) {
       });
    } catch (err) {
       console.log(err);
-      res.status(500).send({ status: false, message: "Server Error" });
+      res.status(500).send({ status: false, message: `${err}` });
    }
 }
 async function createBrandAdmin(req, res) {
@@ -571,7 +590,7 @@ async function createBrandAdmin(req, res) {
       });
    } catch (err) {
       console.log(err);
-      res.status(500).send({ status: false, message: "Server Error" });
+      res.status(500).send({ status: false, message: `${err}` });
    }
 }
 async function updateBrandAdmin(req, res) {
@@ -623,7 +642,7 @@ async function updateBrandAdmin(req, res) {
       });
    } catch (err) {
       console.log(err);
-      res.status(500).send({ status: false, message: "Server Error" });
+      res.status(500).send({ status: false, message: `${err}` });
    }
 }
 

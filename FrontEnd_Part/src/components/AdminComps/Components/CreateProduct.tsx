@@ -67,13 +67,15 @@ function CreateNewProduct() {
       (state: RootState) => state.allProductWithCatReducer.filterAllBrands,
    );
 
-   // Category fields ---->
-   const [pluscategory, setPlusCategory] = useState(false);
-   const [plusCategoryText, setPlusCategoryText] = useState("");
+   // console.log(' price  ----------->', getValues('price'))
 
-   // Brand fields ---->
-   const [plusBrand, setPlusBrand] = useState(false);
-   const [plusBrandText, setPlusBrandText] = useState("");
+   // Category fields ---->
+   // const [pluscategory, setPlusCategory] = useState(false);
+   // const [plusCategoryText, setPlusCategoryText] = useState("");
+
+   // // Brand fields ---->
+   // const [plusBrand, setPlusBrand] = useState(false);
+   // const [plusBrandText, setPlusBrandText] = useState("");
 
    // // // Discroption useState ---->
 
@@ -123,45 +125,50 @@ function CreateNewProduct() {
       newEntry(),
    ]);
 
-   function categoryOnChangeHandler(e: React.ChangeEvent<HTMLSelectElement>) {
-      e.stopPropagation();
-      e.preventDefault();
 
-      // console.log(e.target.value);
+   // const [currentBarnd, setcurrentBarnd] = useState("");
 
-      // let category = e.target.value
+   // const [currentCategory, setcurrentCategory] = useState("");
 
-      setPlusCategoryText(e.target.value);
-      setValue("category", `${e.target.value}`);
+   // function categoryOnChangeHandler(e: React.ChangeEvent<HTMLSelectElement>) {
+   //    e.stopPropagation();
+   //    e.preventDefault();
 
-      if (e.target.value === "plus") {
-         setPlusCategory(true);
-      } else {
-         setPlusCategory(false);
-      }
+   //    // console.log(e.target.value);
 
-      // setValue("category", `${e.target.value}`);
-   }
+   //    // let category = e.target.value
 
-   function brandOnChangeHandler(e: React.ChangeEvent<HTMLSelectElement>) {
-      e.stopPropagation();
-      e.preventDefault();
+   //    setcurrentCategory(e.target.value);
+   //    setValue("category", `${e.target.value}`);
 
-      // console.log(e.target.value);
+   //    // if (e.target.value === "plus") {
+   //    //    setPlusCategory(true);
+   //    // } else {
+   //    //    setPlusCategory(false);
+   //    // }
 
-      // let category = e.target.value
+   //    // setValue("category", `${e.target.value}`);
+   // }
 
-      setPlusBrandText(e.target.value);
-      setValue("brand", `${e.target.value}`);
+   // function brandOnChangeHandler(e: React.ChangeEvent<HTMLSelectElement>) {
+   //    e.stopPropagation();
+   //    e.preventDefault();
 
-      if (e.target.value === "plus") {
-         setPlusBrand(true);
-      } else {
-         setPlusBrand(false);
-      }
+   //    // console.log(e.target.value);
 
-      // setValue("category", `${e.target.value}`);
-   }
+   //    // let category = e.target.value
+
+   //    setcurrentBarnd(e.target.value);
+   //    setValue("brand", `${e.target.value}`);
+
+   //    // if (e.target.value === "plus") {
+   //    //    setPlusBrand(true);
+   //    // } else {
+   //    //    setPlusBrand(false);
+   //    // }
+
+   //    // setValue("category", `${e.target.value}`);
+   // }
 
    // // // Below fn is used to formate 3 things --> (Specification of product , Dimention of product and Product_detail of product )
    // function makeActualValueFormate(text: string): { [x: string]: string }[] {
@@ -584,7 +591,6 @@ function CreateNewProduct() {
       setProductDimen("");
       setProductDetailOfDes("");
       // setProductOption('');
-      setOptions([newOption()]);
       setImageInputBy("by_url");
       setAllImgUrls([""]);
       setAllInputImagesUrl([]);
@@ -722,7 +728,7 @@ function CreateNewProduct() {
 
    console.log(errors);
 
-   // // // ----------------- Make form upto dated -------------------->>>
+   // // // --------- Make form upto dated ----------->>>
    useEffect(() => {
       // setValue("description.highLights", productHighlight.split(","));
 
@@ -762,12 +768,9 @@ function CreateNewProduct() {
          formData.delete("file");
       }
 
-      setValue(
-         "category",
-         pluscategory ? plusCategoryText : getValues("category"),
-      );
+      setValue("category", getValues("category"));
 
-      setValue("brand", plusBrand ? plusBrandText : getValues("brand"));
+      setValue("brand", getValues("brand"));
 
       setValue("description.highLights", prodHighlightArr);
 
@@ -776,6 +779,7 @@ function CreateNewProduct() {
       setValue("description.dimensions", dimenstionsEntries);
 
       setValue("description.product_Details", productDetailsEntries);
+
    }, [
       // productHighlight,
       productSpecs,
@@ -785,11 +789,11 @@ function CreateNewProduct() {
       imageInputBy,
       allImgUrls,
       thumbnailIndex,
-      plusCategoryText,
-      plusBrandText,
+      // plusCategoryText,
+      // plusBrandText,
       prodHighlightArr,
-      pluscategory,
-      plusBrand,
+      // pluscategory,
+      // plusBrand,
       prodHighlightArr,
       specificationEntries,
       dimenstionsEntries,
@@ -807,11 +811,10 @@ function CreateNewProduct() {
 
          <div
             className={`  relative w-full py-2 px-1.5 rounded border 
-            ${
-               themeMode
+            ${themeMode
                   ? ` ${!updatingProduct ? "bg-fuchsia-950" : " bg-rose-950"}  border-white `
                   : ` ${!updatingProduct ? "bg-fuchsia-200" : "bg-rose-200"}  border-black `
-            }`}
+               }`}
             id="createOrderDiv">
             <p className=" font-semibold mt-1 mb-4 underline text-3xl text-center ">
                {!updatingProduct
@@ -878,6 +881,7 @@ function CreateNewProduct() {
                            // name="email"
                            type="number"
                            placeholder="Price of Product"
+                           defaultValue={0}
                            // autoComplete="email"
                            // required={true}
                            {...register("price", {
@@ -907,11 +911,16 @@ function CreateNewProduct() {
                               // name="email"
                               type="number"
                               placeholder="Discount on Product in persent"
+                              defaultValue={0}
                               // autoComplete="email"
                               // required={true}
                               // // // Not more then 100 and not less then 0
                               {...register("discountPercentage", {
                                  required: "Discount is Required",
+                                 min: {
+                                    value: 0,
+                                    message: "Not less then 0",
+                                 }
                               })}
                               className={`block w-full rounded-md border border-inherit bg-inherit py-1.5  shadow-sm   focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ${!themeMode ? "  text-gray-900 " : " text-white"}`}
                            />
@@ -924,33 +933,8 @@ function CreateNewProduct() {
                   </div>
                </div>
 
+               {/* Brand and Category */}
                <div className=" flex flex-wrap justify-between items-start">
-                  {/* Brand here --------->> */}
-                  {/* <div className=" w-full sm:w-1/2 px-0.5">
-                     <label
-                        htmlFor="brand_product"
-                        className="block text-sm font-medium leading-6 ">
-                        Brand
-                     </label>
-                     <div className="mt-2">
-                        <input
-                           id="brand_product"
-                           type="text"
-                           placeholder="Brand of Product"
-                           // autoComplete="email"
-                           // required={true}
-                           {...register("brand", {
-                              required: "Brand is Required",
-                           })}
-                           className={`block w-full rounded-md border-0 py-1.5  shadow-sm ring-1 ring-inset ring-gray-300  focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ${!themeMode ? " bg-white text-gray-900 " : "bg-gray-900 text-white"}`}
-                        />
-                        <p className="text-sm pl-2 text-red-500 font-bold">
-                           {" "}
-                           {errors.brand?.message}{" "}
-                        </p>
-                     </div>
-                  </div> */}
-
                   {/* Brand all code ---> */}
                   <div className=" w-full sm:w-1/2 px-0.5  ml-auto">
                      <label
@@ -961,10 +945,17 @@ function CreateNewProduct() {
 
                      <select
                         className=" w-full bg-inherit border border-inherit font-bold rounded capitalize py-1"
-                        name=""
+                        // name=""
                         id="brand_product"
-                        onChange={(e) => brandOnChangeHandler(e)}
-                        value={plusBrandText}>
+                        // onChange={(e) => brandOnChangeHandler(e)}
+                        // value={currentBarnd || ''}
+
+                        {
+                        ...register("brand", {
+                           required: "Brand is Required",
+                        })
+                        }
+                     >
                         {allBrands.length &&
                            allBrands.map((brand, i) => {
                               return (
@@ -979,22 +970,21 @@ function CreateNewProduct() {
 
                         {/* Plus option for new brand -----> */}
 
-                        <option
+                        {/* <option
                            value="plus"
                            onClick={() => {
                               setPlusBrand(true);
                            }}>
                            +Plus
-                        </option>
+                        </option> */}
                      </select>
 
                      {/* Add new brand All code ----> */}
 
-                     {plusBrand && (
+                     {/* {plusBrand && (
                         // // Take new brand input here --->
                         <div className=" flex  flex-wrap items-center justify-end">
                            <p>New Brand :{"  "} </p>
-                           {/*value get this input ---> */}
                            <input
                               id="brand_product"
                               type="text"
@@ -1008,7 +998,7 @@ function CreateNewProduct() {
                               }}
                            />
                         </div>
-                     )}
+                     )} */}
 
                      <p className="text-sm pl-2 text-red-500 font-bold">
                         {" "}
@@ -1025,10 +1015,18 @@ function CreateNewProduct() {
 
                      <select
                         className=" w-full bg-inherit border border-inherit  font-bold rounded capitalize py-1"
-                        name=""
+                        // name=""
                         id="category_product"
-                        onChange={(e) => categoryOnChangeHandler(e)}
-                        value={plusCategoryText}>
+                        // onChange={(e) => categoryOnChangeHandler(e)}
+                        // // value={getValues('category') || ''}>
+                        // value={currentCategory || ''}
+
+                        {
+                        ...register("category", {
+                           required: "Category is Required",
+                        })
+                        }
+                     >
                         {allCategories.length &&
                            allCategories.map((category, i) => {
                               return (
@@ -1043,22 +1041,21 @@ function CreateNewProduct() {
 
                         {/* Plus option for new category -----> */}
 
-                        <option
+                        {/* <option
                            value="plus"
                            onClick={() => {
                               setPlusCategory(true);
                            }}>
                            +Plus
-                        </option>
+                        </option> */}
                      </select>
 
                      {/* Add new category All code ----> */}
 
-                     {pluscategory && (
+                     {/* {pluscategory && (
                         // // Take new category input here --->
                         <div className=" flex  flex-wrap items-center justify-end">
                            <p>New Category :{"  "} </p>
-                           {/*value get this input ---> */}
                            <input
                               id="category_product"
                               type="text"
@@ -1074,7 +1071,7 @@ function CreateNewProduct() {
                               }}
                            />
                         </div>
-                     )}
+                     )} */}
 
                      <p className="text-sm pl-2 text-red-500 font-bold">
                         {" "}
@@ -1221,6 +1218,7 @@ function CreateNewProduct() {
                   <ProductOptionForm
                      options={options}
                      setOptions={setOptions}
+                     productPrice={getValues("price")}
                   />
 
                   <p className="text-sm pl-2 text-red-500 font-bold">

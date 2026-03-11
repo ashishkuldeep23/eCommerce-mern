@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux"
 // import { AppDispatch, RootState } from "../../store"
 import { useEffect, useState } from "react"
 // import { adminDataState, getAllProductAdmin, setProductData, setUpdatingProduct, updateProductAdmin } from "../../Slices/AdminSlice"
-import {  useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { AppDispatch, RootState } from "../../../store"
 import { adminDataState, getAllProductAdmin, setProductData, setUpdatingProduct, updateProductAdmin } from "../../../Slices/AdminSliceFile"
 import { IProduct } from "../../../Type/type"
@@ -235,6 +235,7 @@ function SingleUIData({ product }: { product: IProduct }) {
                                 onClick={() => {
                                     dispatch(setProductData(product));
                                     dispatch(setUpdatingProduct(true))
+                                    navigate("/admin/create")
                                 }}
                             ><i className="ri-pencil-fill"></i></p>
 
