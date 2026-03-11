@@ -935,6 +935,48 @@ function CreateNewProduct() {
 
                {/* Brand and Category */}
                <div className=" flex flex-wrap justify-between items-start">
+                  {/* category all code ---> */}
+                  <div className=" w-full sm:w-1/2 px-0.5  ml-auto">
+                     <label
+                        htmlFor="category_product"
+                        className="block text-sm font-medium leading-6 mb-2 mr-10 ">
+                        Category
+                     </label>
+
+                     <select
+                        className=" w-full bg-inherit border border-inherit  font-bold rounded capitalize py-1"
+                        // name=""
+                        id="category_product"
+                        // onChange={(e) => categoryOnChangeHandler(e)}
+                        // // value={getValues('category') || ''}>
+                        // value={currentCategory || ''}
+
+                        {
+                        ...register("category", {
+                           required: "Category is Required",
+                        })
+                        }
+                     >
+                        {allCategories.length &&
+                           allCategories.map((category, i) => {
+                              return (
+                                 <option
+                                    key={i}
+                                    className="capitalize"
+                                    value={`${category}`}>
+                                    {category}
+                                 </option>
+                              );
+                           })}
+
+
+                     </select>
+
+                     <p className="text-sm pl-2 text-red-500 font-bold">
+                        {" "}
+                        {errors.category?.message}{" "}
+                     </p>
+                  </div>
                   {/* Brand all code ---> */}
                   <div className=" w-full sm:w-1/2 px-0.5  ml-auto">
                      <label
@@ -1005,82 +1047,10 @@ function CreateNewProduct() {
                         {errors.brand?.message}{" "}
                      </p>
                   </div>
-                  {/* category all code ---> */}
-                  <div className=" w-full sm:w-1/2 px-0.5  ml-auto">
-                     <label
-                        htmlFor="category_product"
-                        className="block text-sm font-medium leading-6 mb-2 mr-10 ">
-                        Category
-                     </label>
 
-                     <select
-                        className=" w-full bg-inherit border border-inherit  font-bold rounded capitalize py-1"
-                        // name=""
-                        id="category_product"
-                        // onChange={(e) => categoryOnChangeHandler(e)}
-                        // // value={getValues('category') || ''}>
-                        // value={currentCategory || ''}
-
-                        {
-                        ...register("category", {
-                           required: "Category is Required",
-                        })
-                        }
-                     >
-                        {allCategories.length &&
-                           allCategories.map((category, i) => {
-                              return (
-                                 <option
-                                    key={i}
-                                    className="capitalize"
-                                    value={`${category}`}>
-                                    {category}
-                                 </option>
-                              );
-                           })}
-
-                        {/* Plus option for new category -----> */}
-
-                        {/* <option
-                           value="plus"
-                           onClick={() => {
-                              setPlusCategory(true);
-                           }}>
-                           +Plus
-                        </option> */}
-                     </select>
-
-                     {/* Add new category All code ----> */}
-
-                     {/* {pluscategory && (
-                        // // Take new category input here --->
-                        <div className=" flex  flex-wrap items-center justify-end">
-                           <p>New Category :{"  "} </p>
-                           <input
-                              id="category_product"
-                              type="text"
-                              placeholder="Give 'New Category' as text."
-                              className={`block rounded-md border border-inherit py-1.5  shadow-sm focus:ring-2 focus:ring-inset  bg-inherit focus:ring-indigo-600 sm:text-sm sm:leading-6 ${!themeMode ? "  text-gray-900 " : " text-white"}`}
-                              value={
-                                 plusCategoryText === "plus"
-                                    ? ""
-                                    : plusCategoryText
-                              }
-                              onChange={(e) => {
-                                 setPlusCategoryText(e.target.value);
-                              }}
-                           />
-                        </div>
-                     )} */}
-
-                     <p className="text-sm pl-2 text-red-500 font-bold">
-                        {" "}
-                        {errors.category?.message}{" "}
-                     </p>
-                  </div>
                </div>
 
-               {/* description of product */}
+               {/* Detailed  description of product */}
                <div>
                   {/* Full name */}
                   <div className=" w-full px-0.5">
@@ -1174,6 +1144,7 @@ function CreateNewProduct() {
                         <KeyValueFormApp
                            entries={specificationEntries}
                            setEntries={setSpecificationEntries}
+                           placeholder={{ key: "Pack of |  Designed by", value: '1 | Brand_Name' }}
                         />
 
                         <p>{errors.description?.specifications?.message}</p>
@@ -1190,6 +1161,7 @@ function CreateNewProduct() {
                         <KeyValueFormApp
                            entries={dimenstionsEntries}
                            setEntries={setDimenstionsEntries}
+                           placeholder={{ key: "Width | Height", value: "10cm | 10cm" }}
                         />
                      </div>
 
@@ -1203,6 +1175,7 @@ function CreateNewProduct() {
                         <KeyValueFormApp
                            entries={productDetailsEntries}
                            setEntries={setProductDetailsEntries}
+                           placeholder={{ key: 'Ideal For | Shape', value: " Men, Women, Kids | Rectangular" }}
                         />
                      </div>
                   </div>
@@ -1269,7 +1242,7 @@ function CreateNewProduct() {
                            onClick={() => {
                               imageTyepChangehandler("by_url");
                            }}
-                           checked
+                           defaultChecked
                         />
                         <label
                            htmlFor="by_url"
@@ -1301,7 +1274,7 @@ function CreateNewProduct() {
                                  allImgUrls.map((ele, i) => {
                                     return (
                                        <img
-                                          className={`rounded m-0.5 object-contain hover:cursor-pointer  ${allImgUrls.length > 1 && "h-56 "} `}
+                                          className={` w-36 h-36 object-contain rounded m-0.5 hover:cursor-pointer  ${allImgUrls.length > 1 && "h-56 "} `}
                                           src={ele}
                                           alt={ele}
                                           key={i}

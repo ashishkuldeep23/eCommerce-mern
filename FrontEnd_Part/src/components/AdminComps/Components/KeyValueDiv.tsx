@@ -102,6 +102,7 @@ interface EntryRowProps {
    onRemove: () => void;
    onAdd: () => void;
    onCopy: () => void;
+   placeholder?: { key: string, value: string }
 }
 
 function EntryRow({
@@ -113,6 +114,7 @@ function EntryRow({
    onRemove,
    onAdd,
    onCopy,
+   placeholder
 }: EntryRowProps) {
    const isLast = index === total - 1;
    // Show delete when: row has any data, OR there are multiple rows
@@ -135,7 +137,7 @@ function EntryRow({
                type="text"
                value={entry.key}
                onChange={(e) => onChange("key", e.target.value)}
-               placeholder="Key"
+               placeholder={placeholder?.key || "Key"}
                required
                aria-label={`Key ${index + 1}`}
                className={`w-full bg-transparent text-sm font-medium  focus:outline-none
@@ -159,7 +161,7 @@ function EntryRow({
                type="text"
                value={entry.value}
                onChange={(e) => onChange("value", e.target.value)}
-               placeholder="Value"
+               placeholder={placeholder?.value || "Value"}
                aria-label={`Value ${index + 1}`}
                className="w-full bg-transparent text-sm  focus:outline-none"
             />
@@ -184,11 +186,10 @@ function EntryRow({
                   onClick={onRemove}
                   aria-label="Remove entry"
                   className={`w-7 h-7 flex items-center justify-center rounded-xl border transition
-              ${
-                 hasData
-                    ? "border-red-400/30 text-red-400 opacity-60 hover:opacity-100 hover:border-red-400"
-                    : "border-transparent opacity-0 group-hover:opacity-40 hover:!opacity-100 hover:text-red-400 hover:border-red-400/40"
-              }`}>
+              ${hasData
+                        ? "border-red-400/30 text-red-400 opacity-60 hover:opacity-100 hover:border-red-400"
+                        : "border-transparent opacity-0 group-hover:opacity-40 hover:!opacity-100 hover:text-red-400 hover:border-red-400/40"
+                     }`}>
                   <Icon.Trash />
                </button>
             )}
@@ -209,9 +210,11 @@ function EntryRow({
 export default function KeyValueFormApp({
    entries,
    setEntries,
+   placeholder
 }: {
    entries: Entry[];
    setEntries: React.Dispatch<React.SetStateAction<Entry[]>>;
+   placeholder?: { key: string, value: string }
 }) {
    //    const [entries, setEntries] = useState<Entry[]>([newEntry()]);
 
@@ -317,6 +320,7 @@ export default function KeyValueFormApp({
                      onRemove={() => removeEntry(i)}
                      onCopy={() => copyEntry(i)}
                      onAdd={addEntry}
+                     placeholder={placeholder}
                   />
                ))}
             </div>

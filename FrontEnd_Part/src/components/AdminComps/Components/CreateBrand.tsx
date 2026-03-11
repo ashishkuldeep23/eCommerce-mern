@@ -86,7 +86,6 @@ const CreateBrand = () => {
             );
             const json = await response.json();
             // return data
-
             // console.log(json)
 
             if (json?.status) {
