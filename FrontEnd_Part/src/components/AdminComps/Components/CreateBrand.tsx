@@ -154,11 +154,20 @@ const CreateBrand = () => {
 
                 <div className=" flex justify-center gap-2 m-1 ">
                     <label htmlFor="brand_name" className=" " >Name : </label>
-                    <input placeholder="Brand Name" type="text" name="" id="brand_name" value={
-                        switchCreateUpdateBrand
-                            ? newBrandData.name || updatingBrand
-                            : ""
-                    } onChange={(e) => setNewBrandData({ ...newBrandData, name: e.target.value })} />
+                    <input
+                        placeholder="Brand Name"
+                        type="text"
+                        name=""
+                        id="brand_name"
+                        // value={
+                        //     switchCreateUpdateBrand
+                        //         ? newBrandData.name || updatingBrand
+                        //         : ""
+                        // }
+
+                        value={newBrandData.name}
+                        onChange={(e) => setNewBrandData({ ...newBrandData, name: e.target.value })}
+                    />
                 </div>
                 <div className=" flex  justify-center gap-2 m-1 ">
                     <label htmlFor="brand_img" className=" ">URL : </label>
