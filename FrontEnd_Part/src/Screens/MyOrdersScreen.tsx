@@ -1,7 +1,8 @@
 // import React from 'react'
 
 
-import OrderOfUser from '../components/AboutPage/OrderOfUser'
+// import OrderOfUser from '../components/AboutPage/OrderOfUser'
+import OrderOfUser from '../components/AboutPage/Components/OrderOfUser'
 import Footer from '../components/Footer/Footer'
 import NavBar from '../components/NavBar/NavBar'
 

@@ -317,6 +317,7 @@ export type UserDataForOder = {
         allImages?: [];
         wishList?: IProduct[];
         wishListIdsArr?: string[]
+        shops?: string[]
 
     },
     tempUserEmail?: string,
@@ -344,7 +345,8 @@ const initialState: UserDataForOder = {
         orders: [],
         allImages: [],
         wishList: [],
-        wishListIdsArr: []
+        wishListIdsArr: [],
+        shops: []
     },
     tempUserEmail: ""
 }
@@ -568,6 +570,10 @@ const userSlice = createSlice({
                         state.userData.wishListIdsArr = arr
 
                     }
+
+
+                    // // // Here set shops as well ----------->> 
+                    // state.userData.shops = ['12', '12']
 
 
 

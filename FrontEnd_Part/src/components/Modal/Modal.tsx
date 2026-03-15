@@ -58,15 +58,16 @@ export default function Modal() {
 
                                     <button
                                         type="button"
-                                        className=" justify-center  px-2 py-1 text-sm font-semibold  shadow-sm ring-1 ring-inset ring-red-600  sm:mt-0  absolute right-0.5 top-7 rounded-full bg-red-600 text-white z-10 w-full hidden sm:inline-flex sm:w-auto"
+                                        className=" justify-center  px-2 py-1 text-sm font-semibold  shadow-sm ring-1 ring-inset ring-red-600  sm:mt-0  absolute right-0.5 top-7 rounded-full bg-red-600 text-white z-10 w-7  sm:inline-flex sm:w-auto"
                                         ref={cancelButtonRef}
                                     >
-                                        <span className=' hidden sm:block'>X</span>
-                                        <span className=' block sm:hidden'>Close</span>
+                                        <span className=' block'>X</span>
+                                        {/* <span className=' block sm:hidden'>Close</span> */}
                                     </button>
 
                                     {/* Below div will hold children ---> main content */}
                                     <div
+                                        onClick={e => e.stopPropagation()}
                                         className={` ${!themeMode ? "bg-white border-white" : "bg-black border-black"} rounded px-4 pb-4 pt-5 sm:p-6 sm:pb-4 border flex flex-col items-center z-10 overflow-hidden`}
                                     >
 
@@ -99,14 +100,14 @@ export default function Modal() {
                                     </div>
 
 
-                                    <button
+                                    {/* <button
                                         type="button"
                                         className=" justify-center  px-2 py-1 text-sm font-semibold  shadow-sm ring-1 ring-inset ring-red-600  sm:mt-0 absolute right-0.5 bottom-4 rounded-full bg-red-600 text-white z-10 w-full inline-flex sm:hidden sm:w-auto"
                                         ref={cancelButtonRef}
                                     >
                                         <span className=' hidden sm:block'>X</span>
                                         <span className=' block sm:hidden'>Close</span>
-                                    </button>
+                                    </button> */}
 
                                 </div>
 

@@ -3,10 +3,10 @@
 // import React from 'react'
 
 
-import AboutPage from '../components/AboutPage/AboutPage'
-import Footer from '../components/Footer/Footer'
-
 import NavBar from '../components/NavBar/NavBar'
+import AboutPage from '../components/AboutPage/AboutPage'
+// import Footer from '../components/Footer/Footer'
+
 
 
 
@@ -15,7 +15,7 @@ const UserDetails = () => {
     <>
         <NavBar />
         <AboutPage />
-        <Footer />
+        {/* <Footer /> */}
     </>
   )
 }

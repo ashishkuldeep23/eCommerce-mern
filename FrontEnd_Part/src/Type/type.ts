@@ -1,4 +1,13 @@
 
+
+import "react";
+
+declare module "react" {
+    interface DetailsHTMLAttributes<T> extends React.HTMLAttributes<T> {
+        name?: string;
+    }
+}
+
 export interface NewProductInput extends Omit<IProduct, "type"> {
     // type: TypeObj[];
     type: OptionInterface[];

@@ -57,6 +57,12 @@ const {
 
 const { isAuthorized, isUserAdmin } = require("../middleware/authorization");
 const { generateImgUrl, getAllImgUrls } = require("../controller/uploadImg");
+const {
+   getShopsHandler,
+   createShopHandler,
+   updateShopHandler,
+   deleteShopHandler,
+} = require("../controller/shopController");
 
 /* GET home page. */
 router.get("/", function (req, res) {
@@ -139,6 +145,8 @@ router.post(
 
 router.get("/get-all-img-urls", isAuthorized, isUserAdmin, getAllImgUrls);
 
+router.post("/bugReport", bugReportHandler);
+
 // // // ------------------------- Review API ------------------------->
 router.post("/createReview", isAuthorized, createNewReview);
 
@@ -171,7 +179,7 @@ router.post("/forgot-main", forgotMainHandler);
 
 router.get("/checkUserWithEmail/:email", userWithEmail);
 
-router.post("/bugReport", bugReportHandler);
+// router.post("/bugReport", bugReportHandler);
 
 // // // Below api used to get data with given token
 router.get("/userDataByToken", isAuthorized, userDataByTokenHandler);
@@ -266,6 +274,26 @@ router.get("/login/success", (req, res) => {
       res.status(200).send({ status: false, message: "No user found." });
    }
 });
+
+// // // ----------------- Route used by user shop -------------->>
+
+router.get("/get-shops", isAuthorized, getShopsHandler);
+
+router.post(
+   "/create-shop",
+   isAuthorized,
+   upload.array("file"),
+   createShopHandler,
+);
+
+router.put(
+   "/update-shop/:shopId",
+   isAuthorized,
+   upload.array("file"),
+   updateShopHandler,
+);
+
+router.delete("/delete-shop/:shopId", isAuthorized, deleteShopHandler);
 
 // // // ------------------------------ Order Api ----------------------->
 router.post("/createOrder", isAuthorized, createNewOrder);

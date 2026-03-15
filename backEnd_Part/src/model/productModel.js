@@ -140,6 +140,18 @@ const productSchema = new mongoose.Schema(
 
       // // // Default values here ----->
 
+      views: {
+         // // // Need to create logic.
+         type: Number,
+         default: 0,
+      },
+
+      status: {
+         type: String,
+         default: "active",
+         enum: ["active", "inactive"],
+      },
+
       review: {
          type: [objectId],
          ref: "review",
@@ -166,6 +178,7 @@ const productSchema = new mongoose.Schema(
          required: true,
          default: 0,
       },
+
       dislikes: {
          type: Number,
          required: true,
