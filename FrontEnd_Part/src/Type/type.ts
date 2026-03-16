@@ -129,6 +129,52 @@ export interface CartInter {
     totalPrice: number;
 }
 
+
+export interface ShopInterface {
+    name: string,
+    description: string,
+    img: string
+    products: IProduct[]
+    createdBy: UserDataInitials['userData']
+    status: 'active' | 'inactive',
+    views: number,
+    likes: number,
+    likedBy: string[],
+}
+
+
+
+export type UserDataInitials = {
+    isLoading: boolean;
+    isError: boolean;
+    isSingIn: boolean;
+    isLogIn: boolean;
+    isFullFilled: boolean;
+    isForgotFullFilled: boolean;
+    errMsg: string;
+    userData: {
+        // name: string;
+        lastName: string;
+        firstName: string;
+        profilePic: string;
+        role: string;
+        email: string;
+        id: string;
+        isEmailVerified: boolean;
+        address?: UserAddressObj[];
+        orders?: UserOrderOj[];
+        allImages?: [];
+        wishList?: IProduct[];
+        wishListIdsArr?: string[] | IProduct[];
+        shops?: string[] | ShopInterface[];
+    },
+    // shopsDataArr?: [],
+    tempUserEmail?: string,
+}
+
+
+
+
 export interface FeedBackSingle {
     "feedbackName": string,
     "feedbackType": string,

@@ -10,13 +10,17 @@ import WishList from "./Components/WishList";
 // import Modal from "../Modal/Modal"
 import { setChildrenModal, setOpenMoadl } from "../../Slices/ModalSlice";
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import UserImageDiv from "./Components/UserImage";
 import { checkEmail } from "./Components/helper";
 import { UserNameAndUpadte } from "./Components/UserNameAndUpadte";
 import { UserAllUploadedImgs } from "./Components/UserAllUploadedImgs";
 import UserAddressDiv from "./Components/UserAddressDiv";
 import OrderOfUser from "./Components/OrderOfUser";
+import { toast } from "sonner";
+import { removeUserTokenInCookie } from "../../Helper/Token";
+import CreateNewShop from "./Components/CreateNewShop";
+import AllShops from "./Components/AllShops";
 
 type RightSection =
    | "profile_info"
@@ -29,6 +33,7 @@ type RightSection =
    | "my_cupons"
    | "saved_upi"
    | "saved_cards"
+   | "notification"
    | "";
 
 const AboutPage = () => {
@@ -79,10 +84,16 @@ const AboutPage = () => {
                 </div> */}
 
             {activeRightSection === "shop_page" ? (
-               <div>
-                  <h1>Here we can show shop and products cretaed by user</h1>
-               </div>
-            ) : activeRightSection === "profile_info" ? (
+               <>
+                  <p className=" underline text-lg font-semibold text-center sm:text-start">
+                     All Shops
+                  </p>
+                  <AllShops />
+               </>
+            ) : // <div>
+            //    <h1>Here we can show shop and products cretaed by user</h1>
+            // </div>
+            activeRightSection === "profile_info" ? (
                <>
                   <p className=" underline text-lg font-semibold text-center sm:text-start">
                      Profile Information
@@ -113,7 +124,7 @@ const AboutPage = () => {
                   <p className="  mb-2 underline text-lg font-semibold text-center sm:text-start">
                      Manage Address
                   </p>
-                  <UserAddressDiv containerClass=" max-w-xs " />
+                  <UserAddressDiv containerClass=" my-5 mx-auto sm:mx-0 min-w-[20rem] max-w-xs " />
                </>
             ) : activeRightSection === "all_order" ? (
                <>
@@ -173,8 +184,19 @@ const AboutPage = () => {
                   </div>
                   {/* <ReviewOfUser /> */}
                </>
+            ) : activeRightSection === "notification" ? (
+               <>
+                  <p className=" underline text-lg font-semibold text-center sm:text-start">
+                     My Reviews
+                  </p>
+
+                  <div className=" flex flex-col items-center sm:items-start sm:flex-row gap-5  my-5">
+                     <p>Not implemented yet! notification</p>
+                  </div>
+                  {/* <ReviewOfUser /> */}
+               </>
             ) : (
-               // For else ---------->>
+               // For else case ---------->>
                <>
                   <>
                      <p className=" underline text-lg font-semibold text-center sm:text-start">
@@ -230,6 +252,7 @@ const LeftSection = ({
 }) => {
    const getUserData = userState().userData;
    const dispatch = useDispatch();
+   const navigate = useNavigate();
 
    const isTabAndUpper = window.innerWidth > 768;
 
@@ -248,13 +271,7 @@ const LeftSection = ({
          // setActiveRightSection('shop_page')
          // TODO :    navigate to shop page
       } else {
-         let ChildrenOfModal = (
-            <div>
-               <h1 className=" text-2xl font-semibold text-black">
-                  No Shop found
-               </h1>
-            </div>
-         );
+         let ChildrenOfModal = <CreateNewShop />;
 
          dispatch(setOpenMoadl(true));
          dispatch(setChildrenModal(ChildrenOfModal));
@@ -269,6 +286,28 @@ const LeftSection = ({
 
       // // // Psuhing into hstory ----->>
       setActiveRightSection(page);
+   };
+
+   const singOutHandler = () => {
+      // // // Now setting token to null in singOut Fn() ---->
+      // document.cookie = `token=`;
+
+      // // // Now using localStorage and request header (Means remove token from local storage) ------->
+      // localStorage.removeItem("userToken");
+
+      removeUserTokenInCookie();
+
+      // // // Go To home-page ---->>
+      navigate("/");
+
+      // // // Delete user INFO in local ---->
+      // localStorage.removeItem("userData");
+      // localStorage.removeItem("isUserLogIn");
+
+      toast.success("SingOut Done ✅");
+
+      // // Reload page ----->>
+      location.reload();
    };
 
    return (
@@ -289,10 +328,16 @@ const LeftSection = ({
          </div>
 
          {/* Other Links ----->> */}
-         <div className=" md:my-2 p-2 rounded shadow border ">
+         <div className=" my-2 p-2 rounded shadow border ">
+            <div
+               onClick={becomeSellerClickHandler}
+               className=" rounded bg-blue-500 p-2 text-white text-center text-lg font-bold md:my-2 cursor-pointer ">
+               <button>Become Seller</button>
+            </div>
+
             <div
                onClick={() => pageNavigate("all_order")}
-               className={` cursor-pointer text-lg font-semibold uppercase md:border-b ${activeRightSection === "all_order" && "  bg-blue-100"} `}>
+               className={` cursor-pointer text-lg font-semibold uppercase md:border-y ${activeRightSection === "all_order" && "  bg-blue-100 dark:bg-slate-700"} `}>
                My orders
             </div>
 
@@ -308,18 +353,23 @@ const LeftSection = ({
                   <ul className="pl-5">
                      <li
                         onClick={() => pageNavigate("profile_info")}
-                        className={` cursor-pointer ${activeRightSection === "profile_info" && "  bg-blue-100"}`}>
+                        className={` cursor-pointer ${activeRightSection === "profile_info" && "  bg-blue-100 dark:bg-slate-700"}`}>
                         Profile Info
                      </li>
                      <li
                         onClick={() => pageNavigate("all_profile_pic")}
-                        className={`  cursor-pointer ${activeRightSection === "all_profile_pic" && "  bg-blue-100"}`}>
+                        className={`  cursor-pointer ${activeRightSection === "all_profile_pic" && "  bg-blue-100 dark:bg-slate-700"}`}>
                         All Profile Pics
                      </li>
                      <li
                         onClick={() => pageNavigate("manage_address")}
-                        className={`  cursor-pointer ${activeRightSection === "manage_address" && "  bg-blue-100"}`}>
+                        className={`  cursor-pointer ${activeRightSection === "manage_address" && "  bg-blue-100 dark:bg-slate-700"}`}>
                         Manage Address
+                     </li>
+                     <li
+                        onClick={() => pageNavigate("notification")}
+                        className={`  cursor-pointer ${activeRightSection === "notification" && "  bg-blue-100 dark:bg-slate-700"}`}>
+                        Notification
                      </li>
                   </ul>
                </details>
@@ -337,17 +387,17 @@ const LeftSection = ({
                   </summary>
                   <ul className="pl-5">
                      <li
-                        className={` cursor-pointer ${activeRightSection === "my_reviews" && "  bg-blue-100"}  `}
+                        className={` cursor-pointer ${activeRightSection === "my_reviews" && "  bg-blue-100 dark:bg-slate-700"}  `}
                         onClick={() => pageNavigate("my_reviews")}>
                         My Reviwes
                      </li>
                      <li
-                        className={` cursor-pointer ${activeRightSection === "my_wish_list" && "  bg-blue-100"}  `}
+                        className={` cursor-pointer ${activeRightSection === "my_wish_list" && "  bg-blue-100 dark:bg-slate-700"}  `}
                         onClick={() => pageNavigate("my_wish_list")}>
                         My Wishlist
                      </li>
                      <li
-                        className={` cursor-pointer ${activeRightSection === "my_cupons" && "  bg-blue-100"}  `}
+                        className={` cursor-pointer ${activeRightSection === "my_cupons" && "  bg-blue-100 dark:bg-slate-700"}  `}
                         onClick={() => pageNavigate("my_cupons")}>
                         My Cupons
                      </li>
@@ -367,12 +417,12 @@ const LeftSection = ({
                   </summary>
                   <ul className="pl-5">
                      <li
-                        className={` cursor-pointer ${activeRightSection === "saved_upi" && "  bg-blue-100"}  `}
+                        className={` cursor-pointer ${activeRightSection === "saved_upi" && "  bg-blue-100 dark:bg-slate-700"}  `}
                         onClick={() => pageNavigate("saved_upi")}>
                         Saved UPI
                      </li>
                      <li
-                        className={` cursor-pointer ${activeRightSection === "saved_cards" && "  bg-blue-100"}  `}
+                        className={` cursor-pointer ${activeRightSection === "saved_cards" && "  bg-blue-100 dark:bg-slate-700"}  `}
                         onClick={() => pageNavigate("saved_cards")}>
                         Saved Cards
                      </li>
@@ -381,9 +431,9 @@ const LeftSection = ({
             </div>
 
             <div
-               onClick={becomeSellerClickHandler}
-               className=" rounded bg-blue-500 p-2 text-white text-center text-lg font-bold md:my-2">
-               Become Seller
+               onClick={singOutHandler}
+               className=" rounded bg-red-500 p-2 text-white text-center text-lg font-bold md:my-2 cursor-pointer">
+               <button>SignOut</button>
             </div>
          </div>
       </div>

@@ -1,6 +1,6 @@
 const express = require("express");
-const router = express.Router();
 const upload = require("../../lib/multer");
+const router = express.Router();
 
 const passport = require("passport");
 
@@ -62,6 +62,8 @@ const {
    createShopHandler,
    updateShopHandler,
    deleteShopHandler,
+   changeShopStatusAdmin,
+   getAllShopsAdmin,
 } = require("../controller/shopController");
 
 /* GET home page. */
@@ -121,6 +123,17 @@ router.put(
 );
 
 router.get("/getAllOrdersAdmin", isAuthorized, isUserAdmin, getAllOrdersAdmin);
+
+// router.post('/changeOrderStatus', isAuthorized, isUserAdmin, changeOrderStatusAdmin)
+
+router.post(
+   "/changeShopStatus",
+   isAuthorized,
+   isUserAdmin,
+   changeShopStatusAdmin,
+);
+
+router.get("/getAllShopsAdmin", isAuthorized, isUserAdmin, getAllShopsAdmin);
 
 /// // // -------------------- General Api's -------------------->
 router.get("/findAllProducts", findAllProducts);
@@ -277,23 +290,23 @@ router.get("/login/success", (req, res) => {
 
 // // // ----------------- Route used by user shop -------------->>
 
-router.get("/get-shops", isAuthorized, getShopsHandler);
+router.get("/getShops", isAuthorized, getShopsHandler);
 
 router.post(
-   "/create-shop",
+   "/createShop",
    isAuthorized,
    upload.array("file"),
    createShopHandler,
 );
 
 router.put(
-   "/update-shop/:shopId",
+   "/updateShop/:shopId",
    isAuthorized,
    upload.array("file"),
    updateShopHandler,
 );
 
-router.delete("/delete-shop/:shopId", isAuthorized, deleteShopHandler);
+router.delete("/deleteShop/:shopId", isAuthorized, deleteShopHandler);
 
 // // // ------------------------------ Order Api ----------------------->
 router.post("/createOrder", isAuthorized, createNewOrder);

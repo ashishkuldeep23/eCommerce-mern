@@ -32,12 +32,12 @@ const themeSlice = createSlice({
 
             if (!state.mode) {
                 document.documentElement.classList.add("dark");
-                state.mode = true
                 localStorage.setItem("ECommDark", JSON.stringify(true))
+                state.mode = true
             } else {
                 document.documentElement.classList.remove("dark");
-                state.mode = false
                 localStorage.setItem("ECommDark", JSON.stringify(false))
+                state.mode = false
             }
 
         },
@@ -45,8 +45,14 @@ const themeSlice = createSlice({
         setModeOnLoad(state, action) {
             let { mode } = action.payload
 
+            if (mode === true) {
+                document.documentElement.classList.add("dark");
+                localStorage.setItem("ECommDark", JSON.stringify(true))
+            } else {
+                document.documentElement.classList.remove("dark");
+                localStorage.setItem("ECommDark", JSON.stringify(false))
+            }
             state.mode = mode
-
         }
 
 

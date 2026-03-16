@@ -276,7 +276,7 @@ function App() {
       // // // Setting theme --->
       let mode = localStorage.getItem("ECommDark");
       if (mode) {
-         dispatch(setModeOnLoad({ mode: JSON.parse(mode) }));
+         dispatch(setModeOnLoad({ mode: JSON.parse(mode) })); // // // it'll send true or false
       } else {
          dispatch(setModeOnLoad({ mode: true })); // // // I want first time dark time
       }

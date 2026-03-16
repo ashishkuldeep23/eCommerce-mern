@@ -1,5 +1,8 @@
 const uuid = require("uuid");
-
+let orderModel = require("./../model/orderModel");
+const categoryModel = require("../model/categoryModel");
+const brandModel = require("../model/brandModel");
+const { removeSpace } = require("../helper/helper");
 const { uploadArrOfImgOnCloud } = require("../../lib/cloudinary");
 
 // // // required models ---->
@@ -420,11 +423,6 @@ async function getAllProductsAdmin(req, res) {
       res.status(500).send({ status: false, message: `${err}` });
    }
 }
-
-let orderModel = require("./../model/orderModel");
-const categoryModel = require("../model/categoryModel");
-const brandModel = require("../model/brandModel");
-const { removeSpace } = require("../helper/helper");
 
 async function getAllOrdersAdmin(req, res) {
    try {

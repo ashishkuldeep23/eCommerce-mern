@@ -6,6 +6,20 @@ const shopSchema = new mongoose.Schema(
          type: String,
          required: true,
       },
+      description: {
+         type: String,
+         default: "",
+      },
+      // category: {
+      //    type: mongoose.Schema.Types.ObjectId,
+      //    ref: "category",
+      //    required: true,
+      // },
+      // brand: {
+      //    type: mongoose.Schema.Types.ObjectId,
+      //    ref: "brand",
+      //    required: true,
+      // },
       img: {
          type: String,
          default:
@@ -15,6 +29,7 @@ const shopSchema = new mongoose.Schema(
          {
             type: mongoose.Schema.Types.ObjectId,
             ref: "product",
+            default: [],
          },
       ],
 
@@ -42,12 +57,13 @@ const shopSchema = new mongoose.Schema(
          {
             type: mongoose.Schema.Types.ObjectId,
             ref: "user",
+            default: [],
          },
       ],
 
       status: {
          type: String,
-         default: "active",
+         default: "inactive",
          enum: ["active", "inactive"],
       },
    },

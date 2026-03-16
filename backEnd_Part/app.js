@@ -43,7 +43,11 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(
    cors({
       credentials: true,
-      origin: [`${process.env.FRONTEND_URL}`, "https://amakart.vercel.app"],
+      origin: [
+         `${process.env.FRONTEND_URL}`,
+         "http://localhost:5173",
+         "https://amakart.vercel.app",
+      ],
    }),
 );
 
@@ -299,7 +303,8 @@ app.use("/", indexRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
-   next(createError(404));
+   // next(createError(404));
+   res.send("404 not found");
 });
 
 // error handler

@@ -6,7 +6,7 @@ import { RootState } from "../store";
 // import { gettingTokenInCookieAndLocalHost } from "../App";
 // import { OrderData } from "../components/Payment/PaymentComp";
 // import { IProduct } from "../components/ProductListing/ProductLists";
-import { IProduct, UserAddressObj, UserOrderOj } from "../Type/type";
+import { UserDataInitials, } from "../Type/type";
 import { gettingTokenInCookieAndLocalHost, setUserTokenInCookie } from "../Helper/Token";
 
 
@@ -274,6 +274,30 @@ export const addOrRemoveWishList = createAsyncThunk("user/wishList", async (
 })
 
 
+// // // Shop extra reducers here ------------>>
+
+export const createNewShop = createAsyncThunk('user/createNewShop', async (formData: FormData) => {
+
+    // console.log(formData.getAll('file'));
+
+
+    const option: RequestInit = {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+            "token": `${gettingTokenInCookieAndLocalHost()}`,
+            // 'Content-Type': 'multipart/form-data',
+        },
+        body: formData
+    }
+
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/createShop`, option)
+    let data = await response.json();
+    return data
+})
+
+
+
 
 
 // export type UserOrderOj = {
@@ -295,36 +319,7 @@ export const addOrRemoveWishList = createAsyncThunk("user/wishList", async (
 
 
 
-export type UserDataForOder = {
-    isLoading: boolean;
-    isError: boolean;
-    isSingIn: boolean;
-    isLogIn: boolean;
-    isFullFilled: boolean;
-    isForgotFullFilled: boolean;
-    errMsg: string;
-    userData: {
-        // name: string;
-        lastName: string;
-        firstName: string;
-        profilePic: string;
-        role: string;
-        email: string;
-        id: string;
-        isEmailVerified: boolean;
-        address?: UserAddressObj[];
-        orders?: UserOrderOj[];
-        allImages?: [];
-        wishList?: IProduct[];
-        wishListIdsArr?: string[]
-        shops?: string[]
-
-    },
-    tempUserEmail?: string,
-}
-
-
-const initialState: UserDataForOder = {
+const initialState: UserDataInitials = {
     isLoading: false,
     isError: false,
     isSingIn: false,
@@ -348,7 +343,8 @@ const initialState: UserDataForOder = {
         wishListIdsArr: [],
         shops: []
     },
-    tempUserEmail: ""
+    tempUserEmail: "",
+    // shopsDataArr: []
 }
 
 
@@ -1088,6 +1084,46 @@ const userSlice = createSlice({
             })
 
             .addCase(addOrRemoveWishList.rejected, (state, action) => {
+
+                state.isLoading = false
+                state.isError = true
+                state.isFullFilled = false
+                state.errMsg = action?.error?.message!
+                toast.error(`${action.error.message}`);
+            })
+
+
+            // // // shop handlers ------->>
+
+
+
+
+            .addCase(createNewShop.pending, (state) => {
+                state.isLoading = true
+                state.isFullFilled = false
+            })
+
+            .addCase(createNewShop.fulfilled, (state, action) => {
+
+                if (action.payload.status === true && action.payload.data._id) {
+
+                    state.userData.shops?.push(action.payload.data._id)
+
+                    toast.success(`${action.payload.message}`)
+                    state.isFullFilled = true
+
+                } else {
+
+                    toast.error(`${action.payload.message} | 400`)
+                    // console.log(action.payload.data)
+                }
+
+                state.isLoading = false
+
+
+            })
+
+            .addCase(createNewShop.rejected, (state, action) => {
 
                 state.isLoading = false
                 state.isError = true
