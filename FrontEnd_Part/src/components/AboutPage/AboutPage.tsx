@@ -78,11 +78,7 @@ const AboutPage = () => {
          />
 
          {/* Main Content ----->> */}
-         <div className=" flex  flex-col  w-full my-5 md:my-0 md:w-[70%] relative top-0 md:top-10 md:ml-24 md:min-h-screen ">
-            {/* <div className="text-center mt-10 text-3xl">
-                    <p className=" underline">Welcome <span className=" capitalize font-bold ">{(getUserData.firstName || "") + " " + (getUserData.lastName || "")} 😊</span></p>
-                </div> */}
-
+         <div className=" flex  flex-col  w-full my-5 relative pt-0 md:pt-28 md:my-0 md:w-[70%]  md:ml-36 md:min-h-screen scale-100 md:scale-125 ">
             {activeRightSection === "shop_page" ? (
                <>
                   <p className=" underline text-lg font-semibold text-center sm:text-start">

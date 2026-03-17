@@ -34,6 +34,10 @@ const UserAddressDiv = ({ containerClass }: { containerClass?: string }) => {
 
    const dispatch = useDispatch<AppDispatch>();
 
+   const isLoading = userState().isLoading;
+
+   const isFullfiled = userState().isFullFilled;
+
    // const [newAddressData, setNewAddresData] = useState<AddresInputs>()
 
    async function autoFillAddress(
@@ -188,10 +192,6 @@ const UserAddressDiv = ({ containerClass }: { containerClass?: string }) => {
       dispatch(upadteUserData({ formData: addressFormData }));
    }
 
-   const isLoading = userState().isLoading;
-
-   const isFullfiled = userState().isFullFilled;
-
    // // // back to normal all things ---->
    useEffect(() => {
       // // // back to normal all things ---->
@@ -255,7 +255,7 @@ const UserAddressDiv = ({ containerClass }: { containerClass?: string }) => {
                   return (
                      <Fragment key={i}>
                         <div
-                           className={`${!themeMode ? "bg-slate-100" : "bg-slate-900"} relative p-0.5 rounded  border-b border-green-300`}>
+                           className={`${!themeMode ? "bg-slate-100" : "bg-slate-900"} my-2 relative p-0.5 rounded shadow-md shadow-green-500  `}>
                            {/* <span className=" absolute left-5 border border-green-300 px-1 rounded-full text-green-300">{i + 1}</span> */}
                            <p>Street : {ele.street || "Not Given"}</p>
                            <p>City : {ele.city || "Not Given"}</p>

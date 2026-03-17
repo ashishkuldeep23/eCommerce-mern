@@ -85,14 +85,14 @@ const OrderOfUser = () => {
 
    return (
       <div
-         className={`${!themeMode ? "bg-white text-gray-900" : "bg-black text-gray-200"} py-10 flex justify-center flex-col items-center `}>
+         className={`${!themeMode ? "bg-white text-gray-900" : "bg-black text-gray-200"} py-10 flex justify-center flex-col items-center md:items-start `}>
          {/* order div */}
 
-         <h2 className=" text-4xl text-center  underline text-green-300">
+         <h2 className=" my-4 text-4xl text-center md:text-start  underline text-green-300">
             Your previous orders{" "}
          </h2>
 
-         {/* Hide this div for now ---------> */}
+         {/* Hide this div for now (remove hidden class when everything is done with logic) ---------> */}
          <div className="my-10 hidden">
             <OrderFilterSection
                allOrdersOfUser={allOrdersOfUser}
@@ -103,7 +103,7 @@ const OrderOfUser = () => {
          {getUserData.orders && getUserData.orders.length > 0 ? (
             // // Actual UI code ---->
 
-            <div className="flex flex-wrap justify-evenly px-5">
+            <div className="flex flex-wrap justify-center md:justify-start items-start px-5 ">
                {allOrdersOfUser.map((order, i) => {
                   return (
                      <Fragment key={order.id}>
@@ -120,10 +120,10 @@ const OrderOfUser = () => {
                                     </div> */}
 
                            <div
-                              className={` w-fit h-fit sm:pr-3 rounded  flex flex-wrap gap-2 justify-center items-center relative  border-b-2 border-l-2 ${!themeMode ? "border-green-500" : "border-green-300"} transition-all `}>
+                              className={`  w-fit h-fit sm:pr-3 rounded  flex flex-wrap gap-2 justify-center md:justify-start items-center relative  border-b-2 border-l-2 ${!themeMode ? "border-green-500" : "border-green-300"} transition-all `}>
                               {/* single order detaio */}
                               <div
-                                 className={`w-full smm:w-72 h-96 border-2 rounded md:max-w-sm px-1 flex flex-col justify-center text-center relative ${!themeMode ? "bg-green-300 border-green-500 " : "bg-green-800 border-green-300 "}  transition-all`}>
+                                 className={`  w-full smm:w-72 h-96 border-2 rounded md:max-w-sm px-1 flex flex-col justify-center text-center relative ${!themeMode ? "bg-green-300 border-green-500 " : "bg-green-800 border-green-300 "}  transition-all`}>
                                  <p className=" font-bold font-mono underline text-xl absolute top-8 left-1/2 -translate-x-1/2 w-full">
                                     {" "}
                                     {allOrdersOfUser &&
