@@ -64,6 +64,7 @@ const {
    deleteShopHandler,
    changeShopStatusAdmin,
    getAllShopsAdmin,
+   getSingleShopHandler,
 } = require("../controller/shopController");
 
 /* GET home page. */
@@ -289,6 +290,8 @@ router.get("/login/success", (req, res) => {
 });
 
 // // // ----------------- Route used by user shop -------------->>
+
+router.get("/shop/:shopId", getSingleShopHandler);
 
 router.get("/getShops", isAuthorized, getShopsHandler);
 

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
 import { Link, useNavigate } from "react-router-dom";
@@ -25,12 +25,17 @@ type SingFormInputs = {
    confirmPassword: string;
 };
 
-const formData = new FormData();
+// const formData = new FormData();
 
-// // // Added date and time first --->
-formData.set("whenCreted", `${new Date()}`);
+// // // // Added date and time first --->
+// formData.set("whenCreted", `${new Date()}`);
 
 export default function SignIn() {
+   const formData = useRef(new FormData()).current;
+
+   // // // Added date and time first --->
+   // formData.set("whenCreted", `${new Date()}`);
+
    const navigate = useNavigate();
    const dispatch = useDispatch<AppDispatch>();
 
@@ -130,8 +135,9 @@ export default function SignIn() {
    const onSubmit: SubmitHandler<SingFormInputs> = (data) => {
       // console.log(data);
 
-      // // // Here you can call you backend
+      formData.set("whenCreted", `${new Date()}`);
 
+      // // // Here you can call you backend
       if (Object.keys(errors).length <= 0) {
          const { confirmPassword, ...resData } = data;
 

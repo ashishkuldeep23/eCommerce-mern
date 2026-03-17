@@ -2,16 +2,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { upadteUserData, userState } from "../../../Slices/UserSlice";
 import { AppDispatch, RootState } from "../../../store";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type UpdateName = {
    firstName: string;
    lastName: string;
 };
 
-const formData = new FormData();
+// const formData = new FormData();
 
 export function UserNameAndUpadte() {
+   const formData = useRef(new FormData()).current;
    const getUserData = userState().userData;
 
    const themeMode = useSelector((state: RootState) => state.themeReducer.mode);
@@ -79,7 +80,8 @@ export function UserNameAndUpadte() {
    }, [isFullfiled]);
 
    return (
-      <div className={`  ${!updateName ? "h-9 " : " h-60 "} duration-500 transition-all overflow-hidden `}>
+      <div
+         className={`  ${!updateName ? "h-9 " : " h-60 "} duration-500 transition-all overflow-hidden `}>
          <h2
             className={` ${!themeMode ? "bg-slate-100" : "bg-slate-900"}  font-bold w-full rounded my-0.5 px-1`}>
             Name :{" "}
@@ -98,73 +100,73 @@ export function UserNameAndUpadte() {
          </h2>
 
          {/* {updateName && ( */}
-            <form
-               noValidate
-               className="space-y-3 flex flex-col max-w-[85vw] sm:max-w-[50vh] "
-               onSubmit={handleSubmit(onSubmit)}>
-               <div>
-                  <label
-                     htmlFor="firstName"
-                     className="block text-sm font-medium leading-6  ">
-                     First Name <span className=" text-red-500">*</span>
-                  </label>
-                  <div className="mt-2">
-                     <input
-                        id="firstName"
-                        placeholder="First Name"
-                        type="text"
-                        {...register("firstName", {
-                           required: "Full Name is Required",
-                           pattern: {
-                              value: /[a-zA-Z][a-zA-Z0-9-_ .]{3,25}/gi,
-                              message:
-                                 "Must start with an alphabetic character. Can contain the following characters: a-z A-Z 0-9 - . _ and should be in between 5 to 25",
-                           },
-                        })}
-                        className={`block w-full rounded-md border-0 py-1.5  shadow-sm ring-1 ring-inset ring-gray-300  focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ${!themeMode ? " bg-white text-gray-900 " : "bg-gray-900 text-white"}`}
-                     />
-                     <p className="text-sm pl-2 text-red-500 font-bold">
-                        {" "}
-                        {errors.firstName?.message}{" "}
-                     </p>
-                  </div>
-               </div>
-
+         <form
+            noValidate
+            className="space-y-3 flex flex-col max-w-[85vw] sm:max-w-[50vh] "
+            onSubmit={handleSubmit(onSubmit)}>
+            <div>
+               <label
+                  htmlFor="firstName"
+                  className="block text-sm font-medium leading-6  ">
+                  First Name <span className=" text-red-500">*</span>
+               </label>
                <div className="mt-2">
-                  <label
-                     htmlFor="lastName"
-                     className="block text-sm font-medium leading-6">
-                     Last Name <span className=" text-red-500">*</span>
-                  </label>
-                  <div className="mt-2">
-                     <input
-                        id="lastName"
-                        placeholder="Last Name"
-                        type="text"
-                        {...register("lastName", {
-                           required: "Last Name is Required",
-                           pattern: {
-                              value: /[a-zA-Z][a-zA-Z0-9-_ .]{5,25}/gi,
-                              message:
-                                 "Must start with an alphabetic character. Can contain the following characters: a-z A-Z 0-9 - . _ and should be in between 5 to 25",
-                           },
-                        })}
-                        className={`block w-full rounded-md border-0 py-1.5  shadow-sm ring-1 ring-inset ring-gray-300  focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ${!themeMode ? " bg-white text-gray-900 " : "bg-gray-900 text-white"}`}
-                     />
-
-                     <p className="text-sm pl-2 text-red-500 font-bold">
-                        {" "}
-                        {errors.lastName?.message}{" "}
-                     </p>
-                  </div>
+                  <input
+                     id="firstName"
+                     placeholder="First Name"
+                     type="text"
+                     {...register("firstName", {
+                        required: "Full Name is Required",
+                        pattern: {
+                           value: /[a-zA-Z][a-zA-Z0-9-_ .]{3,25}/gi,
+                           message:
+                              "Must start with an alphabetic character. Can contain the following characters: a-z A-Z 0-9 - . _ and should be in between 5 to 25",
+                        },
+                     })}
+                     className={`block w-full rounded-md border-0 py-1.5  shadow-sm ring-1 ring-inset ring-gray-300  focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ${!themeMode ? " bg-white text-gray-900 " : "bg-gray-900 text-white"}`}
+                  />
+                  <p className="text-sm pl-2 text-red-500 font-bold">
+                     {" "}
+                     {errors.firstName?.message}{" "}
+                  </p>
                </div>
+            </div>
 
-               <button
-                  type="submit"
-                  className=" ml-auto rounded-md bg-green-600 px-3 py-1.5 text-sm  leading-6 text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600 font-bold">
-                  Update Name
-               </button>
-            </form>
+            <div className="mt-2">
+               <label
+                  htmlFor="lastName"
+                  className="block text-sm font-medium leading-6">
+                  Last Name <span className=" text-red-500">*</span>
+               </label>
+               <div className="mt-2">
+                  <input
+                     id="lastName"
+                     placeholder="Last Name"
+                     type="text"
+                     {...register("lastName", {
+                        required: "Last Name is Required",
+                        pattern: {
+                           value: /[a-zA-Z][a-zA-Z0-9-_ .]{5,25}/gi,
+                           message:
+                              "Must start with an alphabetic character. Can contain the following characters: a-z A-Z 0-9 - . _ and should be in between 5 to 25",
+                        },
+                     })}
+                     className={`block w-full rounded-md border-0 py-1.5  shadow-sm ring-1 ring-inset ring-gray-300  focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ${!themeMode ? " bg-white text-gray-900 " : "bg-gray-900 text-white"}`}
+                  />
+
+                  <p className="text-sm pl-2 text-red-500 font-bold">
+                     {" "}
+                     {errors.lastName?.message}{" "}
+                  </p>
+               </div>
+            </div>
+
+            <button
+               type="submit"
+               className=" ml-auto rounded-md bg-green-600 px-3 py-1.5 text-sm  leading-6 text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600 font-bold">
+               Update Name
+            </button>
+         </form>
          {/* )} */}
       </div>
    );

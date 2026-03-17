@@ -1,6 +1,6 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 // import { IProduct } from "../ProductListing/ProductLists";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 // import {
 //    adminDataState,
 //    createNewProduct,
@@ -15,7 +15,12 @@ import { useDispatch, useSelector } from "react-redux";
 // import ProductOptionForm from "./Comps/ProductType";
 // import { newEntry, newOption } from "../../Helper/helper";
 import { toast } from "sonner";
-import { adminDataState, createNewProduct, setUpdatingProduct, updateProductAdmin } from "../../../Slices/AdminSliceFile";
+import {
+   adminDataState,
+   createNewProduct,
+   setUpdatingProduct,
+   updateProductAdmin,
+} from "../../../Slices/AdminSliceFile";
 import { AppDispatch, RootState } from "../../../store";
 import { Entry, NewProductInput, OptionInterface } from "../../../Type/type";
 import { newEntry, newOption } from "../../../Helper/helper";
@@ -27,7 +32,7 @@ import ProductOptionForm from "./ProductType";
 // import StringArrayFormApp from "./Comps/DivUsedInCommaSeprated";
 
 // // // This form data will hold inputs ---->
-const formData = new FormData();
+// const formData = new FormData();
 
 // // // // Added date and time first --->
 // formData.set("whenCreted", `${new Date()}`)
@@ -35,6 +40,7 @@ const formData = new FormData();
 // // // Omit is the key word that we can use to change the feild value type in extended  ----> (Very improtant)
 
 function CreateNewProduct() {
+   const formData = useRef(new FormData()).current;
    const isLoading = adminDataState().isLoading;
 
    const dispatch = useDispatch<AppDispatch>();
@@ -124,7 +130,6 @@ function CreateNewProduct() {
    const [productDetailsEntries, setProductDetailsEntries] = useState<Entry[]>([
       newEntry(),
    ]);
-
 
    // const [currentBarnd, setcurrentBarnd] = useState("");
 
@@ -779,7 +784,6 @@ function CreateNewProduct() {
       setValue("description.dimensions", dimenstionsEntries);
 
       setValue("description.product_Details", productDetailsEntries);
-
    }, [
       // productHighlight,
       productSpecs,
@@ -811,10 +815,11 @@ function CreateNewProduct() {
 
          <div
             className={`  relative w-full py-2 px-1.5 rounded border 
-            ${themeMode
+            ${
+               themeMode
                   ? ` ${!updatingProduct ? "bg-fuchsia-950" : " bg-rose-950"}  border-white `
                   : ` ${!updatingProduct ? "bg-fuchsia-200" : "bg-rose-200"}  border-black `
-               }`}
+            }`}
             id="createOrderDiv">
             <p className=" font-semibold mt-1 mb-4 underline text-3xl text-center ">
                {!updatingProduct
@@ -920,7 +925,7 @@ function CreateNewProduct() {
                                  min: {
                                     value: 0,
                                     message: "Not less then 0",
-                                 }
+                                 },
                               })}
                               className={`block w-full rounded-md border border-inherit bg-inherit py-1.5  shadow-sm   focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ${!themeMode ? "  text-gray-900 " : " text-white"}`}
                            />
@@ -951,12 +956,9 @@ function CreateNewProduct() {
                         // // value={getValues('category') || ''}>
                         // value={currentCategory || ''}
 
-                        {
-                        ...register("category", {
+                        {...register("category", {
                            required: "Category is Required",
-                        })
-                        }
-                     >
+                        })}>
                         {allCategories.length &&
                            allCategories.map((category, i) => {
                               return (
@@ -968,8 +970,6 @@ function CreateNewProduct() {
                                  </option>
                               );
                            })}
-
-
                      </select>
 
                      <p className="text-sm pl-2 text-red-500 font-bold">
@@ -992,12 +992,9 @@ function CreateNewProduct() {
                         // onChange={(e) => brandOnChangeHandler(e)}
                         // value={currentBarnd || ''}
 
-                        {
-                        ...register("brand", {
+                        {...register("brand", {
                            required: "Brand is Required",
-                        })
-                        }
-                     >
+                        })}>
                         {allBrands.length &&
                            allBrands.map((brand, i) => {
                               return (
@@ -1047,7 +1044,6 @@ function CreateNewProduct() {
                         {errors.brand?.message}{" "}
                      </p>
                   </div>
-
                </div>
 
                {/* Detailed  description of product */}
@@ -1144,7 +1140,10 @@ function CreateNewProduct() {
                         <KeyValueFormApp
                            entries={specificationEntries}
                            setEntries={setSpecificationEntries}
-                           placeholder={{ key: "Pack of |  Designed by", value: '1 | Brand_Name' }}
+                           placeholder={{
+                              key: "Pack of |  Designed by",
+                              value: "1 | Brand_Name",
+                           }}
                         />
 
                         <p>{errors.description?.specifications?.message}</p>
@@ -1161,7 +1160,10 @@ function CreateNewProduct() {
                         <KeyValueFormApp
                            entries={dimenstionsEntries}
                            setEntries={setDimenstionsEntries}
-                           placeholder={{ key: "Width | Height", value: "10cm | 10cm" }}
+                           placeholder={{
+                              key: "Width | Height",
+                              value: "10cm | 10cm",
+                           }}
                         />
                      </div>
 
@@ -1175,7 +1177,10 @@ function CreateNewProduct() {
                         <KeyValueFormApp
                            entries={productDetailsEntries}
                            setEntries={setProductDetailsEntries}
-                           placeholder={{ key: 'Ideal For | Shape', value: " Men, Women, Kids | Rectangular" }}
+                           placeholder={{
+                              key: "Ideal For | Shape",
+                              value: " Men, Women, Kids | Rectangular",
+                           }}
                         />
                      </div>
                   </div>

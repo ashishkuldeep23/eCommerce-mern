@@ -11,6 +11,9 @@ import Modal from "./components/Modal/Modal";
 import UserSinInWithGoogle from "./Screens/UserSinInSuccessfull";
 import OrdersScreen from "./Screens/MyOrdersScreen";
 import StripeMainPage from "./Screens/StripeMainPage";
+import OrderConfirm from "./components/OrderConfirm/OrderConfirm";
+import DetailsOfSingleShop from "./Screens/DetailsOfSingleShop";
+import ForgotPassMainScreen from "./Screens/ForgotPassMainScreen";
 import { useEffect } from "react";
 import { Toaster } from "sonner";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,10 +24,8 @@ import {
    fetchAllCategoryAndHighlight,
    fetchAllProducts,
 } from "./Slices/AllProductSlice";
-import OrderConfirm from "./components/OrderConfirm/OrderConfirm";
 import { createBrowserRouter, RouterProvider, Link } from "react-router-dom";
 import { CategorySearchPage } from "./Screens/CategorySearchPage";
-import ForgotPassMainScreen from "./Screens/ForgotPassMainScreen";
 import { ForgotPassReqScreen } from "./Screens/ForgotPassReqScreen";
 import { FeedbackScreen } from "./Screens/FeedbackScreen";
 import { VerifyMail } from "./components/verifyMail/verifyMail";
@@ -60,6 +61,15 @@ const router = createBrowserRouter([
          <>
             {" "}
             <DetailOfSingleProduct />{" "}
+         </>
+      ),
+   },
+   {
+      path: "/shop/:id",
+      element: (
+         <>
+            {" "}
+            <DetailsOfSingleShop />{" "}
          </>
       ),
    },

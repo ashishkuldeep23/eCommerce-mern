@@ -5,16 +5,18 @@ import {
    userState,
 } from "../../../Slices/UserSlice";
 import { AppDispatch, RootState } from "../../../store";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 
 import { useForm, SubmitHandler } from "react-hook-form";
 
 import { toast } from "sonner";
 import { UserAddressObj } from "../../../Type/type";
 
-const addressFormData = new FormData();
+// const addressFormData = new FormData();
 
 const UserAddressDiv = ({ containerClass }: { containerClass?: string }) => {
+   const addressFormData = useRef(new FormData()).current;
+
    const getUserData = userState().userData;
 
    const themeMode = useSelector((state: RootState) => state.themeReducer.mode);

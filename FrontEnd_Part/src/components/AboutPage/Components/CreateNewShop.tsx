@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { AppDispatch } from "../../../store";
 import { createNewShop } from "../../../Slices/UserSlice";
 import { setChildrenModal, setOpenMoadl } from "../../../Slices/ModalSlice";
+import { makeFormData } from "../../../Helper/makeFormData";
 
 type ShopForm = {
    name: string;
@@ -13,7 +14,7 @@ type ShopForm = {
    file: File | null;
 };
 
-const formData = new FormData();
+// const formData = new FormData();
 
 const CreateNewShop = () => {
    const dispatch = useDispatch<AppDispatch>();
@@ -59,7 +60,9 @@ const CreateNewShop = () => {
    const imageChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
       if (e.target.files) {
          const file = e?.target?.files[0];
-         formData.set("file", file);
+
+         // formData.set("file", file);
+
          setShopForm((prev) => ({ ...prev, file }));
       }
    };
@@ -76,18 +79,19 @@ const CreateNewShop = () => {
             return;
          }
 
-         formData.set("name", shopForm.name);
-         formData.set("description", shopForm.description);
+         // formData.set("name", shopForm.name);
+         // formData.set("description", shopForm.description);
          //  formData.append("file", shopForm.file || "");
 
-         dispatch(createNewShop(formData));
+         // dispatch(createNewShop(formData));
+
+         dispatch(createNewShop(makeFormData(shopForm)));
 
          // // // Make modal to close after 2 sec
          setTimeout(() => {
             dispatch(setOpenMoadl(false));
             dispatch(setChildrenModal(<></>));
          }, 2000);
-         
       } catch (error: any) {
          console.log(error);
          toast.error(error.message || "Something went wrong");

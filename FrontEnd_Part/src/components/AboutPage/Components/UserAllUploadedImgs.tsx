@@ -3,8 +3,9 @@ import { upadteUserData, userState } from "../../../Slices/UserSlice";
 import { AppDispatch } from "../../../store";
 import { useEffect, useState } from "react";
 import { setChildrenModal, setOpenMoadl } from "../../../Slices/ModalSlice";
+import { makeFormData } from "../../../Helper/makeFormData";
 
-const fromData = new FormData();
+// const fromData = new FormData();
 
 export function UserAllUploadedImgs() {
    const getUserData = userState().userData;
@@ -14,10 +15,19 @@ export function UserAllUploadedImgs() {
    const dispatch = useDispatch<AppDispatch>();
 
    function makeThisProfilePic(img: string) {
-      fromData.set("whatUpadte", "makeProfilePic");
-      fromData.set("pathUrl", `${img}`);
+      // fromData.set("whatUpadte", "makeProfilePic");
+      // fromData.set("pathUrl", `${img}`);
 
-      dispatch(upadteUserData({ formData: fromData }));
+      // dispatch(upadteUserData({ formData: fromData }));
+
+      dispatch(
+         upadteUserData({
+            formData: makeFormData({
+               pathUrl: img,
+               whatUpadte: "makeProfilePic",
+            }),
+         }),
+      );
    }
 
    const [userAllImgs, setUserAllImgs] = useState([]);

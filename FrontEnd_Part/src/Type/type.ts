@@ -1,6 +1,5 @@
-
-
 import "react";
+
 
 declare module "react" {
     interface DetailsHTMLAttributes<T> extends React.HTMLAttributes<T> {
@@ -131,6 +130,7 @@ export interface CartInter {
 
 
 export interface ShopInterface {
+    _id: string,
     name: string,
     description: string,
     img: string

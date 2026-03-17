@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { useDispatch } from "react-redux";
 import {
@@ -9,9 +9,12 @@ import {
 import { AppDispatch } from "../../../store";
 import { setChildrenModal, setOpenMoadl } from "../../../Slices/ModalSlice";
 
-const formData = new FormData();
+// const formData = new FormData();
 
 const UserImageDiv = ({ userImgClass }: { userImgClass?: string }) => {
+
+   const formData = useRef(new FormData()).current;
+
    const getUserData = userState().userData;
 
    const dispatch = useDispatch<AppDispatch>();
@@ -19,7 +22,6 @@ const UserImageDiv = ({ userImgClass }: { userImgClass?: string }) => {
    const [userImgFile, setUserImgFile] = useState<File | null>(null);
 
    //    const [showImgInput, setShowImgInput] = useState<boolean>(false);
-
    const [userImage, setUserImage] = useState<string>(getUserData.profilePic);
 
    function showModalWithValues() {

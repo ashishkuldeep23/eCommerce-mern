@@ -557,9 +557,15 @@ export default function ProductDetails() {
                                             userData.wishListIdsArr &&
                                             userData.wishListIdsArr.length >
                                                0 &&
-                                            userData?.wishListIdsArr?.includes(
-                                               singleProductData.id.toString(),
-                                            )
+                                            userData?.wishListIdsArr
+                                               .map((w) =>
+                                                  typeof w === "string"
+                                                     ? w
+                                                     : w.id,
+                                               )
+                                               ?.includes(
+                                                  singleProductData.id.toString(),
+                                               )
                                                ? "border-red-600 focus:ring-red-500 hover:border-red-700"
                                                : "border-indigo-600 focus:ring-indigo-500 hover:border-indigo-700"
                                          }
@@ -572,9 +578,9 @@ export default function ProductDetails() {
                               }}>
                               {userData.wishListIdsArr &&
                               userData.wishListIdsArr.length > 0 &&
-                              userData?.wishListIdsArr?.includes(
-                                 singleProductData.id.toString(),
-                              ) ? (
+                              userData?.wishListIdsArr
+                                 .map((w) => (typeof w === "string" ? w : w.id))
+                                 ?.includes(singleProductData.id.toString()) ? (
                                  <span className=" mr-[0.3rem]">
                                     -Remove from
                                  </span>

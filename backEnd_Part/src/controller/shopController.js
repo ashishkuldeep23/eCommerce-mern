@@ -1,4 +1,5 @@
 const { uploadImageOnCloudinary } = require("../../lib/cloudinary");
+const { removeSpace } = require("../helper/helper");
 const shopModel = require("../model/shopModel");
 const userModel = require("../model/userModel");
 
@@ -25,6 +26,67 @@ exports.getShopsHandler = async (req, res) => {
          status: true,
          message: "All Shops fetched successfully",
          data: allShopsByUSer,
+      });
+   } catch (err) {
+      console.log(err);
+      res.status(500).send({ status: false, message: `${err}` });
+   }
+};
+
+exports.getSingleShopHandler = async (req, res) => {
+   try {
+      // const userId = req.tokenUserData.id;
+
+      // if (!userId) {
+      //    return res.status(401).send({
+      //       status: false,
+      //       message:
+      //          "Please SingIn again, Something went wroung with your request.No token found.",
+      //    });
+      // }
+
+      const shopId = req?.params?.shopId?.trim().toLowerCase();
+
+      console.log({ shopId });
+
+      if (!shopId) {
+         return res
+            .status(400)
+            .send({ status: false, message: "Shop Id can't be empty" });
+      }
+
+      // const checkShop = await shopModel.findOne({
+      //    $or: [{ _id: shopId }, { name: shopId }],
+      // });
+      const checkShop = await shopModel
+         .findOne({ name: shopId })
+         .populate({
+            path: "createdBy",
+            select: "name email   ",
+         })
+         .populate({
+            path: "products",
+            select: "name price   ",
+         });
+
+      // console.log(checkShop);
+
+      if (!checkShop) {
+         return res
+            .status(404)
+            .send({ status: false, message: "Shop not found" });
+      }
+
+      // if (checkShop.createdBy.toString() !== userId.toString()) {
+      //    return res
+      //       .status(400)
+      //       .send({ status: false, message: "Shop not found" });
+      // }
+
+      res.status(200).send({
+         status: true,
+         message: "Shop fetched successfully",
+         data: checkShop,
       });
    } catch (err) {
       console.log(err);
@@ -111,7 +173,7 @@ exports.createShopHandler = async (req, res) => {
 
       const newShop = await shopModel.create({
          //  ...req.body,
-         name: body.name.toLowerCase(),
+         name: removeSpace(body.name.trim().toLowerCase()), //body.name.toLowerCase(),
          description: body.description.toLowerCase(),
          img: shopImg,
          createdBy: userId,
