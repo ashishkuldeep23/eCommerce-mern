@@ -510,7 +510,7 @@ export default function ProductDetails() {
                                  Available options{" "}
                               </h3>
 
-                              <p>{JSON.stringify(singleProductData.type)}</p>
+                              <p>{JSON.stringify(singleProductData?.type)}</p>
                               {/* <p>{JSON.stringify(type)}</p> */}
                               {/* <form >{
 

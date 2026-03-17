@@ -170,7 +170,7 @@ const Footer = () => {
 
         {/* GoTo top BTN */}
         <button
-          className={`  absolute bottom-4 left-3 sm:left-20 sm:bottom-16 z-10 border p-2 rounded-full text-2xl hover:-translate-y-2 hover:scale-150 active:scale-75 transition-all ${!themeMode ? "text-black bg-white border-black" : "bg-black text-white border-white"} `}
+          className={`  absolute bottom-4 left-3 sm:left-28 sm:bottom-16 z-10 border p-2 rounded-full text-2xl hover:-translate-y-2 hover:scale-150 active:scale-75 transition-all ${!themeMode ? "text-black bg-white border-black" : "bg-black text-white border-white"} `}
           onClick={() => { window.scroll(0, 0) }}
         >🔝</button>
 

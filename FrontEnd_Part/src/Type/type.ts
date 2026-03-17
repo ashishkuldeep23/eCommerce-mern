@@ -41,6 +41,8 @@ export interface IProduct {
 
     "brand": string;
     "category": string;
+    categoryName: string,
+    brandName: string
 
     "rating": {
         "totalPerson": number;

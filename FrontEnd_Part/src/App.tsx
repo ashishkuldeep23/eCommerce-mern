@@ -41,12 +41,7 @@ const router = createBrowserRouter([
 
    {
       path: "/",
-      element: (
-         <>
-            {" "}
-            <HomePage />{" "}
-         </>
-      ),
+      element: <HomePage />,
    },
 
    // { path: "/product", element: (<LogInProtected> <DetailOfSingleProduct /> </LogInProtected>) },
