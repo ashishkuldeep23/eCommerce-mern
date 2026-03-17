@@ -62,11 +62,11 @@ exports.getSingleShopHandler = async (req, res) => {
          .findOne({ name: shopId })
          .populate({
             path: "createdBy",
-            select: "name email   ",
+            select: "name email profilePic",
          })
          .populate({
             path: "products",
-            select: "name price   ",
+            select: "name price",
          });
 
       // console.log(checkShop);
@@ -180,6 +180,7 @@ exports.createShopHandler = async (req, res) => {
          products: [],
          isDeleted: false,
          status: "inactive",
+         msg: "Shop get created recently.",
       });
 
       // // // upadte shopId in user section ---->>

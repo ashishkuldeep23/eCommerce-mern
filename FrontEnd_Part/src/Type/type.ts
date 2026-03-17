@@ -140,6 +140,8 @@ export interface ShopInterface {
     views: number,
     likes: number,
     likedBy: string[],
+    createdAt?: string,
+    msg?: string;
 }
 
 
