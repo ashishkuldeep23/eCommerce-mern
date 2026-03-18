@@ -32,7 +32,7 @@ const Footer = () => {
     window.scroll(0, 0)
 
 
-    console.log(catOrbarnd, searchKey)
+    // console.log(catOrbarnd, searchKey)
 
 
     if (catOrbarnd === "brand") {
@@ -74,7 +74,7 @@ const Footer = () => {
           <div className="text-center">
 
             <p> <span className=" font-bold">&copy; {currentYear().toString()}</span> E-Commerce Website.</p>
-            <p>Developed by <a className=" font-bold underline text-violet-500 font-mono" href="https://akp23.vercel.app/" target="_blank"> Ashish Kuldeep</a> </p>
+            <p>Developed by <a className=" font-bold underline text-violet-500 font-mono" href="https://ak23.vercel.app/" target="_blank"> Ashish Kuldeep</a> </p>
           </div>
 
 

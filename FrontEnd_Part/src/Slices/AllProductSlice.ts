@@ -286,7 +286,7 @@ const allProductsCatSlice = createSlice({
 
             .addCase(fetchAllProducts.pending, (state) => {
                 state.isLoading = true;
-                state.allCaegory = [];
+                // state.allCaegory = [];
             })
 
             .addCase(fetchAllProducts.fulfilled, (state, action) => {
@@ -298,8 +298,9 @@ const allProductsCatSlice = createSlice({
                 }
 
                 state.isLoading = false;
+                // state.allProducts = action.payload.allProductData
                 state.allProducts = action.payload.allProductData
-                state.allCaegory = action.payload.allCategory
+                // state.allCaegory = action.payload.allCategory
                 state.searchByQuery = false
 
 
@@ -310,7 +311,7 @@ const allProductsCatSlice = createSlice({
 
                 // state.allHighlightProducts = action.payload.allHighlights
 
-                // console.log(action.payload)
+                console.log({d :action.payload})
             })
 
             .addCase(fetchAllProducts.rejected, (state, action) => {

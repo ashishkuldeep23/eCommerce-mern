@@ -252,14 +252,14 @@ const SingleReview = ({ reviewData }: PropOfSingleReview) => {
                     </div>
 
                     {/* Edit Delete btns ---> */}
-                    <div className={` mt-0.5 flex  justify-end relative  ${userDataId === reviewData.userId.id ? "display" : "hidden"} `}>
+                    <div className={` mt-0.5 flex  justify-end relative  ${userDataId === reviewData.userId?.id ? "display" : "hidden"} `}>
                         {/* <div className={` mt-0.5 flex  justify-end relative  `}> */}
 
                         <div className=" absolute left-0">
 
                             <button
                                 className="  border rounded px-0.5 mx-0.5 hover:bg-red-300 hover:text-white"
-                                onClick={(e) => { e.stopPropagation(); dispatch(deleteReview({ reviewId: reviewData.id, userUID: userDataId })) }}
+                                onClick={(e) => { e.stopPropagation(); dispatch(deleteReview({ reviewId: reviewData?.id, userUID: userDataId })) }}
                             >
                                 <i className="ri-delete-bin-7-line"></i>
                             </button>

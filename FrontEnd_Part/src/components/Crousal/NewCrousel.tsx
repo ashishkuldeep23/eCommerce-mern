@@ -231,7 +231,7 @@ function SingleCrouselForOriginalData({
    return (
       // <>
       <div
-         className={` border border-teal-700 dark:border-teal-300 !w-[85vw] singleCrousel  flex justify-center  h-crH rounded-xl sm:rounded-3xl overflow-hidden hover:cursor-pointer relative 
+         className={` bg-teal-100/50 dark:bg-teal-900/50  !w-[85vw] singleCrousel  flex justify-center  h-crH rounded-xl sm:rounded-3xl overflow-hidden hover:cursor-pointer relative 
                     ${index !== activeSlideIndex && " scale-y-75"}  transition-all duration-1000`}>
          {/* <div
             style={{

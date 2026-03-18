@@ -16,6 +16,11 @@ const userModel = require("./src/model/userModel");
 const axios = require("axios");
 
 const indexRouter = require("./src/routes/routes");
+const { redisConnection } = require("./src/config/redis.cjs");
+
+// redisConnection.on("connect", () => {
+//    console.log("✅ Connected to Redis");
+// });
 
 // // // Mongo DB connection code
 mongoose

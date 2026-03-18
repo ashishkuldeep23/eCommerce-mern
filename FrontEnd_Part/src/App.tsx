@@ -227,6 +227,7 @@ function App() {
             category: "",
             price: "-1",
             limit: `${limitValue}`,
+            page: "1",
          }),
       );
 

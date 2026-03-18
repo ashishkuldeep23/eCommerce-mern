@@ -24,6 +24,10 @@ export default function ProductLists() {
       (store: RootState) => store.allProductWithCatReducer.allProducts,
    );
 
+   // console.log({ productCategory, products });
+
+   const allCatNameOfProducts = products.map((product) => product.categoryName);
+
    const searchByQuery = useSelector(
       (state: RootState) => state.allProductWithCatReducer.searchByQuery,
    );
@@ -57,7 +61,6 @@ export default function ProductLists() {
       );
       window.scroll(0, 500);
    };
-
    return (
       <div
          className={`${!themeMode ? "bg-white text-gray-700" : "bg-black text-gray-100"}`}
@@ -83,13 +86,15 @@ export default function ProductLists() {
                // // // Actual ui code here --->
 
                productCategory.map((element, i) => {
+                  if (!allCatNameOfProducts.includes(element))
+                     return <Fragment key={i}></Fragment>;
                   return (
                      <Fragment key={i}>
                         <p className="pt-10 capitalize text-2xl font-bold pl-2 underline">
                            {element}
                         </p>
 
-                        <div className="h-90 flex flex-wrap flex-col items-start overflow-y-hidden overflow-x-auto my-2  pb-3 ">
+                        <div className="h-80 flex flex-wrap flex-col gap-14 items-start ml-0 mx-auto overflow-y-hidden overflow-x-auto my-2  pb-3 ">
                            {products.length > 0 ? (
                               products
                                  .filter((item) => {
@@ -107,6 +112,17 @@ export default function ProductLists() {
                               <h1>Getting data , Place skeleton here </h1>
                            )}
                         </div>
+
+                        {/* {i} */}
+
+                        {i === 0 && (
+                           <div className=" w-full h-[40vh] rounded-xl p-5 bg-teal-500">
+                              <p>
+                                 This is how you can add recently viewed
+                                 products{" "}
+                              </p>
+                           </div>
+                        )}
                      </Fragment>
                   );
                })
