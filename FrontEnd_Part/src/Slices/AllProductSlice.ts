@@ -195,6 +195,8 @@ const initialState: IAllProductsWithCat = {
         },
         "brand": '',
         "category": '',
+        categoryName: '',
+        brandName: "",
         "thumbnail": '',
         "images": [],
         "isHighlight": false,
