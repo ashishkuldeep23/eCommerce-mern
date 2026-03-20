@@ -352,6 +352,7 @@ export default function ProductDetails() {
                   {/* This will come when data not come by some reason ----> */}
 
                   {singleProductData &&
+                     singleProductData.thumbnail === "" &&
                      singleProductData.images.length == 0 && (
                         <div className="w-full text-center font-bold text-xl flex flex-col items-center justify-center ">
                            <div
@@ -458,50 +459,57 @@ export default function ProductDetails() {
                                  </button>
                               </div>
                            </div>
-                        </div>
 
-                        {/* Review div start here ----> */}
-                        <div
-                           className="mt-5 "
-                           onClick={(e) => {
-                              e.stopPropagation();
-                              singleProductData?.rating?.totalPerson > 0 &&
-                                 reviewRef.current?.getBoundingClientRect() &&
-                                 window.scrollTo(
-                                    0,
-                                    reviewRef.current?.getBoundingClientRect()
-                                       .top,
-                                 );
-                           }}>
-                           <h3 className="sr-only">Reviews</h3>
-                           <div className="flex items-center">
-                              <div className="flex items-center">
-                                 {Array.from(Array(5)).map((item, i) => {
-                                    return (
-                                       <StarIcon
-                                          key={i}
-                                          id={item} // // // Id not used anyWhere
-                                          className={` h-5 w-5 flex-shrink-0 ${i < Math.floor(singleProductData?.rating?.avgRating / singleProductData?.rating?.totalPerson) ? `${!themeMode ? "text-yellow-400" : "text-gray-50"}` : `${!themeMode ? "text-gray-300" : "text-gray-600"}`} `}
-                                       />
+                           {/* Review div start here ----> */}
+                           <div
+                              className="mt-5 "
+                              onClick={(e) => {
+                                 e.stopPropagation();
+                                 singleProductData?.rating?.totalPerson > 0 &&
+                                    reviewRef.current?.getBoundingClientRect() &&
+                                    window.scrollTo(
+                                       0,
+                                       reviewRef.current?.getBoundingClientRect()
+                                          .top,
                                     );
-                                 })}
-                                 <p className=" font-bold pl-1">
-                                    {singleProductData?.rating?.totalPerson >
-                                       0 &&
-                                       (
-                                          singleProductData?.rating?.avgRating /
-                                          singleProductData?.rating?.totalPerson
-                                       ).toFixed(1)}
+                              }}>
+                              <h3 className="sr-only">Reviews</h3>
+                              <div className="flex items-center">
+                                 <div className="flex items-center">
+                                    {Array.from(Array(5)).map((item, i) => {
+                                       return (
+                                          <StarIcon
+                                             key={i}
+                                             id={item} // // // Id not used anyWhere
+                                             className={` h-5 w-5 flex-shrink-0 ${i < Math.floor(singleProductData?.rating?.avgRating / singleProductData?.rating?.totalPerson) ? `${!themeMode ? "text-yellow-400" : "text-gray-50"}` : `${!themeMode ? "text-gray-300" : "text-gray-600"}`} `}
+                                          />
+                                       );
+                                    })}
+                                    <p className=" font-bold pl-1">
+                                       {singleProductData?.rating?.totalPerson >
+                                          0 &&
+                                          (
+                                             singleProductData?.rating
+                                                ?.avgRating /
+                                             singleProductData?.rating
+                                                ?.totalPerson
+                                          ).toFixed(1)}
+                                    </p>
+                                 </div>
+
+                                 {/* </div> */}
+                                 <p className="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500">
+                                    {singleProductData?.review?.length} Reviews
                                  </p>
                               </div>
+                           </div>
 
-                              {/* </div> */}
-                              <p className="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500">
-                                 {singleProductData?.review?.length} reviews
-                              </p>
+                           {/* Views div start here ----> */}
+                           <div className=" my-2 text-sm font-medium text-indigo-600 hover:text-indigo-500">
+                              <span> {singleProductData.views}</span>
+                              <span className=" mx-1">Views</span>
                            </div>
                         </div>
-
                         {/* Available types div and add to cart btn and wishlist btn ---> */}
                         <div className="mt-5">
                            <div>

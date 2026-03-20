@@ -6,7 +6,7 @@ import { fetchOneProductByID } from "../../Slices/AllProductSlice";
 // import { IProduct } from "./ProductLists"
 import { AppDispatch } from "../../store";
 import { useNavigate } from "react-router-dom";
-import { addOrRemoveWishList } from "../../Slices/UserSlice";
+import { addOrRemoveWishList, userState } from "../../Slices/UserSlice";
 import { IProduct } from "../../Type/type";
 import { toast } from "sonner";
 // import { setProductData, setUpdatingProduct } from '../../Slices/AdminSliceFile'
@@ -21,10 +21,11 @@ type TProductPrope = {
 const SingleProduct = ({
    product,
    className = "",
-   forWishList = false,
+   // forWishList = false,
 }: TProductPrope) => {
    const dispatch = useDispatch<AppDispatch>();
    const navigate = useNavigate();
+   const userData = userState().userData;
 
    function wishListProductRemoveHandler(
       e: React.MouseEvent<HTMLSpanElement, MouseEvent>,
@@ -39,7 +40,7 @@ const SingleProduct = ({
          <a
             key={product.id}
             // href={"/product"}
-            className={` ${className} bg-teal-100/50 dark:bg-teal-900/50 rounded-xl min-h-52 h-auto w-72 mb-5  mx-2 hover:cursor-pointer cursor-pointer relative overflow-hidden group `}
+            className={` ${className} bg-teal-100/50 dark:bg-teal-900/50 rounded-xl min-h-52 h-auto w-52 mb-5  mx-2 hover:cursor-pointer cursor-pointer relative overflow-hidden group `}
             onClick={(e) => {
                e.stopPropagation();
                navigate(`/product/${product.id}`);
@@ -61,9 +62,6 @@ const SingleProduct = ({
 
             {/* Top bar used for views, rating and remove wishlist. */}
             <div className=" absolute top-0 left-0 w-full h-6 z-10 flex justify-between">
-               {
-                  // product?.
-               }
                <span className=" flex  mx-1 ">
                   <svg
                      xmlns="http://www.w3.org/2000/svg"
@@ -87,10 +85,9 @@ const SingleProduct = ({
                   <span>{product.views}</span>
                </span>
                <div className=" ml-auto flex gap-1 mx-1">
-                  <div
+                  {/* <div
                      className={`flex items-center px-1 ${product.rating.totalPerson > 0 && "text-yellow-400"} `}>
                      <p className="h-5 w-5">{<StarIcon />}</p>
-                     {/* <p>{product.rating.avgRating }</p> */}
                      <p>
                         {product.rating.totalPerson > 0
                            ? (
@@ -99,17 +96,22 @@ const SingleProduct = ({
                              ).toFixed(1)
                            : 0}
                      </p>
-                  </div>
+                  </div> */}
 
-                  {forWishList && (
-                     <span
-                        className="  bg-red-500  px-3 rounded"
-                        onClick={(e) => {
-                           wishListProductRemoveHandler(e);
-                        }}>
-                        X
-                     </span>
-                  )}
+                  {/* Wishlist of user -------->> */}
+                  {userData.wishListIdsArr &&
+                     userData.wishListIdsArr.length > 0 &&
+                     userData?.wishListIdsArr
+                        .map((w) => (typeof w === "string" ? w : w.id))
+                        ?.includes(product.id.toString()) && (
+                        <span
+                           className="  bg-red-500 text-white font-semibold  px-2 rounded"
+                           onClick={(e) => {
+                              wishListProductRemoveHandler(e);
+                           }}>
+                           X
+                        </span>
+                     )}
                </div>
             </div>
 
@@ -117,14 +119,14 @@ const SingleProduct = ({
                <img
                   src={product.thumbnail}
                   alt={product.brand}
-                  className=" h-52  w-full  object-cover object-center scale-95 rounded group-hover:opacity-75 mb-2 transition-all duration-300 ease-in-out"
+                  className=" h-48 w-full object-cover object-center scale-95 rounded group-hover:opacity-75 mb-2 transition-all duration-300 ease-in-out"
                />
             </div>
 
-            <div className="flex justify-between gap-1 pt-1  px-2 border-t-2 border-teal-100/50 dark:border-teal-900/50 group-hover:-translate-y-2 transition-all duration-300 ease-in-out ">
+            <div className="flex justify-between gap-1   px-2 border-t-2 border-teal-100/50 dark:border-teal-900/50 group-hover:-translate-y-2 transition-all duration-300 ease-in-out ">
                <div className="">
                   <h3
-                     className={` text-gray-700 dark:text-gray-100 text-xl capitalize `}
+                     className={` text-gray-700 dark:text-gray-100 text-lg capitalize `}
                      id="headingOfProduct">
                      {product.title}
                   </h3>
@@ -132,7 +134,7 @@ const SingleProduct = ({
 
                   {product.discountPercentage ? (
                      <p
-                        className={`text-lg font-medium text-gray-900 dark:text-gray-300  `}>
+                        className={`  leading-5 text-lg font-medium text-gray-900 dark:text-gray-300  `}>
                         {" "}
                         <span className=" text-sm font-thin line-through">
                            ₹{product.price}
@@ -146,14 +148,28 @@ const SingleProduct = ({
                      </p>
                   ) : (
                      <p
-                        className={`text-lg font-medium text-gray-900 dark:text-gray-300  `}>
+                        className={`  leading-5 text-lg font-medium text-gray-900 dark:text-gray-300  `}>
                         {" "}
                         ₹{product.price}{" "}
                      </p>
                   )}
+
+                  <div
+                     className={`flex items-center px-1 ${product.rating.totalPerson > 0 && "text-yellow-500"} `}>
+                     <p className="h-5 w-5">{<StarIcon />}</p>
+                     {/* <p>{product.rating.avgRating }</p> */}
+                     <p>
+                        {product.rating.totalPerson > 0
+                           ? (
+                                product.rating.avgRating /
+                                product.rating.totalPerson
+                             ).toFixed(1)
+                           : 0}
+                     </p>
+                  </div>
                </div>
 
-               <div className=" flex flex-col items-end justify-end py-1 ">
+               <div className=" flex flex-col items-end justify-end  ">
                   <button
                      onClick={(e) => {
                         e.stopPropagation();

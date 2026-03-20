@@ -89,7 +89,7 @@ export default function ProductLists() {
                            {element}
                         </p>
 
-                        <div className="h-80 flex flex-wrap flex-col gap-14 items-start ml-0 mx-auto overflow-y-hidden overflow-x-auto my-2  pb-3 ">
+                        <div className="h-80 flex flex-wrap flex-col gap-2 sm:gap-7 items-start ml-0 mx-auto overflow-y-hidden overflow-x-auto my-2 pb-3 ">
                            {products.length > 0 ? (
                               products
                                  ?.filter((item) => {
