@@ -6,27 +6,77 @@ const productModel = require("../model/productModel");
 const userModel = require("../model/userModel");
 
 const increaseView = async (productId) => {
-   console.log("yes get called");
+   // console.log("yes get called");
 
-   await productModel.updateOne({ _id: productId }, { $inc: { views: 1 } });
+   await productModel.findOneAndUpdate(
+      { id: productId },
+      { $inc: { views: 1 } },
+      // { new: true },
+   );
+
+   // console.log({ productId });
+   // let a = await productModel.findById(productId);
+
+   // console.log({ a });
 };
 
 const addToHistory = async (userId, productId) => {
-   if (!userId) return;
+   // console.log("yes get called");
 
-   await userModel.updateOne(
+   console.log({ userId, productId });
+
+   if (!userId || !productId) return;
+
+   let searchproduct = await productModel.findOne({ id: productId });
+
+   // console.log({ userId, productId, searchproductId: searchproduct._id });
+
+   if (!searchproduct) return;
+
+   await userModel.findOneAndUpdate(
       { _id: userId },
-      {
-         $pull: { history: { product: productId } },
-         $push: {
-            history: {
-               $each: [{ product: productId, viewedAt: new Date() }],
-               $position: 0,
-               $slice: 20,
+      [
+         {
+            $set: {
+               history: {
+                  $let: {
+                     vars: {
+                        // Filter out the existing product entry first
+                        filteredHistory: {
+                           $filter: {
+                              input: "$history",
+                              cond: {
+                                 $ne: ["$$this.product", searchproduct._id],
+                              },
+                           },
+                        },
+                     },
+                     in: {
+                        // Prepend the new entry and slice to keep the top 20
+                        $slice: [
+                           {
+                              $concatArrays: [
+                                 [
+                                    {
+                                       product: searchproduct._id,
+                                       viewedAt: new Date(),
+                                    },
+                                 ],
+                                 "$$filteredHistory",
+                              ],
+                           },
+                           20,
+                        ],
+                     },
+                  },
+               },
             },
          },
-      },
+      ],
+      // { new: true },
    );
+
+   // console.log({ a });
 };
 
 module.exports = { increaseView, addToHistory };

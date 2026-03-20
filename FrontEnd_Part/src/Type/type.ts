@@ -43,24 +43,19 @@ export interface IProduct {
     "category": string;
     categoryName: string,
     brandName: string
-
+    views: number;
     "rating": {
         "totalPerson": number;
         "avgRating": number;
     };
-
     "thumbnail": string;
     "images": string[];
     "isHighlight": boolean;
-
     "isDeleted": boolean;
     "review"?: ReviewData[];
-
     "likes": number,
     "dislikes": number,
-
     "likedUserIds": string[],
-
     "dislikedUserIds": string[],
 
 }
@@ -108,7 +103,7 @@ export type PropForLikeAndDislike = {
 }
 
 export type productId = {
-    productId: string | number
+    productId: string | number,
 }
 
 export type SearchObj = {

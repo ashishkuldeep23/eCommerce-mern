@@ -55,7 +55,12 @@ const {
    createBrandAdmin,
 } = require("../controller/adminControllor");
 
-const { isAuthorized, isUserAdmin } = require("../middleware/authorization");
+const {
+   isAuthorized,
+   isUserAdmin,
+   // getUserDataBytoken,
+} = require("../middleware/authorization");
+
 const { generateImgUrl, getAllImgUrls } = require("../controller/uploadImg");
 const {
    getShopsHandler,

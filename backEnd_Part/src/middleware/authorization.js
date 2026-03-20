@@ -5,7 +5,7 @@ exports.isAuthorized = async function (req, res, next) {
    try {
       // console.log({ Cookie: req.cookies })
       // console.log({ Headers: req.headers })
-    //   console.log(req);
+      //   console.log(req);
 
       let token;
 
@@ -20,13 +20,11 @@ exports.isAuthorized = async function (req, res, next) {
       } else if (req && req.cookies && req.cookies["token"]) {
          token = req.cookies["token"];
       } else {
-         return res
-            .status(401)
-            .send({
-               status: false,
-               message:
-                  "Please SingIn again, Something went wroung with your request.No token found.",
-            });
+         return res.status(401).send({
+            status: false,
+            message:
+               "Please SingIn again, Something went wroung with your request.No token found.",
+         });
       }
 
       // console.log(token)
@@ -41,45 +39,37 @@ exports.isAuthorized = async function (req, res, next) {
          // console.log(err.message)
 
          if (err.message === "jwt must be provided") {
-            return res
-               .status(403)
-               .send({
-                  status: false,
-                  message: `${err.message} | Login again please with valid email and password.`,
-               });
-         }
-
-         if (err.message === "jwt expired") {
-            return res
-               .status(403)
-               .send({
-                  status: false,
-                  message: `${err.message} | Login again please with valid email and password.`,
-               });
-         }
-
-         return res
-            .status(403)
-            .send({
+            return res.status(403).send({
                status: false,
                message: `${err.message} | Login again please with valid email and password.`,
             });
+         }
+
+         if (err.message === "jwt expired") {
+            return res.status(403).send({
+               status: false,
+               message: `${err.message} | Login again please with valid email and password.`,
+            });
+         }
+
+         return res.status(403).send({
+            status: false,
+            message: `${err.message} | Login again please with valid email and password.`,
+         });
       }
 
       // console.log(verifyToken)
 
-      if (Object.keys(verifyToken).length > 0) {
+      if (verifyToken && Object.keys(verifyToken).length > 0) {
          let userId = verifyToken.id;
 
          let findUser = await userModel.findOne({ id: userId });
 
          if (!findUser) {
-            return res
-               .status(401)
-               .send({
-                  status: false,
-                  message: "Data in token is bad or inomplete)",
-               });
+            return res.status(401).send({
+               status: false,
+               message: "Data in token is bad or inomplete)",
+            });
          }
 
          // console.log(findUser)
@@ -122,5 +112,151 @@ exports.isUserAdmin = async function (req, res, next) {
       }
    } catch (err) {
       return res.status(500).send({ status: false, message: err.message });
+   }
+};
+
+exports.getUserDataBytoken = async function (req, res, next) {
+   try {
+      let token;
+
+      if (req && req.headers && req.headers["token"]) {
+         token = req.headers["token"];
+      } else if (req && req.cookies && req.cookies["token"]) {
+         token = req.cookies["token"];
+      }
+
+      let verifyToken;
+
+      try {
+         verifyToken = await jwt.verify(
+            token || "",
+            `${process.env.JWT_SECRET_KEY}`,
+         );
+
+         // console.log(verifyToken)
+      } catch (err) {
+         console.log(err);
+         verifyToken = null;
+      }
+
+      if (verifyToken && Object.keys(verifyToken).length > 0) {
+         let userId = verifyToken?.id;
+
+         let findUser = await userModel.findOne({ id: userId });
+
+         if (!findUser) {
+            req.tokenUserData = {};
+         }
+
+         // console.log(findUser)
+
+         // // Set user data in req -------->
+
+         req.tokenUserData = {
+            token: token,
+            id: findUser._id,
+            firstName: findUser.firstName,
+            lastName: findUser.lastName,
+            profilePic: findUser.profilePic,
+            email: findUser.email,
+            role: findUser.role,
+            userId: findUser._id,
+            isEmailVerified: findUser.isEmailVerified,
+            userUID: findUser.id,
+         };
+
+         // // // Now here you can call then next route ------>
+         // next();
+      } else {
+         req.tokenUserData = {};
+      }
+
+      next();
+   } catch (e) {
+      console.log(e);
+      req.tokenUserData = {};
+      next();
+   }
+};
+exports.getUserDataByRequest = async function (req) {
+   try {
+      let token;
+
+      if (req && req.headers && req.headers["token"]) {
+         token = req.headers["token"];
+      } else if (req && req.cookies && req.cookies["token"]) {
+         token = req.cookies["token"];
+      }
+
+      let verifyToken;
+
+      try {
+         verifyToken = await jwt.verify(
+            token || "",
+            `${process.env.JWT_SECRET_KEY}`,
+         );
+
+         // console.log(verifyToken)
+      } catch (err) {
+         console.log(err);
+         verifyToken = null;
+      }
+
+      if (verifyToken && Object.keys(verifyToken).length > 0) {
+         let userId = verifyToken?.id;
+
+         let findUser = await userModel
+            .findOne({ id: userId })
+            .select("id _id email firstName lastName profilePic isEmailVerified")
+            .lean();
+
+         if (findUser) {
+            // req.tokenUserData = {};
+
+            // console.log(findUser);
+
+            // let obj = {
+            //    _id: findUser?._id,
+            //    id: findUser?.id,
+            //    firstName: findUser?.firstName,
+            // };
+            return findUser;
+         } else {
+            return {};
+         }
+
+         // console.log(findUser)
+
+         // // Set user data in req -------->
+
+         // req.tokenUserData = {
+         //    token: token,
+         //    id: findUser._id,
+         //    firstName: findUser.firstName,
+         //    lastName: findUser.lastName,
+         //    profilePic: findUser.profilePic,
+         //    email: findUser.email,
+         //    role: findUser.role,
+         //    userId: findUser._id,
+         //    isEmailVerified: findUser.isEmailVerified,
+         //    userUID: findUser.id,
+         // };
+
+         // // // Now here you can call then next route ------>
+         // next();
+      } else {
+         // req.tokenUserData = {};
+
+         return {};
+      }
+
+      // next();
+
+      // return;
+   } catch (e) {
+      console.log(e);
+      req.tokenUserData = {};
+      return {};
+      // next();
    }
 };

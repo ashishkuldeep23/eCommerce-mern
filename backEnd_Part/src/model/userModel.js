@@ -56,6 +56,23 @@ const userSchema = new mongoose.Schema(
          default: [],
       },
 
+      history: {
+         type: [
+            {
+               product: {
+                  type: mongoose.Schema.Types.ObjectId,
+                  ref: "product",
+               },
+               viewedAt: {
+                  type: Date,
+                  default: () => Date.now(),
+               },
+            },
+         ],
+         // ref: "product",
+         default: [],
+      },
+
       shops: [
          {
             type: mongoose.Schema.Types.ObjectId,

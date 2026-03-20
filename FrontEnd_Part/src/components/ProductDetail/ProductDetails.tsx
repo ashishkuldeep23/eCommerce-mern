@@ -327,7 +327,7 @@ export default function ProductDetails() {
 
       params.id && dispatch(fetchOneProductByID({ productId: params.id }));
 
-      // console.log("Calling Backend...")
+      return () => {};
    }, []);
 
    return (

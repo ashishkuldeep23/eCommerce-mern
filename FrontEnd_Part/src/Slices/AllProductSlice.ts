@@ -93,9 +93,9 @@ export const fetchAllCategoryAndHighlight = createAsyncThunk("getCategoryAndHigh
 })
 
 
-export const fetchOneProductByID = createAsyncThunk("fetchSingleProduct/:id", async ({ productId }: productId) => {
+export const fetchOneProductByID = createAsyncThunk("fetchSingleProduct/:id", async ({ productId, }: productId) => {
 
-    // console.log(productId)
+    // console.log(userId)
 
     let getUserToken = localStorage.getItem("userToken");
 
@@ -134,7 +134,6 @@ export const likeProduct = createAsyncThunk("product/like", async ({ productId, 
     }
 
 
-
     const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/likeProduct`, option)
     let data = await response.json();
     return data
@@ -152,8 +151,6 @@ export const dislikeProduct = createAsyncThunk("product/dislike", async ({ produ
         body: JSON.stringify({ productId, userId, isDisliking })
 
     }
-
-
 
     const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/dislikeProduct`, option)
     let data = await response.json();
@@ -186,6 +183,7 @@ const initialState: IAllProductsWithCat = {
             dimensions: [newEntry()]
         },
         "price": 0,
+        views: 0,
         "discountPercentage": 0,
         "type": [],
         "rating": {

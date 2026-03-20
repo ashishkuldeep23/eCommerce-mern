@@ -8,6 +8,7 @@ import { AppDispatch } from "../../store";
 import { useNavigate } from "react-router-dom";
 import { addOrRemoveWishList } from "../../Slices/UserSlice";
 import { IProduct } from "../../Type/type";
+import { toast } from "sonner";
 // import { setProductData, setUpdatingProduct } from '../../Slices/AdminSliceFile'
 // import { setProductData, setUpdatingProduct } from '../../Slices/AdminSliceFile'
 
@@ -48,7 +49,7 @@ const SingleProduct = ({
                window.scroll(0, 0);
             }}
             id="singleCardHolder">
-            {forWishList && (
+            {/* {!forWishList && (
                <span
                   className=" absolute right-0 top-0 bg-red-500 z-10 px-3 rounded"
                   onClick={(e) => {
@@ -56,7 +57,61 @@ const SingleProduct = ({
                   }}>
                   X
                </span>
-            )}
+            )} */}
+
+            {/* Top bar used for views, rating and remove wishlist. */}
+            <div className=" absolute top-0 left-0 w-full h-6 z-10 flex justify-between">
+               {
+                  // product?.
+               }
+               <span className=" flex  mx-1 ">
+                  <svg
+                     xmlns="http://www.w3.org/2000/svg"
+                     fill="none"
+                     viewBox="0 0 24 24"
+                     strokeWidth={1.5}
+                     stroke="currentColor"
+                     className="size-6 scale-90">
+                     <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"
+                     />
+                     <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                     />
+                  </svg>
+
+                  <span>{product.views}</span>
+               </span>
+               <div className=" ml-auto flex gap-1 mx-1">
+                  <div
+                     className={`flex items-center px-1 ${product.rating.totalPerson > 0 && "text-yellow-400"} `}>
+                     <p className="h-5 w-5">{<StarIcon />}</p>
+                     {/* <p>{product.rating.avgRating }</p> */}
+                     <p>
+                        {product.rating.totalPerson > 0
+                           ? (
+                                product.rating.avgRating /
+                                product.rating.totalPerson
+                             ).toFixed(1)
+                           : 0}
+                     </p>
+                  </div>
+
+                  {forWishList && (
+                     <span
+                        className="  bg-red-500  px-3 rounded"
+                        onClick={(e) => {
+                           wishListProductRemoveHandler(e);
+                        }}>
+                        X
+                     </span>
+                  )}
+               </div>
+            </div>
 
             <div className=" rounded-lg overflow-hidden">
                <img
@@ -98,14 +153,22 @@ const SingleProduct = ({
                   )}
                </div>
 
-               <div className=" flex flex-col items-end justify-center">
+               <div className=" flex flex-col items-end justify-end py-1 ">
+                  <button
+                     onClick={(e) => {
+                        e.stopPropagation();
+                        toast.error("Working on this!");
+                     }}
+                     className=" rounded bg-green-500 px-1 text-sm font-bold text-white">
+                     +Add
+                  </button>
+
                   {/* <p>{product.discountPercentage}%</p> */}
                   {/* <p className={`text-lg font-medium ${!themeMode ? "text-gray-900" : "text-gray-300"} `}> Price :</p> */}
 
-                  <div
+                  {/* <div
                      className={`flex items-center px-1 ${product.rating.totalPerson > 0 && "text-yellow-400"} `}>
                      <p className="h-5 w-5">{<StarIcon />}</p>
-                     {/* <p>{product.rating.avgRating }</p> */}
                      <p>
                         {product.rating.totalPerson > 0
                            ? (
@@ -114,7 +177,7 @@ const SingleProduct = ({
                              ).toFixed(1)
                            : 0}
                      </p>
-                  </div>
+                  </div> */}
                </div>
             </div>
          </a>
