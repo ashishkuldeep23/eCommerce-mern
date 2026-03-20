@@ -18,7 +18,7 @@ async function findAllProducts(req, res) {
 
       let { brand, category, sort_by_price, page, limit } = req.query;
 
-      // console.log(brand , category , sort_by_price)
+      console.log(brand, category, sort_by_price);
 
       // console.log(typeof sort_by_price)
 
@@ -28,13 +28,15 @@ async function findAllProducts(req, res) {
 
       if (brand) {
          // searchObject.brand = brand.toLowerCase()
-         searchObject.brand = brand;
+         // searchObject.brand = brand;
+         searchObject.brandName = brand;
          searchByQuery = true;
       }
 
       if (category) {
          // searchObject.category = category.toLowerCase()
-         searchObject.category = category;
+         // searchObject.category = category;
+         searchObject.categoryName = category;
          searchByQuery = true;
          // // // To lower case not used now
       }
@@ -73,10 +75,14 @@ async function findAllProducts(req, res) {
          .select("-_id -updatedAt -createdAt -__v -description -type -review")
          .populate("review");
 
+      const totalProducts = await productModel.countDocuments({
+         isDeleted: false,
+      });
+
       // // // Create all category list here and send to frontEnd
-      const allCategoryOfProducts = [
-         ...new Set(findAllProducts.map((ele) => ele.category)),
-      ];
+      // const allCategoryOfProducts = [
+      //    ...new Set(findAllProducts.map((ele) => ele.category)),
+      // ];
 
       // const allHighlights = [...findAllProducts.slice(3,8)]   // // // Upadte this by highlighted true product.
 
@@ -89,9 +95,10 @@ async function findAllProducts(req, res) {
 
       return res.status(200).send({
          status: true,
-         totaldata: findAllProducts.length,
+         // totaldata: findAllProducts.length,
+         totaldata: totalProducts,
          allProductData: findAllProducts,
-         allCategory: allCategoryOfProducts,
+         // allCategory: allCategoryOfProducts,
          searchByQuery: searchByQuery,
       });
    } catch (err) {

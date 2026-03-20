@@ -56,7 +56,6 @@ export const fetchAllProducts = createAsyncThunk("fetchAllProducts", async ({ br
             //     Accept : "application/json" ,
             //     "Access-Control-Allow-Credentials" : true
         }
-
     }
 
     const response = await fetch(url, option)
@@ -299,7 +298,8 @@ const allProductsCatSlice = createSlice({
 
                 state.isLoading = false;
                 // state.allProducts = action.payload.allProductData
-                state.allProducts = action.payload.allProductData
+                state.totalProducts = action.payload.totaldata;
+                state.allProducts = action.payload.allProductData;
                 // state.allCaegory = action.payload.allCategory
                 state.searchByQuery = false
 
@@ -310,8 +310,7 @@ const allProductsCatSlice = createSlice({
                 }
 
                 // state.allHighlightProducts = action.payload.allHighlights
-
-                console.log({d :action.payload})
+                // console.log({d :action.payload})
             })
 
             .addCase(fetchAllProducts.rejected, (state, action) => {

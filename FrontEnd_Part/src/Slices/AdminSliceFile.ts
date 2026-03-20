@@ -128,6 +128,8 @@ const initialState: AdminDataInterface = {
         },
         "brand": '',
         "category": '',
+        categoryName: '',
+        brandName: "",
         "thumbnail": '',
         "images": [],
         "isHighlight": false,
