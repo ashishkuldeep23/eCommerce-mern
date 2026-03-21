@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { StarIcon } from "@heroicons/react/20/solid";
 import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
-import { addItemInCart } from "../../Slices/CartSlice";
+// import { addItemInCart } from "../../Slices/CartSlice";
 import { toast } from "sonner";
 import SingleProduct from "../ProductListing/SingleProduct";
 import { useNavigate } from "react-router-dom";
@@ -23,17 +23,20 @@ import {
 import ProductImagesDiv from "./ProductImagesDiv";
 import { setChildrenModal, setOpenMoadl } from "../../Slices/ModalSlice";
 // import { gettingTokenInCookieAndLocalHost } from "../../App";
-import { TypeObject } from "../../Type/type";
-import { gettingTokenInCookieAndLocalHost } from "../../Helper/Token";
+// import { OptionInterface, TypeObject } from "../../Type/type";
+// import { gettingTokenInCookieAndLocalHost } from "../../Helper/Token";
+import OptionAndAddToCart from "./OptionAndAddToCart";
 
 export default function ProductDetails() {
-   const [type] = useState<TypeObject>({
-      typeName: [""],
-      typeVerity: [""],
-      typePrice: 0,
-      typeStock: 0,
-      isChanged: false, // // // Just to check option chenged or not
-   });
+   // const [type] = useState<TypeObject>({
+   //    typeName: [""],
+   //    typeVerity: [""],
+   //    typePrice: 0,
+   //    typeStock: 0,
+   //    isChanged: false, // // // Just to check option chenged or not
+   // });
+
+   // const [newOption, setNewOption] = useState<OptionInterface | null>(null);
 
    // console.log(type)
 
@@ -64,102 +67,41 @@ export default function ProductDetails() {
 
    const reviewRef = useRef<HTMLDivElement>(null);
 
-   function checkUserIsLogInEd(): boolean {
-      let logined = true;
+   // const checkOptionWithType: boolean = false;
+   // const checkOptionWithType: boolean = false;
 
-      // // // Check user is logIn or not --->
-      if (!gettingTokenInCookieAndLocalHost()) {
-         toast.error(`Can't do this, you are not logged in person.`, {
-            action: {
-               label: "LogIn",
-               onClick: () => {
-                  window.scroll(0, 0);
-                  navigate("/login");
-               },
-            },
-         });
-         logined = false;
-      }
+   // function checkUserIsLogInEd(): boolean {
+   //    let logined = true;
 
-      return logined;
-   }
+   //    // // // Check user is logIn or not --->
+   //    if (!gettingTokenInCookieAndLocalHost()) {
+   //       toast.error(`Can't do this, you are not logged in person.`, {
+   //          action: {
+   //             label: "LogIn",
+   //             onClick: () => {
+   //                window.scroll(0, 0);
+   //                navigate("/login");
+   //             },
+   //          },
+   //       });
+   //       logined = false;
+   //    }
 
-   // // // // Add to cart fn --->
-   function addToCartHandler(
-      e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-   ) {
-      // console.log(singleProductData)
-
-      // console.log(type)
-
-      e.stopPropagation();
-      // e.preventDefault();
-
-      // // // FN calling to check Login ---->
-      if (!checkUserIsLogInEd()) return;
-
-      const { id, title, price } = singleProductData;
-
-      if (!id && !title && !price) {
-         console.log("Page is Empty , go to home and try again");
-
-         toast.error(`Page is Empty , go to home and try again , GoTo Home`);
-
-         return;
-      }
-
-      // // // Check user choosed type or not -->
-      if (!type.isChanged) {
-         console.log("Option not changed.");
-
-         toast.error(`Please choose one in available option.`);
-
-         return;
-      }
-
-      // console.log(singleProductData)
-
-      let newObjWithType = {
-         ...singleProductData,
-         type: type,
-         price: Math.round(
-            type.typePrice -
-               (singleProductData.discountPercentage * type.typePrice) / 100,
-         ),
-      };
-
-      // console.log(newObjWithType)
-
-      let addaleCartItem = {
-         ...newObjWithType,
-         quantity: 1,
-         verity: { ...type },
-      };
-
-      dispatch(addItemInCart(addaleCartItem)); // // // Adding into cart state
-
-      // localStorage.setItem("cardData", JSON.stringify([...cardData , addaleCartItem ]))
-
-      // // Sending Alert
-      // toast.success(`${title}, added in cart`);
-      toast.success(`${title}, added in cart.`, {
-         action: {
-            label: "Goto🛒",
-            onClick: () => {
-               window.scroll(0, 0);
-               navigate("/cart");
-            },
-         },
-      });
-   }
+   //    return logined;
+   // }
 
    function productLikeHandler(
       e: React.MouseEvent<HTMLParagraphElement, MouseEvent>,
    ) {
       e.stopPropagation();
 
+      console.log(userDataId);
+
       // // // FN calling to check Login ---->
-      if (!checkUserIsLogInEd()) return;
+      if (!userDataId) {
+         toast.error("Login please.");
+         return;
+      }
 
       if (!singleProductData?.likedUserIds?.includes(userDataId)) {
          dispatch(
@@ -188,7 +130,10 @@ export default function ProductDetails() {
       e.stopPropagation();
 
       // // // FN calling to check Login ---->
-      if (!checkUserIsLogInEd()) return;
+      if (!userDataId) {
+         toast.error("Login please.");
+         return;
+      }
 
       if (!singleProductData?.dislikedUserIds?.includes(userDataId)) {
          dispatch(
@@ -236,7 +181,10 @@ export default function ProductDetails() {
       event.stopPropagation();
 
       // // // FN calling to check Login ---->
-      if (!checkUserIsLogInEd()) return;
+      if (!userDataId) {
+         toast.error("Login please.");
+         return;
+      }
 
       // console.log(singleProductData)
       // console.log(singleProductData.id)
@@ -474,7 +422,7 @@ export default function ProductDetails() {
                                     );
                               }}>
                               <h3 className="sr-only">Reviews</h3>
-                              <div className="flex items-center">
+                              <div className="flex flex-wrap items-center">
                                  <div className="flex items-center">
                                     {Array.from(Array(5)).map((item, i) => {
                                        return (
@@ -512,50 +460,160 @@ export default function ProductDetails() {
                         </div>
                         {/* Available types div and add to cart btn and wishlist btn ---> */}
                         <div className="mt-5">
-                           <div>
-                              <h3 className="text-sm font-medium capitalize ">
-                                 {" "}
-                                 Available options{" "}
-                              </h3>
+                           {/* <>
+                              <div>
+                                 <h3 className="text-sm font-medium capitalize ">
+                                    {" "}
+                                    Select options{" "}
+                                 </h3>
 
-                              <p>{JSON.stringify(singleProductData?.type)}</p>
-                              {/* <p>{JSON.stringify(type)}</p> */}
-                              {/* <form >{
+                                 <div>
+                                    {singleProductData?.type &&
+                                       singleProductData?.type.length > 0 &&
+                                       singleProductData?.type?.map(
+                                          (singleType, i) => {
+                                             return (
+                                                <div className=" my-2 " key={i}>
+                                                   <p className=" capitalize ml-1 font-semibold tracking-widest">
+                                                      {singleType.name}
+                                                   </p>
 
-                                            // // // Mapping all option --->
+                                                   <div>
+                                                      {singleType?.verity &&
+                                                         singleType?.verity
+                                                            ?.length > 0 &&
+                                                         singleType?.verity?.map(
+                                                            (
+                                                               singleVerity,
+                                                               i,
+                                                            ) => {
+                                                               return (
+                                                                  <div key={i}>
+                                                                     <div className=" flex flex-wrap gap-2 ">
+                                                                        {singleVerity?.data &&
+                                                                           singleVerity
+                                                                              ?.data
+                                                                              ?.length >
+                                                                              0 &&
+                                                                           singleVerity.data.map(
+                                                                              (
+                                                                                 optionItem,
+                                                                                 i,
+                                                                              ) => {
+                                                                                 return (
+                                                                                    <div
+                                                                                       className={`flex flex-col p-1 rounded border bg--500  font-semibold cursor-pointer hover:scale-110 transition-all ${checkOptionWithType && "border-blue-500 scale-110 border-2"}  `}
+                                                                                       onClick={() => {
+                                                                                          optionChangeHandler(
+                                                                                             {
+                                                                                                ...singleType,
+                                                                                                verity:
+                                                                                                   [
+                                                                                                      {
+                                                                                                         ...singleVerity,
+                                                                                                         data: [
+                                                                                                            {
+                                                                                                               ...optionItem,
+                                                                                                               price: singleProductData?.discountPercentage
+                                                                                                                  ? Math.round(
+                                                                                                                       +optionItem?.price -
+                                                                                                                          (singleProductData.discountPercentage *
+                                                                                                                             +optionItem.price) /
+                                                                                                                             100,
+                                                                                                                    )
+                                                                                                                  : +optionItem.price,
+                                                                                                            },
+                                                                                                         ],
+                                                                                                      },
+                                                                                                   ],
+                                                                                             },
+                                                                                          );
+                                                                                       }}
+                                                                                       key={
+                                                                                          i
+                                                                                       }>
+                                                                                       <p>
+                                                                                          {
+                                                                                             optionItem?.name
+                                                                                          }
+                                                                                       </p>
+                                                                                       <p>
+                                                                                          {singleProductData?.discountPercentage ? (
+                                                                                             <p
+                                                                                                className={`  leading-5 text-lg font-medium text-gray-900 dark:text-gray-300  `}>
+                                                                                                {" "}
+                                                                                                <span className=" text-sm font-thin line-through">
+                                                                                                   ₹
+                                                                                                   {
+                                                                                                      optionItem?.price
+                                                                                                   }
+                                                                                                </span>{" "}
+                                                                                                ₹
+                                                                                                {Math.round(
+                                                                                                   +optionItem?.price -
+                                                                                                      (singleProductData.discountPercentage *
+                                                                                                         +optionItem.price) /
+                                                                                                         100,
+                                                                                                )}
+                                                                                             </p>
+                                                                                          ) : (
+                                                                                             <p
+                                                                                                className={`  leading-5 text-lg font-medium text-gray-900 dark:text-gray-300  `}>
+                                                                                                {" "}
+                                                                                                ₹
+                                                                                                {
+                                                                                                   +optionItem.price
+                                                                                                }{" "}
+                                                                                             </p>
+                                                                                          )}
+                                                                                       </p>
 
-                                            singleProductData?.type?.map((item: TypeObject, i) => {
-                                                return <div className='my-2' key={i}>
-
-                                                    <input type="radio" name="type" id={`type${i}`} onChange={() => { setType({ ...item, isChanged: true }) }} />
-
-                                                    <label
-
-                                                        className=' font-semibold mx-2 px-2 border border-blue-600 rounded hover:cursor-pointer hover:bg-blue-600 hover:text-white capitalize  inline-flex  items-start'
-
-                                                        htmlFor={`type${i}`}
-                                                    >{`${item.typeName[0]} :  ${item.typeName[1]} | ${item.typeVerity[0]} : ${item.typeVerity[1]} | Stocks : ${item.typeStock} | Price : ₹${(Math.round(item.typePrice - ((singleProductData.discountPercentage * item.typePrice) / 100)))}`}</label>
-
-
+                                                                                       <p>
+                                                                                          {Number(
+                                                                                             optionItem?.stock,
+                                                                                          ) <=
+                                                                                             10 && (
+                                                                                             <span className=" text-red-400 text-xs ">
+                                                                                                Only{" "}
+                                                                                                {
+                                                                                                   optionItem?.stock
+                                                                                                }{" "}
+                                                                                                left{" "}
+                                                                                             </span>
+                                                                                          )}
+                                                                                       </p>
+                                                                                    </div>
+                                                                                 );
+                                                                              },
+                                                                           )}
+                                                                     </div>
+                                                                  </div>
+                                                               );
+                                                            },
+                                                         )}
+                                                   </div>
                                                 </div>
-                                            })
+                                             );
+                                          },
+                                       )}
+                                 </div>
+                              </div>
 
-                                        }
-                                        </form> */}
-                           </div>
+                              <button
+                                 type="submit"
+                                 className="mt-10 flex w-full items-center justify-center rounded-lg border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2  lg:w-3/4"
+                                 onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    addToCartHandler(e);
+                                 }}>
+                                 Add to Cart
+                              </button>
+                           </> */}
 
-                           {/* Add to cart */}
-                           <button
-                              type="submit"
-                              className="mt-10 flex w-full items-center justify-center rounded-lg border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2  lg:w-3/4"
-                              onClick={(e) => {
-                                 e.preventDefault();
-                                 e.stopPropagation();
-                                 addToCartHandler(e);
-                              }}>
-                              Add to Cart
-                           </button>
-
+                           <OptionAndAddToCart
+                              singleProductData={singleProductData}
+                           />
                            {/* Add to wishlist */}
                            <button
                               type="submit"

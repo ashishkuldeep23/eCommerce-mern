@@ -119,11 +119,11 @@ const SingleProduct = ({
                <img
                   src={product.thumbnail}
                   alt={product.brand}
-                  className=" h-48 w-full object-cover object-center scale-95 rounded group-hover:opacity-75 mb-2 transition-all duration-300 ease-in-out"
+                  className=" h-48 w-full object-cover object-center rounded mb-2 transition-all duration-300 ease-in-out group-hover:scale-105"
                />
             </div>
 
-            <div className="flex justify-between gap-1   px-2 border-t-2 border-teal-100/50 dark:border-teal-900/50 group-hover:-translate-y-2 transition-all duration-300 ease-in-out ">
+            <div className=" bg-teal-50/50 dark:bg-teal-950/50 flex justify-between gap-1   px-2 border-t-2 border-teal-100/50 dark:border-teal-900/50 group-hover:-translate-y-2 transition-all duration-300 ease-in-out ">
                <div className="">
                   <h3
                      className={` text-gray-700 dark:text-gray-100 text-lg capitalize `}

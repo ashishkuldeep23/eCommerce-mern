@@ -37,7 +37,7 @@ export interface IProduct {
     "price": number;
     "discountPercentage": number;
 
-    "type"?: []
+    "type"?: OptionInterface[]
 
     "brand": string;
     "category": string;
@@ -282,18 +282,7 @@ export type UserAddressObj = {
     pincode: string
 }
 
-export interface VerityDataItem {
-    id: string; // internal key only
-    name: string;
-    price: number | "";
-    stock: number | "";
-}
 
-export interface Verity {
-    id: string; // internal key only
-    label: string;
-    data: VerityDataItem[];
-}
 
 export interface OptionInterface {
     id: string; // internal key only
@@ -302,10 +291,17 @@ export interface OptionInterface {
     verity: Verity[];
 }
 
-export interface OptionOut {
+export interface Verity {
+    id: string; // internal key only
+    label: string;
+    data: VerityDataItem[];
+}
+
+export interface VerityDataItem {
+    id: string; // internal key only
     name: string;
-    imgs: string[];
-    verity: VerityOut[];
+    price: number | "";
+    stock: number | "";
 }
 
 
@@ -314,6 +310,13 @@ export interface VerityDataItemOut {
     price: number;
     stock: number;
 }
+
+export interface OptionOut {
+    name: string;
+    imgs: string[];
+    verity: VerityOut[];
+}
+
 
 export interface VerityOut {
     label: string;

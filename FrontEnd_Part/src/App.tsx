@@ -302,7 +302,7 @@ function App() {
 
          <RouterProvider router={router} />
 
-         <Toaster position="top-right" expand={false} richColors closeButton />
+         <Toaster position="top-right"  richColors  />
       </>
    );
 }
