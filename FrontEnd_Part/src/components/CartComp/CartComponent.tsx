@@ -72,7 +72,7 @@ export default function CartComponent({ mainCartComp = true }: CartCompProp) {
 
   return (
 
-    <div className={` ${(mainCartComp) ? "h-allAk" : "h-full"}  flex flex-col overflow-y-scroll border-l border-green-300 ${!themeMode ? "bg-white text-gray-900" : "bg-black text-gray-200"}  `}>
+    <div className={` ${(mainCartComp) ? "h-allAk" : "h-full"}  flex flex-col overflow-y-scroll ${!themeMode ? "bg-white text-gray-900" : "bg-black text-gray-200"}  `}>
 
       <div className=' max-w-full md:max-w-allAk px-1  lg:px-8 lg:mx-14'>
 
@@ -87,7 +87,7 @@ export default function CartComponent({ mainCartComp = true }: CartCompProp) {
                 ?
 
                 <div className="h-7 flex items-center w-full">
-                  <button
+                  {/* <button
                     type="button"
                     className=" relative ml-auto p-2 border-blue-500 border rounded font-bold  hover:bg-blue-500 hover:text-white transition-all"
                     onClick={() => { navigate("/") }}
@@ -95,7 +95,7 @@ export default function CartComponent({ mainCartComp = true }: CartCompProp) {
                     <span className="absolute -inset-0.5" />
                     <span className="sr-only">Close panel</span>
                     GoTo Home
-                  </button>
+                  </button> */}
                 </div>
 
                 :
@@ -109,30 +109,22 @@ export default function CartComponent({ mainCartComp = true }: CartCompProp) {
           <div className="mt-8">
             <div className="flow-root">
               <ul role="list" className="-my-6 divide-y divide-green-300">
-
                 {
-
                   (cartData && cartData.length > 0)
 
                     ?
                     cartData.map((product, i) => <SingleCartItem key={i} mainCartComp={mainCartComp} product={product} />)
 
                     :
-
                     <>
-
                       <div className='flex flex-col' >
-
                         <p className='text-center text-2xl md:text-3xl font-bold mt-2 '>🛒Cart is Empty😔, Go to home and Shopping please😊</p>
                         <Link
                           to="/"
                           className='text-center my-2 px-2 rounded border border-blue-500 text-blue-500 inline-block font-bold mx-auto hover:cursor-pointer hover:scale-125 transition-all '
                         >Home🏠</Link>
                       </div>
-
                     </>
-
-
                 }
 
               </ul>
@@ -146,12 +138,10 @@ export default function CartComponent({ mainCartComp = true }: CartCompProp) {
         {
           // // // mainCartComp value is responsible for what data show in main cart component or in payment page --->
           (mainCartComp)
-
             ?
 
             <>
               {
-
                 (cartData && cartData.length > 0)
 
                   ?
@@ -211,21 +201,18 @@ export default function CartComponent({ mainCartComp = true }: CartCompProp) {
                         </button>
                       </p>
                     </div>
-
                   </div>
               }
             </>
 
 
             :
-
             <>
               <div className="flex  justify-between text-base font-medium mb-5 border-t border-green-300">
 
                 <div>
                   <p>Total items : {cartData.length}</p>
                 </div>
-
 
                 <div className='flex  justify-end'>
                   <p>Total amount : </p>
@@ -235,9 +222,6 @@ export default function CartComponent({ mainCartComp = true }: CartCompProp) {
             </>
 
         }
-
-
-
 
       </div>
     </div>

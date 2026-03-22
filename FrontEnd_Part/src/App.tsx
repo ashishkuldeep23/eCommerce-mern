@@ -293,6 +293,31 @@ function App() {
 
    // // // If user is admin then navigate to adim page for fisrt time (This thing done in homeScreenPage ) ----->
 
+   // // // Cart Related logic ===============>>
+
+   const cartData = useSelector(
+      (state: RootState) => state.CartReducer.cartData,
+   );
+
+   const updateCartDataFn = async () => {
+      if (gettingTokenInCookieAndLocalHost() && cartData.length > 0) {
+         // // // Here we should update the cart. ------->>
+         localStorage.setItem("cardData", JSON.stringify(cartData));
+      }
+   };
+
+   useEffect(() => {
+      updateCartDataFn();
+      // else if (cartData.length === 0) {
+      //    // // // Here we should load the cart. ---------->>
+      //    // localStorage.removeItem("cardData")
+      //     let getCartLocal = localStorage.getItem("cardData")
+      //    if(gettingTokenInCookieAndLocalHost() && getCartLocal){
+      //       dispatch()
+      //    }
+      // }
+   }, [cartData]);
+
    return (
       <>
          {/* Above from routes will avilable for all pages ---> */}
@@ -302,7 +327,7 @@ function App() {
 
          <RouterProvider router={router} />
 
-         <Toaster position="top-right"  richColors  />
+         <Toaster position="top-right" richColors />
       </>
    );
 }

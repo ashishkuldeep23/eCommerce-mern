@@ -10,11 +10,9 @@ import NavBar from "../components/NavBar/NavBar"
 const CartScreen = () => {
   return (
     <>
-
       <NavBar />
       <CartComponent />
       <Footer />
-
     </>
   )
 }

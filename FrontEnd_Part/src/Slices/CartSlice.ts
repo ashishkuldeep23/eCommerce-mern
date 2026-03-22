@@ -1,13 +1,11 @@
-import { createSlice, current } from "@reduxjs/toolkit"
+import { createSlice, current, PayloadAction } from "@reduxjs/toolkit"
 
 // import { IProduct } from "../components/ProductListing/ProductLists"
 // import { SingleTypeObject } from "../components/ProductListing/ProductLists";
 // import { gettingTokenInCookieAndLocalHost } from "../App";
-import { CartInter } from "../Type/type";
+import { CardDataInter, CartInter } from "../Type/type";
 import { gettingTokenInCookieAndLocalHost } from "../Helper/Token";
-
-
-
+// import { gettingTokenInCookieAndLocalHost } from "../Helper/Token";
 
 
 const initialState: CartInter = {
@@ -15,7 +13,6 @@ const initialState: CartInter = {
     totalPrice: 0
     // totalCartvalue : 0
 }
-
 
 const cartSlice = createSlice({
     name: "cart",
@@ -33,149 +30,133 @@ const cartSlice = createSlice({
             state.totalPrice = action.payload
         },
 
-        addItemInCart(state, action) {
+        addItemInCart(state, action: PayloadAction<CardDataInter>) {
             // alert("Adding into cart")
-
+            const cartItem = action.payload
             let { id, verity } = action.payload
 
-            // alert(id)
-            // console.log(action.payload)
+            // const index = state.cartData.findIndex(c => c.id === id && c.verity.name === verity?.name && c.verity.verity[0].label === verity.verity[0].label)
+            const index = state.cartData.findIndex(c => id === c.id && verity?.name === c.verity.name && verity.verity[0].data[0].name === c.verity.verity[0].data[0].name)
 
-            // console.log(verity)
-            let cCartState = current(state)
+            // console.log(product, product?.verity)
+            let currentCartArr = current(state).cartData
 
+            console.log(index)
 
-
-
-            let item = null
-
-
-            // console.log(cCartState.cartData)
-            // console.log(cCartState.cartData.length)
+            // console.log(currentCartArr[index])
 
 
-            for (let i = 0; i < cCartState.cartData.length; i++) {
-
-                // console.log(cCartState.cartData[i].verity)
-
-                let ele = cCartState.cartData[i]
-
-                if (ele.verity.typeId === verity.typeId) {
-
-                    // console.log(cCartState.cartData[i])
-
-                    item = cCartState.cartData[i]
-                    break
-
-                }
-
-            }
-
-
-            let newArr = [...cCartState.cartData]
-
-            if (item) {
-
-                let index = cCartState.cartData.findIndex((ele) => ele.id === id && ele.verity.typeId === verity.typeId)
-
-
-                // console.log("same dedected")
-
-                let newItemObject = { ...item, quantity: item.quantity + 1 }
-
-                // console.log(index , item)
-
-                newArr.splice(index, 1, newItemObject)
-
-                // console.log(newArr)
-
-                state.cartData = newArr
-
-
-
-
+            if (index === -1) {
+                state.cartData.unshift(cartItem)
             } else {
 
-                // state.cartData.unshift(action.payload)
+                // console.log(currentCartArr[index].quantity)
+                state.cartData.splice(index, 1, { ...cartItem, quantity: currentCartArr[index].quantity + 1 })
 
-                newArr.unshift(action.payload)
-
-                state.cartData = newArr
-
+                // // // also currentState Arr ------------>>
+                // currentCartArr.splice(index, 1, { ...cartItem, quantity: currentCartArr[index].quantity + 1 })
             }
 
-
-
-            localStorage.setItem("cardData", JSON.stringify(newArr))
+            // localStorage.setItem("cardData", JSON.stringify(currentCartArr))
 
         },
 
-        removeOneItem(state, action) {
+        removeOneItem(state, action: PayloadAction<CardDataInter>) {
 
-            // console.log(action)
-            // alert(action.payload.id)
+            // const cartItem = action.payload
+            let { id, verity } = action.payload
 
-            let { verity } = action.payload
+            // const index = state.cartData.findIndex(c => c.id === id && c.verity.name === verity?.name && c.verity.verity[0].label === verity.verity[0].label)
+            const index = state.cartData.findIndex(c => id === c.id && verity?.name === c.verity.name && verity.verity[0].data[0].name === c.verity.verity[0].data[0].name)
 
-            // console.log(action.payload)
-
-            let currentCartArr = current(state.cartData)
+            // console.log(product, product?.verity)
+            let currentCartArr = current(state).cartData
 
             // console.log(currentCartArr)
 
+            // console.log(index)
 
-            let newArr = currentCartArr.filter(ele => ele.verity.typeId !== verity.typeId)
+            if (index !== -1) {
+                // console.log(currentCartArr[index].quantity)
 
-            state.cartData = newArr
+                state.cartData.splice(index, 1)
 
-            localStorage.setItem("cardData", JSON.stringify(newArr))
-        },
+                if (currentCartArr.length === 1) {
+                    localStorage.removeItem("cardData")
+                }
+            }
 
-        onePlusQuan(state, action) {
+            // state.cartData = state.cartData.filter(c => c.id !== id && c.verity.name !== verity?.name && c.verity.verity[0].label !== verity.verity[0].label)
 
-            const { verity } = action.payload
-
-
-            let currentCartArr = current(state.cartData)
-
-            let index = currentCartArr.findIndex((ele) => ele.verity.typeId === verity.typeId)
-
-
-            // console.log(index , data)
-
-            let newArr = [...currentCartArr]
-
-            let item = { ...action.payload, quantity: action.payload.quantity + 1 }
-
-            newArr.splice(index, 1, item)
-
-            state.cartData = newArr
-
-            localStorage.setItem("cardData", JSON.stringify(newArr))
-
+            // console.log(product, product?.verity)
+            // if (index === -1) {
+            //     state.cartData.splice(0, 0, cartItem)
+            // } else {
+            //     // console.log(currentCartArr[index].quantity)
+            //     state.cartData.splice(index, 1, { ...cartItem, quantity: currentCartArr[index].quantity + 1 })
+            // }
+            // let currentCartArr = current(state).cartData
+            // localStorage.setItem("cardData", JSON.stringify(currentCartArr))
 
         },
 
-        oneMinusQuan(state, action) {
+        onePlusQuan(state, action: PayloadAction<CardDataInter>) {
 
-            const { verity } = action.payload
+            const cartItem = action.payload
+            let { id, verity } = action.payload
 
-            let currentCartArr = current(state.cartData)
+            const index = state.cartData.findIndex(c => id === c.id && verity?.name === c.verity.name && verity.verity[0].data[0].name === c.verity.verity[0].data[0].name)
 
-            let index = currentCartArr.findIndex((ele) => ele.verity.typeId === verity.typeId)
+            // console.log(index)
 
-            // console.log(index , data)
 
-            let newArr = [...currentCartArr]
+            // console.log(product, product?.verity)
+            let currentCartArr = current(state).cartData
 
-            let item = { ...action.payload, quantity: action.payload.quantity - 1 }
+            if (index !== -1) {
+                // state.cartData.splice(0, 0, cartItem)
 
-            newArr.splice(index, 1, item)
+                // console.log(120, currentCartArr[index].quantity)
 
-            state.cartData = newArr
+                state.cartData.splice(index, 1, { ...cartItem, quantity: currentCartArr[index].quantity + 1 })
 
-            localStorage.setItem("cardData", JSON.stringify(newArr))
 
+                // // // also currentState Arr ------------>>
+                // currentCartArr.splice(index, 1, { ...cartItem, quantity: currentCartArr[index].quantity + 1 })
+            }
+
+            // localStorage.setItem("cardData", JSON.stringify(currentCartArr))
+
+
+        },
+
+        oneMinusQuan(state, action: PayloadAction<CardDataInter>) {
+
+            const cartItem = action.payload
+            let { id, verity } = action.payload
+
+            const index = state.cartData.findIndex(c => id === c.id && verity?.name === c.verity.name && verity.verity[0].data[0].name === c.verity.verity[0].data[0].name)
+
+
+            // console.log(index)
+
+
+            // console.log(product, product?.verity)
+            let currentCartArr = current(state).cartData
+
+            if (index !== -1) {
+                // state.cartData.splice(0, 0, cartItem)
+
+                // console.log(currentCartArr[index].quantity)
+
+                state.cartData.splice(index, 1, { ...cartItem, quantity: currentCartArr[index].quantity - 1 })
+
+                // // // also currentState Arr ------------>>
+                // currentCartArr.splice(index, 1, { ...cartItem, quantity: currentCartArr[index].quantity - 1 })
+
+            }
+
+            // localStorage.setItem("cardData", JSON.stringify(currentCartArr))
         },
 
         setClearCartData(state) {
@@ -183,7 +164,6 @@ const cartSlice = createSlice({
             state.totalPrice = 0
             localStorage.removeItem("cardData")
         }
-
 
     },
 
@@ -200,7 +180,7 @@ const cartSlice = createSlice({
                 // // // Set cart in store from localstorage --->
 
                 let getCartLocal = localStorage.getItem("cardData")
-
+                // if (getCartLocal) {
                 if (gettingTokenInCookieAndLocalHost() && getCartLocal) {
                     state.cartData = JSON.parse(getCartLocal)
                 }
@@ -212,9 +192,6 @@ const cartSlice = createSlice({
 
 })
 
-
-
 export const { addItemInCart, removeOneItem, onePlusQuan, oneMinusQuan, setToTalPrice, setClearCartData } = cartSlice.actions
 
 export default cartSlice.reducer
-

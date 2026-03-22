@@ -6,13 +6,20 @@ import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import { userState } from "../../Slices/UserSlice";
 import { removeUnderScore } from "../../Helper/removeUnderScore";
+import { useDispatch } from "react-redux";
+import { addItemInCart } from "../../Slices/CartSlice";
+// import { RootState } from "../../store";
 
 const OptionAndAddToCart: React.FC<{
    singleProductData: IProduct;
 }> = ({ singleProductData }) => {
    const navigate = useNavigate();
+   const dispatch = useDispatch();
    const userDataId = userState().userData.id;
    const [newOption, setNewOption] = useState<OptionInterface | null>(null);
+   // const cartData = useSelector(
+   //    (state: RootState) => state.CartReducer.cartData,
+   // );
 
    const optionChangeHandler = (option: OptionInterface) => {
       // console.log(p);
@@ -65,6 +72,19 @@ const OptionAndAddToCart: React.FC<{
       }
 
       // // check option here -------->>
+
+      if (!newOption?.name && !newOption?.verity[0].label) {
+         toast.error("Please select the option.");
+         return;
+      }
+
+      dispatch(
+         addItemInCart({
+            ...singleProductData,
+            verity: newOption,
+            quantity: 1,
+         }),
+      );
 
       // // // Add to Cart here ----------->>
 
@@ -163,7 +183,7 @@ const OptionAndAddToCart: React.FC<{
                                                                         ind
                                                                      ]?.data[i]
                                                                         ?.name &&
-                                                                  "border-blue-500 scale-110 border-2 text-blue-500 "
+                                                                  " !border-blue-500 scale-110 border-2 text-blue-500 "
                                                                }  `}
                                                                onClick={() => {
                                                                   optionChangeHandler(
@@ -198,7 +218,7 @@ const OptionAndAddToCart: React.FC<{
                                                                </p>
                                                                <p>
                                                                   {singleProductData?.discountPercentage ? (
-                                                                     <p
+                                                                     <span
                                                                         className={`  leading-5 text-lg font-medium   `}>
                                                                         {" "}
                                                                         <span className=" text-sm font-thin line-through">
@@ -214,16 +234,16 @@ const OptionAndAddToCart: React.FC<{
                                                                                  +optionItem.price) /
                                                                                  100,
                                                                         )}
-                                                                     </p>
+                                                                     </span>
                                                                   ) : (
-                                                                     <p
+                                                                     <span
                                                                         className={`  leading-5 text-lg font-medium   `}>
                                                                         {" "}
                                                                         ₹
                                                                         {
                                                                            +optionItem.price
                                                                         }{" "}
-                                                                     </p>
+                                                                     </span>
                                                                   )}
                                                                </p>
                                                                <p>
@@ -254,6 +274,10 @@ const OptionAndAddToCart: React.FC<{
                   })}
             </div>
          </div>
+
+         {/* {
+   cartData.filter(c => singleProductData.id === c.id && newOption?.name === c.verity.name && newOption.verity[0].data[0].name === c.verity.verity[0].data[0].name)
+} */}
 
          <button
             type="submit"

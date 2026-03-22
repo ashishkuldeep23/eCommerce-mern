@@ -63,7 +63,7 @@ export default function ProductDetails() {
          store.allProductWithCatReducer.simmilarProductWithOnePro,
    );
 
-   const userDataId = userState().userData.id;
+   const userDataId = userState()?.userData?.id;
 
    const reviewRef = useRef<HTMLDivElement>(null);
 
@@ -106,7 +106,7 @@ export default function ProductDetails() {
       if (!singleProductData?.likedUserIds?.includes(userDataId)) {
          dispatch(
             likeProduct({
-               productId: singleProductData.id,
+               productId: singleProductData?.id,
                isLiking: true,
                userId: userDataId,
             }),
@@ -116,7 +116,7 @@ export default function ProductDetails() {
       } else {
          dispatch(
             likeProduct({
-               productId: singleProductData.id,
+               productId: singleProductData?.id,
                isLiking: false,
                userId: userDataId,
             }),
@@ -138,7 +138,7 @@ export default function ProductDetails() {
       if (!singleProductData?.dislikedUserIds?.includes(userDataId)) {
          dispatch(
             dislikeProduct({
-               productId: singleProductData.id,
+               productId: singleProductData?.id,
                isDisliking: true,
                userId: userDataId,
             }),
@@ -146,7 +146,7 @@ export default function ProductDetails() {
       } else {
          dispatch(
             dislikeProduct({
-               productId: singleProductData.id,
+               productId: singleProductData?.id,
                isDisliking: false,
                userId: userDataId,
             }),
@@ -190,7 +190,7 @@ export default function ProductDetails() {
       // console.log(singleProductData.id)
       // alert("Done")
 
-      dispatch(addOrRemoveWishList({ productId: `${singleProductData.id}` }));
+      dispatch(addOrRemoveWishList({ productId: `${singleProductData?.id}` }));
    }
 
    // // // Share product handler --->
@@ -273,7 +273,7 @@ export default function ProductDetails() {
 
       // // // Previously using Above code but now no need of that (becoz now using useParam hook of react router dom) ---->
 
-      params.id && dispatch(fetchOneProductByID({ productId: params.id }));
+      params.id && dispatch(fetchOneProductByID({ productId: params?.id }));
 
       return () => {};
    }, []);
@@ -454,7 +454,7 @@ export default function ProductDetails() {
 
                            {/* Views div start here ----> */}
                            <div className=" my-2 text-sm font-medium text-indigo-600 hover:text-indigo-500">
-                              <span> {singleProductData.views}</span>
+                              <span> {singleProductData?.views}</span>
                               <span className=" mx-1">Views</span>
                            </div>
                         </div>
@@ -627,10 +627,10 @@ export default function ProductDetails() {
                                                .map((w) =>
                                                   typeof w === "string"
                                                      ? w
-                                                     : w.id,
+                                                     : w?.id,
                                                )
                                                ?.includes(
-                                                  singleProductData.id.toString(),
+                                                  singleProductData?.id.toString(),
                                                )
                                                ? "border-red-600 focus:ring-red-500 hover:border-red-700"
                                                : "border-indigo-600 focus:ring-indigo-500 hover:border-indigo-700"
@@ -645,8 +645,8 @@ export default function ProductDetails() {
                               {userData.wishListIdsArr &&
                               userData.wishListIdsArr.length > 0 &&
                               userData?.wishListIdsArr
-                                 .map((w) => (typeof w === "string" ? w : w.id))
-                                 ?.includes(singleProductData.id.toString()) ? (
+                                 .map((w) => (typeof w === "string" ? w : w?.id))
+                                 ?.includes(singleProductData?.id.toString()) ? (
                                  <span className=" mr-[0.3rem]">
                                     -Remove from
                                  </span>
@@ -817,7 +817,7 @@ export default function ProductDetails() {
                                  ? simmilarProducts.map((product) => (
                                       <SingleProduct
                                          product={product}
-                                         key={product.id}
+                                         key={product?.id}
                                       />
                                    ))
                                  : "Not getting"}

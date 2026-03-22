@@ -15,13 +15,6 @@ export interface NewProductInput extends Omit<IProduct, "type"> {
     whenCreted: string;
 }
 
-export type SingleTypeObject = {
-    "typeName": string[],
-    "typeStock": number,
-    "typeVerity": string[],
-    "typeId": string,
-    "typePrice": number
-}
 
 export interface IProduct {
     "id": number | string;
@@ -114,17 +107,28 @@ export type SearchObj = {
     limit?: string,
 }
 
+
+export type SingleTypeObject = {
+    "typeName": string[],
+    "typeStock": number,
+    "typeVerity": string[],
+    "typeId": string,
+    "typePrice": number
+}
+
+
+
 // // // This is how card data look like
 export interface CardDataInter extends IProduct {
     quantity: number;
-    verity: SingleTypeObject;
+    verity: OptionInterface;
+    // verity: SingleTypeObject;
 }
 
 export interface CartInter {
     cartData: CardDataInter[],
     totalPrice: number;
 }
-
 
 export interface ShopInterface {
     _id: string,
@@ -140,8 +144,6 @@ export interface ShopInterface {
     createdAt?: string,
     msg?: string;
 }
-
-
 
 export type UserDataInitials = {
     isLoading: boolean;
@@ -170,8 +172,6 @@ export type UserDataInitials = {
     // shopsDataArr?: [],
     tempUserEmail?: string,
 }
-
-
 
 
 export interface FeedBackSingle {
@@ -243,7 +243,6 @@ export type ReviewData = {
 
     "productName": string,
     "comment": string,
-
     "stars": number,
     "likes": number,
     "dislikes": number,
