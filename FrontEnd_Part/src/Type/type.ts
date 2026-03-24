@@ -85,7 +85,8 @@ export interface IAllProductsWithCat {
         category: string
     }
     isLoading: boolean,
-    isError: boolean
+    isError: boolean,
+    isLoadingForSingleProduct: boolean;
 }
 
 export type PropForLikeAndDislike = {
@@ -95,8 +96,9 @@ export type PropForLikeAndDislike = {
     isDisliking?: boolean
 }
 
-export type productId = {
+export type FindOneProductsParams = {
     productId: string | number,
+    noSimmilarProducts?: boolean,
 }
 
 export type SearchObj = {

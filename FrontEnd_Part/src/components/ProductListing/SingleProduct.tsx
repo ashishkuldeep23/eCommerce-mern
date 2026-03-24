@@ -8,7 +8,10 @@ import { AppDispatch } from "../../store";
 import { useNavigate } from "react-router-dom";
 import { addOrRemoveWishList, userState } from "../../Slices/UserSlice";
 import { IProduct } from "../../Type/type";
-import { toast } from "sonner";
+import { setChildrenModal, setOpenMoadl } from "../../Slices/ModalSlice";
+import OptionAndAddToCart from "../ProductDetail/OptionAndAddToCart";
+// import { useState } from "react";
+
 // import { setProductData, setUpdatingProduct } from '../../Slices/AdminSliceFile'
 // import { setProductData, setUpdatingProduct } from '../../Slices/AdminSliceFile'
 
@@ -26,6 +29,11 @@ const SingleProduct = ({
    const dispatch = useDispatch<AppDispatch>();
    const navigate = useNavigate();
    const userData = userState().userData;
+   // const [selectProductType, setSelectProductType] = useState<IProduct | null>(
+   //    null,
+   // );
+
+   // console.log("Type", product?.type);
 
    function wishListProductRemoveHandler(
       e: React.MouseEvent<HTMLSpanElement, MouseEvent>,
@@ -33,6 +41,32 @@ const SingleProduct = ({
       e.stopPropagation();
       dispatch(addOrRemoveWishList({ productId: product.id.toString() }));
    }
+
+   // const singleProductData = useSelector(
+   //    (store: RootState) => store.allProductWithCatReducer.singleProductData,
+   // );
+
+   const addBtnClickHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.stopPropagation();
+
+      // alert("Working...");
+
+      // dispatch(
+      //    fetchOneProductByID({
+      //       productId: product?.id,
+      //       noSimmilarProducts: true,
+      //    }),
+      // ).then((res) => {
+      //    console.log({ product: res.payload.data });
+      //    setSelectProductType(res?.payload?.data);
+      // });
+
+      let ChildrenOfModal = (
+         <OptionAndAddToCart singleProductId={product?.id || ""} />
+      );
+      dispatch(setOpenMoadl(true));
+      dispatch(setChildrenModal(ChildrenOfModal));
+   };
 
    return (
       <>
@@ -123,8 +157,8 @@ const SingleProduct = ({
                />
             </div>
 
-            <div className=" bg-teal-50/50 dark:bg-teal-950/50 flex justify-between gap-1   px-2 border-t-2 border-teal-100/50 dark:border-teal-900/50 group-hover:-translate-y-2 transition-all duration-300 ease-in-out ">
-               <div className="">
+            <div className="  bg-teal-50/50 dark:bg-teal-950/50 flex justify-between gap-1 px-2 border-t-2 border-teal-100/50 dark:border-teal-900/50 group-hover:-translate-y-2 transition-all duration-300 ease-in-out ">
+               <div className=" w-full ">
                   <h3
                      className={` text-gray-700 dark:text-gray-100 text-lg capitalize `}
                      id="headingOfProduct">
@@ -154,22 +188,30 @@ const SingleProduct = ({
                      </p>
                   )}
 
-                  <div
-                     className={`flex items-center px-1 ${product.rating.totalPerson > 0 && "text-yellow-500"} `}>
-                     <p className="h-5 w-5">{<StarIcon />}</p>
-                     {/* <p>{product.rating.avgRating }</p> */}
-                     <p>
-                        {product.rating.totalPerson > 0
-                           ? (
-                                product.rating.avgRating /
-                                product.rating.totalPerson
-                             ).toFixed(1)
-                           : 0}
-                     </p>
+                  <div className=" flex gap-5 justify-between">
+                     <div
+                        className={`flex items-center px-1 ${product.rating.totalPerson > 0 && "text-yellow-500"} `}>
+                        <p className="h-5 w-5">{<StarIcon />}</p>
+                        {/* <p>{product.rating.avgRating }</p> */}
+                        <p>
+                           {product.rating.totalPerson > 0
+                              ? (
+                                   product.rating.avgRating /
+                                   product.rating.totalPerson
+                                ).toFixed(1)
+                              : 0}
+                        </p>
+                     </div>
+
+                     <button
+                        onClick={addBtnClickHandler}
+                        className=" rounded bg-green-500 px-1 text-sm font-bold text-white">
+                        +Add
+                     </button>
                   </div>
                </div>
 
-               <div className=" flex flex-col items-end justify-end  ">
+               {/* <div className=" flex flex-col items-end justify-end  ">
                   <button
                      onClick={(e) => {
                         e.stopPropagation();
@@ -178,23 +220,7 @@ const SingleProduct = ({
                      className=" rounded bg-green-500 px-1 text-sm font-bold text-white">
                      +Add
                   </button>
-
-                  {/* <p>{product.discountPercentage}%</p> */}
-                  {/* <p className={`text-lg font-medium ${!themeMode ? "text-gray-900" : "text-gray-300"} `}> Price :</p> */}
-
-                  {/* <div
-                     className={`flex items-center px-1 ${product.rating.totalPerson > 0 && "text-yellow-400"} `}>
-                     <p className="h-5 w-5">{<StarIcon />}</p>
-                     <p>
-                        {product.rating.totalPerson > 0
-                           ? (
-                                product.rating.avgRating /
-                                product.rating.totalPerson
-                             ).toFixed(1)
-                           : 0}
-                     </p>
-                  </div> */}
-               </div>
+               </div> */}
             </div>
          </a>
       </>

@@ -273,7 +273,14 @@ export default function ProductDetails() {
 
       // // // Previously using Above code but now no need of that (becoz now using useParam hook of react router dom) ---->
 
-      params.id && dispatch(fetchOneProductByID({ productId: params?.id }));
+      if (params?.id) {
+         dispatch(
+            fetchOneProductByID({
+               productId: params?.id,
+               // noSimmilarProducts: true,
+            }),
+         );
+      }
 
       return () => {};
    }, []);
@@ -645,8 +652,12 @@ export default function ProductDetails() {
                               {userData.wishListIdsArr &&
                               userData.wishListIdsArr.length > 0 &&
                               userData?.wishListIdsArr
-                                 .map((w) => (typeof w === "string" ? w : w?.id))
-                                 ?.includes(singleProductData?.id.toString()) ? (
+                                 .map((w) =>
+                                    typeof w === "string" ? w : w?.id,
+                                 )
+                                 ?.includes(
+                                    singleProductData?.id.toString(),
+                                 ) ? (
                                  <span className=" mr-[0.3rem]">
                                     -Remove from
                                  </span>

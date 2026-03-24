@@ -1,5 +1,5 @@
 
-import { IAllProductsWithCat, productId, PropForLikeAndDislike, SearchObj } from "../Type/type"
+import { FindOneProductsParams, IAllProductsWithCat, PropForLikeAndDislike, SearchObj } from "../Type/type"
 import { createAsyncThunk, createSlice, current, PayloadAction } from "@reduxjs/toolkit"
 import { toast } from 'sonner'
 import { gettingTokenInCookieAndLocalHost } from "../Helper/Token"
@@ -93,7 +93,7 @@ export const fetchAllCategoryAndHighlight = createAsyncThunk("getCategoryAndHigh
 })
 
 
-export const fetchOneProductByID = createAsyncThunk("fetchSingleProduct/:id", async ({ productId, }: productId) => {
+export const fetchOneProductByID = createAsyncThunk("fetchSingleProduct/:id", async ({ productId, noSimmilarProducts }: FindOneProductsParams) => {
 
     // console.log(userId)
 
@@ -115,7 +115,7 @@ export const fetchOneProductByID = createAsyncThunk("fetchSingleProduct/:id", as
 
     }
 
-    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/findOneProduct/${productId}`, option)
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/findOneProduct/${productId}?noSimmilarProducts=${noSimmilarProducts || false}`, option)
     let data = await response.json();
     return data
 })
@@ -212,7 +212,8 @@ const initialState: IAllProductsWithCat = {
     },
 
     isLoading: false,
-    isError: false
+    isError: false,
+    isLoadingForSingleProduct: false
 }
 
 
@@ -374,14 +375,15 @@ const allProductsCatSlice = createSlice({
 
 
 
-            .addCase(fetchOneProductByID.pending, () => {
-                console.log("Getting Data from Backend. Now pending")
+            .addCase(fetchOneProductByID.pending, (state) => {
+                state.isLoadingForSingleProduct = true;
+                // console.log("Getting Data from Backend. Now pending")
             })
 
             .addCase(fetchOneProductByID.fulfilled, (state, action) => {
 
                 // console.log(action.payload)
-
+                state.isLoadingForSingleProduct = false;
                 state.singleProductData = action.payload.data
                 state.simmilarProductWithOnePro = action.payload.simmilarProductExceptThis
             })

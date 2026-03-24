@@ -1,22 +1,36 @@
 // import React from "react";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IProduct, OptionInterface } from "../../Type/type";
 import { toast } from "sonner";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { userState } from "../../Slices/UserSlice";
 import { removeUnderScore } from "../../Helper/removeUnderScore";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addItemInCart } from "../../Slices/CartSlice";
+import { fetchOneProductByID } from "../../Slices/AllProductSlice";
+import { AppDispatch, RootState } from "../../store";
 // import { RootState } from "../../store";
 
 const OptionAndAddToCart: React.FC<{
-   singleProductData: IProduct;
-}> = ({ singleProductData }) => {
-   const navigate = useNavigate();
-   const dispatch = useDispatch();
+   singleProductData?: IProduct;
+   singleProductId?: string | number;
+}> = ({ singleProductData, singleProductId }) => {
+   // const navigate = useNavigate();
+   const dispatch = useDispatch<AppDispatch>();
    const userDataId = userState().userData.id;
    const [newOption, setNewOption] = useState<OptionInterface | null>(null);
+
+   const singleProductDataFromRTK = useSelector(
+      (state: RootState) => state.allProductWithCatReducer.singleProductData,
+   );
+   const isLoadingForSingleProduct = useSelector(
+      (state: RootState) =>
+         state.allProductWithCatReducer.isLoadingForSingleProduct,
+   );
+
+   const productData = singleProductData || singleProductDataFromRTK;
+
    // const cartData = useSelector(
    //    (state: RootState) => state.CartReducer.cartData,
    // );
@@ -28,10 +42,10 @@ const OptionAndAddToCart: React.FC<{
 
       //   console.log(option);
 
-      //   console.log(singleProductData.type);
+      //   console.log(productData.type);
 
       // // // This is how we can reduce the stock ------------>>
-      singleProductData.type?.forEach((singleType) => {
+      productData.type?.forEach((singleType) => {
          if (singleType?.name === option?.name) {
             singleType?.verity?.forEach((singleVerity) => {
                if (singleVerity?.label === option?.verity[0]?.label) {
@@ -61,9 +75,11 @@ const OptionAndAddToCart: React.FC<{
       // // // FN calling to check Login ---->
       if (!userDataId) return;
 
-      const { id, title, price } = singleProductData;
+      const { id, title, price } = productData;
 
       if (!id && !title && !price) {
+         console.log(productData);
+
          console.log("Page is Empty , go to home and try again");
 
          toast.error(`Page is Empty , go to home and try again , GoTo Home`);
@@ -80,7 +96,7 @@ const OptionAndAddToCart: React.FC<{
 
       dispatch(
          addItemInCart({
-            ...singleProductData,
+            ...productData,
             verity: newOption,
             quantity: 1,
          }),
@@ -95,14 +111,14 @@ const OptionAndAddToCart: React.FC<{
       //      return;
       //   }
 
-      // console.log(singleProductData)
+      // console.log(productData)
 
       //   let newObjWithType = {
-      //      ...singleProductData,
+      //      ...productData,
       //      type: type,
       //      price: Math.round(
       //         type.typePrice -
-      //            (singleProductData.discountPercentage * type.typePrice) / 100,
+      //            (productData.discountPercentage * type.typePrice) / 100,
       //      ),
       //   };
 
@@ -119,17 +135,28 @@ const OptionAndAddToCart: React.FC<{
       // localStorage.setItem("cardData", JSON.stringify([...cardData , addaleCartItem ]))
 
       // // Sending Alert
-      // toast.success(`${title}, added in cart`);
-      toast.success(`${title}, added in cart.`, {
-         action: {
-            label: "Goto🛒",
-            onClick: () => {
-               window.scroll(0, 0);
-               navigate("/cart");
-            },
-         },
-      });
+      toast.success(`${title}, added in cart`);
+      // toast.success(`${title}, added in cart.`, {
+      //    action: {
+      //       label: "Goto🛒",
+      //       onClick: () => {
+      //          window.scroll(0, 0);
+      //          navigate("/cart");
+      //       },
+      //    },
+      // });
    }
+
+   useEffect(() => {
+      if (singleProductId) {
+         dispatch(
+            fetchOneProductByID({
+               productId: singleProductId,
+               noSimmilarProducts: true,
+            }),
+         );
+      }
+   }, [singleProductId]);
 
    return (
       <>
@@ -140,9 +167,14 @@ const OptionAndAddToCart: React.FC<{
             </h3>
 
             <div>
-               {singleProductData?.type &&
-                  singleProductData?.type.length > 0 &&
-                  singleProductData?.type?.map((singleType, index) => {
+               {isLoadingForSingleProduct ? (
+                  <>
+                     <p>Loading...</p>
+                  </>
+               ) : (
+                  productData?.type &&
+                  productData?.type.length > 0 &&
+                  productData?.type?.map((singleType, index) => {
                      return (
                         <div className=" my-2 " key={index}>
                            <p className=" capitalize ml-1 font-semibold tracking-widest ">
@@ -166,9 +198,9 @@ const OptionAndAddToCart: React.FC<{
                                                             <div
                                                                key={i}
                                                                className={`flex flex-col p-1 rounded border border-black dark:border-white font-semibold cursor-pointer hover:scale-110 transition-all ${
-                                                                  singleProductData?.type &&
+                                                                  productData?.type &&
                                                                   newOption?.name ===
-                                                                     singleProductData
+                                                                     productData
                                                                         ?.type[
                                                                         index
                                                                      ]?.name &&
@@ -176,7 +208,7 @@ const OptionAndAddToCart: React.FC<{
                                                                      ?.verity[0]
                                                                      ?.data[0]
                                                                      ?.name ===
-                                                                     singleProductData
+                                                                     productData
                                                                         ?.type[
                                                                         index
                                                                      ]?.verity[
@@ -196,10 +228,10 @@ const OptionAndAddToCart: React.FC<{
                                                                                  data: [
                                                                                     {
                                                                                        ...optionItem,
-                                                                                       price: singleProductData?.discountPercentage
+                                                                                       price: productData?.discountPercentage
                                                                                           ? Math.round(
                                                                                                +optionItem?.price -
-                                                                                                  (singleProductData.discountPercentage *
+                                                                                                  (productData.discountPercentage *
                                                                                                      +optionItem.price) /
                                                                                                      100,
                                                                                             )
@@ -217,7 +249,7 @@ const OptionAndAddToCart: React.FC<{
                                                                   }
                                                                </p>
                                                                <p>
-                                                                  {singleProductData?.discountPercentage ? (
+                                                                  {productData?.discountPercentage ? (
                                                                      <span
                                                                         className={`  leading-5 text-lg font-medium   `}>
                                                                         {" "}
@@ -230,7 +262,7 @@ const OptionAndAddToCart: React.FC<{
                                                                         ₹
                                                                         {Math.round(
                                                                            +optionItem?.price -
-                                                                              (singleProductData.discountPercentage *
+                                                                              (productData.discountPercentage *
                                                                                  +optionItem.price) /
                                                                                  100,
                                                                         )}
@@ -271,13 +303,10 @@ const OptionAndAddToCart: React.FC<{
                            </div>
                         </div>
                      );
-                  })}
+                  })
+               )}
             </div>
          </div>
-
-         {/* {
-   cartData.filter(c => singleProductData.id === c.id && newOption?.name === c.verity.name && newOption.verity[0].data[0].name === c.verity.verity[0].data[0].name)
-} */}
 
          <button
             type="submit"
