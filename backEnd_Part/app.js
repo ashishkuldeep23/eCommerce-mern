@@ -276,24 +276,34 @@ const calculateOrderAmount = (price) => {
 
 // // // Initialize route for create payment intent ------------------->
 app.post("/create-payment-intent", async (req, res) => {
-   const { totalPrice } = req.body;
+   try {
+      const { totalPrice } = req.body;
 
-   // console.log(req.body)
+      // console.log(req.body)
 
-   // Create a PaymentIntent with the order amount and currency
-   const paymentIntent = await stripe.paymentIntents.create({
-      amount: calculateOrderAmount(totalPrice),
-      // amount: totalPrice,
-      currency: "inr",
-      // In the latest version of the API, specifying the `automatic_payment_methods` parameter is optional because Stripe enables its functionality by default.
-      automatic_payment_methods: {
-         enabled: true,
-      },
-   });
+      // Create a PaymentIntent with the order amount and currency
+      const paymentIntent = await stripe.paymentIntents.create({
+         amount: calculateOrderAmount(totalPrice),
+         // amount: totalPrice,
+         currency: "inr",
+         // In the latest version of the API, specifying the `automatic_payment_methods` parameter is optional because Stripe enables its functionality by default.
+         automatic_payment_methods: {
+            enabled: true,
+         },
+      });
 
-   res.send({
-      clientSecret: paymentIntent.client_secret,
-   });
+      res.status(200).send({
+         status: true,
+         clientSecret: paymentIntent.client_secret,
+         message: "Starting payment...",
+      });
+   } catch (err) {
+      console.log({ err });
+      res.status(500).send({
+         status: false,
+         message: `Server Error (${err.message})`,
+      });
+   }
 });
 
 // app.use( (req, res , next)=>{

@@ -73,7 +73,10 @@ const OptionAndAddToCart: React.FC<{
       // e.preventDefault();
 
       // // // FN calling to check Login ---->
-      if (!userDataId) return;
+      if (!userDataId) {
+         toast.error("Please logIn.");
+         return;
+      }
 
       const { id, title, price } = productData;
 
@@ -311,11 +314,7 @@ const OptionAndAddToCart: React.FC<{
          <button
             type="submit"
             className="mt-10 flex w-full items-center justify-center rounded-lg border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2  lg:w-3/4"
-            onClick={(e) => {
-               e.preventDefault();
-               e.stopPropagation();
-               addToCartHandler(e);
-            }}>
+            onClick={addToCartHandler}>
             Add to Cart
          </button>
       </>
