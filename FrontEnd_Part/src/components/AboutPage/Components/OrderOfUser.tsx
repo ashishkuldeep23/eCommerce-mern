@@ -14,6 +14,7 @@ import {
    setSingleProductData,
 } from "../../../Slices/AllProductSlice";
 import { makeMoreRaedablePrice } from "../../CartComp/CartComponent";
+import { removeUnderScore } from "../../../Helper/removeUnderScore";
 // import { fetchOneProductByID, setSingleProductData } from '../../Slices/AllProductSlice'
 // import { CardDataInter } from '../../Slices/CartSlice'
 // import { gettingTokenInCookieAndLocalHost } from '../../App'
@@ -93,7 +94,7 @@ const OrderOfUser = () => {
          </h2>
 
          {/* Hide this div for now (remove hidden class when everything is done with logic) ---------> */}
-         <div className="my-10 hidden">
+         <div className="my-10 ">
             <OrderFilterSection
                allOrdersOfUser={allOrdersOfUser}
                setAllOrdersOfUser={setAllOrdersOfUser}
@@ -110,75 +111,62 @@ const OrderOfUser = () => {
                         {/* {`${JSON.stringify(allOrdersOfUser.orders)}`} */}
 
                         <div className=" pb-28 flex justify-center">
-                           {/* <div className=' flex justify-between flex-wrap'>
-
-                                        <p>For : {order.fullName}</p>
-                                        <p>Method : {order.paymentMethod}</p>
-                                        <p>Phone : {order.phone}</p>
-                                        <p>Address : {order.address.street + " " + order.address.city + " " + order.address.country + " " + order.address.pincode}</p>
-                                        <p>Date & Time : {order.whenCreated}</p>
-                                    </div> */}
-
                            <div
                               className={`  w-fit h-fit sm:pr-3 rounded  flex flex-wrap gap-2 justify-center md:justify-start items-center relative  border-b-2 border-l-2 ${!themeMode ? "border-green-500" : "border-green-300"} transition-all `}>
                               {/* single order detaio */}
                               <div
-                                 className={`  w-full smm:w-72 h-96 border-2 rounded md:max-w-sm px-1 flex flex-col justify-center text-center relative ${!themeMode ? "bg-green-300 border-green-500 " : "bg-green-800 border-green-300 "}  transition-all`}>
-                                 <p className=" font-bold font-mono underline text-xl absolute top-8 left-1/2 -translate-x-1/2 w-full">
+                                 className={`  w-full smm:w-72 h-72 border-2 rounded md:max-w-sm px-1 flex flex-col justify-center text-center relative ${!themeMode ? "bg-green-300 border-green-500 " : "bg-green-800 border-green-300 "}  transition-all`}>
+                                 <p className=" font-bold font-mono underline text-xl absolute top-2 left-1/2 -translate-x-1/2 w-full">
                                     {" "}
                                     {allOrdersOfUser &&
                                        allOrdersOfUser?.length - i + ")"}
                                     Order Details
                                  </p>
 
-                                 <div className=" text-start ml-3 pl-2 border-l rounded ">
-                                    <p className=" text-3xl font-bold underline">
+                                 <div className=" text-start ml-3 pl-2  rounded ">
+                                    <p className="capitalize text-xl font-bold ">
                                        {" "}
-                                       <span className=" underline text-lg">
+                                       {/* <span className="  underline ">
                                           Name
-                                       </span>{" "}
-                                       : {order.fullName}
+                                       </span>{" "} */}
+                                       {order.fullName}
                                     </p>
 
                                     <div className="flex text-xl">
-                                       <span className=" underline text-lg">
+                                       {/* <span className=" underline ">
                                           Mo. No.:
-                                       </span>
+                                       </span> */}
                                        <p>{order.phone},</p>
-                                       <p>{order.paymentMethod}</p>
+                                       <p className=" font-bold">
+                                          {order.paymentMethod}
+                                       </p>
                                     </div>
 
-                                    <p className=" underline">
-                                       <span className=" underline text-lg">
+                                    <p className=" text-sm ">
+                                       {/* <span className=" underline text-lg">
                                           Address
-                                       </span>{" "}
-                                       :{" "}
+                                       </span>{" "} :{" "} */}
                                        {order.address.street +
-                                          " " +
+                                          ", " +
                                           order.address.city +
-                                          " " +
+                                          ", " +
                                           order.address.country +
-                                          " " +
+                                          ", " +
                                           order.address.pincode}
                                     </p>
 
-                                    <p>
-                                       {" "}
-                                       <span className=" underline text-lg">
-                                          Date & Time
-                                       </span>{" "}
-                                       : {order.whenCreated}
+                                    <p className=" text-sm">
+                                       <span className="  ">Date & Time</span> :{" "}
+                                       {new Date(
+                                          order.whenCreated,
+                                       ).toLocaleString()}
                                     </p>
 
                                     <p>
-                                       <span className=" underline text-lg">
-                                          Total items
-                                       </span>{" "}
-                                       : All{" "}
                                        <span className="font-extrabold bg-yellow-500 px-1 rounded">
                                           {order.cartData.length}
                                        </span>{" "}
-                                       Orders{" "}
+                                       Items{" "}
                                        <span className=" hidden sm:inline">
                                           ➡️
                                        </span>{" "}
@@ -188,10 +176,9 @@ const OrderOfUser = () => {
                                     </p>
 
                                     <p>
-                                       <span className=" underline text-lg">
-                                          Total Price
-                                       </span>{" "}
-                                       : <span>{order.totalPrice}</span>
+                                       <span className=" font-bold">
+                                          {order.totalPrice}
+                                       </span>
                                     </p>
                                  </div>
 
@@ -300,7 +287,7 @@ function SingleOrderData({ order }: { order: CardDataInter }) {
       <div
          key={order.id}
          id="single_order_div"
-         className="w-full smm:w-72 flex flex-col items-center overflow-hidden hover:cursor-pointer"
+         className="w-full smm:w-44 flex flex-col items-center overflow-hidden hover:cursor-pointer"
          onClick={(e) => {
             e.stopPropagation();
             navigate(`/product/${order.id}`);
@@ -309,31 +296,37 @@ function SingleOrderData({ order }: { order: CardDataInter }) {
             window.scroll(0, 0);
          }}>
          <img
-            className=" w-72 h-64 object-cover md:max-w-sm rounded hover:scale-150 transition-all"
+            className=" w-44 h-44 object-cover md:max-w-sm rounded hover:scale-150 transition-all"
             src={order.thumbnail}></img>
 
          {/* <div className=" w-full sm:w-72  h-56 sm:h-72 bg-slate-300 rounded md:max-w-sm"></div> */}
 
          <p
-            className={` ${!themeMode ? "bg-slate-300" : "bg-slate-700"} h-6 w-full rounded my-0.5 px-1 mt-4 z-10`}>
+            className={` ${!themeMode ? "bg-slate-300" : "bg-slate-700"} h-6 w-full rounded my-0.5 px-1 mt-4 z-10 overflow-hidden`}>
             {order.title}
          </p>
          <p
-            className={`${!themeMode ? "bg-slate-300" : "bg-slate-700"} h-6 w-full rounded my-0.5 px-1 font-bold z-10`}>
+            className={`${!themeMode ? "bg-slate-300" : "bg-slate-700"} h-6 w-full rounded my-0.5 px-1 font-bold z-10 overflow-hidden`}>
             ₹{makeMoreRaedablePrice(order.price)} X {order.quantity}
          </p>
          {order.type && (
-            // ""
-            <p
-               className={`${!themeMode ? "bg-slate-300" : "bg-slate-700"} h-6 w-full rounded my-0.5 px-1 capitalize z-10`}>
-               {order.verity.typeName[0] +
-                  " : " +
-                  order.verity.typeName[1] +
-                  " | " +
-                  order.verity.typeVerity[0] +
-                  " : " +
-                  order.verity.typeVerity[1]}
-            </p>
+            <>
+               {/* <p>{JSON.stringify(order.verity)}</p> */}
+               <p
+                  className={`${!themeMode ? "bg-slate-300" : "bg-slate-700"} h-6 w-full rounded my-0.5 px-1 font-bold z-10 overflow-hidden`}>
+                  <span className=" font-semibold  capitalize">
+                     {removeUnderScore(order?.verity?.name)}{" "}
+                  </span>{" "}
+                  {" : "}{" "}
+                  <span className=" font-semibold  capitalize">
+                     {order?.verity?.verity &&
+                        order?.verity?.verity[0]?.data &&
+                        removeUnderScore(
+                           order?.verity?.verity[0]?.data[0]?.name,
+                        )}
+                  </span>
+               </p>
+            </>
          )}
          {/* <h2 className="bg-slate-300 h-6 w-full rounded my-0.5 px-1">Date and Time </h2> */}
       </div>

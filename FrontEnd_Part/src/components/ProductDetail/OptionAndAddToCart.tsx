@@ -105,6 +105,8 @@ const OptionAndAddToCart: React.FC<{
          }),
       );
 
+      toast.success(`${title}, added in cart`);
+
       // // // Add to Cart here ----------->>
 
       // // // Check user choosed type or not -->
@@ -138,7 +140,7 @@ const OptionAndAddToCart: React.FC<{
       // localStorage.setItem("cardData", JSON.stringify([...cardData , addaleCartItem ]))
 
       // // Sending Alert
-      toast.success(`${title}, added in cart`);
+      // toast.success(`${title}, added in cart`);
       // toast.success(`${title}, added in cart.`, {
       //    action: {
       //       label: "Goto🛒",

@@ -383,6 +383,11 @@ const LeftSection = ({
                   </summary>
                   <ul className="pl-5">
                      <li
+                        className={` cursor-pointer ${activeRightSection === "my_wish_list" && "  bg-blue-100 dark:bg-slate-700"}  `}
+                        onClick={() => pageNavigate("all_order")}>
+                        My Orders
+                     </li>
+                     <li
                         className={` cursor-pointer ${activeRightSection === "my_reviews" && "  bg-blue-100 dark:bg-slate-700"}  `}
                         onClick={() => pageNavigate("my_reviews")}>
                         My Reviwes
