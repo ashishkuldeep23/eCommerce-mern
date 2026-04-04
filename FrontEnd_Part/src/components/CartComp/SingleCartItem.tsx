@@ -15,6 +15,7 @@ import {
 import { makeMoreRaedablePrice } from "./CartComponent";
 import { AppDispatch } from "../../store";
 import { CardDataInter } from "../../Type/type";
+import { removeUnderScore } from "../../Helper/removeUnderScore";
 
 const SingleCartItem = ({
    product,
@@ -58,7 +59,18 @@ const SingleCartItem = ({
                         {/* <a className="hover:cursor-pointer">{`${product?.type?.typeName[0]} :  ${product?.type?.typeName[1]} | ${product?.type?.typeVerity[0]} : ${product?.type?.typeVerity[1]} | Stocks : ${product?.type?.typeStock}`}</a> */}
 
                         <div className="mb-2">
-                           <p>{JSON.stringify(product.verity)}</p>
+                           <p>
+                              <span className=" font-semibold text-violet-500 capitalize">
+                                 {removeUnderScore(product?.verity?.name)}{" "}
+                              </span>{" "}
+                              {" : "}{" "}
+                              <span className=" font-semibold text-violet-500 capitalize">
+                                 {removeUnderScore(
+                                    product?.verity?.verity[0]?.data[0]?.name,
+                                 )}
+                              </span>
+                           </p>
+                           {/* <p>{JSON.stringify(product.verity)}</p> */}
 
                            {/* <p className=" capitalize">{`${product?.verity?.typeName[0]} :  ${product?.verity?.typeName[1]} | ${product?.verity?.typeVerity[0]} : ${product?.verity?.typeVerity[1]}`}</p> */}
 
@@ -70,8 +82,13 @@ const SingleCartItem = ({
                         <div className="text-end">
                            {product.quantity > 1 ? (
                               <>
-                                 <p className="ml-4">
+                                 {/* <p className="ml-4">
                                     ₹{product.price} X {product.quantity}
+                                 </p> */}
+                                 <p className="ml-4">
+                                    ₹
+                                    {product?.verity?.verity[0]?.data[0]?.price}{" "}
+                                    X {product.quantity}
                                  </p>
                                  <p
                                     className={`ml-4 border-1 border-t border-1`}>

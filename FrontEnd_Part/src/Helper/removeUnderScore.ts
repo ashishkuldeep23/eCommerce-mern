@@ -1,5 +1,5 @@
 
 
 export const removeUnderScore = (str: string) => {
-    return str.replace(/_/g, ' ');
+    return str?.replace(/_/g, ' ');
 }

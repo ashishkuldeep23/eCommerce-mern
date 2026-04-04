@@ -274,23 +274,64 @@ const calculateOrderAmount = (price) => {
    return price * 100;
 };
 
-// // // Initialize route for create payment intent ------------------->
+// // // Initialize route for create payment intent [Old stripe code, i was using this] ------------------->
 app.post("/create-payment-intent", async (req, res) => {
    try {
       const { totalPrice } = req.body;
 
-      // console.log(req.body)
+      console.log(req.body);
 
       // Create a PaymentIntent with the order amount and currency
       const paymentIntent = await stripe.paymentIntents.create({
-         amount: calculateOrderAmount(totalPrice),
-         // amount: totalPrice,
+         // metadata: { rs_code: "P0802" },
+         // currency: "usd",
+         metadata: {
+            rs_code: "P0802",
+            // name: "Customer Name",
+            // address: {
+            //    line1: "123 Test St",
+            //    city: "New York",
+            //    country: "US", // MUST BE NON-INDIA
+            // },
+         },
          currency: "inr",
+         description: "Software Service Export", // THIS MUST BE HERE
+         shipping: {
+            name: "Customer Name",
+            address: {
+               line1: "123 Test St",
+               city: "New York",
+               country: "US", // MUST BE NON-INDIA
+            },
+         },
+
+         // customerName: "Customer Name", // THIS MUST BE HERE
+         // customerEmail: "user@email.com", // THIS MUST BE HERE
+         // billingAddress: {
+         //    // Pre-fill billing details to avoid 3DS issues
+         //    name: "Customer Name", // ideally from your auth/user state
+         //    email: "user@email.com",
+         //    address: {
+         //       country: "IN", // ✅ India country code
+         //    },
+         // },
+         payment_method_options: {
+            card: {
+               request_three_d_secure: "automatic", // ✅ RBI-mandated 3DS
+            },
+         },
+
+         // currency: "inr",
+         // amount: calculateOrderAmount(totalPrice),
+         amount: totalPrice,
+         // amount: totalPrice,
          // In the latest version of the API, specifying the `automatic_payment_methods` parameter is optional because Stripe enables its functionality by default.
          automatic_payment_methods: {
             enabled: true,
          },
       });
+
+      // console.log({ paymentIntent });
 
       res.status(200).send({
          status: true,
@@ -305,6 +346,8 @@ app.post("/create-payment-intent", async (req, res) => {
       });
    }
 });
+
+// // // Payment handler route for stripe  (This is used to handle the payment status after payment) ------------------->
 
 // app.use( (req, res , next)=>{
 //   // console.log(req);

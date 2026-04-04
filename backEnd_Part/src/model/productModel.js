@@ -85,6 +85,24 @@ const productSchema = new mongoose.Schema(
 
       type: [
          {
+            id: String,
+            id: String, // internal key only
+            name: String, // Imp to show this.
+            imgs: [String],
+            verity: [
+               {
+                  id: String, // internal key only
+                  label: String,
+                  data: [
+                     {
+                        id: String, // internal key only
+                        name: String, // Imp to show this.
+                        price: Number,
+                        stock: Number,
+                     },
+                  ],
+               },
+            ],
             // id: String, // internal key only
             // name: String,
             // imgs: [String],

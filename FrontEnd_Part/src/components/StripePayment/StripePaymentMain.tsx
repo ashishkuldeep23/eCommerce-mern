@@ -4,8 +4,9 @@ import { Elements } from "@stripe/react-stripe-js";
 
 import CheckoutForm from "./CheckoutForm";
 import "./stripe.css";
-import { orderState } from "../../Slices/OrderSlice";
+// import { orderState } from "../../Slices/OrderSlice";
 import { toast } from "sonner";
+import { cartState } from "../../Slices/CartSlice";
 
 // Make sure to call loadStripe outside of a component’s render to avoid
 // recreating the Stripe object on every render.
@@ -16,43 +17,45 @@ const stripeKey = `${import.meta.env.VITE_STRIPE_KEY}`;
 const stripePromise = loadStripe(stripeKey);
 
 export default function StripePaymetMain() {
-   const [clientSecret, setClientSecret] = useState("");
+   const [clientSecret, setClientSecret] = useState<string>("");
 
-   const cartData = orderState().orderArr.cartData;
+   // const cartData = orderState().orderArr.cartData;
+   const totalPrice = cartState().totalPrice;
 
    useEffect(() => {
       // Create PaymentIntent as soon as the page loads
       const now = new Date();
 
-      let clientSecretInLocal = localStorage.getItem(
-         "clientSecretInLocal",
-      ) as any;
-      if (clientSecretInLocal) {
-         clientSecretInLocal = JSON.parse(clientSecretInLocal);
+      // let clientSecretInLocal = localStorage.getItem(
+      //    "clientSecretInLocal",
+      // ) as any;
+      // if (clientSecretInLocal) {
+      //    clientSecretInLocal = JSON.parse(clientSecretInLocal);
 
-         //  console.log({ clientSecretInLocal });
-         //  console.log(now.getTime() > clientSecretInLocal?.expiry);
+      //    //  console.log({ clientSecretInLocal });
+      //    //  console.log(now.getTime() > clientSecretInLocal?.expiry);
 
-         if (
-            clientSecretInLocal.key &&
-            now.getTime() > clientSecretInLocal?.expiry
-         ) {
-            setClientSecret(clientSecretInLocal.key);
-            // console.log("OSM");
-            return;
-         }
-      }
+      //    if (
+      //       clientSecretInLocal.key &&
+      //       now.getTime() > clientSecretInLocal?.expiry
+      //    ) {
+      //       setClientSecret(clientSecretInLocal.key);
+      //       // console.log("OSM");
+      //       return;
+      //    }
+      // }
 
-      let calculatePrice = cartData.reduce((sum, items) => {
-         return sum + items.price * items.quantity;
-      }, 0);
+      // // let calculatePrice = cartData.reduce((sum, items) => {
+      // //    return sum + items.price * items.quantity;
+      // // }, 0);
 
-      localStorage.removeItem("clientSecretInLocal");
+      // localStorage.removeItem("clientSecretInLocal");
 
       fetch(`${import.meta.env.VITE_BACKEND_URL}/create-payment-intent`, {
          method: "POST",
          headers: { "Content-Type": "application/json" },
-         body: JSON.stringify({ totalPrice: calculatePrice }),
+         // body: JSON.stringify({ totalPrice: calculatePrice }),
+         body: JSON.stringify({ totalPrice }),
       })
          .then((res) => res.json())
          .then((data) => {
@@ -87,7 +90,7 @@ export default function StripePaymetMain() {
             <Elements
                options={{ clientSecret, appearance: { theme: "night" } }}
                stripe={stripePromise}>
-               <CheckoutForm />
+               <CheckoutForm clientSecret={clientSecret} />
             </Elements>
          )}
       </div>

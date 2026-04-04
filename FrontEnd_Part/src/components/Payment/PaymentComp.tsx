@@ -32,6 +32,8 @@ const PaymentComp = () => {
 
    const getUserData = userState().userData;
 
+   // console.log(getUserData);
+
    const getTotalPriceOfCart = useSelector(
       (store: RootState) => store.CartReducer.totalPrice,
    );
@@ -142,9 +144,9 @@ const PaymentComp = () => {
                   </h1>
 
                   {/* User details including address (main problem solved ) */}
-                  <div className="flex flex-col items-center justify-center w-3/4  mt-10">
+                  <div className="flex flex-col items-center justify-center w-[85%] mt-10">
                      <div
-                        className={`flex flex-col items-center justify-center border border-blue-500 rounded-xl  py-5 px-1 sm:w-4/5  md:w-2/3  ${!themeMode ? "bg-blue-50" : "bg-blue-950"} `}>
+                        className={`flex flex-col items-center justify-center border border-blue-500 rounded-xl  py-5 px-1 w-full sm:w-4/5  md:w-2/3  ${!themeMode ? "bg-blue-50" : "bg-blue-950"} `}>
                         <h2 className="font-semibold leading-7 text-center underline md:mt-0 mb-2 text-xl">
                            Personal Information
                         </h2>
@@ -264,7 +266,7 @@ const PaymentComp = () => {
                               <div className="mt-2">
                                  <input
                                     type="number"
-                                    placeholder="+91 9000608040"
+                                    placeholder="+91 99006XXXXX"
                                     {...register("phone", {
                                        required: "Phone number not given.",
                                        pattern: {
@@ -305,10 +307,10 @@ const PaymentComp = () => {
                                     getUserData.address.map((ele, i) => {
                                        return (
                                           <Fragment key={ele.id}>
-                                             <div className=" flex items-center overflow-hidden">
+                                             <div className="my-2 flex items-center overflow-hidden">
                                                 <input
                                                    type="radio"
-                                                   className="  z-10 mt-2"
+                                                   className=" m-1 z-10 mt-2"
                                                    name="address"
                                                    id={`single_address_${i}`}
                                                    // onChange={(e) => { e.stopPropagation(); submitAddress(ele) }}
@@ -325,25 +327,10 @@ const PaymentComp = () => {
                                                    <div
                                                       className={`${!themeMode ? "bg-slate-100" : "bg-slate-900"} relative p-0.5 rounded  border-b border-green-300 pr-5 md:pr-0`}>
                                                       {/* <span className=" absolute left-5 border border-green-300 px-1 rounded-full text-green-300">{i + 1}</span> */}
-                                                      <p>
-                                                         Street :{" "}
-                                                         {ele.street ||
-                                                            "Not Given"}
-                                                      </p>
-                                                      <p>
-                                                         City :{" "}
-                                                         {ele.city ||
-                                                            "Not Given"}
-                                                      </p>
-                                                      <p>
-                                                         Country :{" "}
-                                                         {ele.country ||
-                                                            "Not Given"}
-                                                      </p>
-                                                      <p>
-                                                         Pincode :{" "}
-                                                         {ele.pincode ||
-                                                            "Not Given"}
+                                                      <p className="">
+                                                         {ele.street},{ele.city}
+                                                         ,{ele.country},
+                                                         {ele.pincode}
                                                       </p>
                                                    </div>
                                                 </label>

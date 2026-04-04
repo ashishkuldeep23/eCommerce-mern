@@ -5,6 +5,8 @@ import { createSlice, current, PayloadAction } from "@reduxjs/toolkit"
 // import { gettingTokenInCookieAndLocalHost } from "../App";
 import { CardDataInter, CartInter } from "../Type/type";
 import { gettingTokenInCookieAndLocalHost } from "../Helper/Token";
+import { useSelector } from "react-redux";
+import { RootState } from "../store";
 // import { gettingTokenInCookieAndLocalHost } from "../Helper/Token";
 
 
@@ -195,3 +197,5 @@ const cartSlice = createSlice({
 export const { addItemInCart, removeOneItem, onePlusQuan, oneMinusQuan, setToTalPrice, setClearCartData } = cartSlice.actions
 
 export default cartSlice.reducer
+
+export const cartState = () => useSelector((state: RootState) => state.CartReducer)

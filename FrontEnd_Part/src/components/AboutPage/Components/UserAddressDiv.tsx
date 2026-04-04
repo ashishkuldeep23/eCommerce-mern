@@ -5,7 +5,7 @@ import {
    userState,
 } from "../../../Slices/UserSlice";
 import { AppDispatch, RootState } from "../../../store";
-import { Fragment, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { useForm, SubmitHandler } from "react-hook-form";
 
@@ -245,44 +245,72 @@ const UserAddressDiv = ({ containerClass }: { containerClass?: string }) => {
          {/* Show All Address of user --> */}
 
          {
-            getUserData.address &&
-               getUserData.address.length > 0 &&
+            getUserData.address && getUserData.address.length > 0 && (
                // (getUserData.address[0].city !== "" && getUserData.address[0].country !== "" && getUserData.address[0].street !== "" && getUserData.address[0].pincode !== "")
-
                // &&
 
-               getUserData.address.map((ele, i) => {
-                  return (
-                     <Fragment key={i}>
-                        <div
-                           className={`${!themeMode ? "bg-slate-100" : "bg-slate-900"} my-2 relative p-0.5 rounded shadow-md shadow-green-500  `}>
-                           {/* <span className=" absolute left-5 border border-green-300 px-1 rounded-full text-green-300">{i + 1}</span> */}
-                           <p>Street : {ele.street || "Not Given"}</p>
-                           <p>City : {ele.city || "Not Given"}</p>
-                           <p>Country : {ele.country || "Not Given"}</p>
-                           <p>Pincode : {ele.pincode || "Not Given"}</p>
+               <table className="table-auto md:table-fixed flex flex-col gap-3">
+                  <caption className=" text-sm underline">
+                     Your addresses
+                  </caption>
+                  {getUserData.address.map((ele, i) => {
+                     return (
+                        <tbody
+                           key={i}
+                           className={`${!themeMode ? "bg-slate-100" : "bg-slate-900"} relative p-0.5 rounded shadow-md shadow-green-500  `}>
+                           <tr>
+                              <td>Street</td>
+                              <td>: {ele.street || "Not Given"}</td>
+                           </tr>
+                           <tr>
+                              <td>City</td>
+                              <td>: {ele.city || "Not Given"}</td>
+                           </tr>
+                           <tr>
+                              <td>Country</td>
+                              <td>: {ele.country || "Not Given"}</td>
+                           </tr>
+                           <tr>
+                              <td>Pincode</td>
+                              <td>: {ele.pincode || "Not Given"}</td>
+                           </tr>
+                           <tr>
+                              <td></td>
+                              <td className=" flex justify-end">
+                                 <button
+                                    className="  bottom-9 right-0  border rounded px-0.5 mx-0.5 hover:bg-red-300 hover:text-white"
+                                    onClick={(e) => {
+                                       e.stopPropagation();
+                                       deleteAddressHandler(ele.id);
+                                    }}>
+                                    <i className="ri-delete-bin-7-line"></i>
+                                 </button>
+                                 <button
+                                    className="  bottom-1 right-0  border rounded px-0.5 mx-0.5 hover:bg-green-300 hover:text-white"
+                                    onClick={(e) => {
+                                       e.stopPropagation();
+                                       uapdetAddress(ele);
+                                    }}>
+                                    <i className="ri-pencil-fill"></i>
+                                 </button>
+                              </td>
+                           </tr>
 
-                           <button
-                              className=" absolute bottom-9 right-0  border rounded px-0.5 mx-0.5 hover:bg-red-300 hover:text-white"
-                              onClick={(e) => {
-                                 e.stopPropagation();
-                                 deleteAddressHandler(ele.id);
-                              }}>
-                              <i className="ri-delete-bin-7-line"></i>
-                           </button>
-
-                           <button
-                              className=" absolute bottom-1 right-0  border rounded px-0.5 mx-0.5 hover:bg-green-300 hover:text-white"
-                              onClick={(e) => {
-                                 e.stopPropagation();
-                                 uapdetAddress(ele);
-                              }}>
-                              <i className="ri-pencil-fill"></i>
-                           </button>
-                        </div>
-                     </Fragment>
-                  );
-               })
+                           {/* <tr>
+                              <button
+                                 className=" absolute bottom-1 right-0  border rounded px-0.5 mx-0.5 hover:bg-green-300 hover:text-white"
+                                 onClick={(e) => {
+                                    e.stopPropagation();
+                                    uapdetAddress(ele);
+                                 }}>
+                                 <i className="ri-pencil-fill"></i>
+                              </button>
+                           </tr> */}
+                        </tbody>
+                     );
+                  })}
+               </table>
+            )
 
             // : <p className={`${!themeMode ? "bg-slate-100" : "bg-slate-900"} relative px-1 border-b rounded-b-md `} >No address found</p>
          }

@@ -58,6 +58,8 @@ export default function ProductDetails() {
       (store: RootState) => store.allProductWithCatReducer.singleProductData,
    );
 
+   console.log(singleProductData);
+
    const simmilarProducts = useSelector(
       (store: RootState) =>
          store.allProductWithCatReducer.simmilarProductWithOnePro,

@@ -266,11 +266,11 @@ function SingleCrouselForOriginalData({
             }}>
             <div className="  !w-[40%] text-center md:text-end text-sm md:text-3xl text-teal-700 dark:text-teal-300 relative left-0 md:left-20 top-7 md:top-0">
                <span className=" top-0 right-0 !w-[70%] min-h-5 bg-red-500"></span>
-               <p>{item.title}</p>
+               <p className=" font-bold ">{item.title}</p>
                <p className="    ">
                   {item.discountPercentage ? (
                      <span className={`text-end font-medium `}>
-                        {"At : "}
+                        {/* {"At : "} */}
                         <span className=" text-sm font-thin line-through">
                            ₹{item.price}
                         </span>{" "}
@@ -282,18 +282,18 @@ function SingleCrouselForOriginalData({
                      </span>
                   ) : (
                      <span className={`text-end font-medium `}>
-                        {"At : "}₹{item.price}{" "}
+                        ₹{item.price}{" "}
                      </span>
                   )}
                </p>
-               <button className=" text-sm tracking-widest bg-teal-700 dark:bg-teal-300 rounded px-1  text-white dark:text-black font-bold">
+               <button className=" text-sm tracking-widest bg-teal-700 dark:bg-teal-300 rounded py-1 px-3  text-white dark:text-black font-bold">
                   Shop Now
                </button>
             </div>
 
-            <div className=" !w-[60%] ">
+            <div className="  !w-[60%] md:pl-[2rem] flex justify-start items-center ">
                <img
-                  className=" object-contain "
+                  className=" object-contain md:min-h-[25rem] md:max-h-[30rem] "
                   src={item?.thumbnail || item?.images[0]}
                   alt={"Product"}
                />

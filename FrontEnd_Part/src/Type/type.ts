@@ -287,7 +287,7 @@ export type UserAddressObj = {
 
 export interface OptionInterface {
     id: string; // internal key only
-    name: string;
+    name: string; // Imp to show this.
     imgs: string[];
     verity: Verity[];
 }
@@ -300,7 +300,7 @@ export interface Verity {
 
 export interface VerityDataItem {
     id: string; // internal key only
-    name: string;
+    name: string;    // Imp to show this.
     price: number | "";
     stock: number | "";
 }
