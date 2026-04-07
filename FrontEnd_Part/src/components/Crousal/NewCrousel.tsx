@@ -172,7 +172,7 @@ const NewCrousel = () => {
                         return (
                            <div
                               key={i}
-                              className={` !w-[97.5vw] relative px-2 withAllImp singleCrousel rounded-xl sm:rounded-3xl h-crH hover:cursor-pointer ${ele.bgColor} `}>
+                              className={` !w-[85vw] relative px-2 withAllImp singleCrousel rounded-xl sm:rounded-3xl h-crH hover:cursor-pointer ${ele.bgColor} `}>
                               <span className=" absolute top-1 right-3 lg:right-14  border px-1.5 py-[1px] text-xs rounded-full font-semibold">
                                  {i + 1}
                               </span>
@@ -264,7 +264,8 @@ function SingleCrouselForOriginalData({
                // dispatch(setSingleOProductId({ id: item.id }))
                window.scroll(0, 0);
             }}>
-            <div className="  !w-[40%] text-center md:text-end text-sm md:text-3xl text-teal-700 dark:text-teal-300 relative left-0 md:left-20 top-7 md:top-0">
+            {/* Product Details */}
+            <div className="  !w-[40%] text-center md:text-end text-sm md:text-3xl text-teal-700 dark:text-teal-300 relative left-0 md:left-20 top-2 md:top-0">
                <span className=" top-0 right-0 !w-[70%] min-h-5 bg-red-500"></span>
                <p className=" font-bold ">{item.title}</p>
                <p className="    ">
@@ -290,7 +291,7 @@ function SingleCrouselForOriginalData({
                   Shop Now
                </button>
             </div>
-
+            {/* Product Image */}
             <div className="  !w-[60%] md:pl-[2rem] flex justify-start items-center ">
                <img
                   className=" object-contain md:min-h-[25rem] md:max-h-[30rem] "
