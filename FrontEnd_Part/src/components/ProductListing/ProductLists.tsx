@@ -47,8 +47,8 @@ export default function ProductLists() {
                </p>
                <p>
                   You are searching products for{" "}
-                  <span className=" font-semibold">Category : {category}</span>  and{" "}
-                  <span className=" font-semibold">Brand : {brand}.</span>
+                  <span className=" font-semibold">Category : {category}</span>{" "}
+                  and <span className=" font-semibold">Brand : {brand}.</span>
                </p>
 
                {/* <button onClick={} className=" text-red-500 border-2 border-red-500 rounded px-2 mt-2 font-semibold ">Clear Search</button> */}
@@ -85,11 +85,11 @@ export default function ProductLists() {
                      return <Fragment key={i}></Fragment>;
                   return (
                      <Fragment key={i}>
-                        <p className="pt-10 capitalize text-2xl font-bold pl-2 underline">
+                        <p className="pt-10 capitalize text-2xl font-bold pl-2 border-b border-gray-800 dark:border-gray-100 ">
                            {element}
                         </p>
 
-                        <div className="h-80 flex flex-wrap flex-col gap-2 sm:gap-7 items-start ml-0 mx-auto overflow-y-hidden overflow-x-auto my-2 pb-3 ">
+                        <div className="h-80 flex flex-wrap flex-col gap-2 sm:gap-7 items-start ml-0 mx-auto overflow-y-hidden overflow-x-auto mt-5  ">
                            {products.length > 0 ? (
                               products
                                  ?.filter((item) => {

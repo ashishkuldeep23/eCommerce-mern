@@ -74,7 +74,7 @@ const SingleProduct = ({
          <a
             key={product.id}
             // href={"/product"}
-            className={` ${className} bg-teal-100/50 dark:bg-teal-900/50 rounded-xl min-h-52 h-auto w-52 mb-5  mx-2 hover:cursor-pointer cursor-pointer relative overflow-hidden group `}
+            className={` ${className} bg-teal-100/50 dark:bg-teal-900/50 rounded-xl min-h-52 h-auto w-52 sm:w-64 mb-5  mx-2 hover:cursor-pointer cursor-pointer relative overflow-hidden group `}
             onClick={(e) => {
                e.stopPropagation();
                navigate(`/product/${product.id}`);

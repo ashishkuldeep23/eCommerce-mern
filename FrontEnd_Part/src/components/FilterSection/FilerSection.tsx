@@ -536,7 +536,7 @@ export default function FilterSection({ children }: any) {
             {/* Below div is visiable in leptop or above screen */}
             <main className="mx-auto max-w-full md:max-w-allAk px-1 md:px-2 lg:px-8  p-2 pt-16 ">
                {/* Left section  */}
-               <div className="flex flex-wrap items-baseline justify-between border-b border-gray-200 pb-6 ">
+               <div className="flex flex-wrap items-baseline justify-between border-b  border-gray-800 dark:border-gray-100  pb-2 ">
                   <h1 className="text-4xl font-bold tracking-tight ">
                      <span>Products</span>{" "}
                   </h1>
@@ -736,7 +736,7 @@ const FilterForm: React.FC<{
             <Disclosure
                as="div"
                key={section.id}
-               className="border-b border-green-300 py-6">
+               className=" border-b border-gray-800 dark:border-gray-100  py-6">
                {({ open }) => (
                   <>
                      <h3 className="-my-3 flow-root">
@@ -745,12 +745,12 @@ const FilterForm: React.FC<{
                            <span className="ml-6 flex items-center">
                               {open ? (
                                  <MinusIcon
-                                    className="h-5 w-5 text-green-300"
+                                    className="h-5 w-5 text-gray-800 dark:text-gray-100"
                                     aria-hidden="true"
                                  />
                               ) : (
                                  <PlusIcon
-                                    className="h-5 w-5 text-green-300"
+                                    className="h-5 w-5 text-gray-800 dark:text-gray-100"
                                     aria-hidden="true"
                                  />
                               )}
