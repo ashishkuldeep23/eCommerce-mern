@@ -2,7 +2,7 @@
 
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-// import { CardDataInter } from "../../Slices/CartSlice";
+// import { CartDataInter } from "../../Slices/CartSlice";
 import {
    fetchOneProductByID,
    setSingleProductData,
@@ -14,14 +14,14 @@ import {
 } from "../../Slices/CartSlice";
 import { makeMoreRaedablePrice } from "./CartComponent";
 import { AppDispatch } from "../../store";
-import { CardDataInter } from "../../Type/type";
+import { CartDataInter } from "../../Type/type";
 import { removeUnderScore } from "../../Helper/removeUnderScore";
 
 const SingleCartItem = ({
    product,
    mainCartComp,
 }: {
-   product: CardDataInter;
+   product: CartDataInter;
    mainCartComp: boolean;
 }) => {
    const navigate = useNavigate();

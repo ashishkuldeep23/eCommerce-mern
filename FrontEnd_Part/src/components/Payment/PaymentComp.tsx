@@ -7,7 +7,7 @@ import CartComponent, {
 } from "../CartComp/CartComponent";
 import UserAddressDiv from "../AboutPage/Components/UserAddressDiv";
 import { userState } from "../../Slices/UserSlice";
-// import { CardDataInter } from "../../Slices/CartSlice"
+// import { CartDataInter } from "../../Slices/CartSlice"
 // import { checkEmail } from "../AboutPage/DetailsOfUser"
 import { Fragment, useEffect } from "react";
 import { orderState, setOrderdata } from "../../Slices/OrderSlice";

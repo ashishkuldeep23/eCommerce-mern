@@ -62,7 +62,7 @@ export type GroupedByProductAndSold = {
 }
 
 export type GroupedByData = {
-    [key: string]: CardDataInter[]
+    [key: string]: CartDataInter[]
 }
 
 export interface IAllProductsWithCat {
@@ -121,14 +121,14 @@ export type SingleTypeObject = {
 
 
 // // // This is how card data look like
-export interface CardDataInter extends IProduct {
+export interface CartDataInter extends IProduct {
     quantity: number;
     verity: OptionInterface;
     // verity: SingleTypeObject;
 }
 
 export interface CartInter {
-    cartData: CardDataInter[],
+    cartData: CartDataInter[],
     totalPrice: number;
 }
 
@@ -267,7 +267,7 @@ export type OrderData = {
     phone: number,
     address: UserAddressObj,
     paymentMethod: string,
-    cartData: CardDataInter[],
+    cartData: CartDataInter[],
     userId: string,
     whenCreated: string,
     totalItems: number,

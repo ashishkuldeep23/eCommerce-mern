@@ -5,7 +5,7 @@ const uuid = require("uuid")
 
 
 // paymentMethod: string,
-// cartData: CardDataInter[],
+// cartData: CartDataInter[],
 // whenCreated: string,
 // totalItems: number,
 // totalPrice: string,

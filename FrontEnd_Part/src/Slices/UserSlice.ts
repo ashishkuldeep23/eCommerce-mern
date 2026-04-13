@@ -302,7 +302,7 @@ export const createNewShop = createAsyncThunk('user/createNewShop', async (formD
 
 // export type UserOrderOj = {
 //     address: UserAddressObj,
-//     cartData: CardDataInter[],
+//     cartData: CartDataInter[],
 //     fullName: string,
 //     id: string,
 //     paymentMethod: string,

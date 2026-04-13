@@ -7,7 +7,7 @@ import { toast } from "sonner";
 // import { IProduct } from "../components/ProductListing/ProductLists";
 // import { NewProductInput } from "../components/AdminComps/CreateProduct";
 // import { OrderData } from "../components/Payment/PaymentComp";
-// import { CardDataInter } from "./CartSlice";
+// import { CartDataInter } from "./CartSlice";
 import { AdminAllOrders, AdminDataInterface, Entry, GroupedByData, GroupedByProductAndSold, IProduct, NewProductInput } from "../Type/type";
 import { newEntry } from "../Helper/helper";
 import { gettingTokenInCookieAndLocalHost } from "../Helper/Token";

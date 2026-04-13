@@ -3,7 +3,7 @@ import { createSlice, current, PayloadAction } from "@reduxjs/toolkit"
 // import { IProduct } from "../components/ProductListing/ProductLists"
 // import { SingleTypeObject } from "../components/ProductListing/ProductLists";
 // import { gettingTokenInCookieAndLocalHost } from "../App";
-import { CardDataInter, CartInter } from "../Type/type";
+import { CartDataInter, CartInter } from "../Type/type";
 import { gettingTokenInCookieAndLocalHost } from "../Helper/Token";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
@@ -32,7 +32,7 @@ const cartSlice = createSlice({
             state.totalPrice = action.payload
         },
 
-        addItemInCart(state, action: PayloadAction<CardDataInter>) {
+        addItemInCart(state, action: PayloadAction<CartDataInter>) {
             // alert("Adding into cart")
             const cartItem = action.payload
             let { id, verity } = action.payload
@@ -63,7 +63,7 @@ const cartSlice = createSlice({
 
         },
 
-        removeOneItem(state, action: PayloadAction<CardDataInter>) {
+        removeOneItem(state, action: PayloadAction<CartDataInter>) {
 
             // const cartItem = action.payload
             let { id, verity } = action.payload
@@ -102,7 +102,7 @@ const cartSlice = createSlice({
 
         },
 
-        onePlusQuan(state, action: PayloadAction<CardDataInter>) {
+        onePlusQuan(state, action: PayloadAction<CartDataInter>) {
 
             const cartItem = action.payload
             let { id, verity } = action.payload
@@ -132,7 +132,7 @@ const cartSlice = createSlice({
 
         },
 
-        oneMinusQuan(state, action: PayloadAction<CardDataInter>) {
+        oneMinusQuan(state, action: PayloadAction<CartDataInter>) {
 
             const cartItem = action.payload
             let { id, verity } = action.payload

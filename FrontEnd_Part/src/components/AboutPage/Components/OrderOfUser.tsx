@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { fetchUser, userState } from "../../../Slices/UserSlice";
 import { AppDispatch, RootState } from "../../../store";
-import { CardDataInter, UserOrderOj } from "../../../Type/type";
+import { CartDataInter, UserOrderOj } from "../../../Type/type";
 import { orderState, updateOrder } from "../../../Slices/OrderSlice";
 import { gettingTokenInCookieAndLocalHost } from "../../../Helper/Token";
 import {
@@ -16,10 +16,10 @@ import {
 import { makeMoreRaedablePrice } from "../../CartComp/CartComponent";
 import { removeUnderScore } from "../../../Helper/removeUnderScore";
 // import { fetchOneProductByID, setSingleProductData } from '../../Slices/AllProductSlice'
-// import { CardDataInter } from '../../Slices/CartSlice'
+// import { CartDataInter } from '../../Slices/CartSlice'
 // import { gettingTokenInCookieAndLocalHost } from '../../App'
 // import { orderState, updateOrder } from '../../Slices/OrderSlice'
-// import { CardDataInter, UserOrderOj } from '../../Type/type'
+// import { CartDataInter, UserOrderOj } from '../../Type/type'
 // import { gettingTokenInCookieAndLocalHost } from '../../Helper/Token'
 
 let previousOrders = [
@@ -212,7 +212,7 @@ const OrderOfUser = () => {
                               {order.cartData &&
                                  order.cartData.length > 0 &&
                                  order.cartData.map(
-                                    (order: CardDataInter, i) => (
+                                    (order: CartDataInter, i) => (
                                        <SingleOrderData key={i} order={order} />
                                     ),
                                  )}
@@ -276,7 +276,7 @@ const OrderOfUser = () => {
 
 export default OrderOfUser;
 
-function SingleOrderData({ order }: { order: CardDataInter }) {
+function SingleOrderData({ order }: { order: CartDataInter }) {
    const navigate = useNavigate();
 
    const dispatch = useDispatch<AppDispatch>();
