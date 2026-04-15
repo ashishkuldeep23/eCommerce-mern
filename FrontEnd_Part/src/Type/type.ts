@@ -121,10 +121,19 @@ export type SingleTypeObject = {
 
 
 // // // This is how card data look like
-export interface CartDataInter extends IProduct {
+export interface CartDataInter {
+    "id": number | string;
+    "title": string;
+    "price": number;
+    "discountPercentage": number;
+    "thumbnail": string;
+    "images": string[];
+    "brand": string;
+    "category": string;
+    categoryName: string,
+    brandName: string,
     quantity: number;
     verity: OptionInterface;
-    // verity: SingleTypeObject;
 }
 
 export interface CartInter {

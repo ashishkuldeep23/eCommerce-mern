@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import { StarIcon } from "@heroicons/react/20/solid";
 import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
-// import { addItemInCart } from "../../Slices/CartSlice";
 import { toast } from "sonner";
 import SingleProduct from "../ProductListing/SingleProduct";
 import { useNavigate } from "react-router-dom";

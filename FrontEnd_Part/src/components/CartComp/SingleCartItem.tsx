@@ -1,8 +1,5 @@
-// import React from 'react'
-
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-// import { CartDataInter } from "../../Slices/CartSlice";
 import {
    fetchOneProductByID,
    setSingleProductData,
@@ -80,7 +77,7 @@ const SingleCartItem = ({
 
                      {mainCartComp && (
                         <div className="text-end">
-                           {product.quantity > 1 ? (
+                           {product.quantity > 0 ? (
                               <>
                                  {/* <p className="ml-4">
                                     ₹{product.price} X {product.quantity}
@@ -91,10 +88,11 @@ const SingleCartItem = ({
                                     X {product.quantity}
                                  </p>
                                  <p
-                                    className={`ml-4 border-1 border-t border-1`}>
+                                    className={`ml-4 border-1  border-t border-1`}>
                                     ₹
                                     {makeMoreRaedablePrice(
-                                       product.quantity * product.price,
+                                       (product?.verity?.verity[0]?.data[0]
+                                          ?.price || 0) * product.quantity,
                                     )}
                                  </p>
                               </>
@@ -121,7 +119,7 @@ const SingleCartItem = ({
                         // // // This div will shown in payment page
 
                         <div className="text-start">
-                           {product.quantity > 1 ? (
+                           {product.quantity > 0 ? (
                               <>
                                  <p>
                                     ₹{product.price} X {product.quantity}

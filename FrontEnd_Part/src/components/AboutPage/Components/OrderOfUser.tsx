@@ -305,13 +305,42 @@ function SingleOrderData({ order }: { order: CartDataInter }) {
             className={` ${!themeMode ? "bg-slate-300" : "bg-slate-700"} h-6 w-full rounded my-0.5 px-1 mt-4 z-10 overflow-hidden`}>
             {order.title}
          </p>
-         <p
+         {/* <p
             className={`${!themeMode ? "bg-slate-300" : "bg-slate-700"} h-6 w-full rounded my-0.5 px-1 font-bold z-10 overflow-hidden`}>
-            ₹{makeMoreRaedablePrice(order.price)} X {order.quantity}
-         </p>
-         {order.type && (
+            ₹
+            {makeMoreRaedablePrice(
+               order?.verity
+                  ? order?.verity?.verity[0]?.data[0]?.price || 0
+                  : 0,
+            )}{" "}
+            X {order.quantity}
+         </p> */}
+         {order.verity && (
             <>
-               {/* <p>{JSON.stringify(order.verity)}</p> */}
+               {/* <p
+                  className={`${!themeMode ? "bg-slate-300" : "bg-slate-700"} h-6 w-full rounded my-0.5 px-1 font-bold z-10 overflow-hidden`}>
+                  ₹
+                  {makeMoreRaedablePrice(
+                     order?.verity && order?.verity?.verity[0]?.data[0]?.price
+                        ? order?.verity?.verity[0]?.data[0]?.price || 0
+                        : 0
+                  )}{" "}
+                  X {order.quantity}
+               </p> */}
+               <p>{JSON.stringify(order.verity)}</p>
+               <p
+                  className={`${!themeMode ? "bg-slate-300" : "bg-slate-700"} h-6 w-full rounded my-0.5 px-1 font-bold z-10 overflow-hidden`}>
+                  <span className=" font-semibold  capitalize">Price :</span>
+                  {"₹"}
+                  <span className=" font-semibold  capitalize">
+                     {order?.verity?.verity &&
+                        order?.verity?.verity[0]?.data &&
+                        makeMoreRaedablePrice(
+                           order?.verity?.verity[0]?.data[0]?.price || 0,
+                        )}
+                     X {order.quantity}
+                  </span>
+               </p>
                <p
                   className={`${!themeMode ? "bg-slate-300" : "bg-slate-700"} h-6 w-full rounded my-0.5 px-1 font-bold z-10 overflow-hidden`}>
                   <span className=" font-semibold  capitalize">

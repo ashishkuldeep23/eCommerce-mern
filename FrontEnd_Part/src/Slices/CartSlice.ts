@@ -43,7 +43,7 @@ const cartSlice = createSlice({
             // console.log(product, product?.verity)
             let currentCartArr = current(state).cartData
 
-            console.log(index)
+            // console.log(index)
 
             // console.log(currentCartArr[index])
 

@@ -56,6 +56,12 @@ const userSchema = new mongoose.Schema(
          default: [],
       },
 
+      cartData: {
+         type: [mongoose.Schema.Types.ObjectId],
+         ref: "cartData",
+         default: [],
+      },
+
       history: {
          type: [
             {

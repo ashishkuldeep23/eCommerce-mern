@@ -299,6 +299,7 @@ function App() {
       (state: RootState) => state.CartReducer.cartData,
    );
 
+   // // // Main update Cart data fn that will update cart data --->>
    const updateCartDataFn = async () => {
       if (gettingTokenInCookieAndLocalHost() && cartData.length > 0) {
          // // // Here we should update the cart. ------->>
@@ -327,7 +328,7 @@ function App() {
 
          <RouterProvider router={router} />
 
-         <Toaster position="top-right" richColors />
+         <Toaster position="bottom-center" richColors />
       </>
    );
 }

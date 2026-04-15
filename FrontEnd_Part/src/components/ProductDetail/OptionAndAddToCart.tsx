@@ -91,7 +91,6 @@ const OptionAndAddToCart: React.FC<{
       }
 
       // // check option here -------->>
-
       if (!newOption?.name && !newOption?.verity[0].label) {
          toast.error("Please select the option.");
          return;

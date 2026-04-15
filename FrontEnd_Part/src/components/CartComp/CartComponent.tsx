@@ -1,9 +1,9 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import SingleCartItem from "./SingleCartItem";
 import { useEffect } from "react";
-import { setToTalPrice } from "../../Slices/CartSlice";
+// import { setToTalPrice } from "../../Slices/CartSlice";
 
 // // // This fn is used to create more readable number
 export function makeMoreRaedablePrice(num: number): string {
@@ -28,14 +28,26 @@ export default function CartComponent({ mainCartComp = true }: CartCompProp) {
       (store: RootState) => store.CartReducer.cartData,
    );
 
-   const dispatch = useDispatch();
+   // const t = useSelector((store: RootState) => store.CartReducer.totalPrice);
+   // console.log({ t });
+
+   // const dispatch = useDispatch();
 
    // // // I'm responsible for total price
    function totalPriceOfItems(): string {
       // console.log("ok")
 
-      let num = cartData.reduce((sum, items) => {
-         return sum + items.price * items.quantity;
+      let num = cartData.reduce((sum, item) => {
+         // return sum + items.price * items.quantity;
+
+         if (item.verity && item.quantity) {
+            return (
+               sum +
+               (item?.verity?.verity[0]?.data[0]?.price || 0) * item.quantity
+            );
+         } else {
+            return sum + item.price * item.quantity;
+         }
       }, 0);
 
       let formatedNum = makeMoreRaedablePrice(num);
@@ -47,15 +59,30 @@ export default function CartComponent({ mainCartComp = true }: CartCompProp) {
       window.scroll(0, 0);
    }, []);
 
-   useEffect(() => {
-      let getTotalPrice = cartData.reduce((sum, items) => {
-         return sum + items.price * items.quantity;
-      }, 0);
+   // useEffect(() => {
+   //    // let getTotalPrice = cartData.reduce((sum, items) => {
+   //    //    return sum + items.price * items.quantity;
+   //    // }, 0);
 
-      if (getTotalPrice > 0) {
-         dispatch(setToTalPrice(getTotalPrice));
-      }
-   }, [cartData]);
+   //    let getTotalPrice = cartData.reduce((sum, item) => {
+   //       // return sum + items.price * items.quantity;
+
+   //       if (item.verity && item.quantity) {
+   //          return (
+   //             sum +
+   //             (item?.verity?.verity[0]?.data[0]?.price || 0) * item.quantity
+   //          );
+   //       } else {
+   //          return sum;
+   //       }
+   //    }, 0);
+
+   //    console.log({ getTotalPrice });
+
+   //    if (getTotalPrice > 0) {
+   //       dispatch(setToTalPrice(getTotalPrice));
+   //    }
+   // }, [cartData]);
 
    return (
       <div
@@ -85,7 +112,7 @@ export default function CartComponent({ mainCartComp = true }: CartCompProp) {
                   )}
                </div>
 
-               {/* This div hols cart item in loop  */}
+               {/* This div will hold cart item in loop  */}
                <div className="mt-8">
                   <div className="flow-root">
                      <ul
