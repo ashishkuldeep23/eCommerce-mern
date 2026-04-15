@@ -356,3 +356,9 @@ export interface AdminDataInterface {
     updatingProduct: boolean,
     newProduct: NewProductInput
 }
+
+
+
+export type CartCompProp = {
+    mainCartComp?: boolean;
+};

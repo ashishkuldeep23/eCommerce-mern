@@ -4,11 +4,9 @@ import { RootState } from "../../store";
 import SingleCartItem from "./SingleCartItem";
 import { useEffect } from "react";
 import { makeMoreRaedablePrice } from "../../Helper/formatePrice";
+import { CartCompProp } from "../../Type/type";
 // import { setToTalPrice } from "../../Slices/CartSlice";
 
-export type CartCompProp = {
-   mainCartComp?: boolean;
-};
 
 export default function CartComponent({ mainCartComp = true }: CartCompProp) {
    //   const [open, setCarOpen] = useState(true)
