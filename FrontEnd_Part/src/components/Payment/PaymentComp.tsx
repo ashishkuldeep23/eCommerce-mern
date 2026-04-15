@@ -2,9 +2,9 @@
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
 import { useForm, SubmitHandler } from "react-hook-form";
-import CartComponent, {
-   makeMoreRaedablePrice,
-} from "../CartComp/CartComponent";
+// import CartComponent, {
+//    makeMoreRaedablePrice,
+// } from "../CartComp/CartComponent";
 import UserAddressDiv from "../AboutPage/Components/UserAddressDiv";
 import { userState } from "../../Slices/UserSlice";
 // import { CartDataInter } from "../../Slices/CartSlice"
@@ -15,6 +15,8 @@ import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import { OrderData, UserAddressObj } from "../../Type/type";
 import { checkEmail } from "../AboutPage/Components/helper";
+import { makeMoreRaedablePrice } from "../../Helper/formatePrice";
+import CartComponent from "../CartComp/CartComponent";
 
 const PaymentComp = () => {
    const navigate = useNavigate();

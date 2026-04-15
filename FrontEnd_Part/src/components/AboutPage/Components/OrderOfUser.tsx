@@ -13,8 +13,9 @@ import {
    fetchOneProductByID,
    setSingleProductData,
 } from "../../../Slices/AllProductSlice";
-import { makeMoreRaedablePrice } from "../../CartComp/CartComponent";
+// import { makeMoreRaedablePrice } from "../../CartComp/CartComponent";
 import { removeUnderScore } from "../../../Helper/removeUnderScore";
+import { makeMoreRaedablePrice } from "../../../Helper/formatePrice";
 // import { fetchOneProductByID, setSingleProductData } from '../../Slices/AllProductSlice'
 // import { CartDataInter } from '../../Slices/CartSlice'
 // import { gettingTokenInCookieAndLocalHost } from '../../App'

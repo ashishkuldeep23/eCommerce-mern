@@ -9,10 +9,11 @@ import {
    onePlusQuan,
    oneMinusQuan,
 } from "../../Slices/CartSlice";
-import { makeMoreRaedablePrice } from "./CartComponent";
+// import { makeMoreRaedablePrice } from "./CartComponent";
 import { AppDispatch } from "../../store";
 import { CartDataInter } from "../../Type/type";
 import { removeUnderScore } from "../../Helper/removeUnderScore";
+import { makeMoreRaedablePrice } from "../../Helper/formatePrice";
 
 const SingleCartItem = ({
    product,

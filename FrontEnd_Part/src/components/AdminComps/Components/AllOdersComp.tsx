@@ -7,10 +7,11 @@ import {
    adminDataState,
    getAllOrdersAdmin,
 } from "../../../Slices/AdminSliceFile";
-import { makeMoreRaedablePrice } from "../../CartComp/CartComponent";
+// import { makeMoreRaedablePrice } from "../../CartComp/CartComponent";
 import { updateOrder } from "../../../Slices/OrderSlice";
 import { AdminAllOrders } from "../../../Type/type";
 import { removeUnderScore } from "../../../Helper/removeUnderScore";
+import { makeMoreRaedablePrice } from "../../../Helper/formatePrice";
 
 export const AllOdersComp = () => {
    const dispatch = useDispatch<AppDispatch>();
@@ -243,7 +244,7 @@ function SingleAdminOrder({ order, i }: { order: AdminAllOrders; i: number }) {
                                          ₹{makeMoreRaedablePrice(ele.price)}
                                       </p>
                                       {
-                                         ele.type && (
+                                         ele.verity && (
                                             <p
                                                className={`${!themeMode ? "bg-slate-300" : "bg-slate-700"} h-6 w-full rounded my-0.5 px-1 font-bold z-10 overflow-hidden`}>
                                                <span className=" font-semibold  capitalize">
