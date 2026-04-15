@@ -31,6 +31,7 @@ import { FeedbackScreen } from "./Screens/FeedbackScreen";
 import { VerifyMail } from "./components/verifyMail/verifyMail";
 import { gettingTokenInCookieAndLocalHost } from "./Helper/Token";
 import { fetchUser } from "./Slices/UserSlice";
+import { setToTalPrice } from "./Slices/CartSlice";
 // import { fetchAllProducts , fetchAllCategoryAndHighlight } from "./Slices/AllProductSlice"
 
 // // // Now using createBrowserRouter instead of BrowserRouter component ---> ( let's see what happen in production mode)
@@ -309,6 +310,26 @@ function App() {
 
    useEffect(() => {
       updateCartDataFn();
+
+      // // // Also updated the total price value in state variable (Redux-Toolkit) ---->
+
+      let getTotalPrice = cartData.reduce((sum, item) => {
+         // return sum + items.price * items.quantity;
+
+         if (item.verity && item.quantity) {
+            return (
+               sum +
+               (item?.verity?.verity[0]?.data[0]?.price || 0) * item.quantity
+            );
+         } else {
+            return sum + item.price * item.quantity;
+         }
+      }, 0);
+
+      if (getTotalPrice > 0) {
+         dispatch(setToTalPrice(getTotalPrice));
+      }
+
       // else if (cartData.length === 0) {
       //    // // // Here we should load the cart. ---------->>
       //    // localStorage.removeItem("cardData")

@@ -7,7 +7,6 @@ import { makeMoreRaedablePrice } from "../../Helper/formatePrice";
 import { CartCompProp } from "../../Type/type";
 // import { setToTalPrice } from "../../Slices/CartSlice";
 
-
 export default function CartComponent({ mainCartComp = true }: CartCompProp) {
    //   const [open, setCarOpen] = useState(true)
 
@@ -77,9 +76,9 @@ export default function CartComponent({ mainCartComp = true }: CartCompProp) {
 
    return (
       <div
-         className={` ${mainCartComp ? "h-allAk" : "h-full"}  flex flex-col overflow-y-scroll ${!themeMode ? "bg-white text-gray-900" : "bg-black text-gray-200"}  `}>
-         <div className=" max-w-full md:max-w-allAk px-1  lg:px-8 lg:mx-14">
-            <div className="flex-1 overflow-y-auto px-4 py-6 md:px-6">
+         className={` flex flex-col overflow-y-scroll ${!themeMode ? "bg-white text-gray-900" : "bg-black text-gray-200"}  `}>
+         <div className=" max-w-full md:max-w-allAk px-1 lg:mx-[15rem]">
+            <div className=" px-4 py- md:px-6">
                {/* Go To Home Left presented */}
                <div className="flex items-start justify-between">
                   {mainCartComp ? (
