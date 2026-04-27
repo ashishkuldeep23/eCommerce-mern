@@ -84,8 +84,8 @@ export default function ProductLists() {
                   if (!allCatNameOfProducts?.includes(element))
                      return <Fragment key={i}></Fragment>;
                   return (
-                     <Fragment key={i}>
-                        <p className="pt-10 capitalize text-2xl font-bold pl-2 border-b border-gray-800 dark:border-gray-100 ">
+                     <div className=" relative" key={i}>
+                        <p className=" sticky top-0 md:top-7 z-20 dark:bg-black bg-white pt-10 capitalize text-2xl font-bold pl-2 border-b border-gray-800 dark:border-gray-100 ">
                            {element}
                         </p>
 
@@ -118,7 +118,7 @@ export default function ProductLists() {
                               </p>
                            </div>
                         )}
-                     </Fragment>
+                     </div>
                   );
                })
             ) : (
