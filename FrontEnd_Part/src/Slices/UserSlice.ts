@@ -525,10 +525,6 @@ const userSlice = createSlice({
                     //     theme: "dark",
                     // })
 
-
-
-
-
                     // let name = action.payload.data.name
                     // let profilePic = action.payload.data.profilePic
                     // let role = action.payload.data.role
@@ -570,8 +566,6 @@ const userSlice = createSlice({
 
                     // // // Here set shops as well ----------->> 
                     // state.userData.shops = ['12', '12']
-
-
 
                     // // // set data in localStorage ------>
                     // localStorage.setItem("userData", JSON.stringify({ name, email, profilePic, role, id, address, isEmailVerified }))

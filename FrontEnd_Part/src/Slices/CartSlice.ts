@@ -4,7 +4,7 @@ import { createSlice, current, PayloadAction } from "@reduxjs/toolkit"
 // import { SingleTypeObject } from "../components/ProductListing/ProductLists";
 // import { gettingTokenInCookieAndLocalHost } from "../App";
 import { CartDataInter, CartInter } from "../Type/type";
-import { gettingTokenInCookieAndLocalHost } from "../Helper/Token";
+// import { gettingTokenInCookieAndLocalHost } from "../Helper/Token";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
 // import { gettingTokenInCookieAndLocalHost } from "../Helper/Token";
@@ -176,16 +176,24 @@ const cartSlice = createSlice({
 
         builder
             // // // set card data after getting data from backend (Load cart here) --->
-            .addCase("fetchAllProducts/fulfilled", (state) => {
+
+            //   .addCase("fetchAllProducts/fulfilled", (state) => {
+            .addCase("user/fetchUser/fulfilled", (state, action: any) => {
+
+
+                // console.log("Debug")
+
+                // console.log("From Cart Slice", action.payload.data.cartData)
                 // console.log("From Cart")
 
-                // // // Set cart in store from localstorage --->
+                state.cartData = action?.payload?.data?.cartData || []
 
-                let getCartLocal = localStorage.getItem("cardData")
-                // if (getCartLocal) {
-                if (gettingTokenInCookieAndLocalHost() && getCartLocal) {
-                    state.cartData = JSON.parse(getCartLocal)
-                }
+                // // // Set cart in store from localstorage --->
+                // let getCartLocal = localStorage.getItem("cardData")
+                // // if (getCartLocal) {
+                // if (gettingTokenInCookieAndLocalHost() && getCartLocal) {
+                //     state.cartData = JSON.parse(getCartLocal)
+                // }
 
             })
 

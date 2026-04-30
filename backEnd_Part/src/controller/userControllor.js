@@ -9,8 +9,6 @@ const {
 const { uploadImageOnCloudinary } = require("../../lib/cloudinary");
 const uuid = require("uuid");
 
-
-
 //------------------------*** Improtant Regex ***----------------//
 // const validateName = (/^[a-zA-Z ]+([\s][a-zA-Z ]+)*$/);
 const validateName = /[a-zA-Z][a-zA-Z0-9-_ .]{3,25}/;
@@ -46,71 +44,55 @@ async function creteUserControllor(req, res) {
             .send({ status: false, message: "Imp field missing." });
 
       if (!validateName.test(firstName))
-         return res
-            .status(400)
-            .send({
-               status: false,
-               message: `${firstName} : This First Name is invalid`,
-            });
+         return res.status(400).send({
+            status: false,
+            message: `${firstName} : This First Name is invalid`,
+         });
 
       if (!validateName.test(lastName))
-         return res
-            .status(400)
-            .send({
-               status: false,
-               message: `${lastName} : This Last Name is invalid`,
-            });
+         return res.status(400).send({
+            status: false,
+            message: `${lastName} : This Last Name is invalid`,
+         });
 
       if (!validateEmail.test(email)) {
-         return res
-            .status(400)
-            .send({
-               status: false,
-               message: `${email} : This email is invalid`,
-            });
+         return res.status(400).send({
+            status: false,
+            message: `${email} : This email is invalid`,
+         });
       }
 
       if (!validatePassword.test(password)) {
-         return res
-            .status(400)
-            .send({
-               status: false,
-               message: `${password} : This password is invalid`,
-            });
+         return res.status(400).send({
+            status: false,
+            message: `${password} : This password is invalid`,
+         });
       }
 
       if (address) {
          let { pincode, street, city, country } = address;
 
          if (street && !validateName.test(street))
-            return res
-               .status(400)
-               .send({
-                  status: false,
-                  message: "Street name should be string only.",
-               });
+            return res.status(400).send({
+               status: false,
+               message: "Street name should be string only.",
+            });
          if (city && !validateName.test(city))
-            return res
-               .status(400)
-               .send({
-                  status: false,
-                  message: "City name should be string only.",
-               });
+            return res.status(400).send({
+               status: false,
+               message: "City name should be string only.",
+            });
          if (country && !validateName.test(country))
-            return res
-               .status(400)
-               .send({
-                  status: false,
-                  message: "City name should be string only.",
-               });
+            return res.status(400).send({
+               status: false,
+               message: "City name should be string only.",
+            });
          if (pincode && !pinCodeRegex.test(pincode))
-            return res
-               .status(400)
-               .send({
-                  status: false,
-                  message:
-                     "Given Pincode is invalid , ex-->123456 , in 4 to 6 digit",
-               });
+            return res.status(400).send({
+               status: false,
+               message:
+                  "Given Pincode is invalid , ex-->123456 , in 4 to 6 digit",
+            });
       }
 
       // // // Check already present with this email or not ---->
@@ -118,12 +100,10 @@ async function creteUserControllor(req, res) {
       let findByEmailForUnique = await userModel.findOne({ email: email });
 
       if (findByEmailForUnique)
-         return res
-            .status(400)
-            .send({
-               status: false,
-               message: "Email is already present in Data-base",
-            });
+         return res.status(400).send({
+            status: false,
+            message: "Email is already present in Data-base",
+         });
 
       // // // Set opt here ------->
 
@@ -212,12 +192,10 @@ async function creteUserControllor(req, res) {
       await transport.sendMail(mailOptions, function (err, info) {
          if (err) {
             console.log(err);
-            return res
-               .status(400)
-               .send({
-                  status: false,
-                  message: `${JSON.stringify(err)} AND reachout to developer.`,
-               });
+            return res.status(400).send({
+               status: false,
+               message: `${JSON.stringify(err)} AND reachout to developer.`,
+            });
          } else {
             console.log(info.response);
             // return res.status(200).send({ status: true, message: 'Message sent successfully , Thankyou for sending email , Admin will respond you soon.' })
@@ -288,15 +266,13 @@ async function getUserData(req, res) {
          select: " -createdAt -updatedAt -__v",
       });
 
-   // console.log(findUser)
+   console.log(findUser)
 
    if (!findUser) {
-      return res
-         .status(400)
-         .send({
-            status: false,
-            message: "No data found by userID in token check code agian.",
-         });
+      return res.status(400).send({
+         status: false,
+         message: "No data found by userID in token check code agian.",
+      });
    }
 
    // // // Hold user order
@@ -320,6 +296,7 @@ async function getUserData(req, res) {
       orders: userOrders || [],
       wishList: findUser.wishList || [],
       shops: findUser.shops || [],
+      cartData: findUser.cartData || [],
    };
 
    res.status(200).send({
@@ -342,12 +319,10 @@ async function updateUser(req, res) {
       const { whatUpadte, ...resBody } = req.body;
 
       if (!whatUpadte) {
-         return res
-            .status(400)
-            .send({
-               status: false,
-               message: "What upadte not given check Api Controller",
-            });
+         return res.status(400).send({
+            status: false,
+            message: "What upadte not given check Api Controller",
+         });
       }
 
       // // // Some feature will use user when he/she is verified with mail ---->
@@ -359,13 +334,11 @@ async function updateUser(req, res) {
       // console.log(isEmailVerified)
 
       if (proUserFeatures.includes(whatUpadte) && !isEmailVerified) {
-         return res
-            .status(400)
-            .send({
-               status: false,
-               message:
-                  " Email not Verified. You are not able to use this feature, Because your mail is not verified. First verify your mail id.",
-            });
+         return res.status(400).send({
+            status: false,
+            message:
+               " Email not Verified. You are not able to use this feature, Because your mail is not verified. First verify your mail id.",
+         });
       }
 
       // if (!proUserFeatures.includes(whatUpadte)) {
@@ -478,13 +451,11 @@ async function updateUser(req, res) {
          let oldLName = req.tokenUserData.lastName;
 
          if (firstName === oldFName && lastName === oldLName) {
-            return res
-               .status(400)
-               .send({
-                  status: false,
-                  message:
-                     "Change you name, atleast.(Both first and last names are same as previous.)",
-               });
+            return res.status(400).send({
+               status: false,
+               message:
+                  "Change you name, atleast.(Both first and last names are same as previous.)",
+            });
          }
 
          let findUserData = await userModel.findByIdAndUpdate(
@@ -518,24 +489,20 @@ async function verifyMailReq(req, res) {
       let email = req.tokenUserData.email;
 
       if (!email)
-         return req
-            .status(400)
-            .send({
-               status: false,
-               message: "LogIn first to verify your mail id.",
-            });
+         return req.status(400).send({
+            status: false,
+            message: "LogIn first to verify your mail id.",
+         });
 
       let userFoundWithMail = await checkUserPesentWithMail(email);
 
       // console.log(userFoundWithMail)
 
       if (!userFoundWithMail)
-         return res
-            .status(404)
-            .send({
-               status: false,
-               message: "No user found with this mail-id",
-            });
+         return res.status(404).send({
+            status: false,
+            message: "No user found with this mail-id",
+         });
 
       if (userFoundWithMail.verifyMailToken)
          return res
@@ -584,12 +551,10 @@ async function verifyMailReq(req, res) {
       await transport.sendMail(mailOptions, function (err, info) {
          if (err) {
             console.log(err);
-            return res
-               .status(400)
-               .send({
-                  status: false,
-                  message: `${JSON.stringify(err)} AND reachout to developer.`,
-               });
+            return res.status(400).send({
+               status: false,
+               message: `${JSON.stringify(err)} AND reachout to developer.`,
+            });
          } else {
             console.log(info.response);
             // return res.status(200).send({ status: true, message: 'Message sent successfully , Thankyou for sending email , Admin will respond you soon.' })
@@ -618,24 +583,20 @@ async function verifyMailController(req, res) {
       const { token, email } = req.query;
 
       if (!token || !email)
-         return res
-            .status(400)
-            .send({
-               status: false,
-               message: "Email and token not given in Query.",
-            });
+         return res.status(400).send({
+            status: false,
+            message: "Email and token not given in Query.",
+         });
 
       let findUser = await userModel.findOne({ email: email });
 
       // console.log(findUser)
 
       if (!findUser) {
-         return res
-            .status(400)
-            .send({
-               status: false,
-               message: "No such user found with this Mail id",
-            });
+         return res.status(400).send({
+            status: false,
+            message: "No such user found with this Mail id",
+         });
       }
 
       if (findUser.isEmailVerified) {
@@ -645,12 +606,10 @@ async function verifyMailController(req, res) {
       }
 
       if (findUser.verifyMailToken !== token) {
-         return res
-            .status(400)
-            .send({
-               status: false,
-               message: "Token miss match. Check latest mail or send again.",
-            });
+         return res.status(400).send({
+            status: false,
+            message: "Token miss match. Check latest mail or send again.",
+         });
       }
 
       // console.log(findUser.verifyMailTokenExpiree, Date.now())
@@ -659,12 +618,10 @@ async function verifyMailController(req, res) {
       // console.log(findUser.verifyMailTokenExpiree < Date.now())
 
       if (findUser.verifyMailTokenExpiree < Date.now()) {
-         return res
-            .status(400)
-            .send({
-               status: false,
-               message: "Your token expired. Generate token again.",
-            });
+         return res.status(400).send({
+            status: false,
+            message: "Your token expired. Generate token again.",
+         });
       }
 
       findUser.isEmailVerified = true;
@@ -733,20 +690,16 @@ async function forgotReqHandler(req, res) {
       // console.log(userFoundWithMail)
 
       if (!userFoundWithMail)
-         return res
-            .status(404)
-            .send({
-               status: false,
-               message: "No user found with this mail-id",
-            });
+         return res.status(404).send({
+            status: false,
+            message: "No user found with this mail-id",
+         });
 
       if (!userFoundWithMail.isEmailVerified)
-         return res
-            .status(404)
-            .send({
-               status: false,
-               message: "Your account is not verified. First verify your mail.",
-            });
+         return res.status(404).send({
+            status: false,
+            message: "Your account is not verified. First verify your mail.",
+         });
 
       const resetPassToken = uuid.v4();
       // console.log(resetPassToken)
@@ -785,12 +738,10 @@ async function forgotReqHandler(req, res) {
       await transport.sendMail(mailOptions, function (err, info) {
          if (err) {
             console.log(err);
-            return res
-               .status(400)
-               .send({
-                  status: false,
-                  message: `${JSON.stringify(err)} AND reachout to developer.`,
-               });
+            return res.status(400).send({
+               status: false,
+               message: `${JSON.stringify(err)} AND reachout to developer.`,
+            });
          } else {
             console.log(info.response);
             // return res.status(200).send({ status: true, message: 'Message sent successfully , Thankyou for sending email , Admin will respond you soon.' })
@@ -828,30 +779,24 @@ async function forgotMainHandler(req, res) {
       });
 
       if (!getUser)
-         return res
-            .status(404)
-            .send({
-               status: false,
-               message:
-                  "User not found, check your mail box or again generate forget token again.",
-            });
+         return res.status(404).send({
+            status: false,
+            message:
+               "User not found, check your mail box or again generate forget token again.",
+         });
 
       if (getUser.resetPasswordToken !== token) {
-         return res
-            .status(400)
-            .send({
-               status: false,
-               message: "Token miss match. Check latest mail or send again.",
-            });
+         return res.status(400).send({
+            status: false,
+            message: "Token miss match. Check latest mail or send again.",
+         });
       }
 
       if (getUser.resetPasswordTokenExpiree < Date.now()) {
-         return res
-            .status(400)
-            .send({
-               status: false,
-               message: "Your token expired. Generate token again.",
-            });
+         return res.status(400).send({
+            status: false,
+            message: "Your token expired. Generate token again.",
+         });
       }
 
       // // Now compare new pass with old pass (Becoz not want the same pass again.)
@@ -860,13 +805,11 @@ async function forgotMainHandler(req, res) {
 
       // console.log(passCompare)
       if (passCompare) {
-         return res
-            .status(400)
-            .send({
-               status: false,
-               message:
-                  "Give different password please.(given new password found same as old password)",
-            });
+         return res.status(400).send({
+            status: false,
+            message:
+               "Give different password please.(given new password found same as old password)",
+         });
       }
 
       // // // Now save new pass here ------>
@@ -899,13 +842,11 @@ async function userWithEmail(req, res) {
    const email = req.params.email;
 
    if (!email)
-      return res
-         .status(400)
-         .send({
-            status: false,
-            message:
-               "Give email with request please. Or Given email is not correct.",
-         });
+      return res.status(400).send({
+         status: false,
+         message:
+            "Give email with request please. Or Given email is not correct.",
+      });
 
    let checkUser = await checkUserPesentWithMail(email);
 
@@ -950,12 +891,10 @@ async function bugReportHandler(req, res) {
       await transport.sendMail(mailOptions, function (err, info) {
          if (err) {
             console.log(err);
-            return res
-               .status(400)
-               .send({
-                  status: false,
-                  message: `${JSON.stringify(err)} AND reachout to developer.`,
-               });
+            return res.status(400).send({
+               status: false,
+               message: `${JSON.stringify(err)} AND reachout to developer.`,
+            });
          } else {
             console.log(info.response);
             // return res.status(200).send({ status: true, message: 'Message sent successfully , Thankyou for sending email , Admin will respond you soon.' })
@@ -977,12 +916,10 @@ async function bugReportHandler(req, res) {
       await transport.sendMail(mailOptionsToDev, function (err, info) {
          if (err) {
             console.log(err);
-            return res
-               .status(400)
-               .send({
-                  status: false,
-                  message: `${JSON.stringify(err)} AND reachout to developer.`,
-               });
+            return res.status(400).send({
+               status: false,
+               message: `${JSON.stringify(err)} AND reachout to developer.`,
+            });
          } else {
             console.log(info.response);
             // return res.status(200).send({ status: true, message: 'Message sent successfully , Thankyou for sending email , Admin will respond you soon.' })
@@ -1017,6 +954,7 @@ function userDataByTokenHandler(req, res) {
 }
 
 const productModel = require("../model/productModel");
+const cartData = require("../model/cartData");
 
 async function addOrRemoveWishList(req, res) {
    try {
@@ -1084,13 +1022,46 @@ async function addOrRemoveWishList(req, res) {
 
       // console.log(sendUserData)
 
+      return res.status(200).send({
+         status: true,
+         message: `${msgToUser || "✅ Add to your wishlist."}`,
+         data: sendUserData,
+      });
+   } catch (err) {
+      console.log(err.message);
       return res
-         .status(200)
-         .send({
-            status: true,
-            message: `${msgToUser || "✅ Add to your wishlist."}`,
-            data: sendUserData,
-         });
+         .status(500)
+         .send({ status: false, message: `Error by server (${err.message})` });
+   }
+}
+
+async function updateCartData(req, res) {
+   try {
+      const userId = req.tokenUserData.id;
+
+      const { cartData } = req.body;
+
+      // console.log(cartData);
+
+      if (!cartData || !Array.isArray(cartData)) {
+         return res
+            .status(400)
+            .send({ status: false, message: "Invalid cart data provided." });
+      }
+
+      let updatedUserData = await userModel.findByIdAndUpdate(
+         userId,
+         { $set: { cartData: cartData } },
+         { new: true, upsert: true },
+      );
+
+      // console.log(updatedUserData);
+
+      return res.status(200).send({
+         status: true,
+         message: "Cart data updated successfully.",
+         data: updatedUserData.cartData || [],
+      });
    } catch (err) {
       console.log(err.message);
       return res
@@ -1113,4 +1084,5 @@ module.exports = {
    userDataByTokenHandler,
    verifyMailReq,
    addOrRemoveWishList,
+   updateCartData,
 };

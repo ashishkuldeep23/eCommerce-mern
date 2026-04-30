@@ -96,9 +96,17 @@ const OptionAndAddToCart: React.FC<{
          return;
       }
 
+      const {
+         likes,
+         dislikes,
+         likedUserIds,
+         dislikedUserIds,
+         ...addableCartItem
+      } = productData;
+
       dispatch(
          addItemInCart({
-            ...productData,
+            ...addableCartItem,
             verity: newOption,
             quantity: 1,
          }),

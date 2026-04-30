@@ -37,6 +37,7 @@ const {
    userDataByTokenHandler,
    verifyMailReq,
    addOrRemoveWishList,
+   updateCartData,
 } = require("../controller/userControllor");
 
 const {
@@ -320,5 +321,10 @@ router.delete("/deleteShop/:shopId", isAuthorized, deleteShopHandler);
 router.post("/createOrder", isAuthorized, createNewOrder);
 
 router.put("/updateOrder", isAuthorized, updateOrder);
+
+
+// // // ------------------------------ Cart Routes ----------------------->
+
+router.put("/updateCart", isAuthorized, updateCartData)
 
 module.exports = router;

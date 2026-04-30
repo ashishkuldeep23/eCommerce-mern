@@ -961,12 +961,12 @@ function UniversalLoaderAndScroll() {
                className=" absolute left-10 h-1.5 bg-green-300 rounded hover:scale-y-200 transition-all overflow-hidden">
                <button
                   onClick={(e) => leftClickhandler(e)}
-                  className="w-1/2  h-full bg-green-300">
+                  className="w-1/2  h-full bg-green-1000">
                   .
                </button>
                <button
                   onClick={(e) => rightClickHandler(e)}
-                  className="w-1/2  h-full  bg-green-300">
+                  className="w-1/2  h-full  bg-green-8000">
                   .
                </button>
             </div>

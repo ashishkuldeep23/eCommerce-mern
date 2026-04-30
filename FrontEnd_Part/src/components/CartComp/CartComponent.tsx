@@ -120,14 +120,17 @@ export default function CartComponent({ mainCartComp = true }: CartCompProp) {
                            <>
                               <div className="flex flex-col">
                                  <p className="text-center text-2xl md:text-3xl font-bold mt-2 ">
-                                    🛒Cart is Empty😔, Go to home and Shopping
-                                    please😊
+                                    Your Cart🛒 is Empty😔
                                  </p>
-                                 <Link
+                                 <p className=" text-center">
+                                    Add items to your cart to get started!
+                                 </p>
+
+                                 {/* <Link
                                     to="/"
                                     className="text-center my-2 px-2 rounded border border-blue-500 text-blue-500 inline-block font-bold mx-auto hover:cursor-pointer hover:scale-125 transition-all ">
                                     Home🏠
-                                 </Link>
+                                 </Link> */}
                               </div>
                            </>
                         )}
@@ -172,11 +175,11 @@ export default function CartComponent({ mainCartComp = true }: CartCompProp) {
                         </div>
                      ) : (
                         // Dummy UI is here ------------->>
-                        <div className="border-t border-green-300 px-4 py-6 sm:px-6">
-                           <div className="flex justify-between text-base font-medium">
+                        <div className=" px-4 py-6 sm:px-6">
+                           {/* <div className="flex justify-between text-base font-medium">
                               <p>Subtotal</p>
                               <p>NA</p>
-                           </div>
+                           </div> */}
                            <div className="mt-6">
                               <Link
                                  to={"/"}

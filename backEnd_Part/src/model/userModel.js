@@ -57,8 +57,7 @@ const userSchema = new mongoose.Schema(
       },
 
       cartData: {
-         type: [mongoose.Schema.Types.ObjectId],
-         ref: "cartData",
+         type: Array,
          default: [],
       },
 

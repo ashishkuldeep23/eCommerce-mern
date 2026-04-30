@@ -32,6 +32,7 @@ import { VerifyMail } from "./components/verifyMail/verifyMail";
 import { gettingTokenInCookieAndLocalHost } from "./Helper/Token";
 import { fetchUser } from "./Slices/UserSlice";
 import { setToTalPrice } from "./Slices/CartSlice";
+import { CartDataInter } from "./Type/type";
 // import { fetchAllProducts , fetchAllCategoryAndHighlight } from "./Slices/AllProductSlice"
 
 // // // Now using createBrowserRouter instead of BrowserRouter component ---> ( let's see what happen in production mode)
@@ -197,8 +198,42 @@ const router = createBrowserRouter([
    },
 ]);
 
+// // // // This fn will call backend to update cart data in database (This fn will call in useEffect when cartData change) --->
+const updateCartApiCall = async (cartData: CartDataInter[]) => {
+   try {
+      const option = {
+         method: "PUT",
+         body: JSON.stringify({ cartData: cartData }),
+         headers: {
+            "Content-Type": "application/json",
+            token: `${gettingTokenInCookieAndLocalHost()}`,
+         },
+      };
+
+      // console.log(
+      //    "Cart data that send to backend for update cart data in database",
+      //    cartData,
+      // );
+
+      const response = await fetch(
+         `${import.meta.env.VITE_BACKEND_URL}/updateCart`,
+         option,
+      );
+      let data = await response.json();
+
+      // console.log(data);
+      return data;
+   } catch (err) {
+      console.log(err);
+      return {};
+   }
+};
+
 function App() {
    const dispatch = useDispatch<AppDispatch>();
+   const userData = useSelector(
+      (state: RootState) => state.userReducer.userData,
+   );
 
    // const allHighlightsData = useSelector((state: RootState) => state.allProductWithCatReducer.allHighlightProducts)
 
@@ -302,9 +337,12 @@ function App() {
 
    // // // Main update Cart data fn that will update cart data --->>
    const updateCartDataFn = async () => {
-      if (gettingTokenInCookieAndLocalHost() && cartData.length > 0) {
+      // if (gettingTokenInCookieAndLocalHost() && cartData.length > -1) {
+      if (userData.id && userData.email && cartData.length > -1) {
          // // // Here we should update the cart. ------->>
-         localStorage.setItem("cardData", JSON.stringify(cartData));
+         // localStorage.setItem("cardData", JSON.stringify(cartData));
+
+         await updateCartApiCall(cartData);
       }
    };
 
