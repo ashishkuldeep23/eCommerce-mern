@@ -721,13 +721,6 @@ const FilterForm: React.FC<{
    className?: string;
    clearAllBtnWithAll?: React.ReactNode;
 }> = ({ newFilter, onChngeHandlerOfFilter, className, clearAllBtnWithAll }) => {
-   //    const catOrbrandQueryObj = useSelector(
-   //       (state: RootState) => state.allProductWithCatReducer.searchBrandAndCate,
-   //    );
-   //    console.log(catOrbrandQueryObj);
-   //    const searchedName = catOrbrandQueryObj.brand || catOrbrandQueryObj.category;
-   //    console.log(searchedName);
-
    return (
       <form className={`hidden  lg:block ${className}`}>
          {clearAllBtnWithAll}

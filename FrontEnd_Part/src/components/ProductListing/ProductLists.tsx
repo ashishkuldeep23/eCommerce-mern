@@ -109,8 +109,8 @@ export default function ProductLists() {
                         </div>
 
                         {/* {i} */}
-
-                        {i === 0 && (
+                        {/* Here we can use ads in our page. */}
+                        {i % 4 === 0 && (
                            <div className=" w-full h-[40vh] rounded-xl p-5 bg-teal-500">
                               <p>
                                  This is how you can add recently viewed
@@ -131,7 +131,6 @@ export default function ProductLists() {
 
 const DummyUiCode = () => {
    return (
-      // // // Dummy code here --->
       <>
          {/* Dummy data Skeleton only ------> */}
          <SingleDummyFragment />

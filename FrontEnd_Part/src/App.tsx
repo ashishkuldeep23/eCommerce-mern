@@ -256,6 +256,13 @@ function App() {
       // // // Fetch category , brands and heighlist products ------->>
       dispatch(fetchAllCategoryAndHighlight());
 
+      // // // get page number from url and set in state variable (Pagination.jsx) ---->
+
+      const page = new URLSearchParams(window.location.search).get("page");
+
+      // console.log(window.location.search);
+      // console.log(new URLSearchParams(window.location.search).get("page"));
+
       // // // Getting all products -------->
       dispatch(
          fetchAllProducts({
@@ -263,7 +270,7 @@ function App() {
             category: "",
             price: "-1",
             limit: `${limitValue}`,
-            page: "1",
+            page: page ? page : "1",
          }),
       );
 

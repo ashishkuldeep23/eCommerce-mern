@@ -1,5 +1,5 @@
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
 import { fetchAllProducts } from "../../Slices/AllProductSlice";
@@ -53,6 +53,8 @@ export default function Pagination() {
          return;
       }
 
+      window.history && window.history.pushState({}, "", `?page=${page}`);
+
       setCurrentPage(page);
 
       dispatch(
@@ -84,6 +86,13 @@ export default function Pagination() {
    // if (totalPageShow <= 1) {
    //     return ""
    // }
+
+   useEffect(() => {
+      const page = new URLSearchParams(window.location.search).get("page");
+      if (page && !isNaN(Number(page)) && Number(page) > 0) {
+         setCurrentPage(Number(page));
+      }
+   }, []);
 
    return (
       <div>
